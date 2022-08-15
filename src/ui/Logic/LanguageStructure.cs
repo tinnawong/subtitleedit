@@ -2470,6 +2470,7 @@
             public string ContinuationStyleCustom { get; set; }
             public string CpsLineLengthStyle { get; set; }
             public string CpsLineLengthStyleCalcAll { get; set; }
+            public string CpsLineLengthStyleCalcNBTC { get; set; }
             public string CpsLineLengthStyleCalcNoSpaceCpsOnly { get; set; }
             public string CpsLineLengthStyleCalcNoSpace { get; set; }
             public string CpsLineLengthStyleCalcCjk { get; set; }

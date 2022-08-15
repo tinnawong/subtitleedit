@@ -232,7 +232,7 @@ namespace Nikse.SubtitleEdit.Logic
                 AboutText1 = "Subtitle Edit is Free Software under the GNU Public License." + Environment.NewLine +
                              "You may distribute, modify and use it freely." + Environment.NewLine +
                              Environment.NewLine +
-                             "C# source code is available on https://github.com/SubtitleEdit/subtitleedit" + Environment.NewLine +
+                             "C# source code is available on https://github.com/tinnawong/subtitleedit fork from https://github.com/SubtitleEdit/subtitleedit" + Environment.NewLine +
                              Environment.NewLine +
                              "Visit https://www.nikse.dk for the latest version." + Environment.NewLine +
                              Environment.NewLine +
@@ -2607,6 +2607,7 @@ can edit in same subtitle file (collaboration)",
                 ContinuationStyle = "Continuation style",
                 CpsLineLengthStyle = "Cps/line-length",
                 CpsLineLengthStyleCalcAll = "Count all characters",
+                CpsLineLengthStyleCalcNBTC = "Count according to NBTC",
                 CpsLineLengthStyleCalcNoSpaceCpsOnly = "Count all except space, cps only",
                 CpsLineLengthStyleCalcNoSpace = "Count all except space",
                 CpsLineLengthStyleCalcCjk = "CJK 1, latin 0.5",

@@ -102,7 +102,7 @@
     <AboutText1>Subtitle Edit is Free Software under the GNU Public License.
 You may distribute, modify and use it freely.
 
-C# source code is available on https://github.com/SubtitleEdit/subtitleedit
+C# source code is available on https://github.com/tinnawong/subtitleedit fork from https://github.com/SubtitleEdit/subtitleedit
 
 Visit https://www.nikse.dk for the latest version.
 
@@ -2291,6 +2291,7 @@ can edit in same subtitle file (collaboration)</Information>
     <ContinuationStyleCustom>Custom</ContinuationStyleCustom>
     <CpsLineLengthStyle>Cps/line-length</CpsLineLengthStyle>
     <CpsLineLengthStyleCalcAll>Count all characters</CpsLineLengthStyleCalcAll>
+    <CpsLineLengthStyleCalcNBTC>Count according to NBTC</CpsLineLengthStyleCalcNBTC>
     <CpsLineLengthStyleCalcNoSpaceCpsOnly>Count all except space, cps only</CpsLineLengthStyleCalcNoSpaceCpsOnly>
     <CpsLineLengthStyleCalcNoSpace>Count all except space</CpsLineLengthStyleCalcNoSpace>
     <CpsLineLengthStyleCalcCjk>CJK 1, latin 0.5</CpsLineLengthStyleCalcCjk>
