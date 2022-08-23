@@ -7,6 +7,7 @@
         /// </summary>
         public decimal CountCharacters(string text, bool forCps)
         {
+          
             const char zeroWidthSpace = '\u200B';
             const char zeroWidthNoBreakSpace = '\uFEFF';
             var length = 0;

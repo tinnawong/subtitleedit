@@ -6241,6 +6241,9 @@ namespace Nikse.SubtitleEdit.Logic
                 case "Settings/CpsLineLengthStyleCalcNBTC":
                     language.Settings.CpsLineLengthStyleCalcNBTC = reader.Value;
                     break;
+                case "Settings/CpsLineLengthStyleCalcNBTCExeptCps":
+                    language.Settings.CpsLineLengthStyleCalcNBTCExeptCps = reader.Value;
+                    break;
                 case "Settings/CpsLineLengthStyleCalcNoSpaceCpsOnly":
                     language.Settings.CpsLineLengthStyleCalcNoSpaceCpsOnly = reader.Value;
                     break;

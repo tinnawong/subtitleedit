@@ -29,6 +29,8 @@ namespace Nikse.SubtitleEdit.Logic
                     return LanguageSettings.Current.Settings.CpsLineLengthStyleCalcNoSpaceOrPunctuationCpsOnly;
                 case nameof(CalcNBTC):
                     return LanguageSettings.Current.Settings.CpsLineLengthStyleCalcNBTC;
+                case nameof(CalcNBTCExceptCps):
+                    return LanguageSettings.Current.Settings.CpsLineLengthStyleCalcNBTCExeptCps;
                 default:
                     return LanguageSettings.Current.Settings.CpsLineLengthStyleCalcAll;
             }
