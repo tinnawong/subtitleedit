@@ -138,6 +138,12 @@
     <Compile Include="Forms\Assa\AssaProperties.Designer.cs">
       <DependentUpon>AssaProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Assa\ImageColorPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Assa\ImageColorPicker.Designer.cs">
+      <DependentUpon>ImageColorPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Assa\ResolutionResampler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1417,6 +1423,9 @@
     <EmbeddedResource Include="Forms\Assa\AssaProperties.resx">
       <DependentUpon>AssaProperties.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Assa\ImageColorPicker.resx">
+      <DependentUpon>ImageColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Assa\ResolutionResampler.resx">
       <DependentUpon>ResolutionResampler.cs</DependentUpon>
     </EmbeddedResource>
@@ -2042,6 +2051,8 @@
     <None Include="Resources\webvtt.bmp" />
     <None Include="Resources\webvtt.png" />
     <None Include="Resources\itt.png" />
+    <None Include="Resources\ebu.png" />
+    <None Include="Resources\color-picker-small2.png" />
     <Content Include="SE2.ico" />
     <None Include="Resources\SE.ico" />
     <None Include="Hunspellx64.dll">

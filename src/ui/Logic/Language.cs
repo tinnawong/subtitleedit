@@ -23,6 +23,7 @@ namespace Nikse.SubtitleEdit.Logic
         public LanguageStructure.AssaOverrideTags AssaOverrideTags;
         public LanguageStructure.AssaProgressBarGenerator AssaProgressBarGenerator;
         public LanguageStructure.AssaResulationChanger AssaResulationChanger;
+        public LanguageStructure.ImageColorPicker ImageColorPicker;
         public LanguageStructure.AssaSetBackgroundBox AssaSetBackgroundBox;
         public LanguageStructure.AssaSetPosition AssaSetPosition;
         public LanguageStructure.AutoBreakUnbreakLines AutoBreakUnbreakLines;
@@ -389,6 +390,11 @@ namespace Nikse.SubtitleEdit.Logic
                 SourceAndTargetEqual = "Source and target resolution is the same - nothing to do.",
             };
 
+            ImageColorPicker = new LanguageStructure.ImageColorPicker
+            {
+                Title = "Image color picker",
+            };
+
             AssaSetBackgroundBox = new LanguageStructure.AssaSetBackgroundBox
             {
                 Title = "Generate background box",
@@ -405,6 +411,7 @@ namespace Nikse.SubtitleEdit.Logic
                 MarginY = "MarginY",
                 OnlyDrawing = "Only drawing",
                 DrawingFile = "Drawing file",
+                ColorPickerSetLastColor = "Color picker last color is now: {0}",
             };
 
             AssaSetPosition = new LanguageStructure.AssaSetPosition
@@ -444,7 +451,7 @@ namespace Nikse.SubtitleEdit.Logic
                 OverwriteFiles = "Overwrite files",
                 RedoCasing = "Redo casing",
                 RemoveFormatting = "Remove formatting tags",
-                RemoveStyleActor = "Remove style/actor",
+                RemoveStyleActor = "Remove lines w style/actor",
                 Status = "Status",
                 Style = "Style...",
                 UseStyleFromSource = "Use style from source",
@@ -571,6 +578,7 @@ namespace Nikse.SubtitleEdit.Logic
                 Custom = "Custom",
                 ToDropFrame = "To drop frame",
                 FromDropFrame = "From drop frame",
+                AllowOverlap = "Allow overlap"
             };
 
             CheckForUpdates = new LanguageStructure.CheckForUpdates
@@ -636,6 +644,7 @@ namespace Nikse.SubtitleEdit.Logic
                 XNumberOfDifferenceAndPercentLettersChanged = "Number of differences: {0} ({1:0.##}% of letters changed)",
                 ShowOnlyDifferences = "Show only differences",
                 IgnoreLineBreaks = "Ignore line breaks",
+                IgnoreWhitespace = "Ignore whitespace",
                 IgnoreFormatting = "Ignore formatting",
                 OnlyLookForDifferencesInText = "Only look for differences in text",
                 CannotCompareWithImageBasedSubtitles = "Cannot compare with image based subtitles",
@@ -1645,6 +1654,7 @@ namespace Nikse.SubtitleEdit.Logic
                 HideVideoControls = "Hide video controls",
                 GeneratingWaveformInBackground = "Generating waveform in background...",
                 AutoBackupSaved = "Auto-backup saved",
+                UsingOnlyFrontCenterChannel = "Using only front center audio channel",
 
                 Menu = new LanguageStructure.Main.MainMenu
                 {
@@ -1887,7 +1897,6 @@ namespace Nikse.SubtitleEdit.Logic
                         SplitLineAtCursorAndWaveformPosition = "Split line at cursor/video position",
                         AutoDurationCurrentLine = "Auto duration (current line)",
                         SelectAll = "Select all",
-                        Insert = "Insert",
                         InsertFirstLine = "Insert line",
                         InsertBefore = "Insert before",
                         InsertAfter = "Insert after",
@@ -1903,6 +1912,7 @@ namespace Nikse.SubtitleEdit.Logic
                         ColumnTextUp = "Text up",
                         ColumnTextDown = "Text down",
                         ColumnCopyOriginalTextToCurrent = "Copy text from original to current",
+                        OcrSelectedLines = "OCR selected lines",
                         Split = "Split",
                         MergeSelectedLines = "Merge selected lines",
                         MergeSelectedLinesAsDialog = "Merge selected lines as dialog",
@@ -1941,6 +1951,7 @@ namespace Nikse.SubtitleEdit.Logic
                         GenerateProgressBar = "Generate progress bar...",
                         AssaResolutionChanger = "Change ASSA script resolution...",
                         AssaGenerateBackgroundBox = "Generate background box...",
+                        ImageColorPicker = "Image color picker...",
                         FixCommonErrorsInSelectedLines = "Fix common errors in selected lines...",
                         ChangeCasingForSelectedLines = "Change casing for selected lines...",
                         SaveSelectedLines = "Save selected lines as...",
@@ -2560,6 +2571,7 @@ can edit in same subtitle file (collaboration)",
                 SpectrogramOneColorGradient = "One color gradient",
                 SpectrogramClassic = "Classic",
                 WaveformUseFFmpeg = "Use FFmpeg for wave extraction",
+                WaveformUseCenterChannelOnly = "Use front center channel only (for 5.1/7.1)",
                 DownloadX = "Download {0}",
                 WaveformFFmpegPath = "Path to FFmpeg",
                 WaveformBrowseToFFmpeg = "Browse to FFmpeg",
@@ -2591,6 +2603,8 @@ can edit in same subtitle file (collaboration)",
                 ProxyUserName = "User name",
                 ProxyPassword = "Password",
                 ProxyDomain = "Domain",
+                ProxyAuthType = "Auth type",
+                ProxyUseDefaultCredentials = "Use default credentials",
                 PlayXSecondsAndBack = "Play X seconds and back, X is",
                 StartSceneIndex = "Start scene paragraph is",
                 EndSceneIndex = "End scene paragraph is",
@@ -2788,8 +2802,11 @@ can edit in same subtitle file (collaboration)",
                 GoToStartCurrent = "Set video pos to start of current subtitle",
                 ToggleStartEndCurrent = "Toggle video pos between start/end of current subtitle",
                 PlaySelectedLines = "Play selected lines",
+                LoopSelectedLines = "Loop selected lines",
                 Pause = "Pause",
                 TogglePlayPause = "Toggle play/pause",
+                Play150Speed = "Play video with 1.5x speed",
+                Play200Speed = "Play video with 2.0x speed",
                 Fullscreen = "Fullscreen",
                 PlayRateSlower = "Play rate slower",
                 PlayRateFaster = "Play rate faster",
@@ -3304,6 +3321,7 @@ Keep changes?",
                 OcrViaImageCompare = "Binary image compare",
                 OcrViaModi = "Microsoft Office Document Imaging (MODI). Requires Microsoft Office",
                 OcrViaNOCR = "OCR via nOCR",
+                OcrViaCloudVision = "OCR via Google Cloud Vision API",
                 TesseractEngineMode = "Engine mode",
                 TesseractEngineModeLegacy = "Original Tesseract only (can detect italic)",
                 TesseractEngineModeNeural = "Neural nets LSTM only",
@@ -3316,7 +3334,6 @@ Keep changes?",
                 New = "New",
                 Edit = "Edit",
                 StartOcr = "Start OCR",
-                Stop = "Stop",
                 StartOcrFrom = "Start OCR from subtitle no:",
                 LoadingVobSubImages = "Loading VobSub images...",
                 LoadingImageCompareDatabase = "Loading image compare database...",
@@ -3374,6 +3391,9 @@ Keep changes?",
                 StartTraining = "Start training",
                 NowTraining = "Now training font '{1}'. Total chars trained: {0:#,###,##0}, {2:#,###,##0} known",
                 ImagesWithTimeCodesInFileName = "Images with time codes in file name...",
+                CloudVisionApi = "Google Cloud Vision API",
+                ApiKey = "API key",
+                SendOriginalImages = "Send original images",
             };
 
             VobSubOcrCharacter = new LanguageStructure.VobSubOcrCharacter

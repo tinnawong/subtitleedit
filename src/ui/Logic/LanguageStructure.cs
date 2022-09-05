@@ -247,6 +247,11 @@
             public string SourceAndTargetEqual { get; set; }
         }
 
+        public class ImageColorPicker
+        {
+            public string Title { get; set; }
+        }
+
         public class AssaSetBackgroundBox
         {
             public string Title { get; set; }
@@ -263,6 +268,7 @@
             public string MarginY { get; set; }
             public string OnlyDrawing { get; set; }
             public string DrawingFile { get; set; }
+            public string ColorPickerSetLastColor { get; set; }
         }
 
         public class AssaSetPosition
@@ -430,6 +436,7 @@
             public string Custom { get; set; }
             public string ToDropFrame { get; set; }
             public string FromDropFrame { get; set; }
+            public string AllowOverlap { get; set; }
         }
 
         public class CheckForUpdates
@@ -495,6 +502,7 @@
             public string XNumberOfDifferenceAndPercentLettersChanged { get; set; }
             public string ShowOnlyDifferences { get; set; }
             public string IgnoreLineBreaks { get; set; }
+            public string IgnoreWhitespace { get; set; }
             public string IgnoreFormatting { get; set; }
             public string OnlyLookForDifferencesInText { get; set; }
             public string CannotCompareWithImageBasedSubtitles { get; set; }
@@ -1497,6 +1505,7 @@
             public string HideVideoControls { get; set; }
             public string GeneratingWaveformInBackground { get; set; }
             public string AutoBackupSaved { get; set; }
+            public string UsingOnlyFrontCenterChannel { get; set; }
 
             public class MainMenu
             {
@@ -1732,7 +1741,6 @@
                     public string SplitLineAtCursorAndWaveformPosition { get; set; }
                     public string AutoDurationCurrentLine { get; set; }
                     public string SelectAll { get; set; }
-                    public string Insert { get; set; }
                     public string InsertFirstLine { get; set; }
                     public string InsertBefore { get; set; }
                     public string InsertAfter { get; set; }
@@ -1748,6 +1756,7 @@
                     public string ColumnTextUp { get; set; }
                     public string ColumnTextDown { get; set; }
                     public string ColumnCopyOriginalTextToCurrent { get; set; }
+                    public string OcrSelectedLines { get; set; }
                     public string Split { get; set; }
                     public string MergeSelectedLines { get; set; }
                     public string MergeSelectedLinesAsDialog { get; set; }
@@ -1786,6 +1795,7 @@
                     public string GenerateProgressBar { get; set; }
                     public string AssaResolutionChanger { get; set; }
                     public string AssaGenerateBackgroundBox { get; set; }
+                    public string ImageColorPicker { get; set; }
                     public string FixCommonErrorsInSelectedLines { get; set; }
                     public string ChangeCasingForSelectedLines { get; set; }
                     public string SaveSelectedLines { get; set; }
@@ -2409,6 +2419,7 @@
             public string SpectrogramOneColorGradient { get; set; }
             public string SpectrogramClassic { get; set; }
             public string WaveformUseFFmpeg { get; set; }
+            public string WaveformUseCenterChannelOnly { get; set; }
             public string DownloadX { get; set; }
             public string WaveformFFmpegPath { get; set; }
             public string WaveformBrowseToFFmpeg { get; set; }
@@ -2440,6 +2451,8 @@
             public string ProxyUserName { get; set; }
             public string ProxyPassword { get; set; }
             public string ProxyDomain { get; set; }
+            public string ProxyAuthType { get; set; }
+            public string ProxyUseDefaultCredentials { get; set; }
             public string NetworkSessionSettings { get; set; }
             public string NetworkSessionNewSound { get; set; }
             public string PlayXSecondsAndBack { get; set; }
@@ -2636,6 +2649,7 @@
             public string GoToStartCurrent { get; set; }
             public string ToggleStartEndCurrent { get; set; }
             public string PlaySelectedLines { get; set; }
+            public string LoopSelectedLines { get; set; }
 
             public string WaveformGoToPrevSubtitle { get; set; }
             public string WaveformGoToNextSubtitle { get; set; }
@@ -2643,6 +2657,8 @@
             public string WaveformGoToNextChapter { get; set; }
             public string WaveformSelectNextSubtitle { get; set; }
             public string TogglePlayPause { get; set; }
+            public string Play150Speed { get; set; }
+            public string Play200Speed { get; set; }
             public string Pause { get; set; }
             public string Fullscreen { get; set; }
             public string PlayRateSlower { get; set; }
@@ -3151,6 +3167,7 @@
             public string OcrViaImageCompare { get; set; }
             public string OcrViaModi { get; set; }
             public string OcrViaNOCR { get; set; }
+            public string OcrViaCloudVision { get; set; }
             public string TesseractEngineMode { get; set; }
             public string TesseractEngineModeLegacy { get; set; }
             public string TesseractEngineModeNeural { get; set; }
@@ -3163,7 +3180,6 @@
             public string New { get; set; }
             public string Edit { get; set; }
             public string StartOcr { get; set; }
-            public string Stop { get; set; }
             public string StartOcrFrom { get; set; }
             public string LoadingVobSubImages { get; set; }
             public string LoadingImageCompareDatabase { get; set; }
@@ -3220,7 +3236,10 @@
             public string AlsoTrainBold { get; set; }
             public string StartTraining { get; set; }
             public string NowTraining { get; set; }
-            public string ImagesWithTimeCodesInFileName { get; set; } 
+            public string ImagesWithTimeCodesInFileName { get; set; }
+            public string CloudVisionApi { get; set; }
+            public string ApiKey { get; set; }
+            public string SendOriginalImages { get; set; }
         }
 
         public class VobSubOcrCharacter

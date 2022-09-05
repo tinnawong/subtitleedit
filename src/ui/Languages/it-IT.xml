@@ -2,8 +2,8 @@
 <Language Name="Italiano">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.6</Version>
-    <TranslatedBy>Tradotto da NAMP e bovirus - Data traduzione: 06.08.2022</TranslatedBy>
+    <Version>3.6.7</Version>
+    <TranslatedBy>Tradotto da NAMP e bovirus - Data traduzione: 03.09.2022</TranslatedBy>
     <CultureName>it-IT</CultureName>
     <HelpFile />
     <Ok>OK</Ok>
@@ -96,7 +96,7 @@
     <ExampleX>Esempio: {0}</ExampleX>
     <Reset>Ripristina</Reset>
     <Warning>Avviso</Warning>
- </General>
+  </General>
   <About>
     <Title>Informazioni</Title>
     <AboutText1>Subtitle Edit è un software libero rilasciato sotto i termini della GNU General Public License versione 3. 
@@ -234,6 +234,9 @@ Nota: Controlla lo spazio libero nel disco.</WaveFileMalformed>
     <ChangeResolutionDrawing>Modifica risoluzione per disegno</ChangeResolutionDrawing>
     <SourceAndTargetEqual>La risoluzione di sorgente e destinazione è la stessa: Nessuna operazione necessaria.</SourceAndTargetEqual>
   </AssaResulationChanger>
+  <ImageColorPicker>
+    <Title>Selettore colore immagine</Title>
+  </ImageColorPicker>
   <AssaSetBackgroundBox>
     <Title>Genera riquadro sfondo</Title>
     <Padding>Riempimento</Padding>
@@ -249,6 +252,7 @@ Nota: Controlla lo spazio libero nel disco.</WaveFileMalformed>
     <MarginY>Margine Y</MarginY>
     <OnlyDrawing>Solo disegno</OnlyDrawing>
     <DrawingFile>File disegno</DrawingFile>
+    <ColorPickerSetLastColor>L'ultimo colore del selettore colore è ora: {0}</ColorPickerSetLastColor>
   </AssaSetBackgroundBox>
   <AssaSetPosition>
     <SetPosition>Imposta posizione</SetPosition>
@@ -282,7 +286,7 @@ Nota: Controlla lo spazio libero nel disco.</WaveFileMalformed>
     <UseStyleFromSource>Usa stile originale</UseStyleFromSource>
     <ConvertOptions>Opzioni conversione</ConvertOptions>
     <RemoveFormatting>Rimuovi etichetta formato</RemoveFormatting>
-    <RemoveStyleActor>Rimuovi stile/attore</RemoveStyleActor>
+    <RemoveStyleActor>Rimuovi linee con stile/attore</RemoveStyleActor>
     <RemoveTextForHI>Elimina testo per NU</RemoveTextForHI>
     <OverwriteOriginalFiles>Sovrascrivi i file originali (nuova estensione se il formato è diverso)</OverwriteOriginalFiles>
     <RedoCasing>Annulla maiuscole/minuscole</RedoCasing>
@@ -397,6 +401,7 @@ Nota: Controlla lo spazio libero nel disco.</WaveFileMalformed>
     <Custom>Personalizzata</Custom>
     <ToDropFrame>Al calo fotogramma</ToDropFrame>
     <FromDropFrame>Dal calo fotogramma</FromDropFrame>
+    <AllowOverlap>Consenti sovrapposizione</AllowOverlap>
   </ChangeSpeedInPercent>
   <CheckForUpdates>
     <Title>Verifica aggiornamenti</Title>
@@ -448,6 +453,7 @@ Nota: Controlla lo spazio libero nel disco.</WaveFileMalformed>
     <XNumberOfDifferenceAndPercentLettersChanged>Numero differenze: {0} ({1:0.##}% lettere modificate)</XNumberOfDifferenceAndPercentLettersChanged>
     <ShowOnlyDifferences>Visualizza solo le differenze</ShowOnlyDifferences>
     <IgnoreLineBreaks>Ignora divisioni di riga</IgnoreLineBreaks>
+    <IgnoreWhitespace>Ignora spazi bianchi</IgnoreWhitespace>
     <IgnoreFormatting>Ignora formattazione</IgnoreFormatting>
     <OnlyLookForDifferencesInText>Cerca solo le differenze nel testo</OnlyLookForDifferencesInText>
     <CannotCompareWithImageBasedSubtitles>Impossibile confrontare sottotitoli basati su immagini</CannotCompareWithImageBasedSubtitles>
@@ -1338,7 +1344,6 @@ Per usare una chiave API vai su "Opzioni -&gt; Impostazioni -&gt; Strumenti" per
         <SplitLineAtCursorAndWaveformPosition>Linea divisa alla posizione cursore/video</SplitLineAtCursorAndWaveformPosition>
         <AutoDurationCurrentLine>Durata automatica (riga attuale)</AutoDurationCurrentLine>
         <SelectAll>Seleziona tutto</SelectAll>
-        <Insert>Inserisci</Insert>
         <InsertFirstLine>Inserisci riga</InsertFirstLine>
         <InsertBefore>Inserisci prima</InsertBefore>
         <InsertAfter>Inserisci dopo</InsertAfter>
@@ -1354,6 +1359,7 @@ Per usare una chiave API vai su "Opzioni -&gt; Impostazioni -&gt; Strumenti" per
         <ColumnTextUp>Testo in alto</ColumnTextUp>
         <ColumnTextDown>Testo in basso</ColumnTextDown>
         <ColumnCopyOriginalTextToCurrent>Copia testo da originale ad attuale</ColumnCopyOriginalTextToCurrent>
+        <OcrSelectedLines>OCR linee selezionate</OcrSelectedLines>
         <Split>Dividi</Split>
         <MergeSelectedLines>Unisci righe selezionate</MergeSelectedLines>
         <MergeSelectedLinesAsDialog>Unisci righe selezionate come dialogo</MergeSelectedLinesAsDialog>
@@ -1392,6 +1398,7 @@ Per usare una chiave API vai su "Opzioni -&gt; Impostazioni -&gt; Strumenti" per
         <GenerateProgressBar>Genera barra progresso...</GenerateProgressBar>
         <AssaResolutionChanger>Modifica risoluzione dello script...</AssaResolutionChanger>
         <AssaGenerateBackgroundBox>Genera riquadro sfondo...</AssaGenerateBackgroundBox>
+        <ImageColorPicker>Selettore colore immagine...</ImageColorPicker>
         <FixCommonErrorsInSelectedLines>Correggi errori comuni nelle righe selezionate...</FixCommonErrorsInSelectedLines>
         <ChangeCasingForSelectedLines>Cambia MAIUSCOLO/minuscolo per righe selezionate...</ChangeCasingForSelectedLines>
         <SaveSelectedLines>Salva righe selezionate come...</SaveSelectedLines>
@@ -1747,6 +1754,7 @@ Vuoi scaricare mpv e youtuibe-dl e continuare?</VideoFromUrlRequirements>
     <HideVideoControls>Nascondi controlli video</HideVideoControls>
     <GeneratingWaveformInBackground>Genera forme d'onda in background...</GeneratingWaveformInBackground>
     <AutoBackupSaved>Backup automatico salvato</AutoBackupSaved>
+    <UsingOnlyFrontCenterChannel>Usando solo il canale audio centrale anteriore</UsingOnlyFrontCenterChannel>
   </Main>
   <MatroskaSubtitleChooser>
     <Title>Scegli sottotitolo da file Matroska</Title>
@@ -2230,6 +2238,7 @@ stesso file di sottotitolo (collaborazione)</Information>
     <SpectrogramOneColorGradient>Sfumatura di colore</SpectrogramOneColorGradient>
     <SpectrogramClassic>Classico</SpectrogramClassic>
     <WaveformUseFFmpeg>Usa FFMPEG per l'estrazione dell'audio</WaveformUseFFmpeg>
+    <WaveformUseCenterChannelOnly>Usa solo il canale centrale anteriore (per 5.1/7.1)</WaveformUseCenterChannelOnly>
     <DownloadFFmpeg>Download FFmpeg</DownloadFFmpeg>
     <WaveformFFmpegPath>Percorso FFMPEG</WaveformFFmpegPath>
     <WaveformBrowseToFFmpeg>Sfoglia per FFMPEG</WaveformBrowseToFFmpeg>
@@ -2261,6 +2270,8 @@ stesso file di sottotitolo (collaborazione)</Information>
     <ProxyUserName>Nome utente:</ProxyUserName>
     <ProxyPassword>Password:</ProxyPassword>
     <ProxyDomain>Dominio:</ProxyDomain>
+    <ProxyAuthType>Tipo autenticazione</ProxyAuthType>
+    <ProxyUseDefaultCredentials>Usa credenziali predefinite</ProxyUseDefaultCredentials>
     <NetworkSessionSettings>Impostazioni sessione di rete</NetworkSessionSettings>
     <NetworkSessionNewSound>Quando arriva un nuovo messaggio riproduci questo file audio</NetworkSessionNewSound>
     <PlayXSecondsAndBack>Riproduci X secondi se X è uguale:</PlayXSecondsAndBack>
@@ -2453,12 +2464,15 @@ stesso file di sottotitolo (collaborazione)</Information>
     <GoToStartCurrent>Imposta posizione video ad inizio sottotitolo attuale</GoToStartCurrent>
     <ToggleStartEndCurrent>Commuta posizione video tra inizio/fine sottotitolo attuale</ToggleStartEndCurrent>
     <PlaySelectedLines>Riproduci righe selezionate</PlaySelectedLines>
+    <LoopSelectedLines>Loop linee selezionate</LoopSelectedLines>
     <WaveformGoToPrevSubtitle>Vai al sottotitolo precedente (dalla posizione del video)</WaveformGoToPrevSubtitle>
     <WaveformGoToNextSubtitle>Vai al sottotitolo successivo (dalla posizione del video)</WaveformGoToNextSubtitle>
     <WaveformGoToPrevChapter>Vai al capitolo precedente</WaveformGoToPrevChapter>
     <WaveformGoToNextChapter>Vai al capitolo successivo</WaveformGoToNextChapter>
     <WaveformSelectNextSubtitle>Seleziona il sottotitolo successivo (dalla posizione del video, mantieni la pos video)</WaveformSelectNextSubtitle>
     <TogglePlayPause>Alterna riproduzione/pausa</TogglePlayPause>
+    <Play150Speed>Riproduci video a velocità 1.5x</Play150Speed>
+    <Play200Speed>Riproduci video a velocità 2.0x</Play200Speed>
     <Pause>Pausa</Pause>
     <Fullscreen>Schermo intero</Fullscreen>
     <PlayRateSlower>Velocità riproduzione più lenta</PlayRateSlower>
@@ -2929,6 +2943,7 @@ Vuoi mantenere le modifiche?</KeepChangesMessage>
     <OcrViaImageCompare>OCR via confronto immagine</OcrViaImageCompare>
     <OcrViaModi>OCR via Microsoft Office Document Imaging (MODI) - Richiede Microsoft Office</OcrViaModi>
     <OcrViaNOCR>OCR via nOCR</OcrViaNOCR>
+    <OcrViaCloudVision>OCR via API Google Cloud Vision</OcrViaCloudVision>
     <TesseractEngineMode>Modalità motore</TesseractEngineMode>
     <TesseractEngineModeLegacy>Solo Tesseract originale (in grado di rilevare il corsivo)</TesseractEngineModeLegacy>
     <TesseractEngineModeNeural>Solo reti neurali LSTM</TesseractEngineModeNeural>
@@ -2940,8 +2955,7 @@ Vuoi mantenere le modifiche?</KeepChangesMessage>
     <MaxErrorPercent>Massimo Errori %</MaxErrorPercent>
     <New>Nuovo</New>
     <Edit>Modifica</Edit>
-    <StartOcr>Inizia OCR</StartOcr>
-    <Stop>Ferma</Stop>
+    <StartOcr>Avvia OCR</StartOcr>
     <StartOcrFrom>Inizia OCR dal sottotitolo n.:</StartOcrFrom>
     <LoadingVobSubImages>Caricamento immagini VobSub...</LoadingVobSubImages>
     <LoadingImageCompareDatabase>Carica database immagine comparativa</LoadingImageCompareDatabase>
@@ -2999,6 +3013,9 @@ Vuoi mantenere le modifiche?</KeepChangesMessage>
     <StartTraining>Inizia formazione</StartTraining>
     <NowTraining>Tipo di carattere '{1}'. Lettere addestrate: {0:#,###,##0}, {2:#,###,##0} note</NowTraining>
     <ImagesWithTimeCodesInFileName>Immagini con time code nel nome file...</ImagesWithTimeCodesInFileName>
+    <CloudVisionApi>API Google Cloud Vision</CloudVisionApi>
+    <ApiKey>Chiave API</ApiKey>
+    <SendOriginalImages>Invia immagini originali</SendOriginalImages>
   </VobSubOcr>
   <VobSubOcrCharacter>
     <Title>OCR - Immagine manuale in testo</Title>

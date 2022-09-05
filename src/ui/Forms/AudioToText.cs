@@ -1,5 +1,6 @@
 ﻿using Nikse.SubtitleEdit.Core.AudioToText;
 using Nikse.SubtitleEdit.Core.Common;
+using Nikse.SubtitleEdit.Core.SubtitleFormats;
 using Nikse.SubtitleEdit.Logic;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Nikse.SubtitleEdit.Core.SubtitleFormats;
 using Vosk;
 
 namespace Nikse.SubtitleEdit.Forms
@@ -28,6 +28,7 @@ namespace Nikse.SubtitleEdit.Forms
         private long _bytesWavRead;
         private readonly List<string> _filesToDelete;
         private readonly Form _parentForm;
+        private bool _useCenterChannelOnly;
         private Model _model;
 
         public Subtitle TranscribedSubtitle { get; private set; }
@@ -63,7 +64,7 @@ namespace Nikse.SubtitleEdit.Forms
 
             checkBoxUsePostProcessing.Checked = Configuration.Settings.Tools.VoskPostProcessing;
             _voskFolder = Path.Combine(Configuration.DataDirectory, "Vosk");
-            FillModels();
+            FillModels(string.Empty);
 
             textBoxLog.Visible = false;
             textBoxLog.Dock = DockStyle.Fill;
@@ -82,10 +83,12 @@ namespace Nikse.SubtitleEdit.Forms
             }
 
             listViewInputFiles.Visible = false;
+            labelFC.Text = string.Empty;
         }
 
-        private void FillModels()
+        private void FillModels(string lastDownloadedModel)
         {
+            var selectName = string.IsNullOrEmpty(lastDownloadedModel) ? Configuration.Settings.Tools.VoskModel : lastDownloadedModel;
             comboBoxModels.Items.Clear();
             foreach (var directory in Directory.GetDirectories(_voskFolder))
             {
@@ -96,7 +99,7 @@ namespace Nikse.SubtitleEdit.Forms
                 }
 
                 comboBoxModels.Items.Add(name);
-                if (name == Configuration.Settings.Tools.VoskModel)
+                if (name == selectName)
                 {
                     comboBoxModels.SelectedIndex = comboBoxModels.Items.Count - 1;
                 }
@@ -116,6 +119,9 @@ namespace Nikse.SubtitleEdit.Forms
                 return;
             }
 
+            _useCenterChannelOnly = Configuration.Settings.General.FFmpegUseCenterChannelOnly &&
+                                    FfmpegMediaInfo.Parse(_videoFileName).HasFrontCenterAudio(_audioTrackNumber);
+
             if (_batchMode)
             {
                 if (listViewInputFiles.Items.Count == 0)
@@ -129,13 +135,12 @@ namespace Nikse.SubtitleEdit.Forms
                 return;
             }
 
-            progressBar1.Maximum = 100;
-            progressBar1.Value = 0;
-            progressBar1.Visible = true;
+            ShowProgressBar();
             var modelFileName = Path.Combine(_voskFolder, comboBoxModels.Text);
             buttonGenerate.Enabled = false;
             buttonDownload.Enabled = false;
             buttonBatchMode.Enabled = false;
+            comboBoxModels.Enabled = false;
             var waveFileName = GenerateWavFile(_videoFileName, _audioTrackNumber);
             textBoxLog.AppendText("Wav file name: " + waveFileName);
             textBoxLog.AppendText(Environment.NewLine);
@@ -155,6 +160,16 @@ namespace Nikse.SubtitleEdit.Forms
             DialogResult = DialogResult.OK;
         }
 
+        private void ShowProgressBar()
+        {
+            progressBar1.Maximum = 100;
+            progressBar1.Value = 0;
+            progressBar1.Visible = true;
+            progressBar1.BringToFront();
+            progressBar1.Refresh();
+            progressBar1.Top = labelProgress.Bottom + 3;
+        }
+
         private void GenerateBatch()
         {
             groupBoxInputFiles.Enabled = false;
@@ -166,13 +181,12 @@ namespace Nikse.SubtitleEdit.Forms
                 var videoFileName = lvi.Text;
                 listViewInputFiles.SelectedIndices.Clear();
                 lvi.Selected = true;
-                progressBar1.Maximum = 100;
-                progressBar1.Value = 0;
-                progressBar1.Visible = true;
+                ShowProgressBar();
                 var modelFileName = Path.Combine(_voskFolder, comboBoxModels.Text);
                 buttonGenerate.Enabled = false;
                 buttonDownload.Enabled = false;
                 buttonBatchMode.Enabled = false;
+                comboBoxModels.Enabled = false;
                 var waveFileName = GenerateWavFile(videoFileName, _audioTrackNumber);
                 textBoxLog.AppendText("Wav file name: " + waveFileName + Environment.NewLine);
                 progressBar1.Style = ProgressBarStyle.Blocks;
@@ -354,8 +368,8 @@ namespace Nikse.SubtitleEdit.Forms
             _filesToDelete.Add(outWaveFile);
             var process = GetFfmpegProcess(videoFileName, audioTrackNumber, outWaveFile);
             process.Start();
+            ShowProgressBar();
             progressBar1.Style = ProgressBarStyle.Marquee;
-            progressBar1.Visible = true;
             double seconds = 0;
             buttonCancel.Visible = true;
             try
@@ -423,10 +437,22 @@ namespace Nikse.SubtitleEdit.Forms
                 }
             }
 
+            Application.DoEvents();
+            System.Threading.Thread.Sleep(100);
+
+            if (!File.Exists(outWaveFile))
+            {
+                SeLogger.Error("Generated wave file not found: " + outWaveFile + Environment.NewLine +
+                               "ffmpeg: " + process.StartInfo.FileName + Environment.NewLine +
+                               "Parameters: " + process.StartInfo.Arguments + Environment.NewLine +
+                               "OS: " + Environment.OSVersion + Environment.NewLine +
+                               "64-bit: " + Environment.Is64BitOperatingSystem);
+            }
+
             return outWaveFile;
         }
 
-        private static Process GetFfmpegProcess(string videoFileName, int audioTrackNumber, string outWaveFile)
+        private Process GetFfmpegProcess(string videoFileName, int audioTrackNumber, string outWaveFile)
         {
             if (!File.Exists(Configuration.Settings.General.FFmpegLocation) && Configuration.IsRunningOnWindows)
             {
@@ -439,7 +465,14 @@ namespace Nikse.SubtitleEdit.Forms
                 audioParameter = $"-map 0:a:{audioTrackNumber}";
             }
 
-            const string fFmpegWaveTranscodeSettings = "-i \"{0}\" -vn -ar 16000 -ac 1 -ab 128 -af volume=1.75 -f wav {2} \"{1}\"";
+            labelFC.Text = string.Empty;
+            var fFmpegWaveTranscodeSettings = "-i \"{0}\" -vn -ar 16000 -ac 1 -ab 128 -af volume=1.75 -f wav {2} \"{1}\"";
+            if (_useCenterChannelOnly)
+            {
+                fFmpegWaveTranscodeSettings = "-i \"{0}\" -vn -ar 16000 -ab 128 -af volume=1.75 -af \"pan=mono|c0=FC\" -f wav {2} \"{1}\"";
+                labelFC.Text = "FC";
+            }
+
             //-i indicates the input
             //-vn means no video output
             //-ar 44100 indicates the sampling frequency.
@@ -519,7 +552,7 @@ namespace Nikse.SubtitleEdit.Forms
             }
             else if (e.KeyData == UiUtil.HelpKeys)
             {
-                linkLabelVoskWebsite_LinkClicked(null, null);
+                UiUtil.ShowHelp("#audio_to_text");
                 e.SuppressKeyPress = true;
             }
         }
@@ -561,10 +594,10 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void buttonDownload_Click(object sender, EventArgs e)
         {
-            using (var form = new AudioToTextModelDownload() { AutoClose = true })
+            using (var form = new AudioToTextModelDownload { AutoClose = true })
             {
                 form.ShowDialog(this);
-                FillModels();
+                FillModels(form.LastDownloadedModel);
             }
         }
 
@@ -611,12 +644,14 @@ namespace Nikse.SubtitleEdit.Forms
         {
             if (_batchMode)
             {
+                groupBoxInputFiles.Enabled = true;
                 Height = checkBoxUsePostProcessing.Bottom + progressBar1.Height + buttonCancel.Height + 450;
                 listViewInputFiles.Visible = true;
                 buttonBatchMode.Text = LanguageSettings.Current.Split.Basic;
             }
             else
             {
+                groupBoxInputFiles.Enabled = false;
                 Height = checkBoxUsePostProcessing.Bottom + progressBar1.Height + buttonCancel.Height + 70;
                 listViewInputFiles.Visible = false;
                 buttonBatchMode.Text = LanguageSettings.Current.AudioToText.BatchMode;
@@ -632,6 +667,11 @@ namespace Nikse.SubtitleEdit.Forms
         private void comboBoxModels_SelectedIndexChanged(object sender, EventArgs e)
         {
             _model = null;
+        }
+
+        private void AudioToText_Shown(object sender, EventArgs e)
+        {
+            buttonGenerate.Focus();
         }
     }
 }

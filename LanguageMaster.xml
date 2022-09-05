@@ -2,7 +2,7 @@
 <Language Name="English">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.6</Version>
+    <Version>3.6.7</Version>
     <TranslatedBy>Translated by Nikse</TranslatedBy>
     <CultureName>en-US</CultureName>
     <HelpFile />
@@ -234,6 +234,9 @@ Note: Do check free disk space.</WaveFileMalformed>
     <ChangeResolutionDrawing>Change resolution for drawing</ChangeResolutionDrawing>
     <SourceAndTargetEqual>Source and target resolution is the same - nothing to do.</SourceAndTargetEqual>
   </AssaResulationChanger>
+  <ImageColorPicker>
+    <Title>Image color picker</Title>
+  </ImageColorPicker>
   <AssaSetBackgroundBox>
     <Title>Generate background box</Title>
     <Padding>Padding</Padding>
@@ -249,6 +252,7 @@ Note: Do check free disk space.</WaveFileMalformed>
     <MarginY>MarginY</MarginY>
     <OnlyDrawing>Only drawing</OnlyDrawing>
     <DrawingFile>Drawing file</DrawingFile>
+    <ColorPickerSetLastColor>Color picker last color is now: {0}</ColorPickerSetLastColor>
   </AssaSetBackgroundBox>
   <AssaSetPosition>
     <SetPosition>Set position</SetPosition>
@@ -282,7 +286,7 @@ Note: Do check free disk space.</WaveFileMalformed>
     <UseStyleFromSource>Use style from source</UseStyleFromSource>
     <ConvertOptions>Convert options</ConvertOptions>
     <RemoveFormatting>Remove formatting tags</RemoveFormatting>
-    <RemoveStyleActor>Remove style/actor</RemoveStyleActor>
+    <RemoveStyleActor>Remove lines w style/actor</RemoveStyleActor>
     <RemoveTextForHI>Remove text for HI</RemoveTextForHI>
     <OverwriteOriginalFiles>Overwrite original files (new extension if format is changed)</OverwriteOriginalFiles>
     <RedoCasing>Redo casing</RedoCasing>
@@ -397,6 +401,7 @@ Note: Do check free disk space.</WaveFileMalformed>
     <Custom>Custom</Custom>
     <ToDropFrame>To drop frame</ToDropFrame>
     <FromDropFrame>From drop frame</FromDropFrame>
+    <AllowOverlap>Allow overlap</AllowOverlap>
   </ChangeSpeedInPercent>
   <CheckForUpdates>
     <Title>Check for updates</Title>
@@ -448,6 +453,7 @@ Note: Do check free disk space.</WaveFileMalformed>
     <XNumberOfDifferenceAndPercentLettersChanged>Number of differences: {0} ({1:0.##}% of letters changed)</XNumberOfDifferenceAndPercentLettersChanged>
     <ShowOnlyDifferences>Show only differences</ShowOnlyDifferences>
     <IgnoreLineBreaks>Ignore line breaks</IgnoreLineBreaks>
+    <IgnoreWhitespace>Ignore whitespace</IgnoreWhitespace>
     <IgnoreFormatting>Ignore formatting</IgnoreFormatting>
     <OnlyLookForDifferencesInText>Only look for differences in text</OnlyLookForDifferencesInText>
     <CannotCompareWithImageBasedSubtitles>Cannot compare with image based subtitles</CannotCompareWithImageBasedSubtitles>
@@ -1338,7 +1344,6 @@ To use an API key go to "Options -&gt; Settings -&gt; Tools" to enter your Googl
         <SplitLineAtCursorAndWaveformPosition>Split line at cursor/video position</SplitLineAtCursorAndWaveformPosition>
         <AutoDurationCurrentLine>Auto duration (current line)</AutoDurationCurrentLine>
         <SelectAll>Select all</SelectAll>
-        <Insert>Insert</Insert>
         <InsertFirstLine>Insert line</InsertFirstLine>
         <InsertBefore>Insert before</InsertBefore>
         <InsertAfter>Insert after</InsertAfter>
@@ -1354,6 +1359,7 @@ To use an API key go to "Options -&gt; Settings -&gt; Tools" to enter your Googl
         <ColumnTextUp>Text up</ColumnTextUp>
         <ColumnTextDown>Text down</ColumnTextDown>
         <ColumnCopyOriginalTextToCurrent>Copy text from original to current</ColumnCopyOriginalTextToCurrent>
+        <OcrSelectedLines>OCR selected lines</OcrSelectedLines>
         <Split>Split</Split>
         <MergeSelectedLines>Merge selected lines</MergeSelectedLines>
         <MergeSelectedLinesAsDialog>Merge selected lines as dialog</MergeSelectedLinesAsDialog>
@@ -1392,6 +1398,7 @@ To use an API key go to "Options -&gt; Settings -&gt; Tools" to enter your Googl
         <GenerateProgressBar>Generate progress bar...</GenerateProgressBar>
         <AssaResolutionChanger>Change ASSA script resolution...</AssaResolutionChanger>
         <AssaGenerateBackgroundBox>Generate background box...</AssaGenerateBackgroundBox>
+        <ImageColorPicker>Image color picker...</ImageColorPicker>
         <FixCommonErrorsInSelectedLines>Fix common errors in selected lines...</FixCommonErrorsInSelectedLines>
         <ChangeCasingForSelectedLines>Change casing for selected lines...</ChangeCasingForSelectedLines>
         <SaveSelectedLines>Save selected lines as...</SaveSelectedLines>
@@ -1747,6 +1754,7 @@ Download and continue?</VideoFromUrlRequirements>
     <HideVideoControls>Hide video controls</HideVideoControls>
     <GeneratingWaveformInBackground>Generating waveform in background...</GeneratingWaveformInBackground>
     <AutoBackupSaved>Auto-backup saved</AutoBackupSaved>
+    <UsingOnlyFrontCenterChannel>Using only front center audio channel</UsingOnlyFrontCenterChannel>
   </Main>
   <MatroskaSubtitleChooser>
     <Title>Choose subtitle from Matroska file</Title>
@@ -2230,6 +2238,7 @@ can edit in same subtitle file (collaboration)</Information>
     <SpectrogramOneColorGradient>One color gradient</SpectrogramOneColorGradient>
     <SpectrogramClassic>Classic</SpectrogramClassic>
     <WaveformUseFFmpeg>Use FFmpeg for wave extraction</WaveformUseFFmpeg>
+    <WaveformUseCenterChannelOnly>Use front center channel only (for 5.1/7.1)</WaveformUseCenterChannelOnly>
     <DownloadX>Download {0}</DownloadX>
     <WaveformFFmpegPath>Path to FFmpeg</WaveformFFmpegPath>
     <WaveformBrowseToFFmpeg>Browse to FFmpeg</WaveformBrowseToFFmpeg>
@@ -2261,6 +2270,8 @@ can edit in same subtitle file (collaboration)</Information>
     <ProxyUserName>User name</ProxyUserName>
     <ProxyPassword>Password</ProxyPassword>
     <ProxyDomain>Domain</ProxyDomain>
+    <ProxyAuthType>Auth type</ProxyAuthType>
+    <ProxyUseDefaultCredentials>Use default credentials</ProxyUseDefaultCredentials>
     <NetworkSessionSettings>Network session settings</NetworkSessionSettings>
     <NetworkSessionNewSound>Play sound file when new message arrives</NetworkSessionNewSound>
     <PlayXSecondsAndBack>Play X seconds and back, X is</PlayXSecondsAndBack>
@@ -2454,12 +2465,15 @@ can edit in same subtitle file (collaboration)</Information>
     <GoToStartCurrent>Set video pos to start of current subtitle</GoToStartCurrent>
     <ToggleStartEndCurrent>Toggle video pos between start/end of current subtitle</ToggleStartEndCurrent>
     <PlaySelectedLines>Play selected lines</PlaySelectedLines>
+    <LoopSelectedLines>Loop selected lines</LoopSelectedLines>
     <WaveformGoToPrevSubtitle>Go to previous subtitle (from video position)</WaveformGoToPrevSubtitle>
     <WaveformGoToNextSubtitle>Go to next subtitle (from video position)</WaveformGoToNextSubtitle>
     <WaveformGoToPrevChapter>Go to previous chapter</WaveformGoToPrevChapter>
     <WaveformGoToNextChapter>Go to next chapter</WaveformGoToNextChapter>
     <WaveformSelectNextSubtitle>Select next subtitle (from video position, keep video pos)</WaveformSelectNextSubtitle>
     <TogglePlayPause>Toggle play/pause</TogglePlayPause>
+    <Play150Speed>Play video with 1.5x speed</Play150Speed>
+    <Play200Speed>Play video with 2.0x speed</Play200Speed>
     <Pause>Pause</Pause>
     <Fullscreen>Fullscreen</Fullscreen>
     <PlayRateSlower>Play rate slower</PlayRateSlower>
@@ -2930,6 +2944,7 @@ Keep changes?</KeepChangesMessage>
     <OcrViaImageCompare>Binary image compare</OcrViaImageCompare>
     <OcrViaModi>Microsoft Office Document Imaging (MODI). Requires Microsoft Office</OcrViaModi>
     <OcrViaNOCR>OCR via nOCR</OcrViaNOCR>
+    <OcrViaCloudVision>OCR via Google Cloud Vision API</OcrViaCloudVision>
     <TesseractEngineMode>Engine mode</TesseractEngineMode>
     <TesseractEngineModeLegacy>Original Tesseract only (can detect italic)</TesseractEngineModeLegacy>
     <TesseractEngineModeNeural>Neural nets LSTM only</TesseractEngineModeNeural>
@@ -2942,7 +2957,6 @@ Keep changes?</KeepChangesMessage>
     <New>New</New>
     <Edit>Edit</Edit>
     <StartOcr>Start OCR</StartOcr>
-    <Stop>Stop</Stop>
     <StartOcrFrom>Start OCR from subtitle no:</StartOcrFrom>
     <LoadingVobSubImages>Loading VobSub images...</LoadingVobSubImages>
     <LoadingImageCompareDatabase>Loading image compare database...</LoadingImageCompareDatabase>
@@ -3000,6 +3014,9 @@ Keep changes?</KeepChangesMessage>
     <StartTraining>Start training</StartTraining>
     <NowTraining>Now training font '{1}'. Total chars trained: {0:#,###,##0}, {2:#,###,##0} known</NowTraining>
     <ImagesWithTimeCodesInFileName>Images with time codes in file name...</ImagesWithTimeCodesInFileName>
+    <CloudVisionApi>Google Cloud Vision API</CloudVisionApi>
+    <ApiKey>API key</ApiKey>
+    <SendOriginalImages>Send original images</SendOriginalImages>
   </VobSubOcr>
   <VobSubOcrCharacter>
     <Title>OCR - Manual image to text</Title>

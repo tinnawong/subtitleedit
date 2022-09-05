@@ -32,7 +32,7 @@ namespace Nikse.SubtitleEdit.Logic.VideoPlayers
         private MpvWaitEvent _mpvWaitEvent;
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int MpvSetOption(IntPtr mpvHandle, byte[] name, int format, ref long data);
+        private delegate int MpvSetOption(IntPtr mpvHandle, byte[] name, int format, ref ulong data);
         private MpvSetOption _mpvSetOption;
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -236,6 +236,16 @@ namespace Nikse.SubtitleEdit.Logic.VideoPlayers
                 DoMpvCommand("set", "speed", value.ToString(CultureInfo.InvariantCulture));
                 _playRate = value;
             }
+        }
+
+        public void SetAudioChannelFrontCenter()
+        {
+            _mpvSetOptionString(_mpvHandle, GetUtf8Bytes("af"), GetUtf8Bytes("lavfi=[pan=mono|c0=FC]"));
+        }
+
+        public void SetAudioChannelFrontReset()
+        {
+            _mpvSetOptionString(_mpvHandle, GetUtf8Bytes("af"), GetUtf8Bytes(""));
         }
 
         public void GetNextFrame()
@@ -734,7 +744,8 @@ namespace Nikse.SubtitleEdit.Logic.VideoPlayers
                 {
                     return;
                 }
-                var windowId = ownerControl.Handle.ToInt64();
+
+                var windowId = (ulong)ownerControl.Handle.ToInt64();
                 while (returnCode != 0 && iterations > 0)
                 {
                     Application.DoEvents();
@@ -754,6 +765,7 @@ namespace Nikse.SubtitleEdit.Logic.VideoPlayers
                     }
                 }
             }
+
             Pause();
         }
 

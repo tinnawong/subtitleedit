@@ -2,7 +2,7 @@
 <Language Name="中文(简体)">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.6</Version>
+    <Version>3.6.7</Version>
     <TranslatedBy>翻译: FeiXJ | Leon Cheung | larsenlouis | VK | nkh0472</TranslatedBy>
     <CultureName>zh-Hans</CultureName>
     <HelpFile>https://www.nikse.dk/SubtitleEdit/Help</HelpFile>
@@ -248,6 +248,7 @@ Command line: {1} {2}
     <MarginY>Y边距</MarginY>
     <OnlyDrawing>仅绘制</OnlyDrawing>
     <DrawingFile>绘制文件</DrawingFile>
+    <ColorPickerSetLastColor>当前拾色器为最近选择的颜色: {0}</ColorPickerSetLastColor>
   </AssaSetBackgroundBox>
   <AssaSetPosition>
     <SetPosition>设置/获取位置</SetPosition>
@@ -396,6 +397,7 @@ Command line: {1} {2}
     <Custom>自定义</Custom>
     <ToDropFrame>至丢失帧</ToDropFrame>
     <FromDropFrame>自丢失帧</FromDropFrame>
+    <AllowOverlap>允许重叠</AllowOverlap>
   </ChangeSpeedInPercent>
   <CheckForUpdates>
     <Title>检查更新</Title>
@@ -1349,6 +1351,7 @@ Command line: {1} {2}
         <ColumnTextUp>文本上移</ColumnTextUp>
         <ColumnTextDown>文本下移</ColumnTextDown>
         <ColumnCopyOriginalTextToCurrent>从原始文本列复制到当前列</ColumnCopyOriginalTextToCurrent>
+        <OcrSelectedLines>OCR所选行</OcrSelectedLines>
         <Split>分割</Split>
         <MergeSelectedLines>合并所选行</MergeSelectedLines>
         <MergeSelectedLinesAsDialog>合并所选行为对话</MergeSelectedLinesAsDialog>
@@ -1730,13 +1733,14 @@ Command line: {1} {2}
     <NoSupportHereVobSub>此处不支持 VobSub 文件。</NoSupportHereVobSub>
     <NoSupportHereDivx>此处不支持 Divx 文件。</NoSupportHereDivx>
     <NoChapters>视频中未找到章节。</NoChapters>
-    <DarkThemeRestart>重启 Subtitle Edit 使暗色主题设置生效。</DarkThemeRestart>
     <VideoFromUrlRequirements>从 url 打开视频需要 mpv 和 youtube-dl - 下载并继续吗？</VideoFromUrlRequirements>
+    <Url>Url</Url>
     <Errors>错误</Errors>
     <ShowVideoControls>显示视频控件</ShowVideoControls>
     <HideVideoControls>隐藏视频控件</HideVideoControls>
     <GeneratingWaveformInBackground>在后台生成波形...</GeneratingWaveformInBackground>
     <AutoBackupSaved>自动备份 已保存</AutoBackupSaved>
+    <UsingOnlyFrontCenterChannel>仅使用前置中置音频通道</UsingOnlyFrontCenterChannel>
   </Main>
   <MatroskaSubtitleChooser>
     <Title>从 Matroska 文件中选择字幕</Title>
@@ -2218,6 +2222,7 @@ Command line: {1} {2}
     <SpectrogramOneColorGradient>单色梯度</SpectrogramOneColorGradient>
     <SpectrogramClassic>经典</SpectrogramClassic>
     <WaveformUseFFmpeg>使用 FFmpeg 提取波形</WaveformUseFFmpeg>
+    <WaveformUseCenterChannelOnly>仅使用前置/中置声道（适用于 5.1/7.1声道）</WaveformUseCenterChannelOnly>
     <DownloadX>下载 {0}</DownloadX>
     <WaveformFFmpegPath>FFmpeg 文件路径</WaveformFFmpegPath>
     <WaveformBrowseToFFmpeg>浏览 FFmpeg 文件</WaveformBrowseToFFmpeg>
@@ -2249,6 +2254,8 @@ Command line: {1} {2}
     <ProxyUserName>用户名</ProxyUserName>
     <ProxyPassword>密码</ProxyPassword>
     <ProxyDomain>域</ProxyDomain>
+    <ProxyAuthType>认证类型</ProxyAuthType>
+    <ProxyUseDefaultCredentials>使用默认凭据</ProxyUseDefaultCredentials>
     <NetworkSessionSettings>网络会话设置</NetworkSessionSettings>
     <NetworkSessionNewSound>当有新消息到达时播放声音文件</NetworkSessionNewSound>
     <PlayXSecondsAndBack>播放 X 秒后返回，X 为</PlayXSecondsAndBack>
@@ -2441,12 +2448,15 @@ Command line: {1} {2}
     <GoToStartCurrent>设定视频位置定位到当前字幕的起始点</GoToStartCurrent>
     <ToggleStartEndCurrent>让视频位置在当前字幕的起始点与结束点间切换跳转</ToggleStartEndCurrent>
     <PlaySelectedLines>播放选定的行</PlaySelectedLines>
+    <LoopSelectedLines>循环播放选定的行</LoopSelectedLines>
     <WaveformGoToPrevSubtitle>转到上一条字幕（从当前视频位置起）</WaveformGoToPrevSubtitle>
     <WaveformGoToNextSubtitle>转到下一条字幕（从当前视频位置起）</WaveformGoToNextSubtitle>
     <WaveformGoToPrevChapter>转到上一章节</WaveformGoToPrevChapter>
     <WaveformGoToNextChapter>转到下一章节</WaveformGoToNextChapter>
     <WaveformSelectNextSubtitle>选择下一行字幕 (从当前视频位置起, 保持视频位置不变)</WaveformSelectNextSubtitle>
     <TogglePlayPause>切换 播放/暂停</TogglePlayPause>
+    <Play150Speed>以1.5倍速播放视频</Play150Speed>
+    <Play200Speed>以2倍速播放视频</Play200Speed>
     <Pause>暂停</Pause>
     <Fullscreen>全屏幕</Fullscreen>
     <PlayRateSlower>减慢播放速度</PlayRateSlower>
@@ -2912,8 +2922,9 @@ Command line: {1} {2}
     <OcrMethod>OCR 方式</OcrMethod>
     <OcrViaTesseractVersionX>Tesseract: {0}</OcrViaTesseractVersionX>
     <OcrViaImageCompare>使用图像比较 OCR</OcrViaImageCompare>
-    <OcrViaModi>使用 Microsoft Office 文档图像(MODI) OCR，需要 Microsoft Office</OcrViaModi>
-    <OcrViaNOCR>用 nOCR 执行 OCR</OcrViaNOCR>
+    <OcrViaModi>通过 Microsoft Office 文档图像(MODI) OCR，需要 Microsoft Office</OcrViaModi>
+    <OcrViaNOCR>通过 nOCR 进行 OCR</OcrViaNOCR>
+    <OcrViaCloudVision>通过 Google Cloud Vision API 进行 OCR</OcrViaCloudVision>
     <TesseractEngineMode>引擎模式</TesseractEngineMode>
     <TesseractEngineModeLegacy>仅使用原始Tesseract (可侦测斜体)</TesseractEngineModeLegacy>
     <TesseractEngineModeNeural>仅使用神经网络 LSTM</TesseractEngineModeNeural>
@@ -2984,6 +2995,7 @@ Command line: {1} {2}
     <StartTraining>开始训练</StartTraining>
     <NowTraining>正在训练字体 '{1}', 已训练字符数: {0:#,###,##0}, 已获知 {2:#,###,##0}</NowTraining>
     <ImagesWithTimeCodesInFileName>文件名中带有时间码的图像...</ImagesWithTimeCodesInFileName>
+    <CloudVisionApi>Google Cloud Vision API</CloudVisionApi>
   </VobSubOcr>
   <VobSubOcrCharacter>
     <Title>VobSub - 图像转文本（手动）</Title>

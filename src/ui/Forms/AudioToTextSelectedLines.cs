@@ -49,7 +49,7 @@ namespace Nikse.SubtitleEdit.Forms
 
             checkBoxUsePostProcessing.Checked = Configuration.Settings.Tools.VoskPostProcessing;
             _voskFolder = Path.Combine(Configuration.DataDirectory, "Vosk");
-            FillModels();
+            FillModels(string.Empty);
 
             textBoxLog.Visible = false;
             textBoxLog.Dock = DockStyle.Fill;
@@ -64,8 +64,9 @@ namespace Nikse.SubtitleEdit.Forms
             }
         }
 
-        private void FillModels()
+        private void FillModels(string lastDownloadedModel)
         {
+            var selectName = string.IsNullOrEmpty(lastDownloadedModel) ? Configuration.Settings.Tools.VoskModel : lastDownloadedModel;
             comboBoxModels.Items.Clear();
             foreach (var directory in Directory.GetDirectories(_voskFolder))
             {
@@ -76,7 +77,7 @@ namespace Nikse.SubtitleEdit.Forms
                 }
 
                 comboBoxModels.Items.Add(name);
-                if (name == Configuration.Settings.Tools.VoskModel)
+                if (name == selectName)
                 {
                     comboBoxModels.SelectedIndex = comboBoxModels.Items.Count - 1;
                 }
@@ -105,6 +106,16 @@ namespace Nikse.SubtitleEdit.Forms
             TaskbarList.SetProgressState(_parentForm.Handle, TaskbarButtonProgressFlags.NoProgress);
         }
 
+        private void ShowProgressBar()
+        {
+            progressBar1.Maximum = 100;
+            progressBar1.Value = 0;
+            progressBar1.Visible = true;
+            progressBar1.BringToFront();
+            progressBar1.Refresh();
+            progressBar1.Top = labelProgress.Bottom + 3;
+        }
+
         private void GenerateBatch()
         {
             groupBoxInputFiles.Enabled = false;
@@ -115,7 +126,7 @@ namespace Nikse.SubtitleEdit.Forms
                 ParagraphMaxChars = Configuration.Settings.General.SubtitleLineMaximumLength * 2,
             };
 
-            progressBar1.Visible = true;
+            ShowProgressBar();
             foreach (ListViewItem lvi in listViewInputFiles.Items)
             {
                 _batchFileNumber++;
@@ -125,6 +136,7 @@ namespace Nikse.SubtitleEdit.Forms
                 var modelFileName = Path.Combine(_voskFolder, comboBoxModels.Text);
                 buttonGenerate.Enabled = false;
                 buttonDownload.Enabled = false;
+                comboBoxModels.Enabled = false;
                 var waveFileName = videoFileName;
                 textBoxLog.AppendText("Wav file name: " + waveFileName + Environment.NewLine);
                 var transcript = TranscribeViaVosk(waveFileName, modelFileName);
@@ -382,10 +394,10 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void buttonDownload_Click(object sender, EventArgs e)
         {
-            using (var form = new AudioToTextModelDownload() { AutoClose = true })
+            using (var form = new AudioToTextModelDownload { AutoClose = true })
             {
                 form.ShowDialog(this);
-                FillModels();
+                FillModels(form.LastDownloadedModel);
             }
         }
 
@@ -404,6 +416,11 @@ namespace Nikse.SubtitleEdit.Forms
         private void comboBoxModels_SelectedIndexChanged(object sender, EventArgs e)
         {
             _model = null;
+        }
+
+        private void AudioToTextSelectedLines_Shown(object sender, EventArgs e)
+        {
+            buttonGenerate.Focus();
         }
     }
 }
