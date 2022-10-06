@@ -2292,6 +2292,7 @@ can edit in same subtitle file (collaboration)</Information>
     <CpsLineLengthStyle>Cps/line-length</CpsLineLengthStyle>
     <CpsLineLengthStyleCalcAll>Count all characters</CpsLineLengthStyleCalcAll>
     <CpsLineLengthStyleCalcNBTC>Count according to NBTC</CpsLineLengthStyleCalcNBTC>
+    <CpsLineLengthStyleCalcNBTCExeptCps>Count according to NBTC, except cps</CpsLineLengthStyleCalcNBTCExeptCps>
     <CpsLineLengthStyleCalcNoSpaceCpsOnly>Count all except space, cps only</CpsLineLengthStyleCalcNoSpaceCpsOnly>
     <CpsLineLengthStyleCalcNoSpace>Count all except space</CpsLineLengthStyleCalcNoSpace>
     <CpsLineLengthStyleCalcCjk>CJK 1, latin 0.5</CpsLineLengthStyleCalcCjk>
