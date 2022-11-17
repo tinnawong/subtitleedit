@@ -132,6 +132,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             checkBoxReplace.Checked = gs.ShowToolbarReplace;
             checkBoxTBFixCommonErrors.Checked = gs.ShowToolbarFixCommonErrors;
             checkBoxTBRemoveTextForHi.Checked = gs.ShowToolbarRemoveTextForHi;
+            checkBoxTBToggleSourceView.Checked = gs.ShowToolbarToggleSourceView;
             checkBoxVisualSync.Checked = gs.ShowToolbarVisualSync;
             checkBoxTBBurnIn.Checked = gs.ShowToolbarBurnIn;
             checkBoxSettings.Checked = gs.ShowToolbarSettings;
@@ -306,6 +307,8 @@ namespace Nikse.SubtitleEdit.Forms.Options
             textBoxProxyUserName.Text = proxy.UserName;
             textBoxProxyPassword.Text = proxy.Password == null ? string.Empty : proxy.DecodePassword();
             textBoxProxyDomain.Text = proxy.Domain;
+            comboBoxProxyAuthType.Text = proxy.AuthType;
+            checkBoxProxyUseDefaultCredentials.Checked = proxy.UseDefaultCredentials;
 
             textBoxNetworkSessionNewMessageSound.Text = Configuration.Settings.NetworkSettings.NewMessageSound;
 
@@ -361,6 +364,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             labelTBBurnIn.Text = language.BurnIn;
             labelTBSpellCheck.Text = language.SpellCheck;
             labelTBNetflixQualityCheck.Text = language.NetflixQualityCheck;
+            labelToggleSourceView.Text = language.ToggleView;
             labelTBSettings.Text = language.SettingsName;
             labelTBHelp.Text = language.Help;
             checkBoxToolbarNew.Text = LanguageSettings.Current.General.Visible;
@@ -654,6 +658,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             InitializeWaveformsAndSpectrogramsFolderEmpty(language);
 
             checkBoxUseFFmpeg.Text = language.WaveformUseFFmpeg;
+            checkBoxFfmpegUseCenterChannel.Text = language.WaveformUseCenterChannelOnly;
             buttonDownloadFfmpeg.Text = string.Format(language.DownloadX, "FFmpeg");
             if (!Configuration.IsRunningOnWindows)
             {
@@ -690,6 +695,8 @@ namespace Nikse.SubtitleEdit.Forms.Options
             labelProxyUserName.Text = language.ProxyUserName;
             labelProxyPassword.Text = language.ProxyPassword;
             labelProxyDomain.Text = language.ProxyDomain;
+            labelProxyAuthType.Text = language.ProxyAuthType;
+            checkBoxProxyUseDefaultCredentials.Text = language.ProxyUseDefaultCredentials;
 
             groupBoxNetworkSession.Text = language.NetworkSessionSettings;
             labelNetworkSessionNewMessageSound.Text = language.NetworkSessionNewSound;
@@ -976,6 +983,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             }
 
             checkBoxUseFFmpeg.Checked = gs.UseFFmpegForWaveExtraction;
+            checkBoxFfmpegUseCenterChannel.Checked = gs.FFmpegUseCenterChannelOnly;
             textBoxFFmpegPath.Text = gs.FFmpegLocation;
             if (string.IsNullOrEmpty(textBoxFFmpegPath.Text) && Configuration.IsRunningOnWindows)
             {
@@ -1235,6 +1243,8 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(generalNode, language.MergeSelectedLinesAndUnbreakCjk, nameof(Configuration.Settings.Shortcuts.GeneralMergeSelectedLinesAndUnbreakCjk));
             AddNode(generalNode, language.MergeSelectedLinesOnlyFirstText, nameof(Configuration.Settings.Shortcuts.GeneralMergeSelectedLinesOnlyFirstText));
             AddNode(generalNode, language.MergeSelectedLinesBilingual, nameof(Configuration.Settings.Shortcuts.GeneralMergeSelectedLinesBilingual));
+            AddNode(generalNode, language.MergeWithPreviousBilingual, nameof(Configuration.Settings.Shortcuts.GeneralMergeWithPreviousBilingual));
+            AddNode(generalNode, language.MergeWithNextBilingual, nameof(Configuration.Settings.Shortcuts.GeneralMergeWithNextBilingual));
             AddNode(generalNode, language.MergeOriginalAndTranslation, nameof(Configuration.Settings.Shortcuts.GeneralMergeOriginalAndTranslation));
             AddNode(generalNode, language.ToggleTranslationMode, nameof(Configuration.Settings.Shortcuts.GeneralToggleTranslationMode));
             AddNode(generalNode, language.SwitchOriginalAndTranslation, nameof(Configuration.Settings.Shortcuts.GeneralSwitchOriginalAndTranslation));
@@ -1265,6 +1275,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(generalNode, language.ChooseProfile, nameof(Configuration.Settings.Shortcuts.GeneralChooseProfile));
             AddNode(generalNode, language.DuplicateLine, nameof(Configuration.Settings.Shortcuts.GeneralDuplicateLine));
             AddNode(generalNode, language.OpenDataFolder, nameof(Configuration.Settings.Shortcuts.OpenDataFolder));
+            AddNode(generalNode, LanguageSettings.Current.Main.Menu.File.OpenContainingFolder, nameof(Configuration.Settings.Shortcuts.OpenContainingFolder), true);
             AddNode(generalNode, language.ToggleView, nameof(Configuration.Settings.Shortcuts.GeneralToggleView));
             AddNode(generalNode, language.ToggleMode, nameof(Configuration.Settings.Shortcuts.GeneralToggleMode));
             AddNode(generalNode, language.TogglePreviewOnVideo, nameof(Configuration.Settings.Shortcuts.GeneralTogglePreviewOnVideo));
@@ -1272,6 +1283,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(generalNode, language.ApplyAssaOverrideTags, nameof(Configuration.Settings.Shortcuts.GeneralApplyAssaOverrideTags), true);
             AddNode(generalNode, language.SetAssaPosition, nameof(Configuration.Settings.Shortcuts.GeneralSetAssaPosition), true);
             AddNode(generalNode, language.SetAssaResolution, nameof(Configuration.Settings.Shortcuts.GeneralSetAssaResolution));
+            AddNode(generalNode, LanguageSettings.Current.ImageColorPicker.Title, nameof(Configuration.Settings.Shortcuts.GeneralColorPicker));
             AddNode(generalNode, language.TakeAutoBackup, nameof(Configuration.Settings.Shortcuts.GeneralTakeAutoBackup));
             AddNode(generalNode, language.Help, nameof(Configuration.Settings.Shortcuts.GeneralHelp), true);
             _shortcuts.Nodes.Add(generalNode);
@@ -1321,6 +1333,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(toolsNode, LanguageSettings.Current.Main.Menu.Tools.FixCommonErrors, nameof(Configuration.Settings.Shortcuts.MainToolsFixCommonErrors), true);
             AddNode(toolsNode, LanguageSettings.Current.Main.Menu.Tools.StartNumberingFrom, nameof(Configuration.Settings.Shortcuts.MainToolsRenumber), true);
             AddNode(toolsNode, LanguageSettings.Current.Main.Menu.Tools.RemoveTextForHearingImpaired, nameof(Configuration.Settings.Shortcuts.MainToolsRemoveTextForHI), true);
+            AddNode(toolsNode, LanguageSettings.Current.Main.Menu.Tools.ConvertColorsToDialog, nameof(Configuration.Settings.Shortcuts.MainToolsConvertColorsToDialog), true);
             AddNode(toolsNode, LanguageSettings.Current.Main.Menu.Tools.ChangeCasing, nameof(Configuration.Settings.Shortcuts.MainToolsChangeCasing), true);
             AddNode(toolsNode, LanguageSettings.Current.Main.Menu.Tools.MakeNewEmptyTranslationFromCurrentSubtitle, nameof(Configuration.Settings.Shortcuts.MainToolsMakeEmptyFromCurrent), true);
             AddNode(toolsNode, LanguageSettings.Current.Main.Menu.Tools.MergeShortLines, nameof(Configuration.Settings.Shortcuts.MainToolsMergeShortLines), true);
@@ -1368,14 +1381,18 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(videoNode, language.GoToStartCurrent, nameof(Configuration.Settings.Shortcuts.MainVideoGoToStartCurrent));
             AddNode(videoNode, language.ToggleStartEndCurrent, nameof(Configuration.Settings.Shortcuts.MainVideoToggleStartEndCurrent));
             AddNode(videoNode, language.PlaySelectedLines, nameof(Configuration.Settings.Shortcuts.MainVideoPlaySelectedLines));
+            AddNode(videoNode, language.LoopSelectedLines, nameof(Configuration.Settings.Shortcuts.MainVideoLoopSelectedLines));
             AddNode(videoNode, language.WaveformGoToPrevSubtitle, nameof(Configuration.Settings.Shortcuts.MainVideoGoToPrevSubtitle));
             AddNode(videoNode, language.WaveformGoToNextSubtitle, nameof(Configuration.Settings.Shortcuts.MainVideoGoToNextSubtitle));
             AddNode(videoNode, language.WaveformGoToPrevChapter, nameof(Configuration.Settings.Shortcuts.MainVideoGoToPrevChapter));
             AddNode(videoNode, language.WaveformGoToNextChapter, nameof(Configuration.Settings.Shortcuts.MainVideoGoToNextChapter));
             AddNode(videoNode, language.WaveformSelectNextSubtitle, nameof(Configuration.Settings.Shortcuts.MainVideoSelectNextSubtitle));
             AddNode(videoNode, language.Fullscreen, nameof(Configuration.Settings.Shortcuts.MainVideoFullscreen));
+            AddNode(videoNode, language.Play150Speed, nameof(Configuration.Settings.Shortcuts.MainVideoPlay150Speed));
+            AddNode(videoNode, language.Play200Speed, nameof(Configuration.Settings.Shortcuts.MainVideoPlay200Speed));
             AddNode(videoNode, language.PlayRateSlower, nameof(Configuration.Settings.Shortcuts.MainVideoSlower));
             AddNode(videoNode, language.PlayRateFaster, nameof(Configuration.Settings.Shortcuts.MainVideoFaster));
+            AddNode(videoNode, language.PlayRateToggle, nameof(Configuration.Settings.Shortcuts.MainVideoSpeedToggle));
             AddNode(videoNode, language.VideoResetSpeedAndZoom, nameof(Configuration.Settings.Shortcuts.MainVideoReset));
             AddNode(videoNode, language.MainToggleVideoControls, nameof(Configuration.Settings.Shortcuts.MainVideoToggleControls));
             AddNode(videoNode, language.VideoAudioToText, nameof(Configuration.Settings.Shortcuts.MainVideoAudioToText));
@@ -1435,6 +1452,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(listViewNode, language.MergeDialog, nameof(Configuration.Settings.Shortcuts.MainMergeDialog));
             AddNode(listViewNode, language.MergeDialogWithNext, nameof(Configuration.Settings.Shortcuts.MainMergeDialogWithNext));
             AddNode(listViewNode, language.MergeDialogWithPrevious, nameof(Configuration.Settings.Shortcuts.MainMergeDialogWithPrevious));
+            AddNode(listViewNode, language.AutoBalanceSelectedLines, nameof(Configuration.Settings.Shortcuts.MainAutoBalanceSelectedLines), true);
             AddNode(listViewNode, language.ToggleFocus, nameof(Configuration.Settings.Shortcuts.MainToggleFocus));
             AddNode(listViewNode, language.ToggleFocusWaveform, nameof(Configuration.Settings.Shortcuts.MainToggleFocusWaveform));
             AddNode(listViewNode, language.ToggleFocusWaveformTextBox, nameof(Configuration.Settings.Shortcuts.MainToggleFocusWaveformTextBox));
@@ -1484,6 +1502,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(textBoxNode, language.MainTextBoxAutoBreak, nameof(Configuration.Settings.Shortcuts.MainTextBoxAutoBreak));
             AddNode(textBoxNode, language.MainTextBoxAutoBreakFromPos, nameof(Configuration.Settings.Shortcuts.MainTextBoxBreakAtPosition));
             AddNode(textBoxNode, language.MainTextBoxAutoBreakFromPosAndGoToNext, nameof(Configuration.Settings.Shortcuts.MainTextBoxBreakAtPositionAndGoToNext));
+            AddNode(textBoxNode, language.MainTextBoxDictate, nameof(Configuration.Settings.Shortcuts.MainTextBoxRecord));
             AddNode(textBoxNode, language.MainTextBoxAssaIntellisense, nameof(Configuration.Settings.Shortcuts.MainTextBoxAssaIntellisense));
             AddNode(textBoxNode, language.MainTextBoxAssaRemoveTag, nameof(Configuration.Settings.Shortcuts.MainTextBoxAssaRemoveTag));
             _shortcuts.Nodes.Add(textBoxNode);
@@ -1714,7 +1733,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
         }
 
         public void Initialize(Icon icon, Image newFile, Image openFile, Image saveFile, Image saveFileAs, Image find, Image replace, Image fixCommonErrors, Image removeTextForHi,
-                               Image visualSync, Image burnIn, Image spellCheck, Image netflixGlyphCheck, Image settings, Image help)
+                               Image visualSync, Image burnIn, Image spellCheck, Image netflixGlyphCheck, Image settings, Image help, Image toggleSourceView)
         {
             Icon = (Icon)icon.Clone();
             pictureBoxNew.Image = (Image)newFile.Clone();
@@ -1725,6 +1744,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             pictureBoxReplace.Image = (Image)replace.Clone();
             pictureBoxTBFixCommonErrors.Image = (Image)fixCommonErrors.Clone();
             pictureBoxTBRemoveTextForHi.Image = (Image)removeTextForHi.Clone();
+            pictureBoxToggleSourceView.Image = (Image)toggleSourceView.Clone();
             pictureBoxVisualSync.Image = (Image)visualSync.Clone();
             pictureBoxTBBurnIn.Image = (Image)burnIn.Clone();
             pictureBoxSpellCheck.Image = (Image)spellCheck.Clone();
@@ -1744,6 +1764,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             gs.ShowToolbarReplace = checkBoxReplace.Checked;
             gs.ShowToolbarFixCommonErrors = checkBoxTBFixCommonErrors.Checked;
             gs.ShowToolbarRemoveTextForHi = checkBoxTBRemoveTextForHi.Checked;
+            gs.ShowToolbarToggleSourceView = checkBoxTBToggleSourceView.Checked;
             gs.ShowToolbarVisualSync = checkBoxVisualSync.Checked;
             gs.ShowToolbarBurnIn = checkBoxTBBurnIn.Checked;
             gs.ShowToolbarSettings = checkBoxSettings.Checked;
@@ -1991,6 +2012,8 @@ namespace Nikse.SubtitleEdit.Forms.Options
             }
 
             proxy.Domain = textBoxProxyDomain.Text;
+            proxy.AuthType = comboBoxProxyAuthType.Text;
+            proxy.UseDefaultCredentials = checkBoxProxyUseDefaultCredentials.Checked;
 
             Configuration.Settings.NetworkSettings.NewMessageSound = textBoxNetworkSessionNewMessageSound.Text;
 
@@ -2027,6 +2050,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             Configuration.Settings.General.WaveformAutoGenWhenOpeningVideo = checkBoxWaveformAutoGen.Checked;
             Configuration.Settings.VideoControls.WaveformBorderHitMs = Convert.ToInt32(numericUpDownWaveformBorderHitMs.Value);
             gs.UseFFmpegForWaveExtraction = checkBoxUseFFmpeg.Checked;
+            gs.FFmpegUseCenterChannelOnly = checkBoxFfmpegUseCenterChannel.Checked;
             gs.FFmpegLocation = textBoxFFmpegPath.Text;
 
             // save shortcuts
@@ -2135,13 +2159,13 @@ namespace Nikse.SubtitleEdit.Forms.Options
                 _pluginShortcuts = Configuration.Settings.Shortcuts.PluginShortcuts.Select(p => new PluginShortcut { Name = p.Name, Shortcut = p.Shortcut }).ToList();
             }
 
-            if (!Directory.Exists(Configuration.PluginsDirectory))
+            if (!Directory.Exists(Configuration.PluginsDirectory.TrimEnd(Path.DirectorySeparatorChar)))
             {
                 return;
             }
 
             var pluginsNode = new ShortcutNode(LanguageSettings.Current.PluginsGet.Title);
-            foreach (var pluginFileName in Directory.GetFiles(Configuration.PluginsDirectory, "*.DLL"))
+            foreach (var pluginFileName in Configuration.GetPlugins())
             {
                 Main.GetPropertiesAndDoAction(pluginFileName, out var name, out _, out var version, out var description, out var actionType, out _, out var mi);
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(actionType) && mi != null)
@@ -3329,6 +3353,11 @@ namespace Nikse.SubtitleEdit.Forms.Options
                     ProfileUiValueChanged(sender, e);
                 }
             }
+        }
+
+        private void checkBoxTBRemoveTextForHi_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

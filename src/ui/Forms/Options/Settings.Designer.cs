@@ -203,6 +203,7 @@
             this.radioButtonVideoPlayerMpcHc = new System.Windows.Forms.RadioButton();
             this.panelWaveform = new System.Windows.Forms.Panel();
             this.groupBoxFfmpeg = new System.Windows.Forms.GroupBox();
+            this.checkBoxFfmpegUseCenterChannel = new System.Windows.Forms.CheckBox();
             this.buttonDownloadFfmpeg = new System.Windows.Forms.Button();
             this.buttonBrowseToFFmpeg = new System.Windows.Forms.Button();
             this.textBoxFFmpegPath = new System.Windows.Forms.TextBox();
@@ -382,6 +383,9 @@
             this.labelNetworkSessionNewMessageSound = new System.Windows.Forms.Label();
             this.groupBoxProxySettings = new System.Windows.Forms.GroupBox();
             this.groupBoxProxyAuthentication = new System.Windows.Forms.GroupBox();
+            this.labelProxyAuthType = new System.Windows.Forms.Label();
+            this.checkBoxProxyUseDefaultCredentials = new System.Windows.Forms.CheckBox();
+            this.comboBoxProxyAuthType = new System.Windows.Forms.ComboBox();
             this.textBoxProxyDomain = new System.Windows.Forms.TextBox();
             this.labelProxyDomain = new System.Windows.Forms.Label();
             this.textBoxProxyUserName = new System.Windows.Forms.TextBox();
@@ -404,6 +408,9 @@
             this.labelUpdateFileTypeAssociationsStatus = new System.Windows.Forms.Label();
             this.imageListFileTypeAssociations = new System.Windows.Forms.ImageList(this.components);
             this.toolTipDialogStylePreview = new System.Windows.Forms.ToolTip(this.components);
+            this.labelToggleSourceView = new System.Windows.Forms.Label();
+            this.pictureBoxToggleSourceView = new System.Windows.Forms.PictureBox();
+            this.checkBoxTBToggleSourceView = new System.Windows.Forms.CheckBox();
             this.panelGeneral.SuspendLayout();
             this.groupBoxMiscellaneous.SuspendLayout();
             this.groupBoxGeneralRules.SuspendLayout();
@@ -472,6 +479,7 @@
             this.groupBoxProxySettings.SuspendLayout();
             this.groupBoxProxyAuthentication.SuspendLayout();
             this.panelFileTypeAssociations.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxToggleSourceView)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonOK
@@ -677,7 +685,7 @@
             // comboBoxCpsLineLenCalc
             // 
             this.comboBoxCpsLineLenCalc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxCpsLineLenCalc.DropDownWidth = 200;
+            this.comboBoxCpsLineLenCalc.DropDownWidth = 220;
             this.comboBoxCpsLineLenCalc.FormattingEnabled = true;
             this.comboBoxCpsLineLenCalc.Location = new System.Drawing.Point(203, 351);
             this.comboBoxCpsLineLenCalc.Name = "comboBoxCpsLineLenCalc";
@@ -2657,6 +2665,7 @@
             this.groupBoxFfmpeg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxFfmpeg.Controls.Add(this.checkBoxFfmpegUseCenterChannel);
             this.groupBoxFfmpeg.Controls.Add(this.buttonDownloadFfmpeg);
             this.groupBoxFfmpeg.Controls.Add(this.buttonBrowseToFFmpeg);
             this.groupBoxFfmpeg.Controls.Add(this.textBoxFFmpegPath);
@@ -2664,10 +2673,20 @@
             this.groupBoxFfmpeg.Controls.Add(this.checkBoxUseFFmpeg);
             this.groupBoxFfmpeg.Location = new System.Drawing.Point(400, 293);
             this.groupBoxFfmpeg.Name = "groupBoxFfmpeg";
-            this.groupBoxFfmpeg.Size = new System.Drawing.Size(451, 119);
+            this.groupBoxFfmpeg.Size = new System.Drawing.Size(451, 133);
             this.groupBoxFfmpeg.TabIndex = 2;
             this.groupBoxFfmpeg.TabStop = false;
             this.groupBoxFfmpeg.Text = "FFmpeg";
+            // 
+            // checkBoxFfmpegUseCenterChannel
+            // 
+            this.checkBoxFfmpegUseCenterChannel.AutoSize = true;
+            this.checkBoxFfmpegUseCenterChannel.Location = new System.Drawing.Point(6, 99);
+            this.checkBoxFfmpegUseCenterChannel.Name = "checkBoxFfmpegUseCenterChannel";
+            this.checkBoxFfmpegUseCenterChannel.Size = new System.Drawing.Size(219, 17);
+            this.checkBoxFfmpegUseCenterChannel.TabIndex = 24;
+            this.checkBoxFfmpegUseCenterChannel.Text = "Use center channel only for audio tracks";
+            this.checkBoxFfmpegUseCenterChannel.UseVisualStyleBackColor = true;
             // 
             // buttonDownloadFfmpeg
             // 
@@ -2725,7 +2744,7 @@
             this.groupBoxSpectrogram.Controls.Add(this.checkBoxGenerateSpectrogram);
             this.groupBoxSpectrogram.Location = new System.Drawing.Point(0, 293);
             this.groupBoxSpectrogram.Name = "groupBoxSpectrogram";
-            this.groupBoxSpectrogram.Size = new System.Drawing.Size(393, 118);
+            this.groupBoxSpectrogram.Size = new System.Drawing.Size(393, 132);
             this.groupBoxSpectrogram.TabIndex = 1;
             this.groupBoxSpectrogram.TabStop = false;
             this.groupBoxSpectrogram.Text = "Spectrogram";
@@ -2767,9 +2786,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBoxSpectrogramClean.Controls.Add(this.buttonWaveformsFolderEmpty);
             this.groupBoxSpectrogramClean.Controls.Add(this.labelWaveformsFolderInfo);
-            this.groupBoxSpectrogramClean.Location = new System.Drawing.Point(0, 411);
+            this.groupBoxSpectrogramClean.Location = new System.Drawing.Point(0, 431);
             this.groupBoxSpectrogramClean.Name = "groupBoxSpectrogramClean";
-            this.groupBoxSpectrogramClean.Size = new System.Drawing.Size(852, 109);
+            this.groupBoxSpectrogramClean.Size = new System.Drawing.Size(852, 89);
             this.groupBoxSpectrogramClean.TabIndex = 3;
             this.groupBoxSpectrogramClean.TabStop = false;
             // 
@@ -3742,9 +3761,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.checkBoxShowFrameRate);
-            this.groupBox2.Location = new System.Drawing.Point(0, 242);
+            this.groupBox2.Location = new System.Drawing.Point(0, 340);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(850, 277);
+            this.groupBox2.Size = new System.Drawing.Size(850, 179);
             this.groupBox2.TabIndex = 35;
             this.groupBox2.TabStop = false;
             // 
@@ -3762,6 +3781,9 @@
             // 
             this.groupBoxShowToolBarButtons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxShowToolBarButtons.Controls.Add(this.labelToggleSourceView);
+            this.groupBoxShowToolBarButtons.Controls.Add(this.pictureBoxToggleSourceView);
+            this.groupBoxShowToolBarButtons.Controls.Add(this.checkBoxTBToggleSourceView);
             this.groupBoxShowToolBarButtons.Controls.Add(this.labelTBBurnIn);
             this.groupBoxShowToolBarButtons.Controls.Add(this.pictureBoxTBBurnIn);
             this.groupBoxShowToolBarButtons.Controls.Add(this.checkBoxTBBurnIn);
@@ -3806,7 +3828,7 @@
             this.groupBoxShowToolBarButtons.Controls.Add(this.checkBoxToolbarNew);
             this.groupBoxShowToolBarButtons.Location = new System.Drawing.Point(0, 0);
             this.groupBoxShowToolBarButtons.Name = "groupBoxShowToolBarButtons";
-            this.groupBoxShowToolBarButtons.Size = new System.Drawing.Size(851, 236);
+            this.groupBoxShowToolBarButtons.Size = new System.Drawing.Size(851, 341);
             this.groupBoxShowToolBarButtons.TabIndex = 0;
             this.groupBoxShowToolBarButtons.TabStop = false;
             this.groupBoxShowToolBarButtons.Text = "Show toolbar buttons";
@@ -3891,6 +3913,7 @@
             this.checkBoxTBRemoveTextForHi.TabIndex = 18;
             this.checkBoxTBRemoveTextForHi.Text = "Visible";
             this.checkBoxTBRemoveTextForHi.UseVisualStyleBackColor = true;
+            this.checkBoxTBRemoveTextForHi.CheckedChanged += new System.EventHandler(this.checkBoxTBRemoveTextForHi_CheckedChanged);
             // 
             // labelTBFixCommonErrors
             // 
@@ -4633,9 +4656,9 @@
             this.groupBoxNetworkSession.Controls.Add(this.buttonNetworkSessionNewMessageSound);
             this.groupBoxNetworkSession.Controls.Add(this.textBoxNetworkSessionNewMessageSound);
             this.groupBoxNetworkSession.Controls.Add(this.labelNetworkSessionNewMessageSound);
-            this.groupBoxNetworkSession.Location = new System.Drawing.Point(0, 183);
+            this.groupBoxNetworkSession.Location = new System.Drawing.Point(0, 242);
             this.groupBoxNetworkSession.Name = "groupBoxNetworkSession";
-            this.groupBoxNetworkSession.Size = new System.Drawing.Size(851, 337);
+            this.groupBoxNetworkSession.Size = new System.Drawing.Size(851, 278);
             this.groupBoxNetworkSession.TabIndex = 30;
             this.groupBoxNetworkSession.TabStop = false;
             this.groupBoxNetworkSession.Text = "Network session settings";
@@ -4675,13 +4698,16 @@
             this.groupBoxProxySettings.Controls.Add(this.labelProxyAddress);
             this.groupBoxProxySettings.Location = new System.Drawing.Point(0, 0);
             this.groupBoxProxySettings.Name = "groupBoxProxySettings";
-            this.groupBoxProxySettings.Size = new System.Drawing.Size(851, 177);
+            this.groupBoxProxySettings.Size = new System.Drawing.Size(851, 233);
             this.groupBoxProxySettings.TabIndex = 1;
             this.groupBoxProxySettings.TabStop = false;
             this.groupBoxProxySettings.Text = "Proxy server settings";
             // 
             // groupBoxProxyAuthentication
             // 
+            this.groupBoxProxyAuthentication.Controls.Add(this.labelProxyAuthType);
+            this.groupBoxProxyAuthentication.Controls.Add(this.checkBoxProxyUseDefaultCredentials);
+            this.groupBoxProxyAuthentication.Controls.Add(this.comboBoxProxyAuthType);
             this.groupBoxProxyAuthentication.Controls.Add(this.textBoxProxyDomain);
             this.groupBoxProxyAuthentication.Controls.Add(this.labelProxyDomain);
             this.groupBoxProxyAuthentication.Controls.Add(this.textBoxProxyUserName);
@@ -4690,14 +4716,48 @@
             this.groupBoxProxyAuthentication.Controls.Add(this.textBoxProxyPassword);
             this.groupBoxProxyAuthentication.Location = new System.Drawing.Point(28, 60);
             this.groupBoxProxyAuthentication.Name = "groupBoxProxyAuthentication";
-            this.groupBoxProxyAuthentication.Size = new System.Drawing.Size(318, 101);
+            this.groupBoxProxyAuthentication.Size = new System.Drawing.Size(459, 162);
             this.groupBoxProxyAuthentication.TabIndex = 29;
             this.groupBoxProxyAuthentication.TabStop = false;
             this.groupBoxProxyAuthentication.Text = "Authentication";
             // 
+            // labelProxyAuthType
+            // 
+            this.labelProxyAuthType.AutoSize = true;
+            this.labelProxyAuthType.Location = new System.Drawing.Point(12, 113);
+            this.labelProxyAuthType.Name = "labelProxyAuthType";
+            this.labelProxyAuthType.Size = new System.Drawing.Size(55, 13);
+            this.labelProxyAuthType.TabIndex = 33;
+            this.labelProxyAuthType.Text = "Auth type";
+            // 
+            // checkBoxProxyUseDefaultCredentials
+            // 
+            this.checkBoxProxyUseDefaultCredentials.AutoSize = true;
+            this.checkBoxProxyUseDefaultCredentials.Location = new System.Drawing.Point(139, 132);
+            this.checkBoxProxyUseDefaultCredentials.Name = "checkBoxProxyUseDefaultCredentials";
+            this.checkBoxProxyUseDefaultCredentials.Size = new System.Drawing.Size(136, 17);
+            this.checkBoxProxyUseDefaultCredentials.TabIndex = 32;
+            this.checkBoxProxyUseDefaultCredentials.Text = "Use default credentials";
+            this.checkBoxProxyUseDefaultCredentials.UseVisualStyleBackColor = true;
+            // 
+            // comboBoxProxyAuthType
+            // 
+            this.comboBoxProxyAuthType.FormattingEnabled = true;
+            this.comboBoxProxyAuthType.Items.AddRange(new object[] {
+            "",
+            "Basic",
+            "Digest",
+            "NTLM",
+            "Negotiate",
+            "Kerberos"});
+            this.comboBoxProxyAuthType.Location = new System.Drawing.Point(138, 102);
+            this.comboBoxProxyAuthType.Name = "comboBoxProxyAuthType";
+            this.comboBoxProxyAuthType.Size = new System.Drawing.Size(192, 21);
+            this.comboBoxProxyAuthType.TabIndex = 31;
+            // 
             // textBoxProxyDomain
             // 
-            this.textBoxProxyDomain.Location = new System.Drawing.Point(106, 71);
+            this.textBoxProxyDomain.Location = new System.Drawing.Point(138, 68);
             this.textBoxProxyDomain.Name = "textBoxProxyDomain";
             this.textBoxProxyDomain.Size = new System.Drawing.Size(192, 21);
             this.textBoxProxyDomain.TabIndex = 30;
@@ -4713,7 +4773,7 @@
             // 
             // textBoxProxyUserName
             // 
-            this.textBoxProxyUserName.Location = new System.Drawing.Point(106, 19);
+            this.textBoxProxyUserName.Location = new System.Drawing.Point(138, 16);
             this.textBoxProxyUserName.Name = "textBoxProxyUserName";
             this.textBoxProxyUserName.Size = new System.Drawing.Size(192, 21);
             this.textBoxProxyUserName.TabIndex = 22;
@@ -4738,7 +4798,7 @@
             // 
             // textBoxProxyPassword
             // 
-            this.textBoxProxyPassword.Location = new System.Drawing.Point(106, 45);
+            this.textBoxProxyPassword.Location = new System.Drawing.Point(138, 42);
             this.textBoxProxyPassword.Name = "textBoxProxyPassword";
             this.textBoxProxyPassword.Size = new System.Drawing.Size(192, 21);
             this.textBoxProxyPassword.TabIndex = 24;
@@ -4746,9 +4806,9 @@
             // 
             // textBoxProxyAddress
             // 
-            this.textBoxProxyAddress.Location = new System.Drawing.Point(134, 34);
+            this.textBoxProxyAddress.Location = new System.Drawing.Point(166, 34);
             this.textBoxProxyAddress.Name = "textBoxProxyAddress";
-            this.textBoxProxyAddress.Size = new System.Drawing.Size(192, 21);
+            this.textBoxProxyAddress.Size = new System.Drawing.Size(321, 21);
             this.textBoxProxyAddress.TabIndex = 20;
             // 
             // labelProxyAddress
@@ -4846,21 +4906,48 @@
             this.toolTipDialogStylePreview.InitialDelay = 500;
             this.toolTipDialogStylePreview.ReshowDelay = 100;
             // 
+            // labelToggleSourceView
+            // 
+            this.labelToggleSourceView.AutoSize = true;
+            this.labelToggleSourceView.Location = new System.Drawing.Point(11, 253);
+            this.labelToggleSourceView.Name = "labelToggleSourceView";
+            this.labelToggleSourceView.Size = new System.Drawing.Size(99, 13);
+            this.labelToggleSourceView.TabIndex = 48;
+            this.labelToggleSourceView.Text = "Toggle source view";
+            // 
+            // pictureBoxToggleSourceView
+            // 
+            this.pictureBoxToggleSourceView.Location = new System.Drawing.Point(24, 272);
+            this.pictureBoxToggleSourceView.Name = "pictureBoxToggleSourceView";
+            this.pictureBoxToggleSourceView.Size = new System.Drawing.Size(32, 32);
+            this.pictureBoxToggleSourceView.TabIndex = 47;
+            this.pictureBoxToggleSourceView.TabStop = false;
+            // 
+            // checkBoxTBToggleSourceView
+            // 
+            this.checkBoxTBToggleSourceView.AutoSize = true;
+            this.checkBoxTBToggleSourceView.Location = new System.Drawing.Point(27, 312);
+            this.checkBoxTBToggleSourceView.Name = "checkBoxTBToggleSourceView";
+            this.checkBoxTBToggleSourceView.Size = new System.Drawing.Size(55, 17);
+            this.checkBoxTBToggleSourceView.TabIndex = 46;
+            this.checkBoxTBToggleSourceView.Text = "Visible";
+            this.checkBoxTBToggleSourceView.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1092, 574);
             this.Controls.Add(this.labelUpdateFileTypeAssociationsStatus);
-            this.Controls.Add(this.panelFont);
-            this.Controls.Add(this.panelGeneral);
-            this.Controls.Add(this.panelTools);
             this.Controls.Add(this.panelToolBar);
-            this.Controls.Add(this.panelFileTypeAssociations);
+            this.Controls.Add(this.panelGeneral);
+            this.Controls.Add(this.panelNetwork);
             this.Controls.Add(this.panelWaveform);
+            this.Controls.Add(this.panelFont);
+            this.Controls.Add(this.panelTools);
+            this.Controls.Add(this.panelFileTypeAssociations);
             this.Controls.Add(this.panelShortcuts);
             this.Controls.Add(this.panelSubtitleFormats);
-            this.Controls.Add(this.panelNetwork);
             this.Controls.Add(this.panelVideoPlayer);
             this.Controls.Add(this.panelSyntaxColoring);
             this.Controls.Add(this.listBoxSection);
@@ -4976,6 +5063,7 @@
             this.groupBoxProxyAuthentication.ResumeLayout(false);
             this.groupBoxProxyAuthentication.PerformLayout();
             this.panelFileTypeAssociations.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxToggleSourceView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -5358,5 +5446,12 @@
         private System.Windows.Forms.CheckBox checkBoxUseWordSplitList;
         private System.Windows.Forms.ToolTip toolTipDialogStylePreview;
         private System.Windows.Forms.Button buttonEditCustomContinuationStyle;
+        private System.Windows.Forms.Label labelProxyAuthType;
+        private System.Windows.Forms.CheckBox checkBoxProxyUseDefaultCredentials;
+        private System.Windows.Forms.ComboBox comboBoxProxyAuthType;
+        private System.Windows.Forms.CheckBox checkBoxFfmpegUseCenterChannel;
+        private System.Windows.Forms.Label labelToggleSourceView;
+        private System.Windows.Forms.PictureBox pictureBoxToggleSourceView;
+        private System.Windows.Forms.CheckBox checkBoxTBToggleSourceView;
     }
 }
