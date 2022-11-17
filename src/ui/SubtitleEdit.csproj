@@ -61,6 +61,15 @@
       <HintPath>DLLs\Interop.QuartzTypeLib.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NAudio.Core.2.1.0\lib\netstandard2.0\NAudio.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio.WinMM, Version=2.1.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NAudio.WinMM.2.1.0\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
+    </Reference>
     <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
     </Reference>
@@ -82,6 +91,12 @@
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Security.Principal.Windows.5.0.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -138,6 +153,12 @@
     <Compile Include="Forms\Assa\AssaProperties.Designer.cs">
       <DependentUpon>AssaProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Assa\ImageColorPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Assa\ImageColorPicker.Designer.cs">
+      <DependentUpon>ImageColorPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Assa\ResolutionResampler.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,17 +207,29 @@
     <Compile Include="Forms\AudioClipsGet.Designer.cs">
       <DependentUpon>AudioClipsGet.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AudioToTextSelectedLines.cs">
+    <Compile Include="Forms\AudioToText\WhisperAudioToTextSelectedLines.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AudioToTextSelectedLines.Designer.cs">
-      <DependentUpon>AudioToTextSelectedLines.cs</DependentUpon>
+    <Compile Include="Forms\AudioToText\WhisperAudioToTextSelectedLines.Designer.cs">
+      <DependentUpon>WhisperAudioToTextSelectedLines.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AudioToText.cs">
+    <Compile Include="Forms\AudioToText\WhisperModelDownload.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AudioToText.Designer.cs">
-      <DependentUpon>AudioToText.cs</DependentUpon>
+    <Compile Include="Forms\AudioToText\WhisperModelDownload.Designer.cs">
+      <DependentUpon>WhisperModelDownload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AudioToText\VoskAudioToTextSelectedLines.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AudioToText\VoskAudioToTextSelectedLines.Designer.cs">
+      <DependentUpon>VoskAudioToTextSelectedLines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AudioToText\VoskAudioToText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AudioToText\VoskAudioToText.Designer.cs">
+      <DependentUpon>VoskAudioToText.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\BatchConvertMkvEnding.cs">
       <SubType>Form</SubType>
@@ -258,11 +291,29 @@
     <Compile Include="Forms\AddWaveformBatch.Designer.cs">
       <DependentUpon>AddWaveformBatch.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AudioToTextModelDownload.cs">
+    <Compile Include="Forms\AudioToText\VoskModelDownload.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AudioToTextModelDownload.Designer.cs">
-      <DependentUpon>AudioToTextModelDownload.cs</DependentUpon>
+    <Compile Include="Forms\AudioToText\VoskModelDownload.Designer.cs">
+      <DependentUpon>VoskModelDownload.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ConvertColorsToDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ConvertColorsToDialog.Designer.cs">
+      <DependentUpon>ConvertColorsToDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AudioToText\WhisperAudioToText.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AudioToText\WhisperAudioToText.Designer.cs">
+      <DependentUpon>WhisperAudioToText.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AudioToText\VoskDictate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AudioToText\VoskDictate.Designer.cs">
+      <DependentUpon>VoskDictate.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\DownloadVosk.cs">
       <SubType>Form</SubType>
@@ -1417,11 +1468,15 @@
     <EmbeddedResource Include="Forms\Assa\AssaProperties.resx">
       <DependentUpon>AssaProperties.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Assa\ImageColorPicker.resx">
+      <DependentUpon>ImageColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Assa\ResolutionResampler.resx">
       <DependentUpon>ResolutionResampler.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Assa\AssSetBackground.resx">
       <DependentUpon>AssSetBackground.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Assa\SetPosition.resx">
       <DependentUpon>SetPosition.cs</DependentUpon>
@@ -1441,11 +1496,17 @@
     <EmbeddedResource Include="Forms\AudioClipsGet.resx">
       <DependentUpon>AudioClipsGet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AudioToTextSelectedLines.resx">
-      <DependentUpon>AudioToTextSelectedLines.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AudioToText\WhisperAudioToTextSelectedLines.resx">
+      <DependentUpon>WhisperAudioToTextSelectedLines.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AudioToText.resx">
-      <DependentUpon>AudioToText.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AudioToText\WhisperModelDownload.resx">
+      <DependentUpon>WhisperModelDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AudioToText\VoskAudioToTextSelectedLines.resx">
+      <DependentUpon>VoskAudioToTextSelectedLines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AudioToText\VoskAudioToText.resx">
+      <DependentUpon>VoskAudioToText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BatchConvertMkvEnding.resx">
       <DependentUpon>BatchConvertMkvEnding.cs</DependentUpon>
@@ -1477,8 +1538,17 @@
     <EmbeddedResource Include="Forms\AddWaveformBatch.resx">
       <DependentUpon>AddWaveformBatch.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AudioToTextModelDownload.resx">
-      <DependentUpon>AudioToTextModelDownload.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AudioToText\VoskModelDownload.resx">
+      <DependentUpon>VoskModelDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ConvertColorsToDialog.resx">
+      <DependentUpon>ConvertColorsToDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AudioToText\WhisperAudioToText.resx">
+      <DependentUpon>WhisperAudioToText.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AudioToText\VoskDictate.resx">
+      <DependentUpon>VoskDictate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DownloadVosk.resx">
       <DependentUpon>DownloadVosk.cs</DependentUpon>
@@ -2042,6 +2112,9 @@
     <None Include="Resources\webvtt.bmp" />
     <None Include="Resources\webvtt.png" />
     <None Include="Resources\itt.png" />
+    <None Include="Resources\ebu.png" />
+    <None Include="Resources\color-picker-small2.png" />
+    <None Include="Resources\rec32.png" />
     <Content Include="SE2.ico" />
     <None Include="Resources\SE.ico" />
     <None Include="Hunspellx64.dll">
