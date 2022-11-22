@@ -14,6 +14,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         public bool AutoClose { get; internal set; }
         public WhisperModel LastDownloadedModel { get; private set; }
         private readonly CancellationTokenSource _cancellationTokenSource;
+        private bool _error = false;
 
         public WhisperModelDownload()
         {
@@ -26,7 +27,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             UiUtil.FixLargeFonts(this, buttonDownload);
 
             var selectedIndex = 0;
-            foreach (var downloadModel in WhisperModel.Models.OrderBy(p => p.Name))
+            foreach (var downloadModel in WhisperHelper.GetWhisperModel().Models.OrderBy(p => p.Name))
             {
                 comboBoxModels.Items.Add(downloadModel);
                 if (selectedIndex == 0 && downloadModel.Name == "English")
@@ -57,7 +58,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
 
             LastDownloadedModel = (WhisperModel)comboBoxModels.Items[comboBoxModels.SelectedIndex];
-            var url = LastDownloadedModel.Url;
+            var url = _error ? LastDownloadedModel.UrlSecondary : LastDownloadedModel.UrlPrimary;
             try
             {
                 labelPleaseWait.Text = LanguageSettings.Current.General.PleaseWait;
@@ -95,7 +96,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 Cursor = Cursors.Default;
                 MessageBox.Show($"Unable to download {url}!" + Environment.NewLine + Environment.NewLine +
                                 exception.Message + Environment.NewLine + Environment.NewLine + exception.StackTrace);
-                DialogResult = DialogResult.Cancel;
+                _error = true;
             }
         }
 
@@ -112,13 +113,13 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 throw new Exception("No content downloaded - missing file or no internet connection!");
             }
 
-            var folder = WhisperModel.ModelFolder;
+            var folder = WhisperHelper.GetWhisperModel().ModelFolder;
             if (!Directory.Exists(folder))
             {
-                Directory.CreateDirectory(folder);
+                WhisperHelper.GetWhisperModel().CreateModelFolder();
             }
 
-            var fileName = Path.Combine(folder, LastDownloadedModel.Name + ".pt");
+            var fileName = Path.Combine(folder, LastDownloadedModel.Name + WhisperHelper.ModelExtension());
             using (var fileStream = File.Create(fileName))
             {
                 downloadStream.Seek(0, SeekOrigin.Begin);
@@ -135,7 +136,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
 
             buttonDownload.Enabled = true;
-            labelPleaseWait.Text = string.Format(LanguageSettings.Current.SettingsFfmpeg.XDownloadOk, "Vosk model");
+            labelPleaseWait.Text = string.Format(LanguageSettings.Current.SettingsFfmpeg.XDownloadOk, "Whisper model");
         }
     }
 }

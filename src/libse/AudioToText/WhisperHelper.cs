@@ -6,9 +6,24 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
 {
     public static class WhisperHelper
     {
+        public static IWhisperModel GetWhisperModel()
+        {
+            return Configuration.Settings.Tools.WhisperUseCpp ? (IWhisperModel)new WhisperCppModel() : new WhisperModel();
+        }
+
+        public static string ModelExtension()
+        {
+            return Configuration.Settings.Tools.WhisperUseCpp ? ".bin" : ".pt";
+        }
+
+        public static string GetWebSiteUrl()
+        {
+            return Configuration.Settings.Tools.WhisperUseCpp ? "https://github.com/ggerganov/whisper.cpp" : "https://github.com/openai/whisper";
+        }
+
         public static bool IsWhisperInstalled()
         {
-            if (Directory.Exists(WhisperModel.ModelFolder) || Configuration.IsRunningOnLinux)
+            if (Directory.Exists(GetWhisperModel().ModelFolder) || Configuration.IsRunningOnLinux)
             {
                 return true;
             }
@@ -18,87 +33,56 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
 
         public static string GetWhisperFolder()
         {
+            if (Configuration.IsRunningOnLinux && Configuration.Settings.Tools.WhisperUseCpp)
+            {
+                var path = Path.Combine(Configuration.DataDirectory, "Whisper");
+                return Directory.Exists(path) ? path : null;
+            }
+
             if (!Configuration.IsRunningOnWindows)
             {
                 return null;
             }
 
-            var location = Configuration.Settings.Tools.WhisperLocation;
-            if (!string.IsNullOrEmpty(location))
-            {
-                if (location.EndsWith("whisper.exe", StringComparison.InvariantCultureIgnoreCase) && File.Exists(location))
-                {
-                    return Path.GetDirectoryName(location);
-                }
-
-                if (Directory.Exists(location) && File.Exists(Path.Combine(location, "whisper.exe")))
-                {
-                    return location;
-                }
-            }
-
-            var pythonFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                "AppData",
-                "Local",
-                "Programs",
-                "Python");
-            if (Directory.Exists(pythonFolder))
-            {
-                foreach (var dir in Directory.GetDirectories(pythonFolder))
-                {
-                    var dirName = Path.GetFileName(dir);
-                    if (dirName != null && dirName.StartsWith("Python3"))
-                    {
-                        var whisperFullPath = Path.Combine(dir, "Scripts", "whisper.exe");
-                        if (File.Exists(whisperFullPath))
-                        {
-                            return Path.Combine(dir, "Scripts");
-                        }
-                    }
-                }
-            }
-
-            var programFilesFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-            foreach (var dir in Directory.GetDirectories(programFilesFolder))
-            {
-                var dirName = Path.GetFileName(dir);
-                if (dirName != null && dirName.StartsWith("Python"))
-                {
-                    var files = Directory.GetFiles(dir, "whisper.exe", SearchOption.AllDirectories);
-                    if (files.Length > 0)
-                    {
-                        return Path.GetDirectoryName(files[0]);
-                    }
-                }
-            }
-
-            var packagesFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                "AppData",
-                "Local",
-                "Packages");
-            if (Directory.Exists(packagesFolder))
-            {
-                var files = Directory.GetFiles(packagesFolder, "whisper.exe", SearchOption.AllDirectories);
-                if (files.Length > 0)
-                {
-                    return Path.GetDirectoryName(files[0]);
-                }
-            }
-
             try
             {
-                pythonFolder = "C:\\";
-                foreach (var dir in Directory.GetDirectories(pythonFolder))
+                var location = Configuration.Settings.Tools.WhisperLocation;
+                if (!string.IsNullOrEmpty(location))
                 {
-                    var dirName = Path.GetFileName(dir);
-                    if (dirName != null && dirName.StartsWith("Python"))
+                    if (location.EndsWith("whisper.exe", StringComparison.InvariantCultureIgnoreCase) && File.Exists(location))
                     {
-                        var files = Directory.GetFiles(dir, "whisper.exe", SearchOption.AllDirectories);
-                        if (files.Length > 0)
+                        return Path.GetDirectoryName(location);
+                    }
+
+                    if (Directory.Exists(location) && File.Exists(Path.Combine(location, "whisper.exe")))
+                    {
+                        return location;
+                    }
+                }
+
+                if (Configuration.Settings.Tools.WhisperUseCpp)
+                {
+                    var path = Path.Combine(Configuration.DataDirectory, "Whisper");
+                    return Directory.Exists(path) ? path : null;
+                }
+
+                var pythonFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    "AppData",
+                    "Local",
+                    "Programs",
+                    "Python");
+                if (Directory.Exists(pythonFolder))
+                {
+                    foreach (var dir in Directory.GetDirectories(pythonFolder))
+                    {
+                        var dirName = Path.GetFileName(dir);
+                        if (dirName != null && dirName.StartsWith("Python3"))
                         {
-                            return Path.GetDirectoryName(files[0]);
+                            var whisperFullPath = Path.Combine(dir, "Scripts", "whisper.exe");
+                            if (File.Exists(whisperFullPath))
+                            {
+                                return Path.Combine(dir, "Scripts");
+                            }
                         }
                     }
                 }
@@ -109,6 +93,51 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             }
 
             return null;
+        }
+
+        public static string GetWhisperPathAndFileName()
+        {
+            if (Configuration.IsRunningOnWindows)
+            {
+
+                if (Configuration.Settings.Tools.WhisperUseCpp)
+                {
+                    var f = Path.Combine(GetWhisperFolder(), "main.exe");
+                    if (File.Exists(f))
+                    {
+                        return f;
+                    }
+                }
+                else
+                {
+                    var f = Path.Combine(GetWhisperFolder(), "whisper.exe");
+                    if (File.Exists(f))
+                    {
+                        return f;
+                    }
+                }
+            }
+
+            if (Configuration.IsRunningOnLinux && Configuration.Settings.Tools.WhisperUseCpp)
+            {
+                var f = Path.Combine(GetWhisperFolder(), "main");
+                if (File.Exists(f))
+                {
+                    return f;
+                }
+            }
+
+            return "whisper";
+        }
+
+        public static string GetWhisperModelForCmdLine(string model)
+        {
+            if (Configuration.Settings.Tools.WhisperUseCpp)
+            {
+                return Path.Combine(GetWhisperModel().ModelFolder, model + ModelExtension());
+            }
+
+            return model;
         }
     }
 }

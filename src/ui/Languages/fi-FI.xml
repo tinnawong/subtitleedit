@@ -2,7 +2,7 @@
 <Language Name="suomi">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.8</Version>
+    <Version>3.6.10</Version>
     <TranslatedBy>Suomentanut vm, päivittänyt Teijo S. [07-12-2021]</TranslatedBy>
     <CultureName>fi-FI</CultureName>
     <HelpFile />
@@ -2154,8 +2154,7 @@ Mikäli tiedostoa on muokattu Subtitle Edit:llä, varmuuskopio voi olla käytett
     <AutoBackupEveryFifteenMinutes>15 minuutin välein</AutoBackupEveryFifteenMinutes>
     <AutoBackupDeleteAfter>Poista kun kulunut</AutoBackupDeleteAfter>
     <AutoBackupDeleteAfterOneMonth>kuukausi</AutoBackupDeleteAfterOneMonth>
-    <AutoBackupDeleteAfterThreeMonths>kaksi kuukautta</AutoBackupDeleteAfterThreeMonths>
-    <AutoBackupDeleteAfterSixMonths>puoli vuotta</AutoBackupDeleteAfterSixMonths>
+    <AutoBackupDeleteAfterXMonths>{0} kuukautta</AutoBackupDeleteAfterXMonths>
     <CheckForUpdates>Tarkista päivitykset</CheckForUpdates>
     <AutoSave>Automaattitallennus</AutoSave>
     <AllowEditOfOriginalSubtitle>Salli alkuperäisen tekstityksen muokkaaminen</AllowEditOfOriginalSubtitle>

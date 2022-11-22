@@ -236,8 +236,8 @@ namespace Nikse.SubtitleEdit.Core.BluRaySup
 
         private static List<Color> GetBitmapPalette(NikseBitmap bitmap)
         {
-            var pal = new List<Color>();
-            var lookup = new HashSet<int>();
+            var pal = new List<Color>(250);
+            var lookup = new HashSet<int>(250);
 
             // first we try with exact colors
             for (var y = 0; y < bitmap.Height; y++)
@@ -378,7 +378,7 @@ namespace Nikse.SubtitleEdit.Core.BluRaySup
             bm.SetTransparentTo(Color.FromArgb(0, 0, 0, 0));
             var colorPalette = GetBitmapPalette(bm);
             var pal = new BluRaySupPalette(colorPalette.Count);
-            for (int i = 0; i < colorPalette.Count; i++)
+            for (var i = 0; i < colorPalette.Count; i++)
             {
                 pal.SetColor(i, colorPalette[i]);
             }

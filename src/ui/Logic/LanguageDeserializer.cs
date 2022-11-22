@@ -523,6 +523,9 @@ namespace Nikse.SubtitleEdit.Logic
                 case "AudioToText/KeepPartialTranscription":
                     language.AudioToText.KeepPartialTranscription = reader.Value;
                     break;
+                case "AudioToText/TranslateToEnglish":
+                    language.AudioToText.TranslateToEnglish = reader.Value;
+                    break;
                 case "AssaAttachments/Title":
                     language.AssaAttachments.Title = reader.Value;
                     break;
@@ -5887,6 +5890,9 @@ namespace Nikse.SubtitleEdit.Logic
                 case "Settings/SetAssaResolution":
                     language.Settings.SetAssaResolution = reader.Value;
                     break;
+                case "Settings/SetAssaBgBox":
+                    language.Settings.SetAssaBgBox = reader.Value;
+                    break;
                 case "Settings/TakeAutoBackup":
                     language.Settings.TakeAutoBackup = reader.Value;
                     break;
@@ -5953,11 +5959,8 @@ namespace Nikse.SubtitleEdit.Logic
                 case "Settings/AutoBackupDeleteAfterOneMonth":
                     language.Settings.AutoBackupDeleteAfterOneMonth = reader.Value;
                     break;
-                case "Settings/AutoBackupDeleteAfterThreeMonths":
-                    language.Settings.AutoBackupDeleteAfterThreeMonths = reader.Value;
-                    break;
-                case "Settings/AutoBackupDeleteAfterSixMonths":
-                    language.Settings.AutoBackupDeleteAfterSixMonths = reader.Value;
+                case "Settings/AutoBackupDeleteAfterXMonths":
+                    language.Settings.AutoBackupDeleteAfterXMonths = reader.Value;
                     break;
                 case "Settings/CheckForUpdates":
                     language.Settings.CheckForUpdates = reader.Value;

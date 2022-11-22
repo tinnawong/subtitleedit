@@ -1,5 +1,47 @@
 ﻿Subtitle Edit Changelog
 
+3.6.10 (21th November 2022)
+* FIXED:
+   * Fix missing dll file
+
+
+3.6.9 (20th November 2022)
+* NEW:
+   * Support mp4 webvtt in cmd line convert
+   * Add Whisper translate to English option - thx David 
+   * Add some support for frame rate in Spruce format
+   * Allow minimize for audio-to-text windows
+   * Set x11 as default mpv vo (video output) on Linux
+   * Add shortcut for ASSA bacground box - thx Fuad
+* IMPROVED:
+   * Update French translation - the Peirre
+   * Update Italian translation - thx bovirus
+   * Update Chinese translation - thx nkh0472
+   * Update Bulgarian translation - thx Калин
+   * Update Korean translation - thx domddol
+   * Update Polish translation - thx admas
+   * Update Greek translation - thx PMitsakis
+   * Optimize bd sup saving in batch/cmd-line convert
+   * Add a few English words/names to dictionaries
+   * Add more settings for "Delete auto-backup after" - thx pahtashow 
+   * Add more options for actor in custom text export - thx Francois
+   * Improve video auto load (allow eg. "_nl") - thx Hilde
+   * Improve fix italic tags - thx uckthis
+   * Whisper.cpp is default for Windows + in-program download
+   * Improve ELR format support - thx Alex
+* FIXED:
+   * Fix VLC video player not working
+   * Fix for ASSA timestamps (rounding output) - thx Jerome
+   * Fix for mp4 subtitle timestamps - thx DrReddP/Ding-adong
+   * Fix crash trying to locate Whisper
+   * Fix setting path to ffmpeg when using Whisper
+   * Fix OCR window resize on Linux - thx Mangoes
+   * Fix bookmark showing on first spell check line - thx OmrSi
+   * Fix format XIF writing - thx Per
+   * Fix for WebVTT with line# hours - thx garion84
+   * Fix " 's" / Dutch in "Fix missing spaces"" - thx Jean-Pierre
+
+
 3.6.8 (24th October 2022)
 * NEW:
    * Option to use only "front center" audio channel - thx shanedk

@@ -1,4 +1,6 @@
-﻿namespace Nikse.SubtitleEdit.Logic
+﻿using System.Drawing;
+
+namespace Nikse.SubtitleEdit.Logic
 {
     // The language classes are built for easy xml-serialization (makes save/load code simple)
     public static class LanguageStructure
@@ -196,6 +198,7 @@
             public string UsePostProcessing { get; set; }
             public string BatchMode { get; set; }
             public string KeepPartialTranscription { get; set; }
+            public string TranslateToEnglish { get; set; }
         }
 
         public class AssaAttachments
@@ -2360,6 +2363,7 @@
             public string ApplyAssaOverrideTags { get; set; }
             public string SetAssaPosition { get; set; }
             public string SetAssaResolution { get; set; }
+            public string SetAssaBgBox { get; set; }
             public string TakeAutoBackup { get; set; }
             public string ShowLineBreaksAs { get; set; }
             public string SaveAsFileNameFrom { get; set; }
@@ -2383,8 +2387,7 @@
             public string AutoBackupEveryFifteenMinutes { get; set; }
             public string AutoBackupDeleteAfter { get; set; }
             public string AutoBackupDeleteAfterOneMonth { get; set; }
-            public string AutoBackupDeleteAfterThreeMonths { get; set; }
-            public string AutoBackupDeleteAfterSixMonths { get; set; }
+            public string AutoBackupDeleteAfterXMonths { get; set; }
             public string CheckForUpdates { get; set; }
             public string AutoSave { get; set; }
             public string AllowEditOfOriginalSubtitle { get; set; }
