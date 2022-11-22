@@ -410,6 +410,8 @@ namespace Nikse.SubtitleEdit.Core.Common
         public bool GenVideoNonAssaFixRtlUnicode { get; set; }
         public bool VoskPostProcessing { get; set; }
         public string VoskModel { get; set; }
+        public bool WhisperUseCpp { get; set; }
+        public bool WhisperDeleteTempFiles { get; set; }
         public string WhisperModel { get; set; }
         public string WhisperLanguageCode { get; set; }
         public string WhisperLocation { get; set; }
@@ -613,7 +615,9 @@ namespace Nikse.SubtitleEdit.Core.Common
             GenVideoFontSizePercentOfHeight = 0.078f;
             GenVideoNonAssaBox = true;
             VoskPostProcessing = true;
-            WhisperExtraSettings = "--fp16 False";
+            WhisperUseCpp = Configuration.IsRunningOnWindows;
+            WhisperDeleteTempFiles = true;
+            WhisperExtraSettings = "";
             WhisperLanguageCode = "en";
             AudioToTextLineMaxChars = 86;
             AudioToTextLineMaxCharsJp = 32;
@@ -1538,7 +1542,7 @@ $HorzAlign          =   Center
             DirectShowDoubleLoad = true;
             VlcWaveTranscodeSettings = "acodec=s16l"; // "acodec=s16l,channels=1,ab=64,samplerate=8000";
             MpvVideoOutputWindows = string.Empty; // could also be e.g. "gpu" or "directshow"
-            MpvVideoOutputLinux = string.Empty; // could also be e.g. "x11";
+            MpvVideoOutputLinux = "x11"; // could also be e.g. "x11";
             MpvHandlesPreviewText = true;
             MpvPreviewTextPrimaryColor = Color.White;
             MpvPreviewTextOutlineWidth = 1;
@@ -2223,6 +2227,7 @@ $HorzAlign          =   Center
         public string GeneralApplyAssaOverrideTags { get; set; }
         public string GeneralSetAssaPosition { get; set; }
         public string GeneralSetAssaResolution { get; set; }
+        public string GeneralSetAssaBgBox { get; set; }
         public string GeneralColorPicker { get; set; }
         public string GeneralTakeAutoBackup { get; set; }
         public string GeneralHelp { get; set; }
@@ -6128,6 +6133,18 @@ $HorzAlign          =   Center
                 settings.Tools.VoskModel = subNode.InnerText;
             }
 
+            subNode = node.SelectSingleNode("WhisperUseCpp");
+            if (subNode != null)
+            {
+                settings.Tools.WhisperUseCpp = Convert.ToBoolean(subNode.InnerText, CultureInfo.InvariantCulture);
+            }
+
+            subNode = node.SelectSingleNode("WhisperDeleteTempFiles");
+            if (subNode != null)
+            {
+                settings.Tools.WhisperDeleteTempFiles = Convert.ToBoolean(subNode.InnerText, CultureInfo.InvariantCulture);
+            }
+
             subNode = node.SelectSingleNode("WhisperModel");
             if (subNode != null)
             {
@@ -9079,6 +9096,12 @@ $HorzAlign          =   Center
                     shortcuts.GeneralSetAssaResolution = subNode.InnerText;
                 }
 
+                subNode = node.SelectSingleNode("GeneralSetAssaBgBox");
+                if (subNode != null)
+                {
+                    shortcuts.GeneralSetAssaBgBox = subNode.InnerText;
+                }
+
                 subNode = node.SelectSingleNode("GeneralColorPicker");
                 if (subNode != null)
                 {
@@ -10391,6 +10414,8 @@ $HorzAlign          =   Center
                 textWriter.WriteElementString("GenVideoNonAssaFixRtlUnicode", settings.Tools.GenVideoNonAssaFixRtlUnicode.ToString(CultureInfo.InvariantCulture));
                 textWriter.WriteElementString("VoskPostProcessing", settings.Tools.VoskPostProcessing.ToString(CultureInfo.InvariantCulture));
                 textWriter.WriteElementString("VoskModel", settings.Tools.VoskModel);
+                textWriter.WriteElementString("WhisperUseCpp", settings.Tools.WhisperUseCpp.ToString(CultureInfo.InvariantCulture));
+                textWriter.WriteElementString("WhisperDeleteTempFiles", settings.Tools.WhisperDeleteTempFiles.ToString(CultureInfo.InvariantCulture));
                 textWriter.WriteElementString("WhisperModel", settings.Tools.WhisperModel);
                 textWriter.WriteElementString("WhisperLocation", settings.Tools.WhisperLocation);
                 textWriter.WriteElementString("WhisperExtraSettings", settings.Tools.WhisperExtraSettings);
@@ -11043,6 +11068,7 @@ $HorzAlign          =   Center
             textWriter.WriteElementString("GeneralApplyAssaOverrideTags", shortcuts.GeneralApplyAssaOverrideTags);
             textWriter.WriteElementString("GeneralSetAssaPosition", shortcuts.GeneralSetAssaPosition);
             textWriter.WriteElementString("GeneralSetAssaResolution", shortcuts.GeneralSetAssaResolution);
+            textWriter.WriteElementString("GeneralSetAssaBgBox", shortcuts.GeneralSetAssaBgBox);
             textWriter.WriteElementString("GeneralColorPicker", shortcuts.GeneralColorPicker);
             textWriter.WriteElementString("GeneralTakeAutoBackup", shortcuts.GeneralTakeAutoBackup);
             textWriter.WriteElementString("MainListViewRemoveTimeCodes", shortcuts.MainListViewRemoveTimeCodes);

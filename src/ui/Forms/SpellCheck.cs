@@ -340,14 +340,7 @@ namespace Nikse.SubtitleEdit.Forms
 
             _wordSplitListLanguage = languageName;
             var threeLetterIsoLanguageName = Iso639Dash2LanguageCode.GetThreeLetterCodeFromTwoLetterCode(twoLetterLanguageName);
-            var fileName = $"{Configuration.DictionariesDirectory}{threeLetterIsoLanguageName}_WordSplitList.txt";
-            if (!File.Exists(fileName))
-            {
-                return Array.Empty<string>();
-            }
-
-            var wordList = File.ReadAllText(fileName).SplitToLines().Where(p => p.Trim().Length > 0).ToList();
-            return wordList.ToArray();
+            return StringWithoutSpaceSplitToWords.LoadWordSplitList(threeLetterIsoLanguageName, null);
         }
 
         private void FillSpellCheckDictionaries(string languageName)
@@ -780,16 +773,6 @@ namespace Nikse.SubtitleEdit.Forms
                         _currentIndex++;
                         _currentParagraph = _subtitle.Paragraphs[_currentIndex];
 
-                        panelBookmark.Hide();
-                        if (_currentParagraph.Bookmark != null)
-                        {
-                            pictureBoxBookmark.Show();
-                        }
-                        else
-                        {
-                            pictureBoxBookmark.Hide();
-                        }
-
                         SetWords(_currentParagraph.Text);
                         _wordsIndex = 0;
                         if (_words.Count == 0)
@@ -808,6 +791,16 @@ namespace Nikse.SubtitleEdit.Forms
                         DialogResult = DialogResult.OK;
                         return;
                     }
+                }
+
+                panelBookmark.Hide();
+                if (_currentParagraph.Bookmark != null)
+                {
+                    pictureBoxBookmark.Show();
+                }
+                else
+                {
+                    pictureBoxBookmark.Hide();
                 }
 
                 int minLength = 2;

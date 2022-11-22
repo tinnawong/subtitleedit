@@ -5046,6 +5046,11 @@ namespace Nikse.SubtitleEdit.Forms
                     SetEncoding(Encoding.Unicode);
                     currentEncoding = Encoding.Unicode;
                 }
+                else if (formatType == typeof(Xif))
+                {
+                    SetEncoding(Encoding.Unicode);
+                    currentEncoding = Encoding.Unicode;
+                }
 
                 if (Configuration.Settings.General.ShowFormatRequiresUtf8Warning && !currentEncoding.Equals(Encoding.UTF8) &&
                     (formatType == typeof(DCinemaInterop) || formatType == typeof(DCinemaSmpte2007) ||
@@ -8796,7 +8801,7 @@ namespace Nikse.SubtitleEdit.Forms
                 {
                     audio.DropDownItems.Insert(0, audioToTextWhisper);
                 }
-                
+
                 audio.DropDownItems.Insert(0, audioToTextVosk);
 
                 audioClip.Click += (senderNew, eNew) =>
@@ -8820,6 +8825,7 @@ namespace Nikse.SubtitleEdit.Forms
                     var audioClips = GetAudioClips();
                     using (var form = new WhisperAudioToTextSelectedLines(audioClips, this))
                     {
+                        CheckWhisperCpp();
                         if (form.ShowDialog(this) == DialogResult.OK)
                         {
                             MakeHistoryForUndo(string.Format(_language.BeforeX, string.Format(LanguageSettings.Current.Main.Menu.Video.VideoAudioToTextX, "Whisper")));
@@ -22236,11 +22242,11 @@ namespace Nikse.SubtitleEdit.Forms
             mediaPlayer.Pause();
         }
 
-        private void TryToFindAndOpenVideoFile(string fileNameNoExtension)
+        private bool TryToFindAndOpenVideoFile(string fileNameNoExtension)
         {
             if (string.IsNullOrEmpty(fileNameNoExtension))
             {
-                return;
+                return false;
             }
 
             string movieFileName = null;
@@ -22268,15 +22274,24 @@ namespace Nikse.SubtitleEdit.Forms
             if (movieFileName != null)
             {
                 OpenVideo(movieFileName);
+                return true;
             }
             else
             {
                 var index = fileNameNoExtension.LastIndexOf('.');
-                if (index > 0)
+                if (index > 0 && TryToFindAndOpenVideoFile(fileNameNoExtension.Remove(index)))
                 {
-                    TryToFindAndOpenVideoFile(fileNameNoExtension.Remove(index));
+                    return true;
+                }
+
+                index = fileNameNoExtension.LastIndexOf('_');
+                if (index > 0 && TryToFindAndOpenVideoFile(fileNameNoExtension.Remove(index)))
+                {
+                    return true;
                 }
             }
+
+            return false;
         }
 
         internal void GoBackSeconds(double seconds)
@@ -22881,6 +22896,11 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void MainResize()
         {
+            if (_loading)
+            {
+                return;
+            }
+
             var tbText = textBoxListViewText;
             var tbOriginal = textBoxListViewTextOriginal;
             int firstLeft = 236;
@@ -24990,6 +25010,7 @@ namespace Nikse.SubtitleEdit.Forms
             setPositionToolStripMenuItem.ShortcutKeys = UiUtil.GetKeys(Configuration.Settings.Shortcuts.GeneralSetAssaPosition);
             colorPickerToolStripMenuItem.ShortcutKeys = UiUtil.GetKeys(Configuration.Settings.Shortcuts.GeneralColorPicker);
             toolStripMenuItemAutoBreakLines.ShortcutKeys = UiUtil.GetKeys(Configuration.Settings.Shortcuts.MainAutoBalanceSelectedLines);
+            generateBackgroundBoxToolStripMenuItem.ShortcutKeys = UiUtil.GetKeys(Configuration.Settings.Shortcuts.GeneralSetAssaBgBox);
 
             audioVisualizer.InsertAtVideoPositionShortcut = UiUtil.GetKeys(Configuration.Settings.Shortcuts.MainWaveformInsertAtCurrentPosition);
             audioVisualizer.Move100MsLeft = UiUtil.GetKeys(Configuration.Settings.Shortcuts.Waveform100MsLeft);
@@ -34345,6 +34366,11 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void generateBackgroundBoxToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (GetCurrentSubtitleFormat().Name != AdvancedSubStationAlpha.NameOfFormat)
+            {
+                return;
+            }
+
             if (string.IsNullOrEmpty(_videoFileName))
             {
                 MessageBox.Show(LanguageSettings.Current.General.NoVideoLoaded);
@@ -34383,7 +34409,7 @@ namespace Nikse.SubtitleEdit.Forms
             if (Configuration.IsRunningOnWindows)
             {
                 var ffmpegFullPath = Path.Combine(Configuration.DataDirectory, "ffmpeg", "ffmpeg.exe");
-                if (Configuration.IsRunningOnWindows && string.IsNullOrWhiteSpace(Configuration.Settings.General.FFmpegLocation) && File.Exists(ffmpegFullPath))
+                if (string.IsNullOrWhiteSpace(Configuration.Settings.General.FFmpegLocation) && File.Exists(ffmpegFullPath))
                 {
                     Configuration.Settings.General.FFmpegLocation = ffmpegFullPath;
                 }
@@ -34402,6 +34428,37 @@ namespace Nikse.SubtitleEdit.Forms
                     {
                         Configuration.Settings.General.FFmpegLocation = form.FFmpegPath;
                         Configuration.Settings.General.UseFFmpegForWaveExtraction = true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private bool RequireWhisperCpp()
+        {
+            if (!Configuration.IsRunningOnWindows)
+            {
+                return true;
+            }
+
+            var fullPath = Path.Combine(Configuration.DataDirectory, "Whisper", "main.exe");
+            if (!File.Exists(fullPath))
+            {
+                if (MessageBox.Show(string.Format(LanguageSettings.Current.Settings.DownloadX, "whisper.cpp"), "Subtitle Edit", MessageBoxButtons.YesNoCancel) != DialogResult.Yes)
+                {
+                    return false;
+                }
+
+                using (var form = new WhisperDownload())
+                {
+                    if (form.ShowDialog(this) == DialogResult.OK && File.Exists(fullPath))
+                    {
+                        return true;
                     }
                     else
                     {
@@ -34620,6 +34677,14 @@ namespace Nikse.SubtitleEdit.Forms
                 return;
             }
 
+            if (Configuration.Settings.Tools.WhisperUseCpp)
+            {
+                if (!RequireWhisperCpp())
+                {
+                    return;
+                }
+            }
+
             if (!WhisperHelper.IsWhisperInstalled())
             {
                 if (MessageBox.Show(LanguageSettings.Current.AudioToText.WhisperNotFound,
@@ -34628,9 +34693,9 @@ namespace Nikse.SubtitleEdit.Forms
                 {
                     UiUtil.ShowHelp("#audio_to_text");
                 }
-
-                return;
             }
+
+            CheckWhisperCpp();
 
             var oldVideoFileName = _videoFileName;
             var isVlc = mediaPlayer.VideoPlayer is LibVlcDynamic;
@@ -34665,6 +34730,26 @@ namespace Nikse.SubtitleEdit.Forms
                 SubtitleListview1.Fill(_subtitle, _subtitleOriginal);
                 _subtitleListViewIndex = -1;
                 SubtitleListview1.SelectIndexAndEnsureVisibleFaster(idx);
+            }
+        }
+
+        private static void CheckWhisperCpp()
+        {
+            if (!Configuration.Settings.Tools.WhisperUseCpp)
+            {
+                return;
+            }
+
+            if (Configuration.IsRunningOnLinux && WhisperHelper.GetWhisperPathAndFileName() == "whisper")
+            {
+                SeLogger.Error("UseWhisperCpp changed to 'False' as 'Whisper/whisper' or '/Whisper/main' was not found!");
+                Configuration.Settings.Tools.WhisperUseCpp = false;
+            }
+
+            if (Configuration.IsRunningOnWindows && WhisperHelper.GetWhisperPathAndFileName() == "whisper")
+            {
+                SeLogger.Error("UseWhisperCpp changed to 'False' as 'Whisper/whisper.exe' or '/Whisper/main.exe' was not found!");
+                Configuration.Settings.Tools.WhisperUseCpp = false;
             }
         }
 

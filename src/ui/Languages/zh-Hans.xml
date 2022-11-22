@@ -2,7 +2,7 @@
 <Language Name="中文(简体)">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.8</Version>
+    <Version>3.6.10</Version>
     <TranslatedBy>翻译: FeiXJ | Leon Cheung | larsenlouis | VK | nkh0472</TranslatedBy>
     <CultureName>zh-Hans</CultureName>
     <HelpFile>https://www.nikse.dk/SubtitleEdit/Help</HelpFile>
@@ -193,6 +193,7 @@ Command line: {1} {2}
     <UsePostProcessing>使用后处理（行合并、修复大小写、标点符号等）</UsePostProcessing>
     <BatchMode>批处理模式</BatchMode>
     <KeepPartialTranscription>保留部分转录</KeepPartialTranscription>
+    <TranslateToEnglish>翻译为英语</TranslateToEnglish>
   </AudioToText>
   <AssaAttachments>
     <Title>Advanced Sub Station Alpha字幕附件</Title>
@@ -2168,6 +2169,7 @@ Command line: {1} {2}
     <ApplyAssaOverrideTags>应用ASSA覆盖标签到所选</ApplyAssaOverrideTags>
     <SetAssaPosition>设置/获取ASSA位置</SetAssaPosition>
     <SetAssaResolution>设置ASSA分辨率(PlayResX/PlayResY)</SetAssaResolution>
+    <SetAssaBgBox>设置ASSA背景框</SetAssaBgBox>
     <TakeAutoBackup>立即生成自动备份</TakeAutoBackup>
     <ShowLineBreaksAs>列表视图中的换行符显示为</ShowLineBreaksAs>
     <SaveAsFileNameFrom>“另存为...”使用的文件名来源</SaveAsFileNameFrom>
@@ -2190,8 +2192,7 @@ Command line: {1} {2}
     <AutoBackupEveryFifteenMinutes>每隔 15 分钟</AutoBackupEveryFifteenMinutes>
     <AutoBackupDeleteAfter>超过此时间后删除</AutoBackupDeleteAfter>
     <AutoBackupDeleteAfterOneMonth>1个月</AutoBackupDeleteAfterOneMonth>
-    <AutoBackupDeleteAfterThreeMonths>3个月</AutoBackupDeleteAfterThreeMonths>
-    <AutoBackupDeleteAfterSixMonths>6个月</AutoBackupDeleteAfterSixMonths>
+    <AutoBackupDeleteAfterXMonths>{0}个月</AutoBackupDeleteAfterXMonths>
     <CheckForUpdates>检查更新</CheckForUpdates>
     <AutoSave>自动保存</AutoSave>
     <AllowEditOfOriginalSubtitle>允许编辑原始字幕</AllowEditOfOriginalSubtitle>

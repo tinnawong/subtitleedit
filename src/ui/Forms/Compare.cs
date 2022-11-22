@@ -744,7 +744,7 @@ namespace Nikse.SubtitleEdit.Forms
             }
 
             // from start
-            var minLength = Math.Min(richTextBox1.Text.Length, richTextBox2.Text.Length);
+            var minLength = Math.Min(richTextBox1.Text.RemoveChar('\r').Length, richTextBox2.Text.RemoveChar('\r').Length);
             var startCharactersOk = 0;
             for (var i = 0; i < minLength; i++)
             {
@@ -1319,7 +1319,7 @@ namespace Nikse.SubtitleEdit.Forms
                 sb.AppendLine("    <title>Subtitle Edit compare</title>");
                 sb.AppendLine("  </head>");
                 sb.AppendLine("  <style>");
-                sb.AppendLine("    td { font-family: Tahoma, Verdana, 'Noto Sans', Ubuntu }");
+                sb.AppendLine("    td { font-family: Tahoma, Verdana, 'Noto Sans', Ubuntu; padding: 8px; }");
                 sb.AppendLine("  </style>");
                 sb.AppendLine("  <body>");
                 sb.AppendLine("    <h1>Subtitle Edit compare</h1>");
@@ -1337,18 +1337,18 @@ namespace Nikse.SubtitleEdit.Forms
                     {
                         sb.AppendLine("    <tr>");
                         sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView1.Items[i].SubItems[0]) + ">" + GetHtmlText(itemLeft, itemLeft.Number.ToString()) + "</td>");
-                        sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView1.Items[i].SubItems[1]) + ">" + GetHtmlText(itemLeft, itemLeft.StartTime.ToShortDisplayString()) + "</td>");
+                        sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView1.Items[i].SubItems[1]) + ">" + GetHtmlText(itemLeft, itemLeft.StartTime.ToDisplayString()) + "</td>");
                         if (subtitleListView1.ColumnIndexEnd >= 0)
                         {
-                            sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView1.Items[i].SubItems[subtitleListView1.ColumnIndexEnd]) + ">" + GetHtmlText(itemLeft, itemLeft.EndTime.ToShortDisplayString()) + "</td>");
+                            sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView1.Items[i].SubItems[subtitleListView1.ColumnIndexEnd]) + ">" + GetHtmlText(itemLeft, itemLeft.EndTime.ToDisplayString()) + "</td>");
                         }
                         sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView1.Items[i].SubItems[subtitleListView1.ColumnIndexText]) + ">" + GetHtmlText(itemLeft, itemLeft.Text) + "</td>");
                         sb.AppendLine("      <td>&nbsp;</td>");
                         sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView2.Items[i].SubItems[0]) + ">" + GetHtmlText(itemRight, itemRight.Number.ToString()) + "</td>");
-                        sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView2.Items[i].SubItems[1]) + ">" + GetHtmlText(itemRight, itemRight.StartTime.ToShortDisplayString()) + "</td>");
+                        sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView2.Items[i].SubItems[1]) + ">" + GetHtmlText(itemRight, itemRight.StartTime.ToDisplayString()) + "</td>");
                         if (subtitleListView2.ColumnIndexEnd >= 0)
                         {
-                            sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView2.Items[i].SubItems[subtitleListView1.ColumnIndexEnd]) + ">" + GetHtmlText(itemRight, itemRight.EndTime.ToShortDisplayString()) + "</td>");
+                            sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView2.Items[i].SubItems[subtitleListView1.ColumnIndexEnd]) + ">" + GetHtmlText(itemRight, itemRight.EndTime.ToDisplayString()) + "</td>");
                         }
                         sb.AppendLine("      <td" + GetHtmlBackgroundColor(subtitleListView2.Items[i].SubItems[subtitleListView1.ColumnIndexText]) + ">" + GetHtmlText(itemRight, itemRight.Text) + "</td>");
                         sb.AppendLine("    </tr>");
@@ -1366,7 +1366,14 @@ namespace Nikse.SubtitleEdit.Forms
 
         private static string GetFileName(string fileName)
         {
-            return string.IsNullOrEmpty(fileName) ? string.Empty : Path.GetFileName(fileName);
+            try
+            {
+                return string.IsNullOrEmpty(fileName) ? string.Empty : Path.GetFileName(fileName);
+            }
+            catch
+            {
+                return fileName;
+            }
         }
 
         private static string GetHtmlText(Paragraph p, string text)

@@ -3803,7 +3803,17 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             if (string.IsNullOrEmpty(line))
             {
                 matches = new List<CompareMatch>();
-                var list = NikseBitmapImageSplitter.SplitBitmapToLettersNew(nbmpInput, _numericUpDownPixelsIsSpace, checkBoxRightToLeftNOCR.Checked, Configuration.Settings.VobSubOcr.TopToBottom, GetMinLineHeight(), _autoLineHeight);
+                var listTemp = NikseBitmapImageSplitter.SplitBitmapToLettersNew(nbmpInput, _numericUpDownPixelsIsSpace, checkBoxRightToLeftNOCR.Checked, Configuration.Settings.VobSubOcr.TopToBottom, GetMinLineHeight(), _autoLineHeight);
+                var list = new List<ImageSplitterItem>();
+                foreach (var imageSplitterItem in listTemp)
+                {
+                    if (imageSplitterItem.NikseBitmap != null && imageSplitterItem.NikseBitmap.Width == 1 && imageSplitterItem.NikseBitmap.Height == 1)
+                    {
+                        continue;
+                    }
+                    
+                    list.Add(imageSplitterItem);
+                }
                 UpdateLineHeights(list);
 
                 int index = 0;
@@ -7718,8 +7728,8 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             groupBoxSubtitleImage.Height = originalTopHeight + adjustPercent;
             groupBoxOcrMethod.Height = groupBoxSubtitleImage.Height;
 
-            splitContainerBottom.Top = groupBoxSubtitleImage.Top + groupBoxSubtitleImage.Height + 5;
-            splitContainerBottom.Height = progressBar1.Top - (splitContainerBottom.Top + 20);
+            splitContainerBottom.Top = groupBoxSubtitleImage.Bottom + 5;
+            splitContainerBottom.Height = buttonOK.Top - (splitContainerBottom.Top + 20);
             checkBoxUseTimeCodesFromIdx.Left = groupBoxOCRControls.Left + 1;
             checkBoxShowOnlyForced.Left = checkBoxUseTimeCodesFromIdx.Left;
 
@@ -7729,6 +7739,11 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             // Hack for resize after minimize...
             groupBoxSubtitleImage.Width = Width - groupBoxSubtitleImage.Left - 25;
             splitContainerBottom.Width = Width - 40;
+        }
+
+        private void VobSubOcr_ResizeEnd(object sender, EventArgs e)
+        {
+            VobSubOcr_Resize(null, null);
         }
 
         private void importTextWithMatchingTimeCodesToolStripMenuItem_Click(object sender, EventArgs e)
