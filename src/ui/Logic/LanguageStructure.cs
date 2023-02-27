@@ -14,6 +14,8 @@ namespace Nikse.SubtitleEdit.Logic
             public string HelpFile { get; set; }
             public string Ok { get; set; }
             public string Cancel { get; set; }
+            public string Yes { get; set; }
+            public string No { get; set; }
             public string Apply { get; set; }
             public string ApplyTo { get; set; }
             public string None { get; set; }
@@ -196,6 +198,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string TranscribingXOfY { get; set; }
             public string XFilesSavedToVideoSourceFolder { get; set; }
             public string UsePostProcessing { get; set; }
+            public string AutoAdjustTimings { get; set; }
             public string BatchMode { get; set; }
             public string KeepPartialTranscription { get; set; }
             public string TranslateToEnglish { get; set; }
@@ -858,7 +861,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string FixCommonOcrErrors { get; set; }
             public string CommonOcrErrorsFixed { get; set; }
             public string RemoveSpaceBetweenNumber { get; set; }
-            public string FixDialogsOnOneLine { get; set; }
+            public string BreakDialogsOnOneLine { get; set; }
             public string RemoveDialogFirstInNonDialogs { get; set; }
             public string NormalizeStrings { get; set; }
             public string FixTurkishAnsi { get; set; }
@@ -946,6 +949,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string XGeneratedWithBurnedInSubsInX { get; set; }
             public string TimeRemainingMinutes { get; set; }
             public string TimeRemainingSeconds { get; set; }
+            public string TimeRemainingAFewSeconds { get; set; }
             public string TimeRemainingMinutesAndSeconds { get; set; }
             public string TargetFileName { get; set; }
             public string TargetFileSize { get; set; }
@@ -1531,6 +1535,11 @@ namespace Nikse.SubtitleEdit.Logic
             public string UsingOnlyFrontCenterChannel { get; set; }
             public string BeforeConvertingColorsToDialog { get; set; }
             public string ConvertedColorsToDialog { get; set; }
+            public string PleaseInstallVideoPlayer { get; set; }
+            public string UnableToPlayMediaFile { get; set; }
+            public string SubtitleEditNeedsVideoPlayer { get; set; }
+            public string UseRecommendMpv { get; set; }
+            public string DownloadAndUseMpv { get; set; }
 
             public class MainMenu
             {
@@ -1548,6 +1557,7 @@ namespace Nikse.SubtitleEdit.Logic
                     public string OpenOriginal { get; set; }
                     public string SaveOriginal { get; set; }
                     public string CloseOriginal { get; set; }
+                    public string CloseTranslation { get; set; }
                     public string OpenContainingFolder { get; set; }
                     public string Compare { get; set; }
                     public string Statistics { get; set; }
@@ -2386,6 +2396,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string AutoBackupEveryFiveMinutes { get; set; }
             public string AutoBackupEveryFifteenMinutes { get; set; }
             public string AutoBackupDeleteAfter { get; set; }
+            public string TranslationAutoSuffix { get; set; }
             public string AutoBackupDeleteAfterOneMonth { get; set; }
             public string AutoBackupDeleteAfterXMonths { get; set; }
             public string CheckForUpdates { get; set; }
@@ -2524,6 +2535,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string MusicSymbolsReplace { get; set; }
             public string FixCommonOcrErrorsUseHardcodedRules { get; set; }
             public string UseWordSplitList { get; set; }
+            public string AvoidPropercase { get; set; }
             public string FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime { get; set; }
             public string FixCommonErrorsSkipStepOne { get; set; }
 
@@ -2695,7 +2707,8 @@ namespace Nikse.SubtitleEdit.Logic
             public string VideoResetSpeedAndZoom { get; set; }
             public string MainToggleVideoControls { get; set; }
             public string VideoToggleContrast { get; set; }
-            public string VideoAudioToText { get; set; }
+            public string AudioToTextX { get; set; }
+            public string AudioToTextSelectedLinesX { get; set; }
             public string VideoToggleBrightness { get; set; }
             public string CustomSearch1 { get; set; }
             public string CustomSearch2 { get; set; }
@@ -3080,6 +3093,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string CopyXOfY { get; set; }
             public string New { get; set; }
             public string Remove { get; set; }
+            public string ReplaceWith { get; set; }
             public string RemoveAll { get; set; }
             public string ImportStyleFromFile { get; set; }
             public string ExportStyleToFile { get; set; }
@@ -3228,7 +3242,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string TransportStreamGrayscale { get; set; }
             public string TransportStreamGetColor { get; set; }
             public string PromptForUnknownWords { get; set; }
-            public string TryToGuessUnkownWords { get; set; }
+            public string TryToGuessUnknownWords { get; set; }
             public string AutoBreakSubtitleIfMoreThanTwoLines { get; set; }
             public string AllFixes { get; set; }
             public string GuessesUsed { get; set; }
@@ -3272,6 +3286,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string CloudVisionApi { get; set; }
             public string ApiKey { get; set; }
             public string SendOriginalImages { get; set; }
+            public string SeHandlesTextMerge { get; set; }
         }
 
         public class VobSubOcrCharacter

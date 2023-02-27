@@ -148,7 +148,11 @@ namespace Nikse.SubtitleEdit.Forms
                 labelInfo.Text = LanguageSettings.Current.GenerateVideoWithBurnedInSubs.InfoAssaOn;
             }
 
-            var initialFont = Configuration.Settings.Tools.ExportBluRayFontName;
+            var initialFont = Configuration.Settings.Tools.GenVideoFontName;
+            if (string.IsNullOrEmpty(initialFont))
+            {
+                initialFont = Configuration.Settings.Tools.ExportBluRayFontName;
+            }
             if (string.IsNullOrEmpty(initialFont))
             {
                 initialFont = UiUtil.GetDefaultFont().Name;
@@ -167,6 +171,12 @@ namespace Nikse.SubtitleEdit.Forms
             if (comboBoxSubtitleFont.SelectedIndex < 0 && comboBoxSubtitleFont.Items.Count > 0)
             {
                 comboBoxSubtitleFont.SelectedIndex = 0;
+            }
+
+            if (Configuration.Settings.Tools.GenVideoFontSize >= numericUpDownFontSize.Minimum &&
+                Configuration.Settings.Tools.GenVideoFontSize >= numericUpDownFontSize.Minimum)
+            {
+                numericUpDownFontSize.Value = Configuration.Settings.Tools.GenVideoFontSize;
             }
 
             checkBoxRightToLeft.Checked = Configuration.Settings.General.RightToLeftMode && LanguageAutoDetect.CouldBeRightToLeftLanguage(_assaSubtitle);
@@ -239,7 +249,7 @@ namespace Nikse.SubtitleEdit.Forms
                 }
                 catch
                 {
-                    MessageBox.Show($"Cannot overwrite video file { VideoFileName} - probably in use!");
+                    MessageBox.Show($"Cannot overwrite video file {VideoFileName} - probably in use!");
                     buttonGenerate.Enabled = true;
                     numericUpDownFontSize.Enabled = oldFontSizeEnabled;
                     return;
@@ -319,7 +329,7 @@ namespace Nikse.SubtitleEdit.Forms
         private static string GetAssaFileName(string inputVideoFileName)
         {
             var path = Path.GetDirectoryName(inputVideoFileName);
-            for (var i =0; i< int.MaxValue; i++)
+            for (var i = 0; i < int.MaxValue; i++)
             {
                 var guidLetters = Guid.NewGuid().ToString().RemoveChar('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-');
                 var fileName = Path.Combine(path, $"{guidLetters}.ass");
@@ -395,6 +405,7 @@ namespace Nikse.SubtitleEdit.Forms
             while (!process.HasExited)
             {
                 System.Threading.Thread.Sleep(100);
+                WindowsHelper.PreventStandBy();
                 Application.DoEvents();
                 if (_abort)
                 {
@@ -419,6 +430,7 @@ namespace Nikse.SubtitleEdit.Forms
             while (!process.HasExited)
             {
                 System.Threading.Thread.Sleep(100);
+                WindowsHelper.PreventStandBy();
                 Application.DoEvents();
                 if (_abort)
                 {
@@ -500,6 +512,7 @@ namespace Nikse.SubtitleEdit.Forms
             while (!process.HasExited)
             {
                 Application.DoEvents();
+                WindowsHelper.PreventStandBy();
                 System.Threading.Thread.Sleep(100);
                 if (_abort)
                 {
@@ -548,24 +561,8 @@ namespace Nikse.SubtitleEdit.Forms
             var durationMs = (DateTime.UtcNow.Ticks - _startTicks) / 10_000;
             var msPerFrame = (float)durationMs / _processedFrames;
             var estimatedTotalMs = msPerFrame * _totalFrames;
-            var estimatedLeft = ToProgressTime(estimatedTotalMs - durationMs);
+            var estimatedLeft = ProgressHelper.ToProgressTime(estimatedTotalMs - durationMs);
             labelProgress.Text = estimatedLeft;
-        }
-
-        public static string ToProgressTime(float estimatedTotalMs)
-        {
-            var timeCode = new TimeCode(estimatedTotalMs);
-            if (timeCode.TotalSeconds < 60)
-            {
-                return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingSeconds, (int)Math.Round(timeCode.TotalSeconds));
-            }
-
-            if (timeCode.TotalSeconds / 60 > 5)
-            {
-                return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingMinutes, (int)Math.Round(timeCode.TotalSeconds / 60));
-            }
-
-            return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingMinutesAndSeconds, timeCode.Minutes + timeCode.Hours * 60, timeCode.Seconds);
         }
 
         private void numericUpDownWidth_ValueChanged(object sender, EventArgs e)
@@ -664,6 +661,8 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void GenerateVideoWithHardSubs_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Configuration.Settings.Tools.GenVideoFontName = comboBoxSubtitleFont.Text;
+            Configuration.Settings.Tools.GenVideoFontSize = (int)numericUpDownFontSize.Value;
             Configuration.Settings.Tools.GenVideoEncoding = comboBoxVideoEncoding.Text;
             Configuration.Settings.Tools.GenVideoPreset = comboBoxPreset.Text;
             Configuration.Settings.Tools.GenVideoCrf = comboBoxCrf.Text;
@@ -981,6 +980,7 @@ namespace Nikse.SubtitleEdit.Forms
                 while (!process.HasExited)
                 {
                     System.Threading.Thread.Sleep(100);
+                    WindowsHelper.PreventStandBy();
                     Application.DoEvents();
                 }
 
@@ -1044,7 +1044,7 @@ namespace Nikse.SubtitleEdit.Forms
                     labelPreviewPleaseWait.Visible = false;
                     return;
                 }
-                
+
 
                 try
                 {
@@ -1142,7 +1142,7 @@ namespace Nikse.SubtitleEdit.Forms
                 var audioBitRate = int.Parse(comboBoxAudioBitRate.Text.RemoveChar('k').TrimEnd());
                 bitRate -= audioBitRate;
             }
-            
+
             return bitRate;
         }
 
@@ -1159,7 +1159,7 @@ namespace Nikse.SubtitleEdit.Forms
             var audioBitRate = 0;
             if (separateAudio)
             {
-                 audioBitRate = int.Parse(comboBoxAudioBitRate.Text.RemoveChar('k').TrimEnd());
+                audioBitRate = int.Parse(comboBoxAudioBitRate.Text.RemoveChar('k').TrimEnd());
             }
 
             labelVideoBitrate.Left = numericUpDownTargetFileSize.Right + 5;

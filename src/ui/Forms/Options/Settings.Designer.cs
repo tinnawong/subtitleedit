@@ -34,6 +34,9 @@
             this.listBoxSection = new System.Windows.Forms.ListBox();
             this.panelGeneral = new System.Windows.Forms.Panel();
             this.groupBoxMiscellaneous = new System.Windows.Forms.GroupBox();
+            this.buttonTranslationAutoSuffix = new System.Windows.Forms.Button();
+            this.comboBoxTranslationAutoSuffix = new System.Windows.Forms.ComboBox();
+            this.labelTranslationAutoSuffix = new System.Windows.Forms.Label();
             this.labelSplitBehavior = new System.Windows.Forms.Label();
             this.comboBoxSplitBehavior = new System.Windows.Forms.ComboBox();
             this.checkBoxAutoSave = new System.Windows.Forms.CheckBox();
@@ -411,6 +414,7 @@
             this.labelUpdateFileTypeAssociationsStatus = new System.Windows.Forms.Label();
             this.imageListFileTypeAssociations = new System.Windows.Forms.ImageList(this.components);
             this.toolTipDialogStylePreview = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxUseWordSplitListAvoidPropercase = new System.Windows.Forms.CheckBox();
             this.panelGeneral.SuspendLayout();
             this.groupBoxMiscellaneous.SuspendLayout();
             this.groupBoxGeneralRules.SuspendLayout();
@@ -545,6 +549,9 @@
             this.groupBoxMiscellaneous.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxMiscellaneous.Controls.Add(this.buttonTranslationAutoSuffix);
+            this.groupBoxMiscellaneous.Controls.Add(this.comboBoxTranslationAutoSuffix);
+            this.groupBoxMiscellaneous.Controls.Add(this.labelTranslationAutoSuffix);
             this.groupBoxMiscellaneous.Controls.Add(this.labelSplitBehavior);
             this.groupBoxMiscellaneous.Controls.Add(this.comboBoxSplitBehavior);
             this.groupBoxMiscellaneous.Controls.Add(this.checkBoxAutoSave);
@@ -586,6 +593,39 @@
             this.groupBoxMiscellaneous.TabStop = false;
             this.groupBoxMiscellaneous.Text = "Miscellaneous";
             // 
+            // buttonTranslationAutoSuffix
+            // 
+            this.buttonTranslationAutoSuffix.Location = new System.Drawing.Point(692, 420);
+            this.buttonTranslationAutoSuffix.Name = "buttonTranslationAutoSuffix";
+            this.buttonTranslationAutoSuffix.Size = new System.Drawing.Size(28, 23);
+            this.buttonTranslationAutoSuffix.TabIndex = 66;
+            this.buttonTranslationAutoSuffix.Text = "...";
+            this.buttonTranslationAutoSuffix.UseVisualStyleBackColor = true;
+            this.buttonTranslationAutoSuffix.Click += new System.EventHandler(this.buttonTranslationAutoSuffix_Click);
+            // 
+            // comboBoxTranslationAutoSuffix
+            // 
+            this.comboBoxTranslationAutoSuffix.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxTranslationAutoSuffix.FormattingEnabled = true;
+            this.comboBoxTranslationAutoSuffix.Items.AddRange(new object[] {
+            "None",
+            "Every minute",
+            "Every 5 minutes",
+            "Every 15 minutes"});
+            this.comboBoxTranslationAutoSuffix.Location = new System.Drawing.Point(562, 421);
+            this.comboBoxTranslationAutoSuffix.Name = "comboBoxTranslationAutoSuffix";
+            this.comboBoxTranslationAutoSuffix.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxTranslationAutoSuffix.TabIndex = 33;
+            // 
+            // labelTranslationAutoSuffix
+            // 
+            this.labelTranslationAutoSuffix.AutoSize = true;
+            this.labelTranslationAutoSuffix.Location = new System.Drawing.Point(438, 424);
+            this.labelTranslationAutoSuffix.Name = "labelTranslationAutoSuffix";
+            this.labelTranslationAutoSuffix.Size = new System.Drawing.Size(115, 13);
+            this.labelTranslationAutoSuffix.TabIndex = 32;
+            this.labelTranslationAutoSuffix.Text = "Translation auto suffix";
+            // 
             // labelSplitBehavior
             // 
             this.labelSplitBehavior.AutoSize = true;
@@ -607,7 +647,7 @@
             // checkBoxAutoSave
             // 
             this.checkBoxAutoSave.AutoSize = true;
-            this.checkBoxAutoSave.Location = new System.Drawing.Point(441, 453);
+            this.checkBoxAutoSave.Location = new System.Drawing.Point(443, 491);
             this.checkBoxAutoSave.Name = "checkBoxAutoSave";
             this.checkBoxAutoSave.Size = new System.Drawing.Size(75, 17);
             this.checkBoxAutoSave.TabIndex = 30;
@@ -1065,7 +1105,7 @@
             "1 month",
             "3 months",
             "6 months"});
-            this.comboBoxAutoBackupDeleteAfter.Location = new System.Drawing.Point(707, 421);
+            this.comboBoxAutoBackupDeleteAfter.Location = new System.Drawing.Point(709, 459);
             this.comboBoxAutoBackupDeleteAfter.Name = "comboBoxAutoBackupDeleteAfter";
             this.comboBoxAutoBackupDeleteAfter.Size = new System.Drawing.Size(88, 21);
             this.comboBoxAutoBackupDeleteAfter.TabIndex = 29;
@@ -1073,7 +1113,7 @@
             // labelAutoBackupDeleteAfter
             // 
             this.labelAutoBackupDeleteAfter.AutoSize = true;
-            this.labelAutoBackupDeleteAfter.Location = new System.Drawing.Point(639, 424);
+            this.labelAutoBackupDeleteAfter.Location = new System.Drawing.Point(641, 462);
             this.labelAutoBackupDeleteAfter.Name = "labelAutoBackupDeleteAfter";
             this.labelAutoBackupDeleteAfter.Size = new System.Drawing.Size(65, 13);
             this.labelAutoBackupDeleteAfter.TabIndex = 28;
@@ -1082,7 +1122,7 @@
             // checkBoxCheckForUpdates
             // 
             this.checkBoxCheckForUpdates.AutoSize = true;
-            this.checkBoxCheckForUpdates.Location = new System.Drawing.Point(522, 453);
+            this.checkBoxCheckForUpdates.Location = new System.Drawing.Point(524, 491);
             this.checkBoxCheckForUpdates.Name = "checkBoxCheckForUpdates";
             this.checkBoxCheckForUpdates.Size = new System.Drawing.Size(114, 17);
             this.checkBoxCheckForUpdates.TabIndex = 31;
@@ -1203,7 +1243,7 @@
             "Every minute",
             "Every 5 minutes",
             "Every 15 minutes"});
-            this.comboBoxAutoBackup.Location = new System.Drawing.Point(512, 421);
+            this.comboBoxAutoBackup.Location = new System.Drawing.Point(514, 459);
             this.comboBoxAutoBackup.Name = "comboBoxAutoBackup";
             this.comboBoxAutoBackup.Size = new System.Drawing.Size(121, 21);
             this.comboBoxAutoBackup.TabIndex = 27;
@@ -1211,7 +1251,7 @@
             // labelAutoBackup
             // 
             this.labelAutoBackup.AutoSize = true;
-            this.labelAutoBackup.Location = new System.Drawing.Point(438, 424);
+            this.labelAutoBackup.Location = new System.Drawing.Point(440, 462);
             this.labelAutoBackup.Name = "labelAutoBackup";
             this.labelAutoBackup.Size = new System.Drawing.Size(68, 13);
             this.labelAutoBackup.TabIndex = 26;
@@ -3493,9 +3533,9 @@
             this.groupBoxSpellCheck.Controls.Add(this.checkBoxTreatINQuoteAsING);
             this.groupBoxSpellCheck.Controls.Add(this.checkBoxSpellCheckOneLetterWords);
             this.groupBoxSpellCheck.Controls.Add(this.checkBoxSpellCheckAutoChangeNames);
-            this.groupBoxSpellCheck.Location = new System.Drawing.Point(0, 381);
+            this.groupBoxSpellCheck.Location = new System.Drawing.Point(0, 389);
             this.groupBoxSpellCheck.Name = "groupBoxSpellCheck";
-            this.groupBoxSpellCheck.Size = new System.Drawing.Size(408, 139);
+            this.groupBoxSpellCheck.Size = new System.Drawing.Size(408, 131);
             this.groupBoxSpellCheck.TabIndex = 4;
             this.groupBoxSpellCheck.TabStop = false;
             this.groupBoxSpellCheck.Text = "Spell check";
@@ -3552,6 +3592,7 @@
             // 
             // groupBoxFixCommonErrors
             // 
+            this.groupBoxFixCommonErrors.Controls.Add(this.checkBoxUseWordSplitListAvoidPropercase);
             this.groupBoxFixCommonErrors.Controls.Add(this.checkBoxUseWordSplitList);
             this.groupBoxFixCommonErrors.Controls.Add(this.buttonFixContinuationStyleSettings);
             this.groupBoxFixCommonErrors.Controls.Add(this.checkBoxFceSkipStep1);
@@ -3563,7 +3604,7 @@
             this.groupBoxFixCommonErrors.Controls.Add(this.labelToolsMusicSymbol);
             this.groupBoxFixCommonErrors.Location = new System.Drawing.Point(0, 123);
             this.groupBoxFixCommonErrors.Name = "groupBoxFixCommonErrors";
-            this.groupBoxFixCommonErrors.Size = new System.Drawing.Size(408, 252);
+            this.groupBoxFixCommonErrors.Size = new System.Drawing.Size(408, 260);
             this.groupBoxFixCommonErrors.TabIndex = 3;
             this.groupBoxFixCommonErrors.TabStop = false;
             this.groupBoxFixCommonErrors.Text = "Fix common errors";
@@ -3571,7 +3612,7 @@
             // checkBoxUseWordSplitList
             // 
             this.checkBoxUseWordSplitList.AutoSize = true;
-            this.checkBoxUseWordSplitList.Location = new System.Drawing.Point(15, 137);
+            this.checkBoxUseWordSplitList.Location = new System.Drawing.Point(15, 125);
             this.checkBoxUseWordSplitList.Name = "checkBoxUseWordSplitList";
             this.checkBoxUseWordSplitList.Size = new System.Drawing.Size(231, 17);
             this.checkBoxUseWordSplitList.TabIndex = 3;
@@ -3580,7 +3621,7 @@
             // 
             // buttonFixContinuationStyleSettings
             // 
-            this.buttonFixContinuationStyleSettings.Location = new System.Drawing.Point(16, 212);
+            this.buttonFixContinuationStyleSettings.Location = new System.Drawing.Point(16, 220);
             this.buttonFixContinuationStyleSettings.Name = "buttonFixContinuationStyleSettings";
             this.buttonFixContinuationStyleSettings.Size = new System.Drawing.Size(271, 23);
             this.buttonFixContinuationStyleSettings.TabIndex = 6;
@@ -3591,7 +3632,7 @@
             // checkBoxFceSkipStep1
             // 
             this.checkBoxFceSkipStep1.AutoSize = true;
-            this.checkBoxFceSkipStep1.Location = new System.Drawing.Point(15, 185);
+            this.checkBoxFceSkipStep1.Location = new System.Drawing.Point(15, 193);
             this.checkBoxFceSkipStep1.Name = "checkBoxFceSkipStep1";
             this.checkBoxFceSkipStep1.Size = new System.Drawing.Size(176, 17);
             this.checkBoxFceSkipStep1.TabIndex = 5;
@@ -3601,7 +3642,7 @@
             // checkBoxFixShortDisplayTimesAllowMoveStartTime
             // 
             this.checkBoxFixShortDisplayTimesAllowMoveStartTime.AutoSize = true;
-            this.checkBoxFixShortDisplayTimesAllowMoveStartTime.Location = new System.Drawing.Point(15, 162);
+            this.checkBoxFixShortDisplayTimesAllowMoveStartTime.Location = new System.Drawing.Point(15, 170);
             this.checkBoxFixShortDisplayTimesAllowMoveStartTime.Name = "checkBoxFixShortDisplayTimesAllowMoveStartTime";
             this.checkBoxFixShortDisplayTimesAllowMoveStartTime.Size = new System.Drawing.Size(252, 17);
             this.checkBoxFixShortDisplayTimesAllowMoveStartTime.TabIndex = 4;
@@ -3611,7 +3652,7 @@
             // checkBoxFixCommonOcrErrorsUsingHardcodedRules
             // 
             this.checkBoxFixCommonOcrErrorsUsingHardcodedRules.AutoSize = true;
-            this.checkBoxFixCommonOcrErrorsUsingHardcodedRules.Location = new System.Drawing.Point(15, 115);
+            this.checkBoxFixCommonOcrErrorsUsingHardcodedRules.Location = new System.Drawing.Point(15, 103);
             this.checkBoxFixCommonOcrErrorsUsingHardcodedRules.Name = "checkBoxFixCommonOcrErrorsUsingHardcodedRules";
             this.checkBoxFixCommonOcrErrorsUsingHardcodedRules.Size = new System.Drawing.Size(268, 17);
             this.checkBoxFixCommonOcrErrorsUsingHardcodedRules.TabIndex = 2;
@@ -3940,7 +3981,6 @@
             this.checkBoxTBRemoveTextForHi.TabIndex = 18;
             this.checkBoxTBRemoveTextForHi.Text = "Visible";
             this.checkBoxTBRemoveTextForHi.UseVisualStyleBackColor = true;
-            this.checkBoxTBRemoveTextForHi.CheckedChanged += new System.EventHandler(this.checkBoxTBRemoveTextForHi_CheckedChanged);
             // 
             // labelTBFixCommonErrors
             // 
@@ -4933,18 +4973,28 @@
             this.toolTipDialogStylePreview.InitialDelay = 500;
             this.toolTipDialogStylePreview.ReshowDelay = 100;
             // 
+            // checkBoxUseWordSplitListAvoidPropercase
+            // 
+            this.checkBoxUseWordSplitListAvoidPropercase.AutoSize = true;
+            this.checkBoxUseWordSplitListAvoidPropercase.Location = new System.Drawing.Point(34, 146);
+            this.checkBoxUseWordSplitListAvoidPropercase.Name = "checkBoxUseWordSplitListAvoidPropercase";
+            this.checkBoxUseWordSplitListAvoidPropercase.Size = new System.Drawing.Size(102, 17);
+            this.checkBoxUseWordSplitListAvoidPropercase.TabIndex = 35;
+            this.checkBoxUseWordSplitListAvoidPropercase.Text = "Skip propercase";
+            this.checkBoxUseWordSplitListAvoidPropercase.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1092, 574);
             this.Controls.Add(this.labelUpdateFileTypeAssociationsStatus);
+            this.Controls.Add(this.panelTools);
+            this.Controls.Add(this.panelGeneral);
             this.Controls.Add(this.panelFont);
             this.Controls.Add(this.panelToolBar);
-            this.Controls.Add(this.panelGeneral);
             this.Controls.Add(this.panelNetwork);
             this.Controls.Add(this.panelWaveform);
-            this.Controls.Add(this.panelTools);
             this.Controls.Add(this.panelFileTypeAssociations);
             this.Controls.Add(this.panelShortcuts);
             this.Controls.Add(this.panelSubtitleFormats);
@@ -5453,5 +5503,9 @@
         private System.Windows.Forms.Label labelToggleSourceView;
         private System.Windows.Forms.PictureBox pictureBoxToggleSourceView;
         private System.Windows.Forms.CheckBox checkBoxTBToggleSourceView;
+        private System.Windows.Forms.Button buttonTranslationAutoSuffix;
+        private System.Windows.Forms.ComboBox comboBoxTranslationAutoSuffix;
+        private System.Windows.Forms.Label labelTranslationAutoSuffix;
+        private System.Windows.Forms.CheckBox checkBoxUseWordSplitListAvoidPropercase;
     }
 }

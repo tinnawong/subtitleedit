@@ -2,7 +2,7 @@
 <Language Name="română">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Tradus de Mircea Voiculescu</TranslatedBy>
     <CultureName>ro-RO</CultureName>
     <HelpFile />
@@ -677,7 +677,7 @@ Notă: Verifică spațiul liber al discului.</WaveFileMalformed>
     <FixCommonOcrErrors>Repară erorile uzuale OCR (cu lista relocării OCR)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Erori OCR uzuale reparate (fișier OCR utilizat): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Elimină spațiile dintre numere</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Repară dialogurile dintr-o linie</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Repară dialogurile dintr-o linie</BreakDialogsOnOneLine>
     <NormalizeStrings>Normalizează rândurile</NormalizeStrings>
     <FixTurkishAnsi>Repară literele turcești (islandeze) ANSI cu Unicode</FixTurkishAnsi>
     <FixDanishLetterI>Repară litera daneză 'i'</FixDanishLetterI>
@@ -2407,7 +2407,7 @@ Continui?</RestoreDefaultSettingsMsg>
     <TotalAdjustmentX>Ajustare totală: {0}</TotalAdjustmentX>
     <AllLines>&amp;Toate liniile</AllLines>
     <SelectedLinesOnly>&amp;Doar liniile selectate</SelectedLinesOnly>
-    <SelectedLinesAndForward>Linia/liniile selectată/selectate și &amp;dinainte</SelectedLinesAndForward>
+    <SelectedLinesAndForward>Linia/liniile selectată/selectate și &amp;următoarele</SelectedLinesAndForward>
   </ShowEarlierLater>
   <ShowHistory>
     <Title>Istoric (ptr. anulări)</Title>
@@ -2741,7 +2741,7 @@ Reții schimbările?</KeepChangesMessage>
     <TransportStreamGrayscale>Nuanțe de gri</TransportStreamGrayscale>
     <TransportStreamGetColor>Folosește culoare (pot avea loc scindări de linii)</TransportStreamGetColor>
     <PromptForUnknownWords>Avizează cuvintele necunoscute</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Estimează cuvintele necunoscute</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Estimează cuvintele necunoscute</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>Auto-întrerupere paragraf cu mai mult de două linii</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Toate reparările</AllFixes>
     <GuessesUsed>Estimări folosite</GuessesUsed>

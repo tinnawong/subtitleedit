@@ -2,7 +2,7 @@
 <Language Name="Português (Brasil)">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Tradução (Português do Brasil): igorruckert</TranslatedBy>
     <CultureName>pt-BR</CultureName>
     <HelpFile />
@@ -745,7 +745,7 @@ Nota: Verifique o espaço livre em disco.</WaveFileMalformed>
     <FixCommonOcrErrors>Corrigir erros comuns de OCR (usando lista de substituição OCR)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Erros comuns de OCR corrigidos (arquivo OcrReplaceList usado): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Eliminar espaços entre números</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Corrigir diálogos em uma linha</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Corrigir diálogos em uma linha</BreakDialogsOnOneLine>
     <RemoveDialogFirstInNonDialogs>Remover traço na primeira linha para não diálogos</RemoveDialogFirstInNonDialogs>
     <NormalizeStrings>Normalizar sequências</NormalizeStrings>
     <FixTurkishAnsi>Corrigir letras Turcas ANSI (Islandês) para Unicode</FixTurkishAnsi>
@@ -2943,7 +2943,7 @@ Manter as alterações?</KeepChangesMessage>
     <TransportStreamGrayscale>Escala de cinza</TransportStreamGrayscale>
     <TransportStreamGetColor>Usar cor (pode ocorrer divisão de linhas)</TransportStreamGetColor>
     <PromptForUnknownWords>Confirmar palavras desconhecidas</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Tentar adivinhar palavras desconhecidas</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Tentar adivinhar palavras desconhecidas</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>Quebra de parágrafo automático se forem mais que duas linhas</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Corrigir tudo</AllFixes>
     <GuessesUsed>Suposições usadas</GuessesUsed>

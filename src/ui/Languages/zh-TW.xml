@@ -2,7 +2,7 @@
 <Language Name="中文(繁體)">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>譯者: BAWAN | 風逸蘭 | Jackie Lam | SiderealArt</TranslatedBy>
     <CultureName>zh-TW</CultureName>
     <HelpFile />
@@ -718,7 +718,7 @@ Note: Do check free disk space.</WaveFileMalformed>
     <FixCommonOcrErrors>修復一般 OCR 錯誤 (使用 OCR 取代清單)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>已修復一般 OCR 錯誤 (使用 OcrReplaceList 檔案): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>移除數字之間的空格</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Fix dialogs on one line</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Fix dialogs on one line</BreakDialogsOnOneLine>
     <RemoveDialogFirstInNonDialogs>Remove start dash in first line for non dialogs</RemoveDialogFirstInNonDialogs>
     <NormalizeStrings>Normalize strings</NormalizeStrings>
     <FixTurkishAnsi>修復土耳其語 ANSI (冰島) 字母為 Unicode</FixTurkishAnsi>
@@ -2839,7 +2839,7 @@ Continue?</RestoreDefaultSettingsMsg>
     <TransportStreamGrayscale>灰階</TransportStreamGrayscale>
     <TransportStreamGetColor>使用色彩 (將分割某些行)</TransportStreamGetColor>
     <PromptForUnknownWords>提示未知單字</PromptForUnknownWords>
-    <TryToGuessUnkownWords>嘗試猜測未知單字</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>嘗試猜測未知單字</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>如果超過兩行自動換行</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>全部修復</AllFixes>
     <GuessesUsed>已用猜測</GuessesUsed>

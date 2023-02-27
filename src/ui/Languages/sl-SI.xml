@@ -2,7 +2,7 @@
 <Language Name="slovenski">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Prevedel: Hawk</TranslatedBy>
     <CultureName>sl-SI</CultureName>
     <HelpFile />
@@ -456,7 +456,7 @@ E-pošta: hdhawkhd@gmail.com</AboutText1>
     <FixCommonOcrErrors>Popravi pogoste OCR napake (uporabi OCR listo)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Pogoste OCR napake popravljene (uporabljena OCR lista): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Odstrani presledke med številkami</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Popravi dialoge v eni vrstici</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Popravi dialoge v eni vrstici</BreakDialogsOnOneLine>
     <RemoveSpaceBetweenNumbersFixed>Odstrani presledke med številkami, odstranjeno: {0}</RemoveSpaceBetweenNumbersFixed>
     <FixTurkishAnsi>Popravi turški ANSI (Islandsko) črke v Unicode</FixTurkishAnsi>
     <FixDanishLetterI>Popravi dansko črko 'i'</FixDanishLetterI>
@@ -1988,7 +1988,7 @@ Ohranim spremembe?</KeepChangesMessage>
     <TransportStreamGrayscale>Sivinsko</TransportStreamGrayscale>
     <TransportStreamGetColor>Uporabi barvo (vključilo bo tudi razdeljevanje vrstic)</TransportStreamGetColor>
     <PromptForUnknownWords>Opomni na neznane besede</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Poskusi uganiti neznane besede</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Poskusi uganiti neznane besede</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>Samodejno lomi odstavek, če je več kot dve vrstici</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Vsi popravki</AllFixes>
     <GuessesUsed>Uporabljena ugibanja</GuessesUsed>

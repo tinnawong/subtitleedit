@@ -95,7 +95,7 @@
       <HintPath>..\..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
@@ -179,6 +179,12 @@
     </Compile>
     <Compile Include="Forms\Assa\ImageColorPicker.Designer.cs">
       <DependentUpon>ImageColorPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Assa\ReplaceStyleWith.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Assa\ReplaceStyleWith.Designer.cs">
+      <DependentUpon>ReplaceStyleWith.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Assa\ResolutionResampler.cs">
       <SubType>Form</SubType>
@@ -359,6 +365,12 @@
     </Compile>
     <Compile Include="Forms\Options\SettingsCustomContinuationStyle.Designer.cs">
       <DependentUpon>SettingsCustomContinuationStyle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Options\TranslationAutoSuffix.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Options\TranslationAutoSuffix.Designer.cs">
+      <DependentUpon>TranslationAutoSuffix.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Options\WordLists.cs">
       <SubType>Form</SubType>
@@ -1380,6 +1392,7 @@
     <Compile Include="Logic\ColorChooser\ColorHandler.cs" />
     <Compile Include="Logic\ColorChooser\ColorWheel.cs" />
     <Compile Include="Logic\CommandLineConvert\BdSupSaver.cs" />
+    <Compile Include="Logic\CommandLineConvert\BinaryParagraphsToBluRaySup.cs" />
     <Compile Include="Logic\CommandLineConvert\BluRaySupToBluRaySup.cs" />
     <Compile Include="Logic\CommandLineConvert\CommandLineConverter.cs">
       <SubType>Code</SubType>
@@ -1399,6 +1412,7 @@
     <Compile Include="Logic\LanguageStructure.cs" />
     <Compile Include="Logic\Networking\SeNetworkService.cs" />
     <Compile Include="Logic\PathHelper.cs" />
+    <Compile Include="Logic\ProgressHelper.cs" />
     <Compile Include="Logic\ReplaceAllHelper.cs" />
     <Compile Include="Logic\ShotChangesGenerator.cs" />
     <Compile Include="Logic\ListViewSorter.cs" />
@@ -1464,6 +1478,7 @@
     <Compile Include="Logic\VideoPlayers\QuartsPlayer.cs" />
     <Compile Include="Logic\VideoPlayers\VideoPlayer.cs" />
     <Compile Include="Logic\VideoPreviewGenerator.cs" />
+    <Compile Include="Logic\WindowsHelper.cs" />
     <Compile Include="Logic\WordSpellChecker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1499,6 +1514,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Assa\ImageColorPicker.resx">
       <DependentUpon>ImageColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Assa\ReplaceStyleWith.resx">
+      <DependentUpon>ReplaceStyleWith.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Assa\ResolutionResampler.resx">
       <DependentUpon>ResolutionResampler.cs</DependentUpon>
@@ -1590,6 +1608,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Options\SettingsCustomContinuationStyle.resx">
       <DependentUpon>SettingsCustomContinuationStyle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Options\TranslationAutoSuffix.resx">
+      <DependentUpon>TranslationAutoSuffix.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Options\WordLists.resx">
       <DependentUpon>WordLists.cs</DependentUpon>
@@ -2147,6 +2168,7 @@
     <None Include="Resources\ebu.png" />
     <None Include="Resources\color-picker-small2.png" />
     <None Include="Resources\rec32.png" />
+    <None Include="Resources\Help32.png" />
     <Content Include="SE2.ico" />
     <None Include="Resources\SE.ico" />
     <None Include="Hunspellx64.dll">

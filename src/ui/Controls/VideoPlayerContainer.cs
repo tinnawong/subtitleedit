@@ -481,6 +481,11 @@ namespace Nikse.SubtitleEdit.Controls
                 {
                     if (subtitle.Header == null || !subtitle.Header.Contains("[V4+ Styles]") || uiFormat.Name != AdvancedSubStationAlpha.NameOfFormat)
                     {
+                        if (subtitle.Header == null && uiFormat.Name == SubStationAlpha.NameOfFormat)
+                        {
+                            subtitle.Header = SubStationAlpha.DefaultHeader;
+                        }
+
                         if (subtitle.Header != null && subtitle.Header.Contains("[V4 Styles]"))
                         {
                             subtitle.Header = AdvancedSubStationAlpha.GetHeaderAndStylesFromSubStationAlpha(subtitle.Header);
@@ -500,7 +505,10 @@ namespace Nikse.SubtitleEdit.Controls
                             }
                         }
 
-                        subtitle.Header = MpvPreviewStyleHeader;
+                        if (subtitle.Header == null || !(subtitle.Header.Contains("[V4+ Styles]") && uiFormat.Name == SubStationAlpha.NameOfFormat))
+                        {
+                            subtitle.Header = MpvPreviewStyleHeader;
+                        }
 
                         if (oldSub.Header != null && oldSub.Header.Length > 20 && oldSub.Header.Substring(3, 3) == "STL")
                         {

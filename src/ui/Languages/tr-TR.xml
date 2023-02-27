@@ -2,7 +2,7 @@
 <Language Name="Türkçe">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Türkçe Çeviri: Falcon006
 Son eklemeler: ismail0100</TranslatedBy>
     <CultureName>tr-TR</CultureName>
@@ -668,7 +668,7 @@ Not: Boş disk alanını kontrol edin.</WaveFileMalformed>
     <FixCommonOcrErrors>Yaygın OCR hatalarını düzelt (OCR liste değiştirmeyi kullanarak)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Yaygın OCR hataları düzeltildi (OCR değiştirme dosyası kullanıldı): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Sayılar arasındaki boşluğu kaldır</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Bir satırdaki diyalogları düzelt(tire ile yeni satıra ayırır)</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Bir satırdaki diyalogları düzelt(tire ile yeni satıra ayırır)</BreakDialogsOnOneLine>
     <NormalizeStrings>Dizeleri normalleştir</NormalizeStrings>
     <FixTurkishAnsi>Türk ANSI (İzlanda) harfleri Unicode için düzelt</FixTurkishAnsi>
     <FixDanishLetterI>Danimarka 'i' harfini düzelt</FixDanishLetterI>
@@ -2730,7 +2730,7 @@ Değişiklikler saklansın mı?</KeepChangesMessage>
     <TransportStreamGrayscale>Gri tonlama</TransportStreamGrayscale>
     <TransportStreamGetColor>Renk kullan (satırlarda bölme oluşabilir)</TransportStreamGetColor>
     <PromptForUnknownWords>Bilinmeyen kelimeler için sor</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Bilinmeyen kelimeleri tahmin etmeyi dene</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Bilinmeyen kelimeleri tahmin etmeyi dene</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>İki satırdan fazla ise otomatik olarak böl</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Tüm düzeltmeler</AllFixes>
     <GuessesUsed>Tahminler-Kullanılmış</GuessesUsed>

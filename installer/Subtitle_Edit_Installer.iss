@@ -1,4 +1,4 @@
-﻿;* Subtitle Edit - Installer script
+;* Subtitle Edit - Installer script
 ;*
 ;* Copyright (C) 2010-2016 XhmikosR
 ;*
@@ -30,8 +30,11 @@
   #error Use Inno Setup unicode
 #endif
 
+#define app_name             "Subtitle Edit"
+#define app_copyright        "Nikse"
+#define app_copyright_start  "2001"
+#define app_copyright_end    GetDateTimeString('yyyy','','')
 
-#define app_copyright "Copyright © 2001-2022, Nikse"
 ; If you don't define "localize", i.e. comment out the following line then no translations
 ; for SubtitleEdit or the installer itself will be included in the installer
 #define localize
@@ -72,23 +75,33 @@
 #define keyAppPaths "Software\Microsoft\Windows\CurrentVersion\App Paths"
 #define keyMuiCache "Software\Classes\Local Settings\MuiCache"
 
-
 [Setup]
-AppID=SubtitleEdit
-AppCopyright={#app_copyright}
-AppContact=https://www.nikse.dk/SubtitleEdit/Help
-AppName=Subtitle Edit
-AppVerName=Subtitle Edit {#app_ver}
+AppID={#app_name}
+AppName={#app_name}
 AppVersion={#app_ver_full}
-AppPublisher=Nikse
+AppVerName={#app_name} {#app_ver}
+
+AppCopyright={#app_copyright} {#app_copyright_start} {#app_copyright_end}
+AppPublisher={#app_copyright}
+
+AppContact=https://www.nikse.dk/SubtitleEdit/Help
 AppPublisherURL=https://www.nikse.dk/SubtitleEdit/
 AppSupportURL=https://www.nikse.dk/SubtitleEdit/
 AppUpdatesURL=https://www.nikse.dk/SubtitleEdit/
-UninstallDisplayName=Subtitle Edit {#app_ver}
-UninstallDisplayIcon={app}\SubtitleEdit.exe
-DefaultDirName={pf}\Subtitle Edit
-DefaultGroupName=Subtitle Edit
+
 VersionInfoVersion={#app_ver_full}
+VersionInfoDescription={#app_name} installer
+VersionInfoProductName={#app_name}
+
+UninstallDisplayName={#app_name}
+UninstallDisplayIcon={app}\SubtitleEdit.exe
+
+WizardStyle=modern
+ShowLanguageDialog=yes
+UsePreviousLanguage=no
+
+DefaultDirName={pf}\{#app_name}
+DefaultGroupName={#app_name}
 MinVersion=6.0
 LicenseFile=..\LICENSE.txt
 InfoAfterFile=..\Changelog.txt
@@ -96,7 +109,7 @@ SetupIconFile=..\src\ui\Icons\SE.ico
 WizardImageFile=Icons\WizardImageFile.bmp
 WizardSmallImageFile=Icons\WizardSmallImageFile.bmp
 OutputDir=.
-OutputBaseFilename=SubtitleEdit-{#app_ver}-Setup
+OutputBaseFilename={#app_name}-{#app_ver}-Setup
 AllowNoIcons=yes
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
@@ -105,58 +118,57 @@ ShowTasksTreeLines=yes
 DisableReadyPage=yes
 PrivilegesRequired=admin
 ChangesAssociations=yes
-ShowLanguageDialog=yes
 DisableDirPage=auto
 DisableProgramGroupPage=auto
 CloseApplications=true
 SetupMutex='subtitle_edit_setup_mutex'
 ArchitecturesInstallIn64BitMode=x64
-WizardStyle=modern
+
 
 [Languages]
-Name: "en"; MessagesFile: "compiler:Default.isl"
+Name: "en";   MessagesFile: "compiler:Default.isl"
 #ifdef localize
-Name: "ar"; MessagesFile: "Languages\Arabic.isl"
-Name: "bg"; MessagesFile: "Languages\Bulgarian.isl"
-Name: "ca"; MessagesFile: "compiler:Languages\Catalan.isl"
-Name: "cs"; MessagesFile: "compiler:Languages\Czech.isl"
-Name: "da"; MessagesFile: "compiler:Languages\Danish.isl"
-Name: "de"; MessagesFile: "compiler:Languages\German.isl"
-Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"
-Name: "eu"; MessagesFile: "Languages\Basque.isl"
-Name: "fa"; MessagesFile: "Languages\Farsi.isl"
-Name: "fi"; MessagesFile: "compiler:Languages\Finnish.isl"
-Name: "fr"; MessagesFile: "compiler:Languages\French.isl"
-Name: "hr"; MessagesFile: "Languages\Croatian.isl"
-Name: "it"; MessagesFile: "compiler:Languages\Italian.isl"
-Name: "ja"; MessagesFile: "compiler:Languages\Japanese.isl"
-Name: "ko"; MessagesFile: "Languages\Korean.isl"
-Name: "mk"; MessagesFile: "Languages\Macedonian.isl"
-Name: "nl"; MessagesFile: "compiler:Languages\Dutch.isl"
-Name: "no"; MessagesFile: "compiler:Languages\Norwegian.isl"
-Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"
-Name: "pt"; MessagesFile: "compiler:Languages\Portuguese.isl"
+Name: "ar";   MessagesFile: "Languages\Arabic.isl"
+Name: "bg";   MessagesFile: "Languages\Bulgarian.isl"
+Name: "ca";   MessagesFile: "compiler:Languages\Catalan.isl"
+Name: "cs";   MessagesFile: "compiler:Languages\Czech.isl"
+Name: "da";   MessagesFile: "compiler:Languages\Danish.isl"
+Name: "de";   MessagesFile: "compiler:Languages\German.isl"
+Name: "el";   MessagesFile: "Languages\Greek.isl"
+Name: "es";   MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "eu";   MessagesFile: "Languages\Basque.isl"
+Name: "fa";   MessagesFile: "Languages\Farsi.isl"
+Name: "fi";   MessagesFile: "compiler:Languages\Finnish.isl"
+Name: "fr";   MessagesFile: "compiler:Languages\French.isl"
+Name: "hr";   MessagesFile: "Languages\Croatian.isl"
+Name: "hu";   MessagesFile: "Languages\Hungarian.isl"
+Name: "id";   MessagesFile: "Languages\Indonesian.isl"
+Name: "it";   MessagesFile: "compiler:Languages\Italian.isl"
+Name: "ja";   MessagesFile: "compiler:Languages\Japanese.isl"
+Name: "ko";   MessagesFile: "Languages\Korean.isl"
+Name: "mk";   MessagesFile: "Languages\Macedonian.isl"
+Name: "nl";   MessagesFile: "compiler:Languages\Dutch.isl"
+Name: "no";   MessagesFile: "compiler:Languages\Norwegian.isl"
+Name: "pl";   MessagesFile: "compiler:Languages\Polish.isl"
+Name: "pt";   MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "ptBR"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
-Name: "ro"; MessagesFile: "Languages\Romanian.isl"
-Name: "ru"; MessagesFile: "compiler:Languages\Russian.isl"
-Name: "sl"; MessagesFile: "compiler:Languages\Slovenian.isl"
-Name: "sv"; MessagesFile: "Languages\Swedish.isl"
-Name: "th"; MessagesFile: "Languages\Thai.isl"
-Name: "tr"; MessagesFile: "compiler:Languages\Turkish.isl"
-Name: "uk"; MessagesFile: "compiler:Languages\Ukrainian.isl"
-Name: "vi"; MessagesFile: "Languages\Vietnamese.islu"
-Name: "zh"; MessagesFile: "Languages\ChineseSimplified.islu"
+Name: "ro";   MessagesFile: "Languages\Romanian.isl"
+Name: "ru";   MessagesFile: "compiler:Languages\Russian.isl"
+Name: "sl";   MessagesFile: "compiler:Languages\Slovenian.isl"
+Name: "srC";  MessagesFile: "Languages\SerbianCyrillic.isl"
+Name: "srL";  MessagesFile: "Languages\SerbianLatin.isl"
+Name: "sv";   MessagesFile: "Languages\Swedish.isl"
+Name: "th";   MessagesFile: "Languages\Thai.isl"
+Name: "tr";   MessagesFile: "compiler:Languages\Turkish.isl"
+Name: "uk";   MessagesFile: "compiler:Languages\Ukrainian.isl"
+Name: "vi";   MessagesFile: "Languages\Vietnamese.isl"
+Name: "zh";   MessagesFile: "Languages\ChineseSimplified.isl"
 Name: "zhTW"; MessagesFile: "Languages\ChineseTraditional.isl"
 #endif
 
+
 ; Include the installer's custom messages
-#include "Custom_Messages.iss"
-
-[Messages]
-;BeveledLabel=Subtitle Edit {#app_ver} by Nikse
-SetupAppTitle=Setup - Subtitle Edit
-SetupWindowTitle=Setup - Subtitle Edit {#app_ver}
-
+#include "Subtitle_Edit_Localization.iss"
 
 [Types]
 Name: default;            Description: {cm:types_default}

@@ -452,7 +452,10 @@ namespace Nikse.SubtitleEdit.Core.Common
             var text = input.Replace('\u00a0', ' '); // replace non-break-space (160 decimal) ascii char with normal space
             if (!(text.IndexOf(' ') >= 0 || text.IndexOf('\n') >= 0))
             {
-                return input;
+                if (new[] { "zh", "ja", "ko" }.Contains(language) == false)
+                {
+                    return input;
+                }
             }
 
             // do not auto break dialogs or music symbol
@@ -507,7 +510,7 @@ namespace Nikse.SubtitleEdit.Core.Common
                 }
             }
 
-            string s = RemoveLineBreaks(text);
+            var s = RemoveLineBreaks(text);
             if (s.CountCharacters(false) < mergeLinesShorterThan)
             {
                 var lastIndexOfDash = s.LastIndexOf(" -", StringComparison.Ordinal);
@@ -521,14 +524,14 @@ namespace Nikse.SubtitleEdit.Core.Common
 
             var htmlTags = new Dictionary<int, string>();
             var sb = new StringBuilder();
-            int six = 0;
+            var six = 0;
             while (six < s.Length)
             {
                 var letter = s[six];
-                bool tagFound = false;
+                var tagFound = false;
                 if (letter == '<')
                 {
-                    string tagString = s.Substring(six);
+                    var tagString = s.Substring(six);
                     tagFound = tagString.StartsWith("<font", StringComparison.OrdinalIgnoreCase)
                             || tagString.StartsWith("</font", StringComparison.OrdinalIgnoreCase)
                             || tagString.StartsWith("<u", StringComparison.OrdinalIgnoreCase)
@@ -540,7 +543,7 @@ namespace Nikse.SubtitleEdit.Core.Common
                 }
                 else if (letter == '{' && s.Substring(six).StartsWith("{\\"))
                 {
-                    string tagString = s.Substring(six);
+                    var tagString = s.Substring(six);
                     var endIndexAssTag = tagString.IndexOf('}') + 1;
                     if (endIndexAssTag > 0)
                     {
@@ -559,7 +562,7 @@ namespace Nikse.SubtitleEdit.Core.Common
                     }
                 }
 
-                int endIndex = -1;
+                var endIndex = -1;
                 if (tagFound)
                 {
                     endIndex = s.IndexOf('>', six + 1);
@@ -567,11 +570,11 @@ namespace Nikse.SubtitleEdit.Core.Common
 
                 if (tagFound && endIndex > 0)
                 {
-                    string tag = s.Substring(six, endIndex - six + 1);
+                    var tag = s.Substring(six, endIndex - six + 1);
                     s = s.Remove(six, tag.Length);
                     if (htmlTags.ContainsKey(six))
                     {
-                        htmlTags[six] = htmlTags[six] + tag;
+                        htmlTags[six] += tag;
                     }
                     else
                     {
@@ -1237,9 +1240,25 @@ namespace Nikse.SubtitleEdit.Core.Common
                 return null;
             }
 
-            if (index < originalParagraphs.Count && Math.Abs(originalParagraphs[index].StartTime.TotalMilliseconds - paragraph.StartTime.TotalMilliseconds) < 50)
+            var middle = paragraph.StartTime.TotalMilliseconds + paragraph.Duration.TotalMilliseconds / 2.0;
+            if (index < originalParagraphs.Count)
             {
-                return originalParagraphs[index];
+                var o = originalParagraphs[index];
+                if (Math.Abs(o.StartTime.TotalMilliseconds - paragraph.StartTime.TotalMilliseconds) < 50)
+                {
+                    return o;
+                }
+
+                if (Math.Abs(o.EndTime.TotalMilliseconds - paragraph.EndTime.TotalMilliseconds) < 50 &&
+                    paragraph.StartTime.TotalMilliseconds < o.EndTime.TotalMilliseconds)
+                {
+                    return o;
+                }
+
+                if (o.StartTime.TotalMilliseconds < middle && o.EndTime.TotalMilliseconds > middle)
+                {
+                    return o;
+                }
             }
 
             if (paragraph.StartTime.IsMaxTime && index < originalParagraphs.Count && originalParagraphs[index].StartTime.IsMaxTime)
@@ -1258,8 +1277,7 @@ namespace Nikse.SubtitleEdit.Core.Common
             foreach (var p in originalParagraphs)
             {
                 if (!p.StartTime.IsMaxTime &&
-                    p.StartTime.TotalMilliseconds > paragraph.StartTime.TotalMilliseconds - 200 &&
-                    p.StartTime.TotalMilliseconds < paragraph.StartTime.TotalMilliseconds + TimeCode.BaseUnit)
+                    p.StartTime.TotalMilliseconds < middle && p.EndTime.TotalMilliseconds > middle)
                 {
                     return p;
                 }
@@ -1960,8 +1978,28 @@ namespace Nikse.SubtitleEdit.Core.Common
                 var match = RemoveSpaceBetweenNumbersRegex.Match(text);
                 while (match.Success)
                 {
-                    text = text.Remove(match.Index, 1);
-                    match = RemoveSpaceBetweenNumbersRegex.Match(text, match.Index);
+                    var skip = false;
+                    var next = text.Substring(match.Index);
+                    if (next.StartsWith(" 000") && next.Length > 4 && next[4] != '0')
+                    {
+                        // keep "35 000 dollars"
+                        skip = true;
+                        if (match.Index > 4)
+                        {
+                            var before = text.Substring(match.Index - 4, 4);
+                            if (int.TryParse(before.Trim(), NumberStyles.None, CultureInfo.InvariantCulture, out  var n) && n > 999)
+                            {
+                                skip = false;
+                            }
+                        }
+                    }
+
+                    if (!skip)
+                    {
+                        text = text.Remove(match.Index, 1);
+                    }
+
+                    match = RemoveSpaceBetweenNumbersRegex.Match(text, match.Index + 1);
                 }
             }
             return text;
@@ -2252,7 +2290,7 @@ namespace Nikse.SubtitleEdit.Core.Common
                 var dialogHelper = new DialogSplitMerge { DialogStyle = Configuration.Settings.General.DialogStyle, ContinuationStyle = Configuration.Settings.General.ContinuationStyle };
                 text = dialogHelper.RemoveSpaces(text);
 
-                int idx = text.IndexOf("- ", 2, StringComparison.Ordinal);
+                var idx = text.IndexOf("- ", 2, StringComparison.Ordinal);
                 if (text.StartsWith("<i>", StringComparison.OrdinalIgnoreCase))
                 {
                     idx = text.IndexOf("- ", 5, StringComparison.Ordinal);
@@ -2260,19 +2298,19 @@ namespace Nikse.SubtitleEdit.Core.Common
 
                 while (idx > 0)
                 {
-                    if (idx > 0 && idx < text.Length - 2)
+                    if (idx < text.Length - 2)
                     {
-                        string before = string.Empty;
-                        int k = idx - 1;
+                        var before = string.Empty;
+                        var k = idx - 1;
                         while (k >= 0 && char.IsLetterOrDigit(text[k]))
                         {
                             before = text[k--] + before;
                         }
-                        string after = string.Empty;
+                        var after = string.Empty;
                         k = idx + 2;
                         while (k < text.Length && char.IsLetter(text[k]))
                         {
-                            after = after + text[k++];
+                            after += text[k++];
                         }
                         if (after.Length > 0 && after.Equals(before, StringComparison.OrdinalIgnoreCase))
                         {
@@ -2288,6 +2326,12 @@ namespace Nikse.SubtitleEdit.Core.Common
                                  !after.Equals("o", StringComparison.OrdinalIgnoreCase)) &&
                                 (language != "da" ||
                                  !after.Equals("og", StringComparison.OrdinalIgnoreCase) &&
+                                 !after.Equals("eller", StringComparison.OrdinalIgnoreCase)) &&
+                                (language != "nb" ||
+                                 !after.Equals("og", StringComparison.OrdinalIgnoreCase) &&
+                                 !after.Equals("eller", StringComparison.OrdinalIgnoreCase)) &&
+                                (language != "sv" ||
+                                 !after.Equals("och", StringComparison.OrdinalIgnoreCase) &&
                                  !after.Equals("eller", StringComparison.OrdinalIgnoreCase)) &&
                                 (language != "de" ||
                                  !after.Equals("und", StringComparison.OrdinalIgnoreCase) &&
@@ -2315,7 +2359,7 @@ namespace Nikse.SubtitleEdit.Core.Common
                             }
                         }
                     }
-                    if (idx + 1 < text.Length && idx != -1)
+                    if (idx + 1 < text.Length)
                     {
                         idx = text.IndexOf("- ", idx + 1, StringComparison.Ordinal);
                     }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Windows.Forms;
-using Nikse.SubtitleEdit.Core.AudioToText;
+﻿using Nikse.SubtitleEdit.Core.AudioToText;
 using Nikse.SubtitleEdit.Core.Common;
 using Nikse.SubtitleEdit.Logic;
+using System;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Nikse.SubtitleEdit.Forms.AudioToText
 {
@@ -14,7 +13,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         public bool AutoClose { get; internal set; }
         public WhisperModel LastDownloadedModel { get; private set; }
         private readonly CancellationTokenSource _cancellationTokenSource;
-        private bool _error = false;
+        private bool _error;
+        private string _downloadFileName;
 
         public WhisperModelDownload()
         {
@@ -27,8 +27,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             UiUtil.FixLargeFonts(this, buttonDownload);
 
             var selectedIndex = 0;
-            foreach (var downloadModel in WhisperHelper.GetWhisperModel().Models.OrderBy(p => p.Name))
+            foreach (var downloadModel in WhisperHelper.GetWhisperModel().Models)
             {
+                var fileName = MakeDownloadFileName(downloadModel);
+                downloadModel.AlreadyDownloaded = File.Exists(fileName);
+
                 comboBoxModels.Items.Add(downloadModel);
                 if (selectedIndex == 0 && downloadModel.Name == "English")
                 {
@@ -48,6 +51,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             {
                 DialogResult = DialogResult.Cancel;
             }
+            else if (e.KeyData == UiUtil.HelpKeys)
+            {
+                UiUtil.ShowHelp("#audio_to_text");
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -66,7 +74,15 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 Refresh();
                 Cursor = Cursors.WaitCursor;
                 var httpClient = HttpClientHelper.MakeHttpClient();
-                using (var downloadStream = new MemoryStream())
+
+                var folder = WhisperHelper.GetWhisperModel().ModelFolder;
+                if (!Directory.Exists(folder))
+                {
+                    WhisperHelper.GetWhisperModel().CreateModelFolder();
+                }
+
+                _downloadFileName = MakeDownloadFileName(LastDownloadedModel) + ".$$$";
+                using (var downloadStream = new FileStream(_downloadFileName, FileMode.Create, FileAccess.Write))
                 {
                     var downloadTask = httpClient.DownloadAsync(url, downloadStream, new Progress<float>((progress) =>
                     {
@@ -83,6 +99,14 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                     {
                         DialogResult = DialogResult.Cancel;
                         labelPleaseWait.Refresh();
+                        try
+                        {
+                            File.Delete(_downloadFileName);
+                        }
+                        catch
+                        {
+                            // ignore
+                        }
                         return;
                     }
 
@@ -100,31 +124,39 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             }
         }
 
+        private static string MakeDownloadFileName(WhisperModel model)
+        {
+            return Path.Combine(WhisperHelper.GetWhisperModel().ModelFolder, model.Name + WhisperHelper.ModelExtension());
+        }
+
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             _cancellationTokenSource.Cancel();
             DialogResult = DialogResult.Cancel;
         }
 
-        private void CompleteDownload(MemoryStream downloadStream)
+        private void CompleteDownload(Stream downloadStream)
         {
             if (downloadStream.Length == 0)
             {
                 throw new Exception("No content downloaded - missing file or no internet connection!");
             }
 
-            var folder = WhisperHelper.GetWhisperModel().ModelFolder;
-            if (!Directory.Exists(folder))
+            var newFileName = _downloadFileName.Replace(".$$$", string.Empty);
+            try
             {
-                WhisperHelper.GetWhisperModel().CreateModelFolder();
+                File.Delete(newFileName);
+            }
+            catch
+            {
+                // ignore
             }
 
-            var fileName = Path.Combine(folder, LastDownloadedModel.Name + WhisperHelper.ModelExtension());
-            using (var fileStream = File.Create(fileName))
-            {
-                downloadStream.Seek(0, SeekOrigin.Begin);
-                downloadStream.CopyTo(fileStream);
-            }
+            downloadStream.Flush();
+            downloadStream.Close();
+
+            Application.DoEvents();
+            File.Move(_downloadFileName, newFileName);
 
             Cursor = Cursors.Default;
             labelPleaseWait.Text = string.Empty;
