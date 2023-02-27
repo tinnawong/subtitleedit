@@ -2,7 +2,7 @@
 <Language Name="hrvatski">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Prijevod: Jozo Marić &amp; diomed</TranslatedBy>
     <CultureName>hr-HR</CultureName>
     <HelpFile />
@@ -553,7 +553,7 @@ Napomena: Provjeri slobodan prostor na disku.</WaveFileMalformed>
     <FixCommonOcrErrors>Ispravi česte greške u prepoznavanju znakova</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Ispravljeno grešaka u prepoznavanju znakova: {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Ukloni razmak između brojeva</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Ispravi dijaloge na jednoj liniji</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Ispravi dijaloge na jednoj liniji</BreakDialogsOnOneLine>
     <RemoveSpaceBetweenNumbersFixed>Ispravljeno grešaka u uklanjanju razmaka između brojeva: {0}</RemoveSpaceBetweenNumbersFixed>
     <FixTurkishAnsi>Popraviti Turski ANSI (Islandski) slova u Unicode</FixTurkishAnsi>
     <FixDanishLetterI>Ispravi Dansko slovo I</FixDanishLetterI>
@@ -2236,7 +2236,7 @@ određeni podnaslov s drugim ljudima.</Information>
     <TransportStreamGrayscale>Sivim tonovima</TransportStreamGrayscale>
     <TransportStreamGetColor>Koristiti boje (sa uključenim razdvajanjem linija)</TransportStreamGetColor>
     <PromptForUnknownWords>&amp;Pitaj me za nepoznate riječi</PromptForUnknownWords>
-    <TryToGuessUnkownWords>&amp;Nagađaj nepoznate riječi</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>&amp;Nagađaj nepoznate riječi</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>&amp;Razmakni red ako ima više od dvije linije</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Sve ispravke</AllFixes>
     <GuessesUsed>Korištena nagađanja</GuessesUsed>

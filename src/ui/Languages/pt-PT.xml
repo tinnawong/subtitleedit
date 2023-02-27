@@ -2,13 +2,15 @@
 <Language Name="Português (Portugal)">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Traduzido para Português de Portugal, por Hugo Carvalho(hugok79)
 E-mail: mailto:hugokarvalho@hotmail.com</TranslatedBy>
     <CultureName>pt-PT</CultureName>
     <HelpFile />
     <Ok>&amp;OK</Ok>
     <Cancel>C&amp;ancelar</Cancel>
+    <Yes>Sim</Yes>
+    <No>Não</No>
     <Apply>Aplicar</Apply>
     <ApplyTo>Aplicar a</ApplyTo>
     <None>Nenhum</None>
@@ -193,6 +195,7 @@ Mais informação online?</WhisperNotFound>
     <TranscribingXOfY>A transcrever áudio para texto - ficheiro {0} de {1}...</TranscribingXOfY>
     <XFilesSavedToVideoSourceFolder>{0} ficheiros guardados na pasta de origem do vídeo</XFilesSavedToVideoSourceFolder>
     <UsePostProcessing>Usar pós-processamento (combinar linhas, corrigir maiúsculas/minúsculas, pontuação e mais)</UsePostProcessing>
+    <AutoAdjustTimings>Ajuste automático dos tempos</AutoAdjustTimings>
     <BatchMode>Modo múltiplos ficheiros</BatchMode>
     <KeepPartialTranscription>Manter transcrição parcial</KeepPartialTranscription>
     <TranslateToEnglish>Traduzir para Inglês</TranslateToEnglish>
@@ -776,7 +779,7 @@ Mais informação online?</WhisperNotFound>
     <FixCommonOcrErrors>Corrigir erros frequentes de OCR (usando lista de substituição OCR)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Erros frequentes de OCR corrigidos (ficheiro OcrReplaceList usado): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Remover espaços entre números</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Corrigir diálogos numa linha</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Dividir diálogos numa linha</BreakDialogsOnOneLine>
     <RemoveDialogFirstInNonDialogs>Remover o travessão inicial na primeira linha para não diálogos</RemoveDialogFirstInNonDialogs>
     <NormalizeStrings>Normalizar linhas</NormalizeStrings>
     <FixTurkishAnsi>Corrigir ANSI turco (Islandês) caracteres para Unicode</FixTurkishAnsi>
@@ -860,6 +863,7 @@ Mais informação online?</WhisperNotFound>
     <XGeneratedWithBurnedInSubsInX>"{0}" gerado com legenda embutida em {1}.</XGeneratedWithBurnedInSubsInX>
     <TimeRemainingMinutes>Tempo restante: {0} minutos</TimeRemainingMinutes>
     <TimeRemainingSeconds>Tempo restante: {0} segundos</TimeRemainingSeconds>
+    <TimeRemainingAFewSeconds>Tempo restante: Alguns segundos</TimeRemainingAFewSeconds>
     <TimeRemainingMinutesAndSeconds>Tempo restante: {0} minutos e {1} segundos</TimeRemainingMinutesAndSeconds>
     <TargetFileName>Nome do ficheiro de destino: {0}</TargetFileName>
     <TargetFileSize>Tamanho do ficheiro de destino (requer codificação de 2 passagens)</TargetFileSize>
@@ -1163,6 +1167,7 @@ Para usar a chave API, vá a "Opções -&gt; Definições -&gt; Ferramentas" par
         <OpenOriginal>Abrir legenda original (modo tradutor)...</OpenOriginal>
         <SaveOriginal>Guardar legenda original</SaveOriginal>
         <CloseOriginal>Fechar legenda original</CloseOriginal>
+        <CloseTranslation>Fechar legenda traduzida</CloseTranslation>
         <OpenContainingFolder>Abrir pasta</OpenContainingFolder>
         <Compare>&amp;Comparar...</Compare>
         <Statistics>Estatís&amp;tica...</Statistics>
@@ -1594,7 +1599,7 @@ Continuar?</SubtitleAppendPrompt>
     <RedoPerformed>Refazer aplicado</RedoPerformed>
     <NothingToUndo>Nada para anular</NothingToUndo>
     <InvalidLanguageNameX>Nome de idioma inválido: {0}</InvalidLanguageNameX>
-    <DoNotDisplayMessageAgain>Não exibir esta mensagem novamente</DoNotDisplayMessageAgain>
+    <DoNotDisplayMessageAgain>Não mostrar esta mensagem novamente</DoNotDisplayMessageAgain>
     <NumberOfCorrectedWords>Número de palavras corrigidas: {0}</NumberOfCorrectedWords>
     <NumberOfSkippedWords>Número de palavras omitidas: {0}</NumberOfSkippedWords>
     <NumberOfCorrectWords>Número de palavras correctas: {0}</NumberOfCorrectWords>
@@ -1720,8 +1725,8 @@ Continuar?</SubtitleAppendPrompt>
     <SubtitleExported>Legenda exportada</SubtitleExported>
     <LineNumberXErrorReadingFromSourceLineY>Linha {0} - erro de leitura: {1}</LineNumberXErrorReadingFromSourceLineY>
     <LineNumberXErrorReadingTimeCodeFromSourceLineY>Linha {0} - erro ao ler os tempos: {1}</LineNumberXErrorReadingTimeCodeFromSourceLineY>
-    <LineNumberXExpectedNumberFromSourceLineY>Linha {0} - número da legenda esperado: {1}</LineNumberXExpectedNumberFromSourceLineY>
-    <LineNumberXExpectedEmptyLine>Linha {0} - prevista linha em branco mas foi encontrado número + tempos: {1}</LineNumberXExpectedEmptyLine>
+    <LineNumberXExpectedNumberFromSourceLineY>Linha {0} - número da legenda previsto: {1}</LineNumberXExpectedNumberFromSourceLineY>
+    <LineNumberXExpectedEmptyLine>Linha {0} - Linha em branco prevista, mas foi encontrado número ({1}) seguido por tempos.</LineNumberXExpectedEmptyLine>
     <BeforeGuessingTimeCodes>Antes de saber os tempos</BeforeGuessingTimeCodes>
     <BeforeAutoDuration>Antes de auto-duração para as linhas seleccionadas</BeforeAutoDuration>
     <BeforeColumnPaste>Antes de colar coluna</BeforeColumnPaste>
@@ -1780,6 +1785,11 @@ Transferir e continuar?</VideoFromUrlRequirements>
     <UsingOnlyFrontCenterChannel>Usando apenas o canal de áudio central frontal</UsingOnlyFrontCenterChannel>
     <BeforeConvertingColorsToDialog>Antes de converter cores para diálogos</BeforeConvertingColorsToDialog>
     <ConvertedColorsToDialog>Converter cores para diálogos</ConvertedColorsToDialog>
+    <PleaseInstallVideoPlayer>Instalar reprodutor de vídeo</PleaseInstallVideoPlayer>
+    <UnableToPlayMediaFile>O SE não foi capaz de reproduzir o ficheiro de vídeo/áudio (ou o ficheiro de vídeo/áudio não é válido).</UnableToPlayMediaFile>
+    <SubtitleEditNeedsVideoPlayer>O Subtitle Edit precisa de um reprodutor de vídeo.</SubtitleEditNeedsVideoPlayer>
+    <UseRecommendMpv>Para usar o reprodutor de vídeo recomendado "mpv" clique no botão abaixo.</UseRecommendMpv>
+    <DownloadAndUseMpv>Transferir e usar o "mpv" como reprodutor de vídeo</DownloadAndUseMpv>
   </Main>
   <MatroskaSubtitleChooser>
     <Title>Seleccionar legenda através de um ficheiro Matroska (.mkv)</Title>
@@ -2199,11 +2209,12 @@ editar o mesmo ficheiro de legenda (colaboração)</Information>
     <MainListViewEditTextAndPause>Ir para o quadro de edição de texto e pausar na posição do vídeo</MainListViewEditTextAndPause>
     <VideoFileName>Nome do ficheiro de vídeo</VideoFileName>
     <ExistingFileName>Nome do ficheiro existente</ExistingFileName>
-    <AutoBackup>Cópia de segurança automática</AutoBackup>
+    <AutoBackup>Cópia automática</AutoBackup>
     <AutoBackupEveryMinute>A cada minuto</AutoBackupEveryMinute>
     <AutoBackupEveryFiveMinutes>A cada 5.º minuto</AutoBackupEveryFiveMinutes>
     <AutoBackupEveryFifteenMinutes>A cada 15.º minuto</AutoBackupEveryFifteenMinutes>
     <AutoBackupDeleteAfter>Eliminar após</AutoBackupDeleteAfter>
+    <TranslationAutoSuffix>Sufixo automático do nome do ficheiro de tradução</TranslationAutoSuffix>
     <AutoBackupDeleteAfterOneMonth>1 mês</AutoBackupDeleteAfterOneMonth>
     <AutoBackupDeleteAfterXMonths>{0} meses</AutoBackupDeleteAfterXMonths>
     <CheckForUpdates>Verificar se há actualizações</CheckForUpdates>
@@ -2340,6 +2351,7 @@ editar o mesmo ficheiro de legenda (colaboração)</Information>
     <MusicSymbolsReplace>Símbolos musicais para substituir (separados por vírgula)</MusicSymbolsReplace>
     <FixCommonOcrErrorsUseHardcodedRules>Corrigir erros frequentes de OCR - também utilizar regras codificadas</FixCommonOcrErrorsUseHardcodedRules>
     <UseWordSplitList>Usar lista de divisão de palavras (OCR + FCE)</UseWordSplitList>
+    <AvoidPropercase>Evitar maiúscula inicial</AvoidPropercase>
     <FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime>Corrigir o tempo curto de exibição - permitir o movimento do tempo inicial</FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime>
     <FixCommonErrorsSkipStepOne>Ignorar a fase um (escolher regras de correcção)</FixCommonErrorsSkipStepOne>
     <DefaultFormat>Formato predefinido</DefaultFormat>
@@ -2508,7 +2520,8 @@ editar o mesmo ficheiro de legenda (colaboração)</Information>
     <VideoResetSpeedAndZoom>Repor a taxa de reprodução (velocidade) e zoom da forma de onda</VideoResetSpeedAndZoom>
     <MainToggleVideoControls>Alternar controlos vídeo</MainToggleVideoControls>
     <VideoToggleContrast>Alternar contraste (apenas mpv)</VideoToggleContrast>
-    <VideoAudioToText>Áudio para texto</VideoAudioToText>
+    <AudioToTextX>Áudio para texto ({0})</AudioToTextX>
+    <AudioToTextSelectedLinesX>Áudio para texto em linhas seleccionadas ({0})</AudioToTextSelectedLinesX>
     <VideoToggleBrightness>Alternar luminosidade (apenas mpv)</VideoToggleBrightness>
     <CustomSearch1>Traduzir, pesquisa personalizada 1</CustomSearch1>
     <CustomSearch2>Traduzir, pesquisa personalizada 2</CustomSearch2>
@@ -2570,7 +2583,7 @@ editar o mesmo ficheiro de legenda (colaboração)</Information>
     <MainTextBoxMoveLastWordDownCurrent>Mover a primeira palavra da linha de baixo (linha actual)</MainTextBoxMoveLastWordDownCurrent>
     <MainTextBoxSelectionToLower>Selecção para minúsculas</MainTextBoxSelectionToLower>
     <MainTextBoxSelectionToUpper>Selecção para maiúsculas</MainTextBoxSelectionToUpper>
-    <MainTextBoxSelectionToggleCasing>Alternar selecção (primeira letra/maiúsculas/minúsculas)</MainTextBoxSelectionToggleCasing>
+    <MainTextBoxSelectionToggleCasing>Alternar selecção (maiúscula inicial/maiúsculas/minúsculas)</MainTextBoxSelectionToggleCasing>
     <MainTextBoxSelectionToRuby>Selecção para Ruby (Japonês)</MainTextBoxSelectionToRuby>
     <MainTextBoxToggleAutoDuration>Alternar duração automática</MainTextBoxToggleAutoDuration>
     <MainTextBoxAutoBreak>Quebra de linha automática</MainTextBoxAutoBreak>
@@ -2603,7 +2616,7 @@ informação do tipo de letra embutida como o "Advanced Sub Station Alpha" ou vi
     <RestoreDefaultSettingsMsg>Todas as definições serão repostas para os valores predefinidos
 
 Continuar?</RestoreDefaultSettingsMsg>
-    <RemoveTimeCodes>Remover códigos de tempo</RemoveTimeCodes>
+    <RemoveTimeCodes>Remover tempos</RemoveTimeCodes>
     <EditFixContinuationStyleSettings>Editar definições para fixar o estilo de continuação...</EditFixContinuationStyleSettings>
     <FixContinuationStyleSettings>Definições da fixação do estilo de continuação</FixContinuationStyleSettings>
     <UncheckInsertsAllCaps>Detectar e desmarcar linhas apenas em maiúscula (por exemplo: SEM ENTRADA)</UncheckInsertsAllCaps>
@@ -2638,16 +2651,16 @@ Continuar?</RestoreDefaultSettingsMsg>
   </Settings>
   <SettingsMpv>
     <DownloadMpv>Transferir o mpv lib</DownloadMpv>
-    <DownloadMpvFailed>Não é possível transferir o mpv - tente novamente mais tarde!</DownloadMpvFailed>
-    <DownloadMpvOk>O mpv lib foi transferido e está pronto para ser utilizado.</DownloadMpvOk>
+    <DownloadMpvFailed>Não foi possível transferir o mpv - tente novamente mais tarde!</DownloadMpvFailed>
+    <DownloadMpvOk>O mpv lib foi transferido e está pronto a ser utilizado.</DownloadMpvOk>
   </SettingsMpv>
   <SettingsFfmpeg>
-    <XDownloadFailed>Não é possível transferir o {0} - tente novamente mais tarde!</XDownloadFailed>
-    <XDownloadOk>O {0} foi transferido e está pronto para ser utilizado.</XDownloadOk>
+    <XDownloadFailed>Não foi possível transferir o {0} - tente novamente mais tarde!</XDownloadFailed>
+    <XDownloadOk>O {0} foi transferido e está pronto a ser utilizado.</XDownloadOk>
   </SettingsFfmpeg>
   <SetVideoOffset>
     <Title>Definir o deslocamento do vídeo</Title>
-    <Description>Definir o deslocamento do vídeo (A legenda não deve seguir o tempo real do vídeo, mas por ex. +10 horas)</Description>
+    <Description>Definir o deslocamento do vídeo (a legenda não deve seguir o tempo real do vídeo, mas por ex. +10 horas)</Description>
     <RelativeToCurrentVideoPosition>Em relação à posição do vídeo actual</RelativeToCurrentVideoPosition>
     <KeepTimeCodes>Manter os tempos existentes (não adicionar compensação de vídeo)</KeepTimeCodes>
     <Reset>Redefinir</Reset>
@@ -2869,6 +2882,7 @@ Continuar?</RestoreDefaultSettingsMsg>
     <CopyXOfY>Cópia {0} de {1}</CopyXOfY>
     <New>Novo</New>
     <Remove>Remover</Remove>
+    <ReplaceWith>Substituir com...</ReplaceWith>
     <RemoveAll>Remover tudo</RemoveAll>
     <ImportStyleFromFile>Importar estilo do ficheiro...</ImportStyleFromFile>
     <ExportStyleToFile>Exportar estilo para ficheiro... (adiciona o estilo se já existir o ficheiro)</ExportStyleToFile>
@@ -3003,7 +3017,7 @@ Manter as alterações?</KeepChangesMessage>
     <TransportStreamGrayscale>Tons de cinza</TransportStreamGrayscale>
     <TransportStreamGetColor>Usar cor (divisão de linhas poderá ocorrer)</TransportStreamGetColor>
     <PromptForUnknownWords>Confirmar palavras desconhecidas</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Tentar adivinhar palavras desconhecidas</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Tentar adivinhar palavras desconhecidas</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>Quebra de parágrafo automático se forem mais que duas linhas</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Corrigir tudo</AllFixes>
     <GuessesUsed>Suposições usadas</GuessesUsed>
@@ -3047,6 +3061,7 @@ Manter as alterações?</KeepChangesMessage>
     <CloudVisionApi>Google Cloud Vision API</CloudVisionApi>
     <ApiKey>Chave API</ApiKey>
     <SendOriginalImages>Enviar imagens originais</SendOriginalImages>
+    <SeHandlesTextMerge>SE lida com combinação de textos</SeHandlesTextMerge>
   </VobSubOcr>
   <VobSubOcrCharacter>
     <Title>OCR - Imagem para texto manualmente</Title>

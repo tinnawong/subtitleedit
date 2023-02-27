@@ -156,7 +156,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             {
                 ParagraphMaxChars = Configuration.Settings.General.SubtitleLineMaximumLength * 2,
             };
-            TranscribedSubtitle = postProcessor.Generate(AudioToTextPostProcessor.Engine.Vosk, transcript, checkBoxUsePostProcessing.Checked, true, true, true, true, false);
+            TranscribedSubtitle = postProcessor.Fix(AudioToTextPostProcessor.Engine.Vosk, transcript, checkBoxUsePostProcessing.Checked, true, true, true, true, false);
             DialogResult = DialogResult.OK;
         }
 
@@ -218,7 +218,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 {
                     ParagraphMaxChars = Configuration.Settings.General.SubtitleLineMaximumLength * 2,
                 };
-                TranscribedSubtitle = postProcessor.Generate(AudioToTextPostProcessor.Engine.Vosk, transcript, checkBoxUsePostProcessing.Checked, true, true, true, true, false);
+                TranscribedSubtitle = postProcessor.Fix(AudioToTextPostProcessor.Engine.Vosk, transcript, checkBoxUsePostProcessing.Checked, true, true, true, true, false);
 
                 SaveToSourceFolder(videoFileName);
                 TaskbarList.SetProgressValue(_parentForm.Handle, _batchFileNumber, listViewInputFiles.Items.Count);
@@ -590,24 +590,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             var durationMs = (DateTime.UtcNow.Ticks - _startTicks) / 10_000;
             var msPerFrame = (float)durationMs / _bytesWavRead;
             var estimatedTotalMs = msPerFrame * _bytesWavTotal;
-            var estimatedLeft = ToProgressTime(estimatedTotalMs - durationMs);
+            var estimatedLeft = ProgressHelper.ToProgressTime(estimatedTotalMs - durationMs);
             labelTime.Text = estimatedLeft;
-        }
-
-        public static string ToProgressTime(float estimatedTotalMs)
-        {
-            var timeCode = new TimeCode(estimatedTotalMs);
-            if (timeCode.TotalSeconds < 60)
-            {
-                return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingSeconds, (int)Math.Round(timeCode.TotalSeconds));
-            }
-
-            if (timeCode.TotalSeconds / 60 > 5)
-            {
-                return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingMinutes, (int)Math.Round(timeCode.TotalSeconds / 60));
-            }
-
-            return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingMinutesAndSeconds, timeCode.Minutes + timeCode.Hours * 60, timeCode.Seconds);
         }
 
         private void buttonDownload_Click(object sender, EventArgs e)

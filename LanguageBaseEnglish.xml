@@ -2,12 +2,14 @@
 <Language Name="English">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Translated by Nikse</TranslatedBy>
     <CultureName>en-US</CultureName>
     <HelpFile />
     <Ok>&amp;OK</Ok>
     <Cancel>C&amp;ancel</Cancel>
+    <Yes>Yes</Yes>
+    <No>No</No>
     <Apply>Apply</Apply>
     <ApplyTo>Apply to</ApplyTo>
     <None>None</None>
@@ -192,6 +194,7 @@ Read more info (web)?</WhisperNotFound>
     <TranscribingXOfY>Transcribing audio to text - file {0} of {1}...</TranscribingXOfY>
     <XFilesSavedToVideoSourceFolder>{0} files saved to video source folder</XFilesSavedToVideoSourceFolder>
     <UsePostProcessing>Use post-processing (line merge, fix casing, punctuation, and more)</UsePostProcessing>
+    <AutoAdjustTimings>Auto adjust timings</AutoAdjustTimings>
     <BatchMode>Batch mode</BatchMode>
     <KeepPartialTranscription>Keep partial transcription</KeepPartialTranscription>
     <TranslateToEnglish>Translate to English</TranslateToEnglish>
@@ -775,7 +778,7 @@ Read more info (web)?</WhisperNotFound>
     <FixCommonOcrErrors>Fix common OCR errors (using OCR replace list)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Common OCR errors fixed (OcrReplaceList file used): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Remove space between numbers</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Fix dialogs on one line</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Split dialogs on one line</BreakDialogsOnOneLine>
     <RemoveDialogFirstInNonDialogs>Remove start dash in first line for non-dialogs</RemoveDialogFirstInNonDialogs>
     <NormalizeStrings>Normalize strings</NormalizeStrings>
     <FixTurkishAnsi>Fix Turkish ANSI (Icelandic) letters to Unicode</FixTurkishAnsi>
@@ -859,6 +862,7 @@ Read more info (web)?</WhisperNotFound>
     <XGeneratedWithBurnedInSubsInX>"{0}" generated with burned-in subtitle in {1}.</XGeneratedWithBurnedInSubsInX>
     <TimeRemainingMinutes>Time remaining: {0} minutes</TimeRemainingMinutes>
     <TimeRemainingSeconds>Time remaining: {0} seconds</TimeRemainingSeconds>
+    <TimeRemainingAFewSeconds>Time remaining: A few seconds</TimeRemainingAFewSeconds>
     <TimeRemainingMinutesAndSeconds>Time remaining: {0} minutes and {1} seconds</TimeRemainingMinutesAndSeconds>
     <TargetFileName>Target file name: {0}</TargetFileName>
     <TargetFileSize>Target file size (requires 2 pass encoding)</TargetFileSize>
@@ -1162,6 +1166,7 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
         <OpenOriginal>Open original subtitle (translator mode)...</OpenOriginal>
         <SaveOriginal>Save original subtitle</SaveOriginal>
         <CloseOriginal>Close original subtitle</CloseOriginal>
+        <CloseTranslation>Close translated subtitle</CloseTranslation>
         <OpenContainingFolder>Open containing folder</OpenContainingFolder>
         <Compare>&amp;Compare...</Compare>
         <Statistics>S&amp;tatistics...</Statistics>
@@ -1720,7 +1725,7 @@ Continue?</SubtitleAppendPrompt>
     <LineNumberXErrorReadingFromSourceLineY>Line {0} - error reading: {1}</LineNumberXErrorReadingFromSourceLineY>
     <LineNumberXErrorReadingTimeCodeFromSourceLineY>Line {0} - error reading time code: {1}</LineNumberXErrorReadingTimeCodeFromSourceLineY>
     <LineNumberXExpectedNumberFromSourceLineY>Line {0} - expected subtitle number: {1}</LineNumberXExpectedNumberFromSourceLineY>
-    <LineNumberXExpectedEmptyLine>Line {0} - expected empty line but found number + time code (number skipped): {1}</LineNumberXExpectedEmptyLine>
+    <LineNumberXExpectedEmptyLine>Line {0}: Empty line expected, but found number ({1}) followed by time code.</LineNumberXExpectedEmptyLine>
     <BeforeGuessingTimeCodes>Before guessing time codes</BeforeGuessingTimeCodes>
     <BeforeAutoDuration>Before auto-duration for selected lines</BeforeAutoDuration>
     <BeforeColumnPaste>Before column paste</BeforeColumnPaste>
@@ -1779,6 +1784,11 @@ Download and continue?</VideoFromUrlRequirements>
     <UsingOnlyFrontCenterChannel>Using only front center audio channel</UsingOnlyFrontCenterChannel>
     <BeforeConvertingColorsToDialog>Before converting colors to dialog</BeforeConvertingColorsToDialog>
     <ConvertedColorsToDialog>Converted colors to dialog</ConvertedColorsToDialog>
+    <PleaseInstallVideoPlayer>Please install video player</PleaseInstallVideoPlayer>
+    <UnableToPlayMediaFile>SE was unable to play the video/audio file (or file is not a valid video/audio file).</UnableToPlayMediaFile>
+    <SubtitleEditNeedsVideoPlayer>Subtitle Edit needs a video player.</SubtitleEditNeedsVideoPlayer>
+    <UseRecommendMpv>To use the recommended video player "mpv" click on the button below.</UseRecommendMpv>
+    <DownloadAndUseMpv>Download and use "mpv" as video player</DownloadAndUseMpv>
   </Main>
   <MatroskaSubtitleChooser>
     <Title>Choose subtitle from Matroska file</Title>
@@ -2203,6 +2213,7 @@ can edit in same subtitle file (collaboration)</Information>
     <AutoBackupEveryFiveMinutes>Every 5th minute</AutoBackupEveryFiveMinutes>
     <AutoBackupEveryFifteenMinutes>Every 15th minute</AutoBackupEveryFifteenMinutes>
     <AutoBackupDeleteAfter>Delete after</AutoBackupDeleteAfter>
+    <TranslationAutoSuffix>Translation file name auto suffix</TranslationAutoSuffix>
     <AutoBackupDeleteAfterOneMonth>1 month</AutoBackupDeleteAfterOneMonth>
     <AutoBackupDeleteAfterXMonths>{0} months</AutoBackupDeleteAfterXMonths>
     <CheckForUpdates>Check for updates</CheckForUpdates>
@@ -2339,6 +2350,7 @@ can edit in same subtitle file (collaboration)</Information>
     <MusicSymbolsReplace>Music symbols to replace (separate by comma)</MusicSymbolsReplace>
     <FixCommonOcrErrorsUseHardcodedRules>Fix common OCR errors - also use hard-coded rules</FixCommonOcrErrorsUseHardcodedRules>
     <UseWordSplitList>Use word split list (OCR + FCE)</UseWordSplitList>
+    <AvoidPropercase>Avoid propercase</AvoidPropercase>
     <FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime>Fix short display time - allow move of start time</FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime>
     <FixCommonErrorsSkipStepOne>Skip step one (choose fix rules)</FixCommonErrorsSkipStepOne>
     <DefaultFormat>Default format</DefaultFormat>
@@ -2507,7 +2519,8 @@ can edit in same subtitle file (collaboration)</Information>
     <VideoResetSpeedAndZoom>Reset play rate (speed) and waveform zoom</VideoResetSpeedAndZoom>
     <MainToggleVideoControls>Toggle video controls</MainToggleVideoControls>
     <VideoToggleContrast>Toggle contrast (mpv only)</VideoToggleContrast>
-    <VideoAudioToText>Audio to text</VideoAudioToText>
+    <AudioToTextX>Audio to text ({0})</AudioToTextX>
+    <AudioToTextSelectedLinesX>Audio to text selected lines ({0})</AudioToTextSelectedLinesX>
     <VideoToggleBrightness>Toggle brightness (mpv only)</VideoToggleBrightness>
     <CustomSearch1>Translate, custom search 1</CustomSearch1>
     <CustomSearch2>Translate, custom search 2</CustomSearch2>
@@ -2868,6 +2881,7 @@ Continue?</RestoreDefaultSettingsMsg>
     <CopyXOfY>Copy {0} of {1}</CopyXOfY>
     <New>New</New>
     <Remove>Remove</Remove>
+    <ReplaceWith>Replace with...</ReplaceWith>
     <RemoveAll>Remove all</RemoveAll>
     <ImportStyleFromFile>Import style from file...</ImportStyleFromFile>
     <ExportStyleToFile>Export style to file... (will add style if file already exists)</ExportStyleToFile>
@@ -3002,7 +3016,7 @@ Keep changes?</KeepChangesMessage>
     <TransportStreamGrayscale>Grayscale</TransportStreamGrayscale>
     <TransportStreamGetColor>Use color (splitting of lines may occur)</TransportStreamGetColor>
     <PromptForUnknownWords>Prompt for unknown words</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Try to guess unknown words</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Try to guess unknown words</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>Auto break paragraph if more than two lines</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>All fixes</AllFixes>
     <GuessesUsed>Guesses used</GuessesUsed>
@@ -3046,6 +3060,7 @@ Keep changes?</KeepChangesMessage>
     <CloudVisionApi>Google Cloud Vision API</CloudVisionApi>
     <ApiKey>API key</ApiKey>
     <SendOriginalImages>Send original images</SendOriginalImages>
+    <SeHandlesTextMerge>SE handles text merge</SeHandlesTextMerge>
   </VobSubOcr>
   <VobSubOcrCharacter>
     <Title>OCR - Manual image to text</Title>

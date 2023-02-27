@@ -9,6 +9,9 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
     public class CsvNuendo : SubtitleFormat
     {
         private static readonly Regex CsvLine = new Regex("^(\"(.*)\")*,\\d+:\\d+:\\d+:\\d+,\\d+:\\d+:\\d+:\\d+,(\"(.*)\")*", RegexOptions.Compiled);
+        private static readonly Regex CsvLineNoQuotes = new Regex("[^\"][^,]+[^\"],\\d+:\\d+:\\d+:\\d+,\\d+:\\d+:\\d+:\\d+,[^\"][^,]+[^\"]", RegexOptions.Compiled);
+        private static readonly Regex CsvLineNoQuotesFirst = new Regex("[^\"][^,]+[^\"],\\d+:\\d+:\\d+:\\d+,\\d+:\\d+:\\d+:\\d+,(\"(.*)\")*", RegexOptions.Compiled);
+        private static readonly Regex CsvLineAllQuotes = new Regex("^(\"(.*)\")*,\"\\d+:\\d+:\\d+:\\d+\",\"\\d+:\\d+:\\d+:\\d+\",(\"(.*)\")*", RegexOptions.Compiled);
         private const string LineFormat = "{1}{0}{2}{0}{3}{0}{4}";
         private static readonly string Header = string.Format(LineFormat, ",", "\"Character\"", "\"Timecode In\"", "\"Timecode Out\"", "\"Dialogue\"");
 
@@ -18,27 +21,44 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
 
         public override bool IsMine(List<string> lines, string fileName)
         {
-            int fine = 0;
+            var fine = 0;
+            var errors = 0;
             var sb = new StringBuilder();
-            foreach (string line in lines)
+            foreach (var line in lines)
             {
                 sb.Append(line);
-                if (line.IndexOf(':') > 0 && CsvLine.IsMatch(line))
+                if (line.IndexOf(':') > 0 && 
+                    (CsvLine.IsMatch(line) ||
+                     CsvLineNoQuotes.IsMatch(line) ||
+                     CsvLineAllQuotes.IsMatch(line) ||
+                     CsvLineNoQuotesFirst.IsMatch(line)))
                 {
                     fine++;
                 }
+                else
+                {
+                    errors++;
+                    if (fine == 0 && errors > 10)
+                    {
+                        return false;
+                    }
+                }
             }
-            return fine > 0 && sb.ToString().Contains(Header);
+
+            return fine > 0 && sb.ToString()
+                .RemoveChar('"')
+                .RemoveChar(' ')
+                .Contains(Header.RemoveChar('"').RemoveChar(' '));
         }
 
         public override string ToText(Subtitle subtitle, string title)
         {
             var sb = new StringBuilder();
             sb.AppendLine(Header);
-            foreach (Paragraph p in subtitle.Paragraphs)
+            foreach (var p in subtitle.Paragraphs)
             {
-                string text = string.IsNullOrEmpty(p.Text) ? string.Empty : "\"" + p.Text.Replace("\"", "\"\"").Replace(Environment.NewLine, "\n") + "\"";
-                string actor = string.IsNullOrEmpty(p.Actor) ? string.Empty : "\"" + p.Actor.Replace(",", " ").Replace("\"", string.Empty) + "\"";
+                var text = string.IsNullOrEmpty(p.Text) ? string.Empty : "\"" + p.Text.Replace("\"", "\"\"").Replace(Environment.NewLine, "\n") + "\"";
+                var actor = string.IsNullOrEmpty(p.Actor) ? string.Empty : "\"" + p.Actor.Replace(",", " ").Replace("\"", string.Empty) + "\"";
                 sb.AppendLine(string.Format(LineFormat, ",", actor, p.StartTime.ToHHMMSSFF(), p.EndTime.ToHHMMSSFF(), text));
             }
             return sb.ToString().Trim();
@@ -47,21 +67,26 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
         public override void LoadSubtitle(Subtitle subtitle, List<string> lines, string fileName)
         {
             _errorCount = 0;
-            bool continuation = false;
+            var continuation = false;
             Paragraph p = null;
-            foreach (string line in lines)
+            foreach (var line in lines)
             {
-                if (CsvLine.IsMatch(line))
+                if (line.Contains(':') && 
+                    CsvLine.IsMatch(line) ||
+                    CsvLineNoQuotes.IsMatch(line) ||
+                    CsvLineAllQuotes.IsMatch(line) ||
+                    CsvLineNoQuotesFirst.IsMatch(line))
                 {
-                    string[] parts = line.Split(',');
+                    var parts = CsvUtil.CsvSplit(line, false, out var con);
+                    continuation = con;
                     if (parts.Length == 4)
                     {
                         try
                         {
-                            var actor = Utilities.FixQuotes(parts[0]);
+                            var actor = parts[0];
                             var start = DecodeTime(parts[1]);
                             var end = DecodeTime(parts[2]);
-                            string text = Utilities.FixQuotes(parts[3]);
+                            var text = parts[3];
                             p = new Paragraph(start, end, text);
                             if (!string.IsNullOrEmpty(actor))
                             {
@@ -69,7 +94,6 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                             }
 
                             subtitle.Paragraphs.Add(p);
-                            continuation = parts[3].StartsWith('"') && !parts[3].EndsWith('"');
                         }
                         catch
                         {
@@ -81,12 +105,12 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                 {
                     if (continuation)
                     {
-                        if (p.Text.Length < 300)
+                        var parts = CsvUtil.CsvSplit(line, true, out var con);
+                        continuation = con;
+                        if (parts.Length == 1 && p.Text.Length < 300)
                         {
-                            p.Text = (p.Text + Environment.NewLine + line.TrimEnd('"')).Trim();
+                            p.Text = (p.Text + Environment.NewLine + parts[0]).Trim();
                         }
-
-                        continuation = !line.TrimEnd().EndsWith('"');
                     }
                     else
                     {
@@ -94,6 +118,7 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                     }
                 }
             }
+
             subtitle.Renumber();
         }
 

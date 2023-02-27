@@ -531,6 +531,9 @@ namespace Nikse.SubtitleEdit.Forms.Options
             labelSaveAsFileNameFrom.Text = language.SaveAsFileNameFrom;
             labelAutoBackup.Text = language.AutoBackup;
             labelAutoBackupDeleteAfter.Text = language.AutoBackupDeleteAfter;
+            labelTranslationAutoSuffix.Text = language.TranslationAutoSuffix;
+            comboBoxTranslationAutoSuffix.Left = labelTranslationAutoSuffix.Right + 3;
+            buttonTranslationAutoSuffix.Left = comboBoxTranslationAutoSuffix.Right + 3;
             comboBoxAutoBackup.Left = labelAutoBackup.Left + labelAutoBackup.Width + 3;
             labelAutoBackupDeleteAfter.Left = comboBoxAutoBackup.Left + comboBoxAutoBackup.Width + 5;
             comboBoxAutoBackupDeleteAfter.Left = labelAutoBackupDeleteAfter.Left + labelAutoBackupDeleteAfter.Width + 3;
@@ -734,6 +737,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             labelToolsMusicSymbolsToReplace.Text = language.MusicSymbolsReplace;
             checkBoxFixCommonOcrErrorsUsingHardcodedRules.Text = language.FixCommonOcrErrorsUseHardcodedRules;
             checkBoxUseWordSplitList.Text = language.UseWordSplitList;
+            checkBoxUseWordSplitListAvoidPropercase.Text = language.AvoidPropercase;
             checkBoxFixShortDisplayTimesAllowMoveStartTime.Text = language.FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime;
             checkBoxFceSkipStep1.Text = language.FixCommonErrorsSkipStepOne;
             groupBoxSpellCheck.Text = language.SpellCheck;
@@ -793,6 +797,26 @@ namespace Nikse.SubtitleEdit.Forms.Options
             comboBoxSaveAsFileNameFrom.Items.Add(language.VideoFileName);
             comboBoxSaveAsFileNameFrom.Items.Add(language.ExistingFileName);
 
+            comboBoxTranslationAutoSuffix.Items.Clear();
+            comboBoxTranslationAutoSuffix.Items.Add("<" + LanguageSettings.Current.ImportText.Auto + ">");
+            foreach (var suffix in Configuration.Settings.General.TranslationAutoSuffixes.Split(';'))
+            {
+                if (suffix.StartsWith('<'))
+                {
+                    continue;
+                }
+
+                comboBoxTranslationAutoSuffix.Items.Add(suffix);
+                if (suffix == Configuration.Settings.General.TranslationAutoSuffixDefault)
+                {
+                    comboBoxTranslationAutoSuffix.SelectedIndex = comboBoxTranslationAutoSuffix.Items.Count - 1;
+                }
+            }
+            if (comboBoxTranslationAutoSuffix.SelectedIndex < 0)
+            {
+                comboBoxTranslationAutoSuffix.SelectedIndex = 0;
+            }
+
             if (gs.ListViewDoubleClickAction >= 0 && gs.ListViewDoubleClickAction < comboBoxListViewDoubleClickEvent.Items.Count)
             {
                 comboBoxListViewDoubleClickEvent.SelectedIndex = gs.ListViewDoubleClickAction;
@@ -820,7 +844,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             var deleteAfterIdx = gs.AutoBackupDeleteAfterMonths - 1;
             if (deleteAfterIdx >= comboBoxAutoBackupDeleteAfter.Items.Count - 1)
             {
-                comboBoxAutoBackupDeleteAfter.SelectedIndex = comboBoxAutoBackupDeleteAfter.Items.Count-1;
+                comboBoxAutoBackupDeleteAfter.SelectedIndex = comboBoxAutoBackupDeleteAfter.Items.Count - 1;
             }
             else
             {
@@ -841,7 +865,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             checkBoxAllowEditOfOriginalSubtitle.Checked = gs.AllowEditOfOriginalSubtitle;
             checkBoxPromptDeleteLines.Checked = gs.PromptDeleteLines;
 
-            ToolsSettings toolsSettings = Configuration.Settings.Tools;
+            var toolsSettings = Configuration.Settings.Tools;
             if (toolsSettings.VerifyPlaySeconds - 2 >= 0 && toolsSettings.VerifyPlaySeconds - 2 < comboBoxToolsVerifySeconds.Items.Count)
             {
                 comboBoxToolsVerifySeconds.SelectedIndex = toolsSettings.VerifyPlaySeconds - 2;
@@ -931,6 +955,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             textBoxMusicSymbolsToReplace.Text = toolsSettings.MusicSymbolReplace;
             checkBoxFixCommonOcrErrorsUsingHardcodedRules.Checked = toolsSettings.OcrFixUseHardcodedRules;
             checkBoxUseWordSplitList.Checked = toolsSettings.OcrUseWordSplitList;
+            checkBoxUseWordSplitListAvoidPropercase.Checked = toolsSettings.OcrUseWordSplitListAvoidPropercase;
             checkBoxFixShortDisplayTimesAllowMoveStartTime.Checked = toolsSettings.FixShortDisplayTimesAllowMoveStartTime;
             checkBoxFceSkipStep1.Checked = toolsSettings.FixCommonErrorsSkipStepOne;
             checkBoxSpellCheckAutoChangeNames.Checked = toolsSettings.SpellCheckAutoChangeNameCasing;
@@ -1300,6 +1325,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(fileNode, LanguageSettings.Current.Main.SaveOriginalSubtitleAs, nameof(Configuration.Settings.Shortcuts.MainFileSaveOriginalAs), true);
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.OpenOriginal, nameof(Configuration.Settings.Shortcuts.MainFileOpenOriginal), true);
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.CloseOriginal, nameof(Configuration.Settings.Shortcuts.MainFileCloseOriginal), true);
+            AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.CloseTranslation, nameof(Configuration.Settings.Shortcuts.MainFileCloseTranslation), true);
             AddNode(fileNode, language.MainFileSaveAll, nameof(Configuration.Settings.Shortcuts.MainFileSaveAll));
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.Compare, nameof(Configuration.Settings.Shortcuts.MainFileCompare), true);
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.Import + " -> " + LanguageSettings.Current.Main.Menu.File.ImportText, nameof(Configuration.Settings.Shortcuts.MainFileImportPlainText), true);
@@ -1397,7 +1423,8 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(videoNode, language.PlayRateToggle, nameof(Configuration.Settings.Shortcuts.MainVideoSpeedToggle));
             AddNode(videoNode, language.VideoResetSpeedAndZoom, nameof(Configuration.Settings.Shortcuts.MainVideoReset));
             AddNode(videoNode, language.MainToggleVideoControls, nameof(Configuration.Settings.Shortcuts.MainVideoToggleControls));
-            AddNode(videoNode, language.VideoAudioToText, nameof(Configuration.Settings.Shortcuts.MainVideoAudioToText));
+            AddNode(videoNode, string.Format(language.AudioToTextX, "Vosk"), nameof(Configuration.Settings.Shortcuts.MainVideoAudioToTextVosk));
+            AddNode(videoNode, string.Format(language.AudioToTextX, "Whisper"), nameof(Configuration.Settings.Shortcuts.MainVideoAudioToTextWhisper));
             AddNode(videoNode, language.VideoToggleContrast, nameof(Configuration.Settings.Shortcuts.MainVideoToggleContrast));
             AddNode(videoNode, language.VideoToggleBrightness, nameof(Configuration.Settings.Shortcuts.MainVideoToggleBrightness));
             _shortcuts.Nodes.Add(videoNode);
@@ -1601,6 +1628,8 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(audioVisualizerNode, language.GoForward100Milliseconds, nameof(Configuration.Settings.Shortcuts.Waveform100MsRight));
             AddNode(audioVisualizerNode, language.GoBack1Second, nameof(Configuration.Settings.Shortcuts.Waveform1000MsLeft));
             AddNode(audioVisualizerNode, language.GoForward1Second, nameof(Configuration.Settings.Shortcuts.Waveform1000MsRight));
+            AddNode(audioVisualizerNode, string.Format(language.AudioToTextSelectedLinesX, "Vosk"), nameof(Configuration.Settings.Shortcuts.WaveformAudioToTextVosk));
+            AddNode(audioVisualizerNode, string.Format(language.AudioToTextSelectedLinesX, "Whisper"), nameof(Configuration.Settings.Shortcuts.WaveformAudioToTextWhisper));
             _shortcuts.Nodes.Add(audioVisualizerNode);
 
             LoadPluginsShortcuts();
@@ -1813,6 +1842,14 @@ namespace Nikse.SubtitleEdit.Forms.Options
 
             gs.Profiles = _rulesProfiles;
 
+            gs.TranslationAutoSuffixDefault = comboBoxTranslationAutoSuffix.Text;
+            var suffixes = new List<string>();
+            foreach (var suffix in comboBoxTranslationAutoSuffix.Items)
+            {
+                suffixes.Add(suffix.ToString());
+            }
+            gs.TranslationAutoSuffixes = string.Join(";", suffixes);
+
             gs.SaveAsUseFileNameFrom = comboBoxSaveAsFileNameFrom.SelectedIndex == 0 ? "video" : "file";
 
             gs.SubtitleMinimumDisplayMilliseconds = (int)numericUpDownDurationMin.Value;
@@ -1837,7 +1874,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
                 gs.AutoBackupSeconds = 0;
             }
 
-            gs.AutoBackupDeleteAfterMonths = comboBoxAutoBackupDeleteAfter.SelectedIndex+1;
+            gs.AutoBackupDeleteAfterMonths = comboBoxAutoBackupDeleteAfter.SelectedIndex + 1;
 
             gs.CheckForUpdates = checkBoxCheckForUpdates.Checked;
             gs.AutoSave = checkBoxAutoSave.Checked;
@@ -1984,6 +2021,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
 
             toolsSettings.OcrFixUseHardcodedRules = checkBoxFixCommonOcrErrorsUsingHardcodedRules.Checked;
             toolsSettings.OcrUseWordSplitList = checkBoxUseWordSplitList.Checked;
+            toolsSettings.OcrUseWordSplitListAvoidPropercase = checkBoxUseWordSplitListAvoidPropercase.Checked;
             toolsSettings.FixShortDisplayTimesAllowMoveStartTime = checkBoxFixShortDisplayTimesAllowMoveStartTime.Checked;
             toolsSettings.FixCommonErrorsSkipStepOne = checkBoxFceSkipStep1.Checked;
             toolsSettings.MicrosoftTranslatorApiKey = textBoxBingClientSecret.Text.Trim();
@@ -3282,6 +3320,8 @@ namespace Nikse.SubtitleEdit.Forms.Options
             var iconDir = Path.Combine(Configuration.BaseDirectory, "Icons");
             if (!Directory.Exists(iconDir))
             {
+                listViewFileTypeAssociations.Visible = false;
+                buttonUpdateFileTypeAssociations.Visible = false;
                 return;
             }
 
@@ -3346,9 +3386,27 @@ namespace Nikse.SubtitleEdit.Forms.Options
             }
         }
 
-        private void checkBoxTBRemoveTextForHi_CheckedChanged(object sender, EventArgs e)
+        private void buttonTranslationAutoSuffix_Click(object sender, EventArgs e)
         {
+            var suffixes = new List<string>();
+            foreach (var item in comboBoxTranslationAutoSuffix.Items)
+            {
+                suffixes.Add(item.ToString());
+            }
 
+            using (var form = new TranslationAutoSuffix(suffixes))
+            {
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    comboBoxTranslationAutoSuffix.Items.Clear();
+                    comboBoxTranslationAutoSuffix.BeginUpdate();
+                    foreach (var suffix in form.Suffixes)
+                    {
+                        comboBoxTranslationAutoSuffix.Items.Add(suffix);
+                    }
+                    comboBoxTranslationAutoSuffix.EndUpdate();
+                }
+            }
         }
     }
 }

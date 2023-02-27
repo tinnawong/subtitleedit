@@ -2,7 +2,7 @@
 <Language Name="Čeština">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Překlad do češtiny: Trottel</TranslatedBy>
     <CultureName>cs-CZ</CultureName>
     <HelpFile />
@@ -710,7 +710,7 @@ Poznámka: Zkontrolujte volné místo na disku.</WaveFileMalformed>
     <FixCommonOcrErrors>Opravit běžné chyby OCR (používá seznam náhrad OCR)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Opraveny běžné chyby OCR (použit soubor OcrReplaceList): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Odebrat mezeru mezi čísly</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Opravit dialogy na jednom řádku</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Opravit dialogy na jednom řádku</BreakDialogsOnOneLine>
     <RemoveDialogFirstInNonDialogs>Odebrat pomlčku na začátku prvního řádku, pokud se nejedná o dialogy</RemoveDialogFirstInNonDialogs>
     <NormalizeStrings>Normalizovat řetězce</NormalizeStrings>
     <FixTurkishAnsi>Opravit znaky v tureckém ANSI (islandština) na Unicode</FixTurkishAnsi>
@@ -2808,7 +2808,7 @@ Zachovat změny?</KeepChangesMessage>
     <TransportStreamGrayscale>Stupně šedé</TransportStreamGrayscale>
     <TransportStreamGetColor>Použít barvu (může dojít k rozdělení řádků)</TransportStreamGetColor>
     <PromptForUnknownWords>Dotázat se na neznámá slova</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Pokusit se odhadnout neznámá slova</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Pokusit se odhadnout neznámá slova</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>Automaticky zalamovat odstavce při více než dvou řádcích</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Všechny opravy</AllFixes>
     <GuessesUsed>Použité odhady</GuessesUsed>

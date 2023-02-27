@@ -1,5 +1,66 @@
 ﻿Subtitle Edit Changelog
 
+3.6.11 (30th January 2023)
+* NEW:
+   * Add File - Close translated subtitle - thx zcraber/Leon 
+   * Add auto-naming rule for translation - thx Leon/OmrSi
+   * Add more Whisper post-processing
+   * Add line merge option for Google Cloud Vision OCR
+   * Add new subtitle format - thx Christophe
+   * Add new subtitle format - thx Chris
+   * Add ASSA style "Replace" - thx Mishasama
+   * Add "audio to text selected lines" shortcuts
+   * Add Vosk Korean/Uzbek/large-Hindi models
+* IMPROVED:
+   * Update Chinese translation - thx nkh0472
+   * Update Korean translation - thx domddol
+   * Update Italian translation - thx bovirus
+   * Update Polish translation - thx admas
+   * Update Portuguese translation - thx hugok79
+   * Update Finnish translation - thx Teijo S
+   * Update Hungarian translation - thx Zityi
+   * Update French translation - thx Pierre
+   * Update Bulgarian translation - thx Калин
+   * Update Greek translation - thx PMitsakis
+   * Improve DVB in mkv (fix batch/cmd convert + pos) - thx antoniu200
+   * Better ffmpeg detection - thx SMSourov
+   * Avoid standby a few places - thx mpek
+   * Optimize ASSA style import
+   * Improve line split a little - thx i990049
+   * Add a few English words/names to dictionaries
+   * Make formatting shortcuts in waveform work on selected lines
+   * Remember font in burn-in - thx Nespula95
+   * Remember "Merge lines with same text" settings - thx kamitsu2004
+   * Improve convert of WebVTT to SubRip style handling - thx maknol
+   * Rename "Fix dialogs on one line" to "Break dialogs on one line"
+   * Sort Tesseract dictionaries in download drop-down-list
+   * Update Tesseract 5.2.0 to 5.3.0
+   * Update Whisper CPP to 2023-01-28
+   * Update yt-dlp to 2023.01.06
+   * Improve setting color tags when reading from EBU STL
+   * Add more validation for EBU STL teletext - thx Stefan
+   * Add a couple of languages to the installer
+* FIXED:
+   * Fix italic in DCinema interop - thx Andrey
+   * Fix Whisper model download - thx darnn
+   * Fix "play video from url" for installer version
+   * Keep bookmarks after source view edit - thx MMT
+   * Fix for "replace all" non reg-ex
+   * Fix wrongful removal of "Unneeded Space" - thx Minherre
+   * Fix possible crash in "Choosee profile" - thx darnn
+   * Make "Add missing space" work with non-English letters - thx Redjan
+   * Fix a few UI issues in "Word lists" - thx Edwin
+   * Fix crash in "Sync via other sub" - thx JP
+   * Fix original desync after "set start time" - thx Leon
+   * Handle multi-audio-track waveform/spectrogram better - thx AlfonZ42
+   * Fix CSV reading issue - thx Instinct64 
+   * Fix SSA to ASSA style issue - thx Alain
+   * Fix Find/Find-next in OCR window - thx dokax
+   * Fix issue with online text search in translation mode - thx domddol	
+   * Allow curly brackets in ASSA styles - thx Ahmad
+   * A few fixes for "Remove text for HI" - thx Zezslav	
+
+
 3.6.10 (21th November 2022)
 * FIXED:
    * Fix missing dll file
@@ -39,7 +100,7 @@
    * Fix bookmark showing on first spell check line - thx OmrSi
    * Fix format XIF writing - thx Per
    * Fix for WebVTT with line# hours - thx garion84
-   * Fix " 's" / Dutch in "Fix missing spaces"" - thx Jean-Pierre
+   * Fix " 's" / Dutch in "Fix missing spaces" - thx Jean-Pierre
 
 
 3.6.8 (24th October 2022)

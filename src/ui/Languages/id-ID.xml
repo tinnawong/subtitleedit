@@ -2,7 +2,7 @@
 <Language Name="Bahasa Indonesia">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>Diterjemahkan oleh Nicedward (04/2018)</TranslatedBy>
     <CultureName>id-ID</CultureName>
     <HelpFile />
@@ -563,7 +563,7 @@ Catatan: Periksa ruang kosong disk.</WaveFileMalformed>
     <FixCommonOcrErrors>Perbaiki eror OCR umum (menggunakan daftar ganti OCR)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Eror OCR umum diperbaiki (file OcrReplaceList digunakan): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Buang spasi di antara angka</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Perbaiki dialog pada satu baris</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Perbaiki dialog pada satu baris</BreakDialogsOnOneLine>
     <RemoveSpaceBetweenNumbersFixed>Buang spasi di antara nomor diperbaiki: {0}</RemoveSpaceBetweenNumbersFixed>
     <FixTurkishAnsi>Perbaiki huruf ANSI Turki (Islandia) ke Unikode</FixTurkishAnsi>
     <FixDanishLetterI>Perbaiki huruf 'i" Denmark</FixDanishLetterI>
@@ -2289,7 +2289,7 @@ Jaga perubahan?</KeepChangesMessage>
     <TransportStreamGrayscale>Skala abu</TransportStreamGrayscale>
     <TransportStreamGetColor>Gunakan warna (pemisahan baris bisa terjadi)</TransportStreamGetColor>
     <PromptForUnknownWords>Beritahukan untuk kata yg tidak diketahui</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Coba menebak kata yg tidak dikenal</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Coba menebak kata yg tidak dikenal</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>Oto. jeda paragraf bila lebih dari dua baris</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Semua perbaikan</AllFixes>
     <GuessesUsed>Penebakan digunakan</GuessesUsed>

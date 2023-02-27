@@ -2,12 +2,14 @@
 <Language Name="Italiano">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
-    <TranslatedBy>Tradotto da NAMP e bovirus - Data traduzione: 10.11.2022</TranslatedBy>
+    <Version>3.6.11</Version>
+    <TranslatedBy>Tradotto da NAMP e bovirus - Data traduzione: 27.01.2023</TranslatedBy>
     <CultureName>it-IT</CultureName>
     <HelpFile />
     <Ok>OK</Ok>
     <Cancel>Annulla</Cancel>
+    <Yes>Sì</Yes>
+    <No>No</No>
     <Apply>Applica</Apply>
     <ApplyTo>Applica a</ApplyTo>
     <None>Nessuno</None>
@@ -192,6 +194,7 @@ Vuoi ulteriori informazioni (web)?</WhisperNotFound>
     <TranscribingXOfY>Conversione dell'audio in testo - file {0} di {1}...</TranscribingXOfY>
     <XFilesSavedToVideoSourceFolder>{0} file salvati nella cartella sorgente video</XFilesSavedToVideoSourceFolder>
     <UsePostProcessing>Usa la post-elaborazione (unione di righe, correzione di maiuscole e minuscole, punteggiatura e altro)</UsePostProcessing>
+    <AutoAdjustTimings>Regola automaticamente i tempi</AutoAdjustTimings>
     <BatchMode>Modo batch</BatchMode>
     <KeepPartialTranscription>Mantieni la trascrizione parziale</KeepPartialTranscription>
     <TranslateToEnglish>Traduci in inglese</TranslateToEnglish>
@@ -757,7 +760,7 @@ Vuoi ulteriori informazioni (web)?</WhisperNotFound>
     <FixShortDisplayTimes>Correggi tempi di visualizzazione corti</FixShortDisplayTimes>
     <FixLongDisplayTimes>Correggi tempi di visualizzazione lunghi</FixLongDisplayTimes>
     <FixShortGaps>Correggi spazi vuoti</FixShortGaps>
-    <FixInvalidItalicTags>Correggi tag dei corsivi invalidi</FixInvalidItalicTags>
+    <FixInvalidItalicTags>Correggi tag corsivi non validi</FixInvalidItalicTags>
     <RemoveUnneededSpaces>Elimina spazi non necessari</RemoveUnneededSpaces>
     <RemoveUnneededPeriods>Elimina punti non necessari</RemoveUnneededPeriods>
     <FixCommas>Correggi le virgole</FixCommas>
@@ -773,9 +776,9 @@ Vuoi ulteriori informazioni (web)?</WhisperNotFound>
     <StartWithUppercaseLetterAfterColon>Inizia la riga con una lettera maiuscola dopo i due punti/punto e virgola</StartWithUppercaseLetterAfterColon>
     <FixLowercaseIToUppercaseI>Sostituisci la lettera minuscola 'i' da sola con 'I' (Inglese)</FixLowercaseIToUppercaseI>
     <FixCommonOcrErrors>Correggi gli errori comuni OCR (usando elenco sostituzioni OCR)</FixCommonOcrErrors>
-    <CommonOcrErrorsFixed>Corretti rrrori comuni OCR (usato elenco sostituzioni OCR): {0}</CommonOcrErrorsFixed>
+    <CommonOcrErrorsFixed>Corretti errori comuni OCR (usato elenco sostituzioni OCR): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Rimuovi spazio tra i numeri</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Correggi i dialoghi in una sola riga</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Dividi i dialoghi in una sola riga</BreakDialogsOnOneLine>
     <RemoveDialogFirstInNonDialogs>Rimuovi trattino iniziale nella prima riga per i non dialoghi</RemoveDialogFirstInNonDialogs>
     <NormalizeStrings>Normalizza stringhe</NormalizeStrings>
     <FixTurkishAnsi>Correggi ANSI turco (Icelandic) lettere a Unicode</FixTurkishAnsi>
@@ -859,6 +862,7 @@ Vuoi ulteriori informazioni (web)?</WhisperNotFound>
     <XGeneratedWithBurnedInSubs>"{0}" generato con sottotitoli incorporati.</XGeneratedWithBurnedInSubs>
     <TimeRemainingMinutes>Tempo rimanente: {0} minuti</TimeRemainingMinutes>
     <TimeRemainingSeconds>Tempo rimanente: {0} secondi</TimeRemainingSeconds>
+    <TimeRemainingAFewSeconds>Tempo rimanente: pochi secondi</TimeRemainingAFewSeconds>
     <TimeRemainingMinutesAndSeconds>Tempo rimanente: {0} minuti e {1} secondi</TimeRemainingMinutesAndSeconds>
     <TargetFileName>Nome file destinazione: {0}</TargetFileName>
     <TargetFileSize>Dimensione file destinazione (richiede codifica in 2 passaggi)</TargetFileSize>
@@ -899,7 +903,7 @@ Vuoi ulteriori informazioni (web)?</WhisperNotFound>
     <From>Da:</From>
     <To>A:</To>
     <Translate>Traduci</Translate>
-    <PleaseWait>Attendere... ci potrebbe volere un po di tempo</PleaseWait>
+    <PleaseWait>Attendi. Ci potrebbe volere un po di tempo.</PleaseWait>
     <PoweredByGoogleTranslate>Servizio traduzione di Google</PoweredByGoogleTranslate>
     <PoweredByMicrosoftTranslate>Servizio traduzione di Microsoft</PoweredByMicrosoftTranslate>
     <MsClientSecretNeeded>Per usare il traduttore Microsoft più recente, è necessaria una chiave "Testo traduttore" dei servizi cognitivi.
@@ -1162,6 +1166,7 @@ Per usare una chiave API vai su "Opzioni -&gt; Impostazioni -&gt; Strumenti" per
         <OpenOriginal>Apri sottotitolo originale (modo traduzione)...</OpenOriginal>
         <SaveOriginal>Salva sottotitolo originale</SaveOriginal>
         <CloseOriginal>Chiudi sottotitolo originale</CloseOriginal>
+        <CloseTranslation>Chiudi sottotitoli tradotti</CloseTranslation>
         <OpenContainingFolder>Apri cartella contenente</OpenContainingFolder>
         <Compare>Confronta...</Compare>
         <Statistics>Statistiche...</Statistics>
@@ -1343,7 +1348,7 @@ Per usare una chiave API vai su "Opzioni -&gt; Impostazioni -&gt; Strumenti" per
         <Help>Aiuto</Help>
         <ShowHideWaveform>Visualizza/nascondi forma onda</ShowHideWaveform>
         <ShowHideVideo>Visualizza/nascondi video</ShowHideVideo>
-        <AssaDraw>Sorteggio Alpha Sub Station avanzato</AssaDraw>
+        <AssaDraw>Disegno Advanced Sub Station Alpha</AssaDraw>
       </ToolBar>
       <ContextMenu>
         <SizeAllColumnsToFit>Ridimensiona tutte le colonne per adattarle</SizeAllColumnsToFit>
@@ -1633,7 +1638,7 @@ Vuoi continuare?</SubtitleAppendPrompt>
     <BlurayNotSubtitlesFound>Il file Blu-ray sup non contiene sottotitoli o contiene errori - prova a demuxarlo di nuovo.</BlurayNotSubtitlesFound>
     <ImportingChapters>Importazione dei capitoli in corso...</ImportingChapters>
     <XChaptersImported>{0} capitoli importati</XChaptersImported>
-    <ParsingMatroskaFile>Analisi file Matroska. Attendere...</ParsingMatroskaFile>
+    <ParsingMatroskaFile>Analisi file Matroska. Attendi...</ParsingMatroskaFile>
     <ParsingTransportStreamFile>Analisi file Transport Stream. Attendi...</ParsingTransportStreamFile>
     <BeforeImportFromMatroskaFile>Prima di importare sottotitolo da file Matroska</BeforeImportFromMatroskaFile>
     <SubtitleImportedFromMatroskaFile>Sottotitolo importato da file Matroska</SubtitleImportedFromMatroskaFile>
@@ -1720,7 +1725,7 @@ Vuoi continuare?</SubtitleAppendPrompt>
     <LineNumberXErrorReadingFromSourceLineY>Riga {0} - errore leggendo: {1}</LineNumberXErrorReadingFromSourceLineY>
     <LineNumberXErrorReadingTimeCodeFromSourceLineY>Riga {0} - errore leggendo codice temporale: {1}</LineNumberXErrorReadingTimeCodeFromSourceLineY>
     <LineNumberXExpectedNumberFromSourceLineY>Riga {0} - previsto sottotitolo numero: {1}</LineNumberXExpectedNumberFromSourceLineY>
-    <LineNumberXExpectedEmptyLine>Riga {0} - prevista riga vuota, ma trovato il numero - codice di tempo (numero ignorato): {1}</LineNumberXExpectedEmptyLine>
+    <LineNumberXExpectedEmptyLine>Riga {0} - prevista riga vuota, ma trovato il numero ({1}) seguito dal codice temporale</LineNumberXExpectedEmptyLine>
     <BeforeGuessingTimeCodes>Prima di indovinare il codice temporale</BeforeGuessingTimeCodes>
     <BeforeAutoDuration>Prima della durata automatica per righe selezionate</BeforeAutoDuration>
     <BeforeColumnPaste>Prima di incolla colonna</BeforeColumnPaste>
@@ -1735,13 +1740,13 @@ Vuoi continuare?</SubtitleAppendPrompt>
     <UnableToCreateBackupDirectory>Impossibile creare la cartella del backup {0}: {1}</UnableToCreateBackupDirectory>
     <BeforeDisplaySubtitleJoin>Prima di unisci sottotitoli</BeforeDisplaySubtitleJoin>
     <SubtitlesJoined>Sottotitoli uniti</SubtitlesJoined>
-    <StatusLog>Log di stato</StatusLog>
+    <StatusLog>Registri di stato</StatusLog>
     <XShotChangesImported>{0} cambi scena importati</XShotChangesImported>
     <PluginXExecuted>Plugin '{0}' eseguito</PluginXExecuted>
     <NotAValidXSubFile>Non è un file XSub valido!</NotAValidXSubFile>
     <BeforeMergeLinesWithSameText>Prima di unire righe con lo stesso testo</BeforeMergeLinesWithSameText>
     <ImportTimeCodesDifferentNumberOfLinesWarning>Il sottotitolo con timecode ha un differente numero di righe ({0}) rispetto a quello attuale ({1}) - vuoi continuare comunque?</ImportTimeCodesDifferentNumberOfLinesWarning>
-    <ParsingTransportStream>Analisi transport stream, attendere...</ParsingTransportStream>
+    <ParsingTransportStream>Analisi transport stream, attendi...</ParsingTransportStream>
     <XPercentCompleted>{0}% completato</XPercentCompleted>
     <NextX>Avanti: {0}</NextX>
     <PromptInsertSubtitleOverlap>L'inserimento dei sottotitoli nella posizione della forma d'onda causerà la sovrapposizione!
@@ -1779,6 +1784,11 @@ Vuoi scaricare mpv e youtuibe-dl e continuare?</VideoFromUrlRequirements>
     <UsingOnlyFrontCenterChannel>Usando solo il canale audio centrale anteriore</UsingOnlyFrontCenterChannel>
     <BeforeConvertingColorsToDialog>Prima di convertire i colori in dialog</BeforeConvertingColorsToDialog>
     <ConvertedColorsToDialog>Colori convertiti in dialogo</ConvertedColorsToDialog>
+    <PleaseInstallVideoPlayer>Installa il lettore video</PleaseInstallVideoPlayer>
+    <UnableToPlayMediaFile>Subtitle Edit non ha potuto riprodurre il file video/audio (o il file non è un file video/audio valido).</UnableToPlayMediaFile>
+    <SubtitleEditNeedsVideoPlayer>Subtitle Edit ha bisogno di un lettore video.</SubtitleEditNeedsVideoPlayer>
+    <UseRecommendMpv>Per usare il lettore video consigliato "mpv" fai clic sul pulsante qui sotto.</UseRecommendMpv>
+    <DownloadAndUseMpv>Scarica e sua "mpv" come lettore video</DownloadAndUseMpv>
   </Main>
   <MatroskaSubtitleChooser>
     <Title>Scegli sottotitolo da file Matroska</Title>
@@ -1881,7 +1891,7 @@ Vuoi scaricare mpv e youtuibe-dl e continuare?</VideoFromUrlRequirements>
     <Knots>Nodi</Knots>
     <PoundsForce>Libbre-forza</PoundsForce>
     <Newtons>Newton</Newtons>
-    <KilosForce>Chiilogrammi forza</KilosForce>
+    <KilosForce>Chilogrammi forza</KilosForce>
     <Jouls>Joule</Jouls>
     <Calories>Calorie</Calories>
     <Ergs>Erg</Ergs>
@@ -2203,6 +2213,7 @@ stesso file di sottotitolo (collaborazione)</Information>
     <AutoBackupEveryFiveMinutes>Ogni 5 minuti</AutoBackupEveryFiveMinutes>
     <AutoBackupEveryFifteenMinutes>Ogni 15 minuti</AutoBackupEveryFifteenMinutes>
     <AutoBackupDeleteAfter>Elimina dopo</AutoBackupDeleteAfter>
+    <TranslationAutoSuffix>Suffisso automatico nome file traduzione</TranslationAutoSuffix>
     <AutoBackupDeleteAfterOneMonth>1 mese</AutoBackupDeleteAfterOneMonth>
     <AutoBackupDeleteAfterXMonths>{0} mesi</AutoBackupDeleteAfterXMonths>
     <CheckForUpdates>Verifica Nuovi Aggiornamenti</CheckForUpdates>
@@ -2339,6 +2350,7 @@ stesso file di sottotitolo (collaborazione)</Information>
     <MusicSymbolsReplace>Caratteri sostitutivi (separati da "Virgole")</MusicSymbolsReplace>
     <FixCommonOcrErrorsUseHardcodedRules>Correggi errori OCR comuni - usa anche regole forti</FixCommonOcrErrorsUseHardcodedRules>
     <UseWordSplitList>Usa elenco diviso in parole (OCR + FCE)</UseWordSplitList>
+    <AvoidPropercase>Evita il caso corretto</AvoidPropercase>
     <FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime>Correggi tempo vista breve - consente spostamento del tempo iniziale</FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime>
     <FixCommonErrorsSkipStepOne>Salta il primo passaggio (scegli le regole di correzione)</FixCommonErrorsSkipStepOne>
     <DefaultFormat>Formato preferito</DefaultFormat>
@@ -2771,15 +2783,15 @@ Vuoi continuare?</RestoreDefaultSettingsMsg>
     <MostUsedWords>Parole più comunemente usate</MostUsedWords>
     <NothingFound>Nulla da Visualizzare</NothingFound>
     <NumberOfLinesX>Numero di righe sottotitolo: {0:#,###}</NumberOfLinesX>
-    <LengthInFormatXinCharactersY>Numero di caratteri per {0}: {1:#,###,##0}</LengthInFormatXinCharactersY>
-    <NumberOfCharactersInTextOnly>Numero di caratteri nel testo: {0:#,###,##0}</NumberOfCharactersInTextOnly>
+    <LengthInFormatXinCharactersY>Numero caratteri per {0}: {1:#,###,##0}</LengthInFormatXinCharactersY>
+    <NumberOfCharactersInTextOnly>Numero caratteri nel testo: {0:#,###,##0}</NumberOfCharactersInTextOnly>
     <TotalDuration>Durata totale di tutti i sottotitoli: {0:#,##0}</TotalDuration>
     <TotalCharsPerSecond>Caratteri totali/secondi: {0:0.0} secondi</TotalCharsPerSecond>
     <TotalWords>Totale parole nel sottotitolo: {0:#,##0}</TotalWords>
-    <NumberOfItalicTags>Numero di tag corsivi: {0}</NumberOfItalicTags>
-    <NumberOfBoldTags>Numero di tag grassetto: {0}</NumberOfBoldTags>
-    <NumberOfUnderlineTags>Numero di tag sottolineatura: {0}</NumberOfUnderlineTags>
-    <NumberOfFontTags>Numero di tag per font: {0}</NumberOfFontTags>
+    <NumberOfItalicTags>Numero tag corsivi: {0}</NumberOfItalicTags>
+    <NumberOfBoldTags>Numero tag grassetto: {0}</NumberOfBoldTags>
+    <NumberOfUnderlineTags>Numero tag sottolineatura: {0}</NumberOfUnderlineTags>
+    <NumberOfFontTags>Numero tag per font: {0}</NumberOfFontTags>
     <NumberOfAlignmentTags>Numero di tag allineamento: {0}</NumberOfAlignmentTags>
     <LineLengthMinimum>Lunghezza sottotitolo - minima: {0}</LineLengthMinimum>
     <LineLengthMaximum>Lunghezza sottotitolo - massima: {0}</LineLengthMaximum>
@@ -3002,7 +3014,7 @@ Vuoi mantenere le modifiche?</KeepChangesMessage>
     <TransportStreamGrayscale>Scala di grigi</TransportStreamGrayscale>
     <TransportStreamGetColor>Usa colore (può includere alcune righe divise)</TransportStreamGetColor>
     <PromptForUnknownWords>Chiedi per le parole sconosciute</PromptForUnknownWords>
-    <TryToGuessUnkownWords>Prova a indovinare le parole sconosciute</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>Prova a indovinare le parole sconosciute</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>Dividi paragrafo se supera le due righe</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Tutte le correzioni</AllFixes>
     <GuessesUsed>Indovina</GuessesUsed>
@@ -3046,6 +3058,7 @@ Vuoi mantenere le modifiche?</KeepChangesMessage>
     <CloudVisionApi>API Google Cloud Vision</CloudVisionApi>
     <ApiKey>Chiave API</ApiKey>
     <SendOriginalImages>Invia immagini originali</SendOriginalImages>
+    <SeHandlesTextMerge>Subtitle Edit gestisce l'unione del testo</SeHandlesTextMerge>
   </VobSubOcr>
   <VobSubOcrCharacter>
     <Title>OCR - Immagine manuale in testo</Title>

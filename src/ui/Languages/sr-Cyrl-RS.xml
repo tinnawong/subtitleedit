@@ -273,7 +273,7 @@
     <FixCommonOcrErrors>Исправи честе грешке у препознавању знакова</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>Исправљено грешака у препознавању знакова: {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>Уклони размак између бројева</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>Исправи дијалоге на једној линији</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>Исправи дијалоге на једној линији</BreakDialogsOnOneLine>
     <RemoveSpaceBetweenNumbersFixed>Исправљено грешака у уклањању размака између бројева: {0}</RemoveSpaceBetweenNumbersFixed>
     <FixDanishLetterI>Исправи данско слово И</FixDanishLetterI>
     <FixSpanishInvertedQuestionAndExclamationMarks>Исправи обрнути упитник и узвичник у шпанском језику.</FixSpanishInvertedQuestionAndExclamationMarks>
@@ -1301,7 +1301,7 @@
     <UseCustomColors>Прилагођене &amp;боје</UseCustomColors>
     <Transparent>Провидност</Transparent>
     <PromptForUnknownWords>&amp;Питај ме за непознате речи</PromptForUnknownWords>
-    <TryToGuessUnkownWords>&amp;Нагађај непознате речи</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>&amp;Нагађај непознате речи</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>&amp;Размакни ред ако има више од две линије</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>Све исправке</AllFixes>
     <GuessesUsed>Коришћена нагађања</GuessesUsed>

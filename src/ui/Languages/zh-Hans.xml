@@ -2,12 +2,14 @@
 <Language Name="中文(简体)">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.10</Version>
+    <Version>3.6.11</Version>
     <TranslatedBy>翻译: FeiXJ | Leon Cheung | larsenlouis | VK | nkh0472</TranslatedBy>
     <CultureName>zh-Hans</CultureName>
     <HelpFile>https://www.nikse.dk/SubtitleEdit/Help</HelpFile>
     <Ok>确定(&amp;O)</Ok>
     <Cancel>取消(&amp;A)</Cancel>
+    <Yes>是</Yes>
+    <No>否</No>
     <Apply>应用</Apply>
     <ApplyTo>应用于</ApplyTo>
     <None>无</None>
@@ -191,6 +193,7 @@ Command line: {1} {2}
     <TranscribingXOfY>将音频转录为文本 - 第{0}/{1}个文件...</TranscribingXOfY>
     <XFilesSavedToVideoSourceFolder>{0} 个文件已保存到视频源文件夹</XFilesSavedToVideoSourceFolder>
     <UsePostProcessing>使用后处理（行合并、修复大小写、标点符号等）</UsePostProcessing>
+    <AutoAdjustTimings>自动调整时间</AutoAdjustTimings>
     <BatchMode>批处理模式</BatchMode>
     <KeepPartialTranscription>保留部分转录</KeepPartialTranscription>
     <TranslateToEnglish>翻译为英语</TranslateToEnglish>
@@ -774,7 +777,7 @@ Command line: {1} {2}
     <FixCommonOcrErrors>修复 OCR 常规错误 (使用 OCR 替换列表)</FixCommonOcrErrors>
     <CommonOcrErrorsFixed>已修复 OCR 常规错误 (使用了 OcrReplaceList 文件): {0}</CommonOcrErrorsFixed>
     <RemoveSpaceBetweenNumber>删除数字间空格</RemoveSpaceBetweenNumber>
-    <FixDialogsOnOneLine>修复一行上的对话</FixDialogsOnOneLine>
+    <BreakDialogsOnOneLine>修复一行上的对话</BreakDialogsOnOneLine>
     <RemoveDialogFirstInNonDialogs>删除非对话第一行的开始破折号</RemoveDialogFirstInNonDialogs>
     <NormalizeStrings>使字符串规格化</NormalizeStrings>
     <FixTurkishAnsi>修复土耳其语 ANSI (冰岛) 字母为 Unicode</FixTurkishAnsi>
@@ -858,6 +861,7 @@ Command line: {1} {2}
     <XGeneratedWithBurnedInSubsInX>带有内嵌字幕的“{0}”已在{1}生成完毕。</XGeneratedWithBurnedInSubsInX>
     <TimeRemainingMinutes>剩余时间：{0} 分钟</TimeRemainingMinutes>
     <TimeRemainingSeconds>剩余时间: {0} 秒</TimeRemainingSeconds>
+    <TimeRemainingAFewSeconds>剩余时间: 几秒钟</TimeRemainingAFewSeconds>
     <TimeRemainingMinutesAndSeconds>剩余时间: {0} 分 {1} 秒</TimeRemainingMinutesAndSeconds>
     <TargetFileName>目标文件名：{0}</TargetFileName>
     <TargetFileSize>目标文件大小（需要启用2次编码）</TargetFileSize>
@@ -1157,6 +1161,7 @@ Command line: {1} {2}
         <OpenOriginal>打开原始字幕 (翻译模式)...</OpenOriginal>
         <SaveOriginal>保存原始字幕</SaveOriginal>
         <CloseOriginal>关闭原始字幕</CloseOriginal>
+        <CloseTranslation>关闭翻译字幕</CloseTranslation>
         <OpenContainingFolder>打开所在文件夹</OpenContainingFolder>
         <Compare>比较(&amp;C)...</Compare>
         <Statistics>统计(&amp;C)...</Statistics>
@@ -1769,6 +1774,11 @@ Command line: {1} {2}
     <UsingOnlyFrontCenterChannel>仅使用前置中置音频通道</UsingOnlyFrontCenterChannel>
     <BeforeConvertingColorsToDialog>在将颜色转换为对话框之前</BeforeConvertingColorsToDialog>
     <ConvertedColorsToDialog>将颜色转换为对话框</ConvertedColorsToDialog>
+    <PleaseInstallVideoPlayer>请安装视频播放器</PleaseInstallVideoPlayer>
+    <UnableToPlayMediaFile>SE 无法播放此音/视频文件 (或此文件不是音/视频文件).</UnableToPlayMediaFile>
+    <SubtitleEditNeedsVideoPlayer>Subtitle Edit 需要一个视频播放器组件.</SubtitleEditNeedsVideoPlayer>
+    <UseRecommendMpv>要使用推荐的播放组件 "mpv" 请点击下方按钮.</UseRecommendMpv>
+    <DownloadAndUseMpv>下载并使用 "mpv" 作为视频播放器</DownloadAndUseMpv>
   </Main>
   <MatroskaSubtitleChooser>
     <Title>从 Matroska 文件中选择字幕</Title>
@@ -2191,6 +2201,7 @@ Command line: {1} {2}
     <AutoBackupEveryFiveMinutes>每隔 5 分钟</AutoBackupEveryFiveMinutes>
     <AutoBackupEveryFifteenMinutes>每隔 15 分钟</AutoBackupEveryFifteenMinutes>
     <AutoBackupDeleteAfter>超过此时间后删除</AutoBackupDeleteAfter>
+    <TranslationAutoSuffix>翻译文件名自动后缀</TranslationAutoSuffix>
     <AutoBackupDeleteAfterOneMonth>1个月</AutoBackupDeleteAfterOneMonth>
     <AutoBackupDeleteAfterXMonths>{0}个月</AutoBackupDeleteAfterXMonths>
     <CheckForUpdates>检查更新</CheckForUpdates>
@@ -2327,6 +2338,7 @@ Command line: {1} {2}
     <MusicSymbolsReplace>要替换的音乐符号（用逗号间隔）</MusicSymbolsReplace>
     <FixCommonOcrErrorsUseHardcodedRules>修复 OCR 常规错误 - 同时使用硬编码规则</FixCommonOcrErrorsUseHardcodedRules>
     <UseWordSplitList>使用分词列表（OCR + FCE）</UseWordSplitList>
+    <AvoidPropercase>避免首字母大写</AvoidPropercase>
     <FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime>修正较短的显示时间 - 允许移动起始时间</FixCommonerrorsFixShortDisplayTimesAllowMoveStartTime>
     <FixCommonErrorsSkipStepOne>设置结束点并转到下一条</FixCommonErrorsSkipStepOne>
     <DefaultFormat>默认格式</DefaultFormat>
@@ -2495,7 +2507,8 @@ Command line: {1} {2}
     <VideoResetSpeedAndZoom>重置播放速度/波形缩放</VideoResetSpeedAndZoom>
     <MainToggleVideoControls>切换视频控件</MainToggleVideoControls>
     <VideoToggleContrast>切换对比度（仅适用于MPV）</VideoToggleContrast>
-    <VideoAudioToText>视频/音频到文本（语音识别）</VideoAudioToText>
+    <AudioToTextX>语音转文本 ({0})</AudioToTextX>
+    <AudioToTextSelectedLinesX>对选定行语音转文本 ({0})</AudioToTextSelectedLinesX>
     <VideoToggleBrightness>切换亮度（仅限mpv）</VideoToggleBrightness>
     <CustomSearch1>翻译、自定义搜索 1</CustomSearch1>
     <CustomSearch2>翻译、自定义搜索 2</CustomSearch2>
@@ -2855,6 +2868,7 @@ Command line: {1} {2}
     <CopyXOfY>复制 {0}/{1}</CopyXOfY>
     <New>新建</New>
     <Remove>删除</Remove>
+    <ReplaceWith>替换...</ReplaceWith>
     <RemoveAll>全部删除</RemoveAll>
     <ImportStyleFromFile>从文件导入样式...</ImportStyleFromFile>
     <ExportStyleToFile>将样式导出为文件... (若文件已存在，则新建样式)</ExportStyleToFile>
@@ -2987,7 +3001,7 @@ Command line: {1} {2}
     <TransportStreamGrayscale>灰度图</TransportStreamGrayscale>
     <TransportStreamGetColor>使用颜色 (将拆离某些行)</TransportStreamGetColor>
     <PromptForUnknownWords>提示未知词</PromptForUnknownWords>
-    <TryToGuessUnkownWords>尝试猜测未知词</TryToGuessUnkownWords>
+    <TryToGuessUnknownWords>尝试猜测未知词</TryToGuessUnknownWords>
     <AutoBreakSubtitleIfMoreThanTwoLines>如果超过两行自动断开</AutoBreakSubtitleIfMoreThanTwoLines>
     <AllFixes>全部修复</AllFixes>
     <GuessesUsed>已用猜测</GuessesUsed>
@@ -3031,6 +3045,7 @@ Command line: {1} {2}
     <CloudVisionApi>Google Cloud Vision API</CloudVisionApi>
     <ApiKey>API 密钥</ApiKey>
     <SendOriginalImages>发送原始图像</SendOriginalImages>
+    <SeHandlesTextMerge>由 SE 处理文本合并</SeHandlesTextMerge>
   </VobSubOcr>
   <VobSubOcrCharacter>
     <Title>VobSub - 图像转文本（手动）</Title>

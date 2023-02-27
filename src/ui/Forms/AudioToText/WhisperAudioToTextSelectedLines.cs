@@ -62,7 +62,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             listViewInputFiles.Visible = true;
             _audioClips = audioClips;
             progressBar1.Maximum = 100;
-            labelCpp.Visible = Configuration.Settings.Tools.WhisperUseCpp;
+            labelCpp.Visible = true;
+            labelCpp.Text = Configuration.Settings.Tools.WhisperChoice;
             foreach (var audioClip in audioClips)
             {
                 listViewInputFiles.Items.Add(audioClip.AudioFileName);
@@ -77,8 +78,8 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             comboBoxLanguages.Text = lang != null ? lang.ToString() : "English";
             WhisperAudioToText.FillModels(comboBoxModels, string.Empty);
 
-            whisperCppCToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperUseCpp;
-            whisperPhpOriginalToolStripMenuItem.Checked = !Configuration.Settings.Tools.WhisperUseCpp;
+            whisperCppCToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperChoice == WhisperChoice.Cpp;
+            whisperPhpOriginalToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperChoice == WhisperChoice.OpenAI;
             removeTemporaryFilesToolStripMenuItem.Checked = Configuration.Settings.Tools.WhisperDeleteTempFiles;
             ContextMenuStrip = contextMenuStripWhisperAdvanced;
         }
@@ -126,13 +127,16 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             };
             _outputText.Add("Batch mode");
             timer1.Start();
+            ShowProgressBar();
             foreach (ListViewItem lvi in listViewInputFiles.Items)
             {
+                var pct = _batchFileNumber * 100.0 / listViewInputFiles.Items.Count;
+                progressBar1.Value = (int)Math.Round(pct, MidpointRounding.AwayFromZero);
+                progressBar1.Refresh();
                 _batchFileNumber++;
                 var videoFileName = lvi.Text;
                 listViewInputFiles.SelectedIndices.Clear();
                 lvi.Selected = true;
-                ShowProgressBar();
                 buttonGenerate.Enabled = false;
                 buttonDownload.Enabled = false;
                 comboBoxModels.Enabled = false;
@@ -140,7 +144,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 var waveFileName = videoFileName;
 
                 _outputText.Add(string.Empty);
-                progressBar1.Style = ProgressBarStyle.Blocks;
                 var transcript = TranscribeViaWhisper(waveFileName);
                 if (_cancel)
                 {
@@ -149,7 +152,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                     return;
                 }
 
-                TranscribedSubtitle = postProcessor.Generate(AudioToTextPostProcessor.Engine.Whisper, transcript, checkBoxUsePostProcessing.Checked, true, true, true, true, false);
+                TranscribedSubtitle = postProcessor.Fix(AudioToTextPostProcessor.Engine.Whisper, transcript, checkBoxUsePostProcessing.Checked, true, true, true, true, false);
 
                 SaveToAudioClip(_batchFileNumber - 1);
                 TaskbarList.SetProgressValue(_parentForm.Handle, _batchFileNumber, listViewInputFiles.Items.Count);
@@ -171,17 +174,13 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 return new List<ResultText>();
             }
 
-            labelProgress.Text = LanguageSettings.Current.AudioToText.Transcribing;
             labelProgress.Text = string.Format(LanguageSettings.Current.AudioToText.TranscribingXOfY, _batchFileNumber, listViewInputFiles.Items.Count);
-
             labelProgress.Refresh();
             Application.DoEvents();
             _resultList = new List<ResultText>();
             var process = WhisperAudioToText.GetWhisperProcess(waveFileName, model.Name, _languageCode, checkBoxTranslateToEnglish.Checked, OutputHandler);
             var sw = Stopwatch.StartNew();
-            _outputText.Add($"Calling whisper{(Configuration.Settings.Tools.WhisperUseCpp ? "-CPP" : string.Empty)} with : whisper {process.StartInfo.Arguments}");
-            ShowProgressBar();
-            progressBar1.Style = ProgressBarStyle.Marquee;
+            _outputText.Add($"Calling whisper ({Configuration.Settings.Tools.WhisperChoice}) with : whisper {process.StartInfo.Arguments}{Environment.NewLine}");
             buttonCancel.Visible = true;
             try
             {
@@ -194,13 +193,12 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             _cancel = false;
 
-            labelProgress.Text = LanguageSettings.Current.AudioToText.Transcribing;
             while (!process.HasExited)
             {
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(100);
+                WindowsHelper.PreventStandBy();
 
-                Invalidate();
                 if (_cancel)
                 {
                     process.Kill();
@@ -217,7 +215,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 }
             }
 
-            _outputText.Add($"Calling whisper{(Configuration.Settings.Tools.WhisperUseCpp ? "-CPP" : string.Empty)} done in {sw.Elapsed}{Environment.NewLine}");
+            _outputText.Add($"Calling whisper ({Configuration.Settings.Tools.WhisperChoice} done in {sw.Elapsed}{Environment.NewLine}");
 
             for (var i = 0; i < 10; i++)
             {
@@ -274,7 +272,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 postSub.Paragraphs.Add(audioClip.Paragraph);
             }
 
-            var postSubFixed = postProcessor.Generate(postSub, checkBoxUsePostProcessing.Checked, true, false, true, false, false);
+            var postSubFixed = postProcessor.Fix(postSub, checkBoxUsePostProcessing.Checked, true, false, true, false, false, AudioToTextPostProcessor.Engine.Whisper);
             for (var index = 0; index < _audioClips.Count; index++)
             {
                 var audioClip = _audioClips[index];
@@ -366,6 +364,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 linkLabelWhisperWebsite_LinkClicked(null, null);
                 e.SuppressKeyPress = true;
             }
+            else if (e.KeyData == UiUtil.HelpKeys)
+            {
+                UiUtil.ShowHelp("#audio_to_text");
+                e.SuppressKeyPress = true;
+            }
         }
 
         private void UpdateLog()
@@ -387,22 +390,6 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
         private void timer1_Tick(object sender, EventArgs e)
         {
             UpdateLog();
-        }
-
-        public static string ToProgressTime(float estimatedTotalMs)
-        {
-            var timeCode = new TimeCode(estimatedTotalMs);
-            if (timeCode.TotalSeconds < 60)
-            {
-                return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingSeconds, (int)Math.Round(timeCode.TotalSeconds));
-            }
-
-            if (timeCode.TotalSeconds / 60 > 5)
-            {
-                return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingMinutes, (int)Math.Round(timeCode.TotalSeconds / 60));
-            }
-
-            return string.Format(LanguageSettings.Current.GenerateVideoWithBurnedInSubs.TimeRemainingMinutesAndSeconds, timeCode.Minutes + timeCode.Hours * 60, timeCode.Seconds);
         }
 
         private void buttonDownload_Click(object sender, EventArgs e)
@@ -443,7 +430,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void whisperPhpOriginalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Configuration.Settings.Tools.WhisperUseCpp = false;
+            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.OpenAI;
 
             if (Configuration.IsRunningOnWindows)
             {
@@ -452,13 +439,13 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 {
                     using (var openFileDialog1 = new OpenFileDialog())
                     {
-                        openFileDialog1.Title = "Locate whisper.exe (php version)";
+                        openFileDialog1.Title = "Locate whisper.exe (OpenAI Python version)";
                         openFileDialog1.FileName = string.Empty;
                         openFileDialog1.Filter = "whisper.exe|whisper.exe";
 
                         if (openFileDialog1.ShowDialog() != DialogResult.OK || !openFileDialog1.FileName.EndsWith("whisper.exe", StringComparison.OrdinalIgnoreCase))
                         {
-                            Configuration.Settings.Tools.WhisperUseCpp = true;
+                            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
                         }
                         else
                         {
@@ -473,7 +460,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
         private void whisperCppCToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Configuration.Settings.Tools.WhisperUseCpp = true;
+            Configuration.Settings.Tools.WhisperChoice = WhisperChoice.Cpp;
             Init();
         }
 

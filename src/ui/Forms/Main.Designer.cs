@@ -100,6 +100,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.openOriginalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveOriginalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveOriginalAstoolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeTranslationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeOriginalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItemOpenContainingFolder = new System.Windows.Forms.ToolStripMenuItem();
@@ -953,7 +954,7 @@ namespace Nikse.SubtitleEdit.Forms
             // 
             this.toolStripButtonHelp.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButtonHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.toolStripButtonHelp.Image = global::Nikse.SubtitleEdit.Properties.Resources.Help;
+            this.toolStripButtonHelp.Image = global::Nikse.SubtitleEdit.Properties.Resources.Help32;
             this.toolStripButtonHelp.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.toolStripButtonHelp.ImageTransparentColor = System.Drawing.Color.Transparent;
             this.toolStripButtonHelp.Name = "toolStripButtonHelp";
@@ -1124,6 +1125,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.saveOriginalToolStripMenuItem,
             this.saveOriginalAstoolStripMenuItem,
             this.removeOriginalToolStripMenuItem,
+            this.removeTranslationToolStripMenuItem,
             this.toolStripSeparator12,
             this.toolStripMenuItemOpenContainingFolder,
             this.toolStripMenuItemCompare,
@@ -1230,11 +1232,18 @@ namespace Nikse.SubtitleEdit.Forms
             this.saveOriginalAstoolStripMenuItem.Text = "Save original as...";
             this.saveOriginalAstoolStripMenuItem.Click += new System.EventHandler(this.SaveOriginalAstoolStripMenuItemClick);
             // 
+            // removeTranslationToolStripMenuItem
+            // 
+            this.removeTranslationToolStripMenuItem.Name = "removeTranslationToolStripMenuItem";
+            this.removeTranslationToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.removeTranslationToolStripMenuItem.Text = "Close translated subtitle";
+            this.removeTranslationToolStripMenuItem.Click += new System.EventHandler(this.removeTranslationToolStripMenuItem_Click);
+            // 
             // removeOriginalToolStripMenuItem
             // 
             this.removeOriginalToolStripMenuItem.Name = "removeOriginalToolStripMenuItem";
             this.removeOriginalToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
-            this.removeOriginalToolStripMenuItem.Text = "Remove original";
+            this.removeOriginalToolStripMenuItem.Text = "Close original subtitle";
             this.removeOriginalToolStripMenuItem.Click += new System.EventHandler(this.RemoveOriginalToolStripMenuItemClick);
             // 
             // toolStripSeparator12
@@ -6174,5 +6183,6 @@ namespace Nikse.SubtitleEdit.Forms
         private System.Windows.Forms.PictureBox pictureBoxRecord;
         private System.Windows.Forms.ToolStripMenuItem audioToTextWhisperTolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButtonSourceView;
+        private System.Windows.Forms.ToolStripMenuItem removeTranslationToolStripMenuItem;
     }
 }
