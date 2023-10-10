@@ -84,7 +84,7 @@ namespace Nikse.SubtitleEdit.Logic
                 if (p.StartTime.TotalMilliseconds <= positionInMilliseconds + 0.01 && p.EndTime.TotalMilliseconds >= positionInMilliseconds - 0.01)
                 {
                     string text = p.Text.Replace("|", Environment.NewLine);
-                    bool isInfo = p == subtitle.Paragraphs[0] && (Math.Abs(p.StartTime.TotalMilliseconds) < 0.01 && Math.Abs(p.Duration.TotalMilliseconds) < 0.01 || Math.Abs(p.StartTime.TotalMilliseconds - Pac.PacNullTime.TotalMilliseconds) < 0.01);
+                    bool isInfo = p == subtitle.Paragraphs[0] && (Math.Abs(p.StartTime.TotalMilliseconds) < 0.01 && Math.Abs(p.DurationTotalMilliseconds) < 0.01 || Math.Abs(p.StartTime.TotalMilliseconds - Pac.PacNullTime.TotalMilliseconds) < 0.01);
                     if (!isInfo)
                     {
                         if (videoPlayerContainer.LastParagraph != p)
@@ -552,20 +552,26 @@ namespace Nikse.SubtitleEdit.Logic
 
         private static bool IsFontPresent(string fontName)
         {
-            try
+            var fontStyles = new[] { FontStyle.Bold, FontStyle.Italic, FontStyle.Regular };
+            Font font = null;
+
+            foreach (var style in fontStyles)
             {
-                // Bold + italic + regular must be present
-                _ = new Font(fontName, 9, FontStyle.Bold);
-                _ = new Font(fontName, 9, FontStyle.Italic);
-                _ = new Font(fontName, 9, FontStyle.Regular);
-                return true;
-            }
-            catch
-            {
-                // ignore
+                try
+                {
+                    font = new Font(fontName, 9, style);
+                }
+                catch
+                {
+                    return false;
+                }
+                finally
+                {
+                    font?.Dispose();
+                }
             }
 
-            return false;
+            return true;
         }
 
         public static Font GetDefaultFont()
@@ -615,15 +621,6 @@ namespace Nikse.SubtitleEdit.Logic
             }
         }
 
-        internal static void FixFonts(ToolStripComboBox item)
-        {
-            item.Font = GetDefaultFont();
-            if (Configuration.Settings.General.UseDarkTheme)
-            {
-                DarkTheme.SetDarkTheme(item);
-            }
-        }
-
         private static void FixFontsInner(Control form, int iterations = 5)
         {
             if (iterations < 1 || form is SETextBox)
@@ -652,23 +649,6 @@ namespace Nikse.SubtitleEdit.Logic
                 }
             }
 
-            if (form is TimeUpDown timeUpDown)
-            {
-                using (var g = Graphics.FromHwnd(IntPtr.Zero))
-                {
-                    var width = g.MeasureString("00:00:00.000", form.Font).Width;
-                    if (timeUpDown.MaskedTextBox.Width < width - 3)
-                    {
-                        timeUpDown.MaskedTextBox.Font = new Font(timeUpDown.MaskedTextBox.Font.FontFamily, timeUpDown.MaskedTextBox.Font.Size - 1);
-                    }
-                    width = g.MeasureString("00:00:00.000", form.Font).Width;
-                    if (timeUpDown.MaskedTextBox.Width < width - 3)
-                    {
-                        timeUpDown.MaskedTextBox.Font = new Font(timeUpDown.MaskedTextBox.Font.FontFamily, timeUpDown.MaskedTextBox.Font.Size - 1);
-                    }
-                }
-            }
-
             foreach (Control c in form.Controls)
             {
                 if (!c.Font.Name.Equals("Tahoma", StringComparison.Ordinal))
@@ -685,6 +665,11 @@ namespace Nikse.SubtitleEdit.Logic
 
         public static void FixLargeFonts(Control mainCtrl, Control ctrl)
         {
+            if (mainCtrl == null || ctrl == null)
+            {
+                return;
+            }
+
             using (var graphics = mainCtrl.CreateGraphics())
             {
                 var textSize = graphics.MeasureString(ctrl.Text, ctrl.Font);
@@ -774,30 +759,18 @@ namespace Nikse.SubtitleEdit.Logic
             label.Text = sb.ToString();
         }
 
-        public static void InitializeSubtitleFormatComboBox(ToolStripComboBox comboBox, SubtitleFormat format)
-        {
-            InitializeSubtitleFormatComboBox(comboBox.ComboBox, format);
-            comboBox.DropDownWidth += 5; // .Net quirk?
-        }
-
-        public static void InitializeSubtitleFormatComboBox(ComboBox comboBox, SubtitleFormat format)
+        public static void InitializeSubtitleFormatComboBox(NikseComboBox comboBox, SubtitleFormat format)
         {
             InitializeSubtitleFormatComboBox(comboBox, new List<string> { format.FriendlyName }, format.FriendlyName);
         }
 
-        public static void InitializeSubtitleFormatComboBox(ToolStripComboBox comboBox, string selectedName)
-        {
-            InitializeSubtitleFormatComboBox(comboBox.ComboBox, selectedName);
-            comboBox.DropDownWidth += 5; // .Net quirk?
-        }
-
-        public static void InitializeSubtitleFormatComboBox(ComboBox comboBox, string selectedName)
+        public static void InitializeSubtitleFormatComboBox(NikseComboBox comboBox, string selectedName)
         {
             var formatNames = SubtitleFormat.AllSubtitleFormats.Where(format => !format.IsVobSubIndexFile).Select(format => format.FriendlyName);
             InitializeSubtitleFormatComboBox(comboBox, formatNames.ToList(), selectedName);
         }
 
-        public static void InitializeSubtitleFormatComboBox(ComboBox comboBox, List<string> formatNames, string selectedName)
+        public static void InitializeSubtitleFormatComboBox(NikseComboBox comboBox, List<string> formatNames, string selectedName)
         {
             var selectedIndex = 0;
             using (var graphics = comboBox.CreateGraphics())
@@ -821,7 +794,7 @@ namespace Nikse.SubtitleEdit.Logic
                     }
                 }
 
-                comboBox.DropDownWidth = (int)Math.Round(maxWidth + 7.5);
+                comboBox.DropDownWidth = (int)Math.Round(maxWidth + 17.5);
             }
 
             comboBox.BeginUpdate();
@@ -831,7 +804,7 @@ namespace Nikse.SubtitleEdit.Logic
             comboBox.EndUpdate();
         }
 
-        public static void InitializeTextEncodingComboBox(ComboBox comboBox)
+        public static void InitializeTextEncodingComboBox(NikseComboBox comboBox)
         {
             var defaultEncoding = Configuration.Settings.General.DefaultEncoding;
             var selectedItem = (TextEncoding)null;
@@ -897,20 +870,19 @@ namespace Nikse.SubtitleEdit.Logic
             {
                 Configuration.Settings.General.DefaultEncoding = textEncodingListItem.DisplayName;
             }
-            comboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBox.AutoCompleteMode = AutoCompleteMode.Append;
         }
 
-        public static TextEncoding GetTextEncodingComboBoxCurrentEncoding(ComboBox comboBox)
+        public static TextEncoding GetTextEncodingComboBoxCurrentEncoding(NikseComboBox comboBox)
         {
             if (comboBox.SelectedIndex > 0 && comboBox.SelectedItem is TextEncoding textEncodingListItem)
             {
                 return textEncodingListItem;
             }
+
             return new TextEncoding(Encoding.UTF8, TextEncoding.Utf8WithBom);
         }
 
-        public static void SetTextEncoding(ToolStripComboBox comboBoxEncoding, string encodingName)
+        public static void SetTextEncoding(NikseComboBox comboBoxEncoding, string encodingName)
         {
             if (encodingName == TextEncoding.Utf8WithBom)
             {
@@ -1047,25 +1019,6 @@ namespace Nikse.SubtitleEdit.Logic
             }
         }
 
-        public static void SelectWordAtCaret(SETextBox textBox)
-        {
-            var text = textBox.Text;
-            var endIndex = textBox.SelectionStart;
-            var startIndex = endIndex;
-
-            while (startIndex > 0 && !IsSpaceCategory(CharUnicodeInfo.GetUnicodeCategory(text[startIndex - 1])) && !BreakChars.Contains(text[startIndex - 1]))
-            {
-                startIndex--;
-            }
-            textBox.SelectionStart = startIndex;
-
-            while (endIndex < text.Length && !IsSpaceCategory(CharUnicodeInfo.GetUnicodeCategory(text[endIndex])) && !BreakChars.Contains(text[endIndex]))
-            {
-                endIndex++;
-            }
-            textBox.SelectionLength = endIndex - startIndex;
-        }
-
         public static void SelectWordAtCaret(TextBox textBox)
         {
             var text = textBox.Text;
@@ -1090,7 +1043,7 @@ namespace Nikse.SubtitleEdit.Logic
             return c == UnicodeCategory.SpaceSeparator || c == UnicodeCategory.Control || c == UnicodeCategory.LineSeparator || c == UnicodeCategory.ParagraphSeparator;
         }
 
-        private static void AddExtension(StringBuilder sb, string extension)
+        public static void AddExtension(StringBuilder sb, string extension)
         {
             if (!sb.ToString().Contains("*" + extension + ";", StringComparison.OrdinalIgnoreCase))
             {
@@ -1378,6 +1331,21 @@ namespace Nikse.SubtitleEdit.Logic
             }
         }
 
+        public static string GetBeautifyTimeCodesProfilePresetName(BeautifyTimeCodesSettings.BeautifyTimeCodesProfile.Preset preset)
+        {
+            switch (preset)
+            {
+                case BeautifyTimeCodesSettings.BeautifyTimeCodesProfile.Preset.Default:
+                    return LanguageSettings.Current.BeautifyTimeCodesProfile.PresetDefault;
+                case BeautifyTimeCodesSettings.BeautifyTimeCodesProfile.Preset.Netflix:
+                    return LanguageSettings.Current.BeautifyTimeCodesProfile.PresetNetflix;
+                case BeautifyTimeCodesSettings.BeautifyTimeCodesProfile.Preset.SDI:
+                    return LanguageSettings.Current.BeautifyTimeCodesProfile.PresetSDI;
+                default:
+                    return preset.ToString();
+            }
+        }
+
         public static string DecimalSeparator => CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
 
         public static Control FindFocusedControl(Control control)
@@ -1392,7 +1360,7 @@ namespace Nikse.SubtitleEdit.Logic
             return control;
         }
 
-        public static void SetNumericUpDownValue(NumericUpDown numericUpDown, int value)
+        public static void SetNumericUpDownValue(NikseUpDown numericUpDown, int value)
         {
             if (value < numericUpDown.Minimum)
             {

@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <ApplicationIcon>SE2.ico</ApplicationIcon>
+    <ApplicationIcon>SE.ico</ApplicationIcon>
     <AssemblyName>SubtitleEdit</AssemblyName>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,6 +52,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -61,41 +62,20 @@
       <HintPath>DLLs\Interop.QuartzTypeLib.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="iTin.Core, Version=2.0.0.4, Culture=neutral, PublicKeyToken=91c459d24f0559c7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iCPUID.1.0.5\lib\net461\iTin.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="iTin.Core.Hardware.Common, Version=1.0.0.4, Culture=neutral, PublicKeyToken=55a914aaf3e07893, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iCPUID.1.0.5\lib\net461\iTin.Core.Hardware.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="iTin.Core.Hardware.CrossPlatform.Cpuid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=55a914aaf3e07893, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iCPUID.1.0.5\lib\net461\iTin.Core.Hardware.CrossPlatform.Cpuid.dll</HintPath>
-    </Reference>
-    <Reference Include="iTin.Core.Interop.CrossPlatform.Cpuid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1863a70dcfb63184, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iCPUID.1.0.5\lib\net461\iTin.Core.Interop.CrossPlatform.Cpuid.dll</HintPath>
-    </Reference>
-    <Reference Include="iTin.Core.Interop.Shared, Version=1.0.0.3, Culture=neutral, PublicKeyToken=1863a70dcfb63184, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iCPUID.1.0.5\lib\net461\iTin.Core.Interop.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="iTin.Hardware.Specification.Cpuid, Version=1.0.0.2, Culture=neutral, PublicKeyToken=4854c22d6845e07c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iCPUID.1.0.5\lib\net461\iTin.Hardware.Specification.Cpuid.dll</HintPath>
-    </Reference>
-    <Reference Include="iTin.Logging, Version=1.0.0.1, Culture=neutral, PublicKeyToken=1f353418c19ff38d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\iCPUID.1.0.5\lib\net461\iTin.Logging.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Win32.Registry, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Win32.Registry.5.0.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio.Core, Version=2.1.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NAudio.Core.2.1.0\lib\netstandard2.0\NAudio.Core.dll</HintPath>
+    <Reference Include="NAudio.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NAudio.Core.2.2.1\lib\netstandard2.0\NAudio.Core.dll</HintPath>
     </Reference>
-    <Reference Include="NAudio.WinMM, Version=2.1.0.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NAudio.WinMM.2.1.0\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
+    <Reference Include="NAudio.WinMM, Version=2.2.1.0, Culture=neutral, PublicKeyToken=e279aa5131008a41, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NAudio.WinMM.2.2.1\lib\netstandard2.0\NAudio.WinMM.dll</HintPath>
     </Reference>
     <Reference Include="NCalc, Version=1.3.8.0, Culture=neutral, PublicKeyToken=973cde3f1cafed03, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ncalc.1.3.8\lib\NCalc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NHunspell, Version=1.2.5554.16953, Culture=neutral, PublicKeyToken=1ac793ea843b4366, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NHunspell.1.2.5554.16953\lib\net\NHunspell.dll</HintPath>
@@ -105,12 +85,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Primitives, Version=4.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Security.AccessControl, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Security.AccessControl.6.0.0\lib\net461\System.Security.AccessControl.dll</HintPath>
@@ -121,11 +95,40 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="Vosk, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Vosk.0.3.38\lib\netstandard2.0\Vosk.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\CuesPreviewView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NikseComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NikseComboBoxCollection.cs" />
+    <Compile Include="Controls\NikseComboBoxPopUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\NikseComboBoxPopUp.designer.cs">
+      <DependentUpon>NikseComboBoxPopUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NikseLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NikseListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NikseTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NikseTimeUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\NikseUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\SETextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -135,14 +138,14 @@
     <Compile Include="Controls\SimpleTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\VideoPlayerContainer.cs">
+    <Compile Include="Controls\ToolStripNikseComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\TimeUpDown.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Controls\ToolStripNikseSeparator.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\TimeUpDown.Designer.cs">
-      <DependentUpon>TimeUpDown.cs</DependentUpon>
+    <Compile Include="Controls\VideoPlayerContainer.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\AudioVisualizer.cs">
       <SubType>UserControl</SubType>
@@ -198,6 +201,12 @@
     <Compile Include="Forms\Assa\AssSetBackground.Designer.cs">
       <DependentUpon>AssSetBackground.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Assa\SetLayer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Assa\SetLayer.Designer.cs">
+      <DependentUpon>SetLayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Assa\SetPosition.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,6 +243,12 @@
     <Compile Include="Forms\AudioClipsGet.Designer.cs">
       <DependentUpon>AudioClipsGet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AudioToText\WhisperAdvanced.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AudioToText\WhisperAdvanced.Designer.cs">
+      <DependentUpon>WhisperAdvanced.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AudioToText\WhisperDownload.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,6 +279,12 @@
     <Compile Include="Forms\AudioToText\VoskAudioToText.Designer.cs">
       <DependentUpon>VoskAudioToText.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\BatchConvertOcrLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BatchConvertOcrLanguage.Designer.cs">
+      <DependentUpon>BatchConvertOcrLanguage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\BatchConvertMkvEnding.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -275,6 +296,24 @@
     </Compile>
     <Compile Include="Forms\BatchConvertTsSettings.Designer.cs">
       <DependentUpon>BatchConvertTsSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BeautifyTimeCodes\BeautifyTimeCodes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BeautifyTimeCodes\BeautifyTimeCodes.Designer.cs">
+      <DependentUpon>BeautifyTimeCodes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BeautifyTimeCodes\BeautifyTimeCodesProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BeautifyTimeCodes\BeautifyTimeCodesProfile.Designer.cs">
+      <DependentUpon>BeautifyTimeCodesProfile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\BeautifyTimeCodes\BeautifyTimeCodesProfileSimple.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BeautifyTimeCodes\BeautifyTimeCodesProfileSimple.Designer.cs">
+      <DependentUpon>BeautifyTimeCodesProfileSimple.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\BinaryEdit\BinEdit.cs">
       <SubType>Form</SubType>
@@ -354,11 +393,29 @@
     <Compile Include="Forms\DownloadVosk.Designer.cs">
       <DependentUpon>DownloadVosk.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\GenerateVideoFFmpegPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GenerateVideoFFmpegPrompt.Designer.cs">
+      <DependentUpon>GenerateVideoFFmpegPrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GenerateVideoWithSoftSubs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GenerateVideoWithSoftSubs.Designer.cs">
+      <DependentUpon>GenerateVideoWithSoftSubs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Ocr\WordSplitDictionaryGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Ocr\WordSplitDictionaryGenerator.Designer.cs">
       <DependentUpon>WordSplitDictionaryGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Options\ChooseIsoLanguage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Options\ChooseIsoLanguage.Designer.cs">
+      <DependentUpon>ChooseIsoLanguage.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Options\SettingsCustomContinuationStyle.cs">
       <SubType>Form</SubType>
@@ -377,6 +434,25 @@
     </Compile>
     <Compile Include="Forms\Options\WordLists.Designer.cs">
       <DependentUpon>WordLists.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\GetVideoPosition.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\GetVideoPosition.Designer.cs">
+      <DependentUpon>GetVideoPosition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PreviewVideo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PreviewVideo.Designer.cs">
+      <DependentUpon>PreviewVideo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SeMsgBox\MessageBox.cs" />
+    <Compile Include="Forms\SeMsgBox\MessageBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SeMsgBox\MessageBoxForm.Designer.cs">
+      <DependentUpon>MessageBoxForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\ShotChangesList.cs">
       <SubType>Form</SubType>
@@ -1249,6 +1325,12 @@
     <Compile Include="Forms\Translate\TranslateViaCopyPaste.Designer.cs">
       <DependentUpon>TranslateViaCopyPaste.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SubtitleViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SubtitleViewer.Designer.cs">
+      <DependentUpon>SubtitleViewer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\TransportStreamSubtitleChooser.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1351,6 +1433,18 @@
     <Compile Include="Forms\Ocr\VobSubOcrSetItalicFactor.Designer.cs">
       <DependentUpon>VobSubOcrSetItalicFactor.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\VTT\WebVttStylePicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VTT\WebVttStylePicker.Designer.cs">
+      <DependentUpon>WebVttStylePicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\VTT\WebVttImportExport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VTT\WebVttImportExport.Designer.cs">
+      <DependentUpon>WebVttImportExport.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Watermark.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1381,6 +1475,12 @@
     <Compile Include="Forms\TextPrompt.Designer.cs">
       <DependentUpon>TextPrompt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\VTT\WebVttStyleManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\VTT\WebVttStyleManager.Designer.cs">
+      <DependentUpon>WebVttStyleManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\YouTubeAnnotationsImport.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1388,6 +1488,7 @@
       <DependentUpon>YouTubeAnnotationsImport.cs</DependentUpon>
     </Compile>
     <Compile Include="Logic\AssaTagHelper.cs" />
+    <Compile Include="Logic\CheckForUpdatesHelper.cs" />
     <Compile Include="Logic\ColorChooser\ColorChangedEventArgs.cs" />
     <Compile Include="Logic\ColorChooser\ColorHandler.cs" />
     <Compile Include="Logic\ColorChooser\ColorWheel.cs" />
@@ -1401,17 +1502,22 @@
     <Compile Include="Logic\CommandLineConvert\TsConvert.cs" />
     <Compile Include="Logic\CommandLineConvert\TsToBluRaySup.cs" />
     <Compile Include="Logic\CpsLineLength.cs" />
-    <Compile Include="Logic\CpuInfo.cs" />
     <Compile Include="Logic\CurrentLanguage.cs" />
     <Compile Include="Logic\DarkTheme.cs" />
+    <Compile Include="Logic\DvdSubtitleLanguages.cs" />
     <Compile Include="Logic\FileTypeAssociations.cs" />
     <Compile Include="Logic\FindReplaceDialogHelper.cs" />
     <Compile Include="Logic\FontHelper.cs" />
+    <Compile Include="Logic\IFindAndReplace.cs" />
+    <Compile Include="Logic\IReloadSubtitle.cs" />
     <Compile Include="Logic\Language.cs" />
     <Compile Include="Logic\LanguageDeserializer.cs" />
     <Compile Include="Logic\LanguageStructure.cs" />
+    <Compile Include="Logic\LayoutManager.cs" />
+    <Compile Include="Logic\ListViewHelper.cs" />
     <Compile Include="Logic\Networking\SeNetworkService.cs" />
     <Compile Include="Logic\PathHelper.cs" />
+    <Compile Include="Logic\Plugins\IPluginMetadataProvider.cs" />
     <Compile Include="Logic\ProgressHelper.cs" />
     <Compile Include="Logic\ReplaceAllHelper.cs" />
     <Compile Include="Logic\ShotChangesGenerator.cs" />
@@ -1454,10 +1560,11 @@
     <Compile Include="Logic\SpellCheck\MacHunspell.cs" />
     <Compile Include="Logic\SpellCheck\VoikkoSpellCheck.cs" />
     <Compile Include="Logic\SpellCheck\WindowsHunspell.cs" />
-    <Compile Include="Logic\SyncContextExtensions.cs" />
     <Compile Include="Logic\TaskbarList.cs" />
+    <Compile Include="Logic\TaskDelayHelper.cs" />
     <Compile Include="Logic\TextDesigner.cs" />
     <Compile Include="Logic\TextWidth.cs" />
+    <Compile Include="Logic\TimeCodesGenerator.cs" />
     <Compile Include="Logic\UiEbuSaveHelper.cs" />
     <Compile Include="Logic\UiGetPacEncoding.cs" />
     <Compile Include="Logic\UiGetYouTubeAnnotationStyles.cs" />
@@ -1477,9 +1584,14 @@
     <Compile Include="Logic\VideoPlayers\MpcHC\NativeMethods.cs" />
     <Compile Include="Logic\VideoPlayers\QuartsPlayer.cs" />
     <Compile Include="Logic\VideoPlayers\VideoPlayer.cs" />
+    <Compile Include="Logic\VideoPreviewGeneratorSub.cs" />
     <Compile Include="Logic\VideoPreviewGenerator.cs" />
     <Compile Include="Logic\WindowsHelper.cs" />
     <Compile Include="Logic\WordSpellChecker.cs" />
+    <Compile Include="Logic\Plugins\InstalledPluginMetadataProvider.cs" />
+    <Compile Include="Logic\Plugins\OnlinePluginMetadataProvider.cs" />
+    <Compile Include="Logic\Plugins\PluginInfoItem.cs" />
+    <Compile Include="Logic\Plugins\PluginUpdateChecker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\SyncPointsSync.cs">
@@ -1493,12 +1605,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Controls\TimeUpDown.resx">
-      <DependentUpon>TimeUpDown.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AudioVisualizer.resx">
       <DependentUpon>AudioVisualizer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\NikseComboBoxPopUp.resx">
+      <DependentUpon>NikseComboBoxPopUp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AlignmentPickerJapanese.resx">
       <DependentUpon>AlignmentPickerJapanese.cs</DependentUpon>
@@ -1525,6 +1636,9 @@
       <DependentUpon>AssSetBackground.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Assa\SetLayer.resx">
+      <DependentUpon>SetLayer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Assa\SetPosition.resx">
       <DependentUpon>SetPosition.cs</DependentUpon>
     </EmbeddedResource>
@@ -1543,6 +1657,10 @@
     <EmbeddedResource Include="Forms\AudioClipsGet.resx">
       <DependentUpon>AudioClipsGet.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AudioToText\WhisperAdvanced.resx">
+      <DependentUpon>WhisperAdvanced.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AudioToText\WhisperDownload.resx">
       <DependentUpon>WhisperDownload.cs</DependentUpon>
     </EmbeddedResource>
@@ -1558,11 +1676,23 @@
     <EmbeddedResource Include="Forms\AudioToText\VoskAudioToText.resx">
       <DependentUpon>VoskAudioToText.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BatchConvertOcrLanguage.resx">
+      <DependentUpon>BatchConvertOcrLanguage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\BatchConvertMkvEnding.resx">
       <DependentUpon>BatchConvertMkvEnding.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BatchConvertTsSettings.resx">
       <DependentUpon>BatchConvertTsSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BeautifyTimeCodes\BeautifyTimeCodes.resx">
+      <DependentUpon>BeautifyTimeCodes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BeautifyTimeCodes\BeautifyTimeCodesProfile.resx">
+      <DependentUpon>BeautifyTimeCodesProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BeautifyTimeCodes\BeautifyTimeCodesProfileSimple.resx">
+      <DependentUpon>BeautifyTimeCodesProfileSimple.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BinaryEdit\BinEdit.resx">
       <DependentUpon>BinEdit.cs</DependentUpon>
@@ -1603,8 +1733,21 @@
     <EmbeddedResource Include="Forms\DownloadVosk.resx">
       <DependentUpon>DownloadVosk.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GenerateVideoFFmpegPrompt.resx">
+      <DependentUpon>GenerateVideoFFmpegPrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GenerateVideoWithSoftSubs.resx">
+      <DependentUpon>GenerateVideoWithSoftSubs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\GetVideoPosition.resx">
+      <DependentUpon>GetVideoPosition.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ocr\WordSplitDictionaryGenerator.resx">
       <DependentUpon>WordSplitDictionaryGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Options\ChooseIsoLanguage.resx">
+      <DependentUpon>ChooseIsoLanguage.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Options\SettingsCustomContinuationStyle.resx">
       <DependentUpon>SettingsCustomContinuationStyle.cs</DependentUpon>
@@ -1614,6 +1757,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Options\WordLists.resx">
       <DependentUpon>WordLists.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PreviewVideo.resx">
+      <DependentUpon>PreviewVideo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SeMsgBox\MessageBoxForm.resx">
+      <DependentUpon>MessageBoxForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ShotChangesList.resx">
       <DependentUpon>ShotChangesList.cs</DependentUpon>
@@ -1854,10 +2003,6 @@
     <EmbeddedResource Include="Forms\DvdSubRipChooseLanguage.resx">
       <DependentUpon>DvdSubRipChooseLanguage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\GetDictionaries.resx">
-      <DependentUpon>GetDictionaries.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ocr\BinaryOcrChooseEditDb.resx">
       <DependentUpon>BinaryOcrChooseEditDb.cs</DependentUpon>
     </EmbeddedResource>
@@ -2044,6 +2189,9 @@
     <EmbeddedResource Include="Forms\Translate\TranslateViaCopyPaste.resx">
       <DependentUpon>TranslateViaCopyPaste.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SubtitleViewer.resx">
+      <DependentUpon>SubtitleViewer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\TransportStreamSubtitleChooser.resx">
       <DependentUpon>TransportStreamSubtitleChooser.cs</DependentUpon>
     </EmbeddedResource>
@@ -2094,6 +2242,12 @@
     <EmbeddedResource Include="Forms\Ocr\VobSubOcrSetItalicFactor.resx">
       <DependentUpon>VobSubOcrSetItalicFactor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VTT\WebVttStylePicker.resx">
+      <DependentUpon>WebVttStylePicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VTT\WebVttImportExport.resx">
+      <DependentUpon>WebVttImportExport.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Watermark.resx">
       <DependentUpon>Watermark.cs</DependentUpon>
     </EmbeddedResource>
@@ -2108,6 +2262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TextPrompt.resx">
       <DependentUpon>TextPrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\VTT\WebVttStyleManager.resx">
+      <DependentUpon>WebVttStyleManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\YouTubeAnnotationsImport.resx">
       <DependentUpon>YouTubeAnnotationsImport.cs</DependentUpon>
@@ -2161,16 +2318,17 @@
   <ItemGroup>
     <Content Include="DLLs\Voikkox64.dll" />
     <Content Include="DLLs\Voikkox86.dll" />
-    <None Include="Resources\SE2.ico" />
-    <None Include="Resources\webvtt.bmp" />
     <None Include="Resources\webvtt.png" />
     <None Include="Resources\itt.png" />
     <None Include="Resources\ebu.png" />
     <None Include="Resources\color-picker-small2.png" />
     <None Include="Resources\rec32.png" />
     <None Include="Resources\Help32.png" />
-    <Content Include="SE2.ico" />
-    <None Include="Resources\SE.ico" />
+    <Content Include="Icons\BeautifyTimeCodes.png" />
+    <None Include="Resources\Error.png" />
+    <None Include="Resources\Information.png" />
+    <None Include="Resources\Question.png" />
+    <None Include="Resources\Warning.png" />
     <None Include="Hunspellx64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -2353,7 +2511,6 @@
     <Content Include="Icons\VisualSync.png" />
     <Content Include="Icons\WaveformToggle.png" />
     <None Include="Resources\tick.png" />
-    <None Include="Resources\bookmark22.png" />
     <None Include="Resources\pictureBoxFS.Image.png" />
     <None Include="Resources\pictureBoxFSDown.Image.png" />
     <None Include="Resources\pictureBoxFSOver.Image.png" />
@@ -2367,6 +2524,8 @@
     <None Include="Resources\pictureBoxReverseMouseDown.Image.png" />
     <None Include="Resources\pictureBoxReverseMouseOver.Image.png" />
     <None Include="Resources\Transparent Background.png" />
+    <None Include="Resources\bookmark22dark.png" />
+    <None Include="Resources\bookmark22transparent.png" />
     <Content Include="Resources\TesseractDictionaries.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -2430,7 +2589,6 @@
       <Visible>false</Visible>
     </HunspellAssemblies>
   </ItemGroup>
-  <ItemGroup />
   <Target Name="BeforeCompile">
     <XmlPeek XmlInputPath="$(SolutionDir)\src\ui\packages.config" Query="//package[@id='NHunspell']/@version">
       <Output TaskParameter="Result" PropertyName="HunspellVersion" />
@@ -2444,15 +2602,11 @@
   <Target Name="BeforeClean">
     <Delete Files="@(HunspellAssemblies -> '$(OutputPath)%(Identity)')" />
   </Target>
-  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
     <Error Condition="!Exists('..\..\packages\Vosk.0.3.38\build\Vosk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Vosk.0.3.38\build\Vosk.targets'))" />
-    <Error Condition="!Exists('..\..\packages\iCPUID.1.0.5\build\net461\iCPUID.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\iCPUID.1.0.5\build\net461\iCPUID.targets'))" />
   </Target>
   <Import Project="..\..\packages\Vosk.0.3.38\build\Vosk.targets" Condition="Exists('..\..\packages\Vosk.0.3.38\build\Vosk.targets')" />
-  <Import Project="..\..\packages\iCPUID.1.0.5\build\net461\iCPUID.targets" Condition="Exists('..\..\packages\iCPUID.1.0.5\build\net461\iCPUID.targets')" />
 </Project>

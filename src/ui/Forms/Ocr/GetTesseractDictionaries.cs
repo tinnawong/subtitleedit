@@ -1,4 +1,5 @@
 ﻿using Nikse.SubtitleEdit.Core.Common;
+using Nikse.SubtitleEdit.Core.Http;
 using Nikse.SubtitleEdit.Logic;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms.Ocr
 {
@@ -33,6 +35,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             FixLargeFonts();
             _dictionaries = TesseractDictionary.List().OrderBy(p=>p.Name).ToList();
             LoadDictionaryList(first);
+            comboBoxDictionaries.UsePopupWindow = true;
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -57,8 +60,6 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
                 comboBoxDictionaries.SelectedIndex = 0;
             }
             comboBoxDictionaries.EndUpdate();
-            comboBoxDictionaries.AutoCompleteSource = AutoCompleteSource.ListItems;
-            comboBoxDictionaries.AutoCompleteMode = AutoCompleteMode.Append;
         }
 
         private void FixLargeFonts()
@@ -86,7 +87,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
 
                 ChosenLanguage = comboBoxDictionaries.Items[index].ToString();
 
-                var httpClient = HttpClientHelper.MakeHttpClient();
+                var httpClient = DownloaderFactory.MakeHttpClient();
                 using (var downloadStream = new MemoryStream())
                 {
                     var downloadTask = httpClient.DownloadAsync(url, downloadStream, new Progress<float>((progress) =>

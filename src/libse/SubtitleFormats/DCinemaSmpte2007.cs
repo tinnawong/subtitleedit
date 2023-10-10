@@ -563,6 +563,7 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                     Errors = "Error validating xml via SMPTE-428-7-2007-DCST.xsd: " + exception.Message;
                 }
             }
+
             return DCinemaSmpte2010.FixDcsTextSameLine(result);
         }
 
@@ -664,7 +665,7 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
 
                     if (node.Attributes["Color"] != null)
                     {
-                        ss.CurrentDCinemaFontColor = System.Drawing.ColorTranslator.FromHtml("#" + node.Attributes["Color"].InnerText);
+                        ss.CurrentDCinemaFontColor = HtmlUtil.GetColorFromString("#" + node.Attributes["Color"].InnerText);
                     }
 
                     if (node.Attributes["Effect"] != null)
@@ -674,7 +675,7 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
 
                     if (node.Attributes["EffectColor"] != null)
                     {
-                        ss.CurrentDCinemaFontEffectColor = System.Drawing.ColorTranslator.FromHtml("#" + node.Attributes["EffectColor"].InnerText);
+                        ss.CurrentDCinemaFontEffectColor = HtmlUtil.GetColorFromString("#" + node.Attributes["EffectColor"].InnerText);
                     }
                 }
             }

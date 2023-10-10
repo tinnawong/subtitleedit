@@ -19,7 +19,7 @@ namespace Nikse.SubtitleEdit.Forms
         private readonly Keys _mainGeneralGoToPrevSubtitlePlayTranslate = UiUtil.GetKeys(Configuration.Settings.Shortcuts.GeneralGoToPrevSubtitlePlayTranslate);
         private bool _autoSized;
 
-        private Dictionary<DateTime, int> _mouseMoveDiff;
+        private readonly Dictionary<DateTime, int> _mouseMoveDiff;
         private int _mouseLastX = -1;
         private int _mouseLastY = -1;
 
@@ -240,6 +240,7 @@ namespace Nikse.SubtitleEdit.Forms
             _videoPlayerContainer.SetSubtitleFont();
             _videoPlayerContainer.SubtitleText = string.Empty;
             _videoPlayerContainer.ShowFullScreenControls();
+            _videoPlayerContainer.SetFullFixed();
             timer1.Start();
         }
 
@@ -255,6 +256,7 @@ namespace Nikse.SubtitleEdit.Forms
             _videoPlayerContainer.SubtitleText = string.Empty;
             _videoPlayerContainer.ShowFullscreenButton = Configuration.Settings.General.VideoPlayerShowFullscreenButton;
             _videoPlayerContainer.ShowNonFullScreenControls();
+            _videoPlayerContainer.UnSetFullFixed();
             if (RedockOnFullscreenEnd)
             {
                 Close();

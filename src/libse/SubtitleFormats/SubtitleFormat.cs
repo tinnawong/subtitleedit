@@ -109,6 +109,8 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                     new FinalCutProXml17(),
                     new FinalCutProXml18(),
                     new FinalCutProXml19(),
+                    new FinalCutProXml110(),
+                    new FinalCutProXml111(),
                     new FinalCutProTestXml(),
                     new FinalCutProTest2Xml(),
                     new FlashXml(),
@@ -161,6 +163,7 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                     new NetflixImsc11Japanese(),
                     new NetflixTimedText(),
                     new NinsightXml(),
+                    new NVivoTranscript(),
                     new OgmChapters(),
                     new OpenDvt(),
                     new Oresme(),
@@ -470,7 +473,12 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
 
         public static int FramesToMilliseconds(double frames)
         {
-            return (int)Math.Round(frames * (TimeCode.BaseUnit / GetFrameForCalculation(Configuration.Settings.General.CurrentFrameRate)), MidpointRounding.AwayFromZero);
+            return FramesToMilliseconds(frames, Configuration.Settings.General.CurrentFrameRate);
+        }
+
+        public static int FramesToMilliseconds(double frames, double frameRate)
+        {
+            return (int)Math.Round(frames * (TimeCode.BaseUnit / GetFrameForCalculation(frameRate)), MidpointRounding.AwayFromZero);
         }
 
         public static int FramesToMillisecondsMax999(double frames)

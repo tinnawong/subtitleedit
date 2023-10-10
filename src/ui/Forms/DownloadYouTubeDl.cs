@@ -1,16 +1,18 @@
 ﻿using Nikse.SubtitleEdit.Core.Common;
+using Nikse.SubtitleEdit.Core.Http;
 using Nikse.SubtitleEdit.Logic;
 using System;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms
 {
     public sealed partial class DownloadYouTubeDl : Form
     {
-        public const string Url = "https://github.com/yt-dlp/yt-dlp/releases/download/2023.01.06/yt-dlp.exe";
-        public const string Sha512Hash = "887fe29ae72c3650971a23788a1d6a3acd8181650c154e7ab03cad981c3cc93575241b962650a254cd07eec3dcd03fc1af0397d1896794b99b9ec0ba36435a15";
+        public const string Url = "https://github.com/yt-dlp/yt-dlp/releases/download/2023.07.06/yt-dlp.exe";
+        public const string Sha512Hash = "fe7470971d0f02b9036aee509779e68a245746e90971da0a077553aa4259e25a6199e63b19d0b66c4f41f8a2eabfac584db7a9cdcc7f5b8ab5906d336e11ba80";
         public bool AutoClose { get; internal set; }
         private readonly CancellationTokenSource _cancellationTokenSource;
 
@@ -53,7 +55,7 @@ namespace Nikse.SubtitleEdit.Forms
                 buttonOK.Enabled = false;
                 Refresh();
                 Cursor = Cursors.WaitCursor;
-                var httpClient = HttpClientHelper.MakeHttpClient();
+                var httpClient = DownloaderFactory.MakeHttpClient();
                 using (var downloadStream = new MemoryStream())
                 {
                     var downloadTask = httpClient.DownloadAsync(Url, downloadStream, new Progress<float>((progress) =>

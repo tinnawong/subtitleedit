@@ -22,9 +22,10 @@ namespace Nikse.SubtitleEdit.Core.Common
         public static readonly string DictionariesDirectory = DataDirectory + "Dictionaries" + Path.DirectorySeparatorChar;
         public static readonly string SpectrogramsDirectory = DataDirectory + "Spectrograms" + Path.DirectorySeparatorChar;
         public static readonly string ShotChangesDirectory = DataDirectory + "ShotChanges" + Path.DirectorySeparatorChar;
+        public static readonly string TimeCodesDirectory = DataDirectory + "TimeCodes" + Path.DirectorySeparatorChar;
         public static readonly string AutoBackupDirectory = DataDirectory + "AutoBackup" + Path.DirectorySeparatorChar;
         public static readonly string VobSubCompareDirectory = DataDirectory + "VobSub" + Path.DirectorySeparatorChar;
-        public static readonly string TesseractDirectory = DataDirectory + "Tesseract530" + Path.DirectorySeparatorChar;
+        public static readonly string TesseractDirectory = DataDirectory + "Tesseract531" + Path.DirectorySeparatorChar;
         public static readonly string Tesseract302Directory = DataDirectory + "Tesseract302" + Path.DirectorySeparatorChar;
         public static readonly string WaveformsDirectory = DataDirectory + "Waveforms" + Path.DirectorySeparatorChar;
         public static readonly string PluginsDirectory = DataDirectory + "Plugins";
@@ -119,16 +120,18 @@ namespace Nikse.SubtitleEdit.Core.Common
         private static string GetInstallerPath()
         {
             const string valueName = "InstallLocation";
-            var value = RegistryUtil.GetValue(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\SubtitleEdit_is1", valueName);
-            if (value != null && Directory.Exists(value))
-            {
-                return value;
-            }
+            string[] paths = {
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\SubtitleEdit_is1",
+                @"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\SubtitleEdit_is1"
+            };
 
-            value = RegistryUtil.GetValue(@"SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\SubtitleEdit_is1", valueName);
-            if (value != null && Directory.Exists(value))
+            foreach (var path in paths)
             {
-                return value;
+                var value = RegistryUtil.GetValue(path, valueName);
+                if (Directory.Exists(value))
+                {
+                    return value;
+                }
             }
 
             return null;
@@ -171,9 +174,17 @@ namespace Nikse.SubtitleEdit.Core.Common
                         // ignored
                     }
                 }
-                Directory.CreateDirectory(Path.Combine(appDataRoamingPath, "Dictionaries"));
-                return appDataRoamingPath + Path.DirectorySeparatorChar; // system installation
 
+                try
+                {
+                    Directory.CreateDirectory(Path.Combine(appDataRoamingPath, "Dictionaries"));
+                }
+                catch
+                {
+                    // ignored
+                }
+
+                return appDataRoamingPath + Path.DirectorySeparatorChar; // system installation
             }
 
             var installerPath = GetInstallerPath();
@@ -276,7 +287,7 @@ namespace Nikse.SubtitleEdit.Core.Common
                     encodings.Add(enc);
                 }
             }
-            catch 
+            catch
             {
                 // ignore
             }

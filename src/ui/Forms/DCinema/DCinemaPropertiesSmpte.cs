@@ -129,19 +129,23 @@ namespace Nikse.SubtitleEdit.Forms.DCinema
 
         private void buttonFontColor_Click(object sender, EventArgs e)
         {
-            colorDialog1.Color = panelFontColor.BackColor;
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            using (var colorChooser = new ColorChooser { Color = panelFontColor.BackColor, ShowAlpha = false })
             {
-                panelFontColor.BackColor = colorDialog1.Color;
+                if (colorChooser.ShowDialog() == DialogResult.OK)
+                {
+                    panelFontColor.BackColor = colorChooser.Color;
+                }
             }
         }
 
         private void buttonFontEffectColor_Click(object sender, EventArgs e)
         {
-            colorDialog1.Color = panelFontEffectColor.BackColor;
-            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            using (var colorChooser = new ColorChooser { Color = panelFontEffectColor.BackColor, ShowAlpha = false })
             {
-                panelFontEffectColor.BackColor = colorDialog1.Color;
+                if (colorChooser.ShowDialog() == DialogResult.OK)
+                {
+                    panelFontEffectColor.BackColor = colorChooser.Color;
+                }
             }
         }
 
@@ -152,7 +156,7 @@ namespace Nikse.SubtitleEdit.Forms.DCinema
 
         private void buttonToday_Click(object sender, EventArgs e)
         {
-            textBoxIssueDate.Text = DateTime.Now.ToString("s") + ".000-00:00";
+            textBoxIssueDate.Text = DateTime.Now.ToString("s");
         }
 
         private void buttonOK_Click_1(object sender, EventArgs e)

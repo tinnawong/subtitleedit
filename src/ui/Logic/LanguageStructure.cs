@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Nikse.SubtitleEdit.Logic
+﻿namespace Nikse.SubtitleEdit.Logic
 {
     // The language classes are built for easy xml-serialization (makes save/load code simple)
     public static class LanguageStructure
@@ -43,6 +41,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string Actor { get; set; }
             public string Gap { get; set; }
             public string Region { get; set; }
+            public string Layer { get; set; }
             public string NumberSymbol { get; set; }
             public string Number { get; set; }
             public string Text { get; set; }
@@ -70,6 +69,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string OverlapPreviousLineX { get; set; }
             public string OverlapX { get; set; }
             public string OverlapNextX { get; set; }
+            public string OverlapStartAndEnd { get; set; }
             public string Negative { get; set; }
             public string RegularExpressionIsNotValid { get; set; }
             public string CurrentSubtitle { get; set; }
@@ -102,7 +102,9 @@ namespace Nikse.SubtitleEdit.Logic
             public string Collapse { get; set; }
             public string ShortcutX { get; set; }
             public string ExampleX { get; set; }
+            public string ViewX { get; set; }
             public string Reset { get; set; }
+            public string Error { get; set; }
             public string Warning { get; set; }
             public string UseLargerFontForThisWindow { get; set; }
         }
@@ -152,8 +154,11 @@ namespace Nikse.SubtitleEdit.Logic
         public class AddWaveformBatch
         {
             public string Title { get; set; }
+            public string ExtractTimeCodes { get; set; }
             public string ExtractingAudio { get; set; }
             public string Calculating { get; set; }
+            public string ExtractingTimeCodes { get; set; }
+            public string DetectingShotChanges { get; set; }
             public string Done { get; set; }
             public string Error { get; set; }
         }
@@ -171,13 +176,18 @@ namespace Nikse.SubtitleEdit.Logic
             public string Fixed { get; set; }
             public string Milliseconds { get; set; }
             public string ExtendOnly { get; set; }
+            public string EnforceDurationLimits { get; set; }
+            public string CheckShotChanges { get; set; }
+            public string BatchCheckShotChanges { get; set; }
         }
 
         public class ApplyDurationLimits
         {
             public string Title { get; set; }
+            public string CheckShotChanges { get; set; }
             public string FixesAvailable { get; set; }
             public string UnableToFix { get; set; }
+            public string BatchCheckShotChanges { get; set; }
         }
 
         public class AudioToText
@@ -185,6 +195,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string Title { get; set; }
             public string Info { get; set; }
             public string WhisperInfo { get; set; }
+            public string Engine { get; set; }
             public string VoskWebsite { get; set; }
             public string WhisperWebsite { get; set; }
             public string WhisperNotFound { get; set; }
@@ -196,12 +207,18 @@ namespace Nikse.SubtitleEdit.Logic
             public string LoadingVoskModel { get; set; }
             public string Transcribing { get; set; }
             public string TranscribingXOfY { get; set; }
+            public string PostProcessing { get; set; }
             public string XFilesSavedToVideoSourceFolder { get; set; }
             public string UsePostProcessing { get; set; }
             public string AutoAdjustTimings { get; set; }
             public string BatchMode { get; set; }
             public string KeepPartialTranscription { get; set; }
             public string TranslateToEnglish { get; set; }
+            public string MaxCharsPerSubtitle { get; set; }
+            public string RemoveTemporaryFiles { get; set; }
+            public string SetCppConstMeFolder { get; set; }
+            public string OnlyRunPostProcessing { get; set; }
+            public string DownloadFasterWhisperCuda { get; set; }
         }
 
         public class AssaAttachments
@@ -353,7 +370,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string FilterMoreThanTwoLines { get; set; }
             public string FilterContains { get; set; }
             public string FilterFileNameContains { get; set; }
-            public string MkvLanguageCodeContains { get; set; }
+            public string LanguageCodeContains { get; set; }
             public string FixCommonErrorsErrorX { get; set; }
             public string MultipleReplaceErrorX { get; set; }
             public string AutoBalanceErrorX { get; set; }
@@ -375,6 +392,90 @@ namespace Nikse.SubtitleEdit.Logic
             public string MkvLanguageStyleTwoLetter { get; set; }
             public string MkvLanguageStyleThreeLetter { get; set; }
             public string MkvLanguageStyleEmpty { get; set; }
+            public string SearchFolderScanVideo { get; set; }
+        }
+
+        public class BeautifyTimeCodes
+        {
+            public string Title { get; set; }
+            public string TitleSelectedLines { get; set; }
+            public string GroupTimeCodes { get; set; }
+            public string AlignTimeCodes { get; set; }
+            public string ExtractExactTimeCodes { get; set; }
+            public string ExtractTimeCodes { get; set; }
+            public string CancelTimeCodes { get; set; }
+            public string GroupShotChanges { get; set; }
+            public string SnapToShotChanges { get; set; }
+            public string ImportShotChanges { get; set; }
+            public string EditProfile { get; set; }
+            public string NoTimeCodesLoaded { get; set; }
+            public string XTimeCodesLoaded { get; set; }
+            public string NoTimeCodesLoadedError { get; set; }
+            public string NoShotChangesLoaded { get; set; }
+            public string XShotChangesLoaded { get; set; }
+            public string NoShotChangesLoadedError { get; set; }
+            public string BatchAlignTimeCodes { get; set; }
+            public string BatchUseExactTimeCodes { get; set; }
+            public string BatchSnapToShotChanges { get; set; }
+        }
+
+        public class BeautifyTimeCodesProfile
+        {
+            public string Title { get; set; }
+            public string LoadPreset { get; set; }
+            public string PresetDefault { get; set; }
+            public string PresetNetflix { get; set; }
+            public string PresetSDI { get; set; }
+            public string CreateSimple { get; set; }
+            public string General { get; set; }
+            public string Gap { get; set; }
+            public string GapSuffix { get; set; }
+            public string InCues { get; set; }
+            public string SubtitlePreviewText { get; set; }
+            public string Zones { get; set; }
+            public string OutCues { get; set; }
+            public string ConnectedSubtitles { get; set; }
+            public string InCueClosest { get; set; }
+            public string OutCueClosest { get; set; }
+            public string TreadAsConnected { get; set; }
+            public string Milliseconds { get; set; }
+            public string Chaining { get; set; }
+            public string InCueOnShot { get; set; }
+            public string OutCueOnShot { get; set; }
+            public string MaxGap { get; set; }
+            public string ShotChangeBehavior { get; set; }
+            public string DontChain { get; set; }
+            public string ExtendCrossingShotChange { get; set; }
+            public string ExtendUntilShotChange { get; set; }
+            public string ResetWarning { get; set; }
+            public string CreateSimpleTitle { get; set; }
+            public string CreateSimpleInstruction { get; set; }
+            public string CreateSimpleGapInstruction { get; set; }
+            public string CreateSimpleInCues { get; set; }
+            public string CreateSimpleInCues0Frames { get; set; }
+            public string CreateSimpleInCues1Frames { get; set; }
+            public string CreateSimpleInCues2Frames { get; set; }
+            public string CreateSimpleInCues3Frames { get; set; }
+            public string CreateSimpleOutCues { get; set; }
+            public string CreateSimpleOutCues0Frames { get; set; }
+            public string CreateSimpleOutCues1Frames { get; set; }
+            public string CreateSimpleOutCues2Frames { get; set; }
+            public string CreateSimpleOutCues3Frames { get; set; }
+            public string CreateSimpleOutCuesGap { get; set; }
+            public string CreateSimpleSnapClosestCue { get; set; }
+            public string CreateSimpleMaxOffset { get; set; }
+            public string CreateSimpleMaxOffsetInstruction { get; set; }
+            public string CreateSimpleSafeZone { get; set; }
+            public string CreateSimpleSafeZoneInstruction { get; set; }
+            public string CreateSimpleChainingGap { get; set; }
+            public string CreateSimpleChainingGapInstruction { get; set; }
+            public string CreateSimpleChainingGapAfterShotChanges { get; set; }
+            public string CreateSimpleChainingToolTip { get; set; }
+            public string CreateSimpleLoadNetflixRules { get; set; }
+            public string Frames { get; set; }
+            public string Maximum { get; set; }
+            public string GapInMsFormat { get; set; }
+            public string OffsetSafeZoneError { get; set; }
         }
 
         public class BinEdit
@@ -423,6 +524,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string OnlyChangeAllUppercaseLines { get; set; }
             public string AllUppercase { get; set; }
             public string AllLowercase { get; set; }
+            public string ProperCase { get; set; }
         }
 
         public class ChangeCasingNames
@@ -465,6 +567,9 @@ namespace Nikse.SubtitleEdit.Logic
             public string CheckingForUpdatesNewVersion { get; set; }
             public string InstallUpdate { get; set; }
             public string NoUpdates { get; set; }
+            public string XPluginsHasAnUpdate { get; set; }
+            public string OnePluginsHasAnUpdate { get; set; }
+            public string Update { get; set; }
         }
 
         public class ChooseAudioTrack
@@ -803,7 +908,8 @@ namespace Nikse.SubtitleEdit.Logic
         public class FindDialog
         {
             public string Title { get; set; }
-            public string Find { get; set; }
+            public string FindNext { get; set; }
+            public string FindPrevious { get; set; }
             public string Normal { get; set; }
             public string CaseSensitive { get; set; }
             public string RegularExpression { get; set; }
@@ -851,6 +957,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string BreakLongLines { get; set; }
             public string RemoveLineBreaks { get; set; }
             public string RemoveLineBreaksAll { get; set; }
+            public string RemoveLineBreaksPixelWidth { get; set; }
             public string FixUppercaseIInsideLowercaseWords { get; set; }
             public string FixDoubleApostrophes { get; set; }
             public string AddPeriods { get; set; }
@@ -885,6 +992,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string FixFirstLetterToUppercaseAfterParagraph { get; set; }
             public string MergeShortLine { get; set; }
             public string MergeShortLineAll { get; set; }
+            public string UnbreakShortLinePixelWidth { get; set; }
             public string BreakLongLine { get; set; }
             public string FixLongDisplayTime { get; set; }
             public string FixInvalidItalicTag { get; set; }
@@ -939,6 +1047,8 @@ namespace Nikse.SubtitleEdit.Logic
             public string SolidColor { get; set; }
             public string DurationInMinutes { get; set; }
             public string Background { get; set; }
+            public string FfmpegParameters { get; set; }
+            public string GenerateWithFfmpegParametersPrompt { get; set; }
         }
 
         public class GenerateVideoWithBurnedInSubs
@@ -948,9 +1058,11 @@ namespace Nikse.SubtitleEdit.Logic
             public string InfoAssaOn { get; set; }
             public string XGeneratedWithBurnedInSubsInX { get; set; }
             public string TimeRemainingMinutes { get; set; }
+            public string TimeRemainingOneMinute { get; set; }
             public string TimeRemainingSeconds { get; set; }
             public string TimeRemainingAFewSeconds { get; set; }
             public string TimeRemainingMinutesAndSeconds { get; set; }
+            public string TimeRemainingOneMinuteAndSeconds { get; set; }
             public string TargetFileName { get; set; }
             public string TargetFileSize { get; set; }
             public string FileSizeMb { get; set; }
@@ -965,6 +1077,20 @@ namespace Nikse.SubtitleEdit.Logic
             public string Crf { get; set; }
             public string TuneFor { get; set; }
             public string AlignRight { get; set; }
+            public string GetStartPosition { get; set; }
+            public string GetEndPosition { get; set; }
+        }
+
+        public class GenerateVideoWithEmbeddedSubs
+        {
+            public string Title { get; set; }
+            public string InputVideoFile { get; set; }
+            public string SubtitlesX { get; set; }
+            public string SetLanguage { get; set; }
+            public string ToggleForced { get; set; }
+            public string ToggleDefault { get; set; }
+            public string Default { get; set; }
+            public string XGeneratedWithEmbeddedSubs { get; set; }
         }
 
         public class GetDictionaries
@@ -1282,6 +1408,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string LoadedEmptyOrShort { get; set; }
             public string FileIsEmptyOrShort { get; set; }
             public string FileNotFound { get; set; }
+            public string FileLocked { get; set; }
             public string SavedSubtitleX { get; set; }
             public string SavedOriginalSubtitleX { get; set; }
             public string FileOnDiskModified { get; set; }
@@ -1322,12 +1449,16 @@ namespace Nikse.SubtitleEdit.Logic
             public string BeforeDisplayTimeAdjustment { get; set; }
             public string DisplayTimeAdjustedX { get; set; }
             public string DisplayTimesAdjustedX { get; set; }
-            public string StarTimeAdjustedX { get; set; }
+            public string StartTimeAdjustedX { get; set; }
             public string BeforeCommonErrorFixes { get; set; }
             public string CommonErrorsFixedInSelectedLines { get; set; }
             public string CommonErrorsFixed { get; set; }
             public string BeforeRenumbering { get; set; }
             public string RenumberedStartingFromX { get; set; }
+            public string BeforeBeautifyTimeCodes { get; set; }
+            public string BeforeBeautifyTimeCodesSelectedLines { get; set; }
+            public string BeautifiedTimeCodes { get; set; }
+            public string BeautifiedTimeCodesSelectedLines { get; set; }
             public string BeforeRemovalOfTextingForHearingImpaired { get; set; }
             public string TextingForHearingImpairedRemovedOneLine { get; set; }
             public string TextingForHearingImpairedRemovedXLines { get; set; }
@@ -1356,6 +1487,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string NothingToUndo { get; set; }
             public string InvalidLanguageNameX { get; set; }
             public string DoNotDisplayMessageAgain { get; set; }
+            public string DoNotAutoLoadVideo { get; set; }
             public string NumberOfCorrectedWords { get; set; }
             public string NumberOfSkippedWords { get; set; }
             public string NumberOfCorrectWords { get; set; }
@@ -1643,6 +1775,7 @@ namespace Nikse.SubtitleEdit.Logic
                     public string Duration { get; set; }
                     public string ListErrors { get; set; }
                     public string NetflixQualityCheck { get; set; }
+                    public string BeautifyTimeCodes { get; set; }
                     public string TextAlphabetically { get; set; }
                     public string TextSingleLineMaximumLength { get; set; }
                     public string TextTotalLength { get; set; }
@@ -1674,6 +1807,7 @@ namespace Nikse.SubtitleEdit.Logic
                     public string GenerateTextFromVideo { get; set; }
                     public string GenerateBlankVideo { get; set; }
                     public string GenerateVideoWithBurnedInSub { get; set; }
+                    public string GenerateVideoWithEmbeddedSubs { get; set; }
                     public string VideoAudioToTextX { get; set; }
                     public string ImportChaptersFromVideo { get; set; }
                     public string GenerateImportShotChanges { get; set; }
@@ -1748,6 +1882,7 @@ namespace Nikse.SubtitleEdit.Logic
                     public string VisualSync { get; set; }
                     public string SpellCheck { get; set; }
                     public string NetflixQualityCheck { get; set; }
+                    public string BeautifyTimeCodes { get; set; }
                     public string Settings { get; set; }
                     public string Help { get; set; }
                     public string ShowHideWaveform { get; set; }
@@ -1760,6 +1895,7 @@ namespace Nikse.SubtitleEdit.Logic
                     public string SizeAllColumnsToFit { get; set; }
                     public string SetStyle { get; set; }
                     public string SetActor { get; set; }
+                    public string SetLayer { get; set; }
                     public string AssaTools { get; set; }
                     public string SubStationAlphaStyles { get; set; }
                     public string AdvancedSubStationAlphaStyles { get; set; }
@@ -1769,11 +1905,15 @@ namespace Nikse.SubtitleEdit.Logic
                     public string TimedTextSetLanguage { get; set; }
                     public string SamiSetStyle { get; set; }
                     public string NuendoSetStyle { get; set; }
+                    public string WebVttSetStyle { get; set; }
+                    public string WebVttSetVoice { get; set; }
+                    public string WebVttBrowserPreview { get; set; }
                     public string Cut { get; set; }
                     public string Copy { get; set; }
                     public string Paste { get; set; }
                     public string Delete { get; set; }
                     public string SplitLineAtCursorPosition { get; set; }
+                    public string SplitLineAtCursorPositionAndAutoBr { get; set; }
                     public string SplitLineAtCursorAndWaveformPosition { get; set; }
                     public string AutoDurationCurrentLine { get; set; }
                     public string SelectAll { get; set; }
@@ -1821,6 +1961,7 @@ namespace Nikse.SubtitleEdit.Logic
                     public string KaraokeEffect { get; set; }
                     public string ShowSelectedLinesEarlierLater { get; set; }
                     public string VisualSyncSelectedLines { get; set; }
+                    public string BeautifyTimeCodesOfSelectedLines { get; set; }
                     public string GoogleAndMicrosoftTranslateSelectedLine { get; set; }
                     public string SelectedLines { get; set; }
                     public string TranslateSelectedLines { get; set; }
@@ -2250,6 +2391,10 @@ namespace Nikse.SubtitleEdit.Logic
             public string Find { get; set; }
             public string Replace { get; set; }
             public string ReplaceAll { get; set; }
+            public string FindReplaceIn { get; set; }
+            public string TranslationAndOriginal { get; set; }
+            public string TranslationOnly { get; set; }
+            public string OriginalOnly { get; set; }
         }
 
         public class RestoreAutoBackup
@@ -2318,8 +2463,10 @@ namespace Nikse.SubtitleEdit.Logic
             public string BurnIn { get; set; }
             public string SpellCheck { get; set; }
             public string NetflixQualityCheck { get; set; }
+            public string BeautifyTimeCodes { get; set; }
             public string SettingsName { get; set; }
             public string ToggleBookmarks { get; set; }
+            public string FocusTextBox { get; set; }
             public string ToggleBookmarksWithComment { get; set; }
             public string ClearBookmarks { get; set; }
             public string ExportBookmarks { get; set; }
@@ -2426,6 +2573,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string ShowFullscreenButton { get; set; }
             public string PreviewFontName { get; set; }
             public string PreviewFontSize { get; set; }
+            public string PreviewVerticalMargin { get; set; }
             public string MainWindowVideoControls { get; set; }
             public string CustomSearchTextAndUrl { get; set; }
             public string WaveformAppearance { get; set; }
@@ -2440,6 +2588,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string WaveformListViewFocusMouseEnter { get; set; }
             public string WaveformSingleClickSelect { get; set; }
             public string WaveformSnapToShotChanges { get; set; }
+            public string WaveformEditShotChangesProfile { get; set; }
             public string WaveformAutoGen { get; set; }
             public string WaveformBorderHitMs1 { get; set; }
             public string WaveformBorderHitMs2 { get; set; }
@@ -2558,9 +2707,12 @@ namespace Nikse.SubtitleEdit.Logic
             public string UseSyntaxColoring { get; set; }
             public string HtmlColor { get; set; }
             public string AssaColor { get; set; }
+            public string Theme { get; set; }
+            public string Automatic { get; set; }
             public string DarkTheme { get; set; }
             public string DarkThemeEnabled { get; set; }
             public string DarkThemeShowGridViewLines { get; set; }
+            public string GraphicsButtons { get; set; }
             public string UpdateShortcut { get; set; }
             public string FoucsSetVideoPosition { get; set; }
             public string ToggleDockUndockOfVideoControls { get; set; }
@@ -2596,21 +2748,23 @@ namespace Nikse.SubtitleEdit.Logic
             public string AdjustSetEndAndOffsetTheRest { get; set; }
             public string AdjustSetEndAndOffsetTheRestAndGoToNext { get; set; }
             public string AdjustSnapStartToNextShotChange { get; set; }
-            public string AdjustSnapStartToNextShotChangeWithGap { get; set; }
             public string AdjustSnapEndToPreviousShotChange { get; set; }
-            public string AdjustSnapEndToPreviousShotChangeWithGap { get; set; }
             public string AdjustExtendToNextShotChange { get; set; }
-            public string AdjustExtendToNextShotChangeWithGap { get; set; }
             public string AdjustExtendToPreviousShotChange { get; set; }
-            public string AdjustExtendToPreviousShotChangeWithGap { get; set; }
             public string AdjustExtendToNextSubtitle { get; set; }
             public string AdjustExtendToPreviousSubtitle { get; set; }
+            public string AdjustExtendToNextSubtitleMinusChainingGap { get; set; }
+            public string AdjustExtendToPreviousSubtitleMinusChainingGap { get; set; }
             public string AdjustExtendCurrentSubtitle { get; set; }
             public string AdjustExtendPreviousLineEndToCurrentStart { get; set; }
             public string AdjustExtendNextLineStartToCurrentEnd { get; set; }
             public string RecalculateDurationOfCurrentSubtitle { get; set; }
             public string RecalculateDurationOfCurrentSubtitleByOptimalReadingSpeed { get; set; }
             public string RecalculateDurationOfCurrentSubtitleByMinReadingSpeed { get; set; }
+            public string SetInCueToClosestShotChangeLeftGreenZone { get; set; }
+            public string SetInCueToClosestShotChangeRightGreenZone { get; set; }
+            public string SetOutCueToClosestShotChangeLeftGreenZone { get; set; }
+            public string SetOutCueToClosestShotChangeRightGreenZone { get; set; }
             public string MainCreateStartDownEndUp { get; set; }
             public string MergeDialog { get; set; }
             public string MergeDialogWithNext { get; set; }
@@ -2635,6 +2789,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string ToggleDialogDashes { get; set; }
             public string ToggleQuotes { get; set; }
             public string ToggleHiTags { get; set; }
+            public string ToggleCustomTags { get; set; }
             public string ToggleMusicSymbols { get; set; }
             public string Alignment { get; set; }
             public string AlignmentN1 { get; set; }
@@ -2679,13 +2834,14 @@ namespace Nikse.SubtitleEdit.Logic
             public string GoForward500Milliseconds { get; set; }
             public string GoBack1Second { get; set; }
             public string GoForward1Second { get; set; }
+            public string GoBack3Seconds { get; set; }
+            public string GoForward3Seconds { get; set; }
             public string GoBack5Seconds { get; set; }
             public string GoForward5Seconds { get; set; }
             public string GoBackXSSeconds { get; set; }
             public string GoForwardXSSeconds { get; set; }
             public string GoBackXLSeconds { get; set; }
             public string GoForwardXLSeconds { get; set; }
-            public string GoBack3Second { get; set; }
             public string GoToStartCurrent { get; set; }
             public string ToggleStartEndCurrent { get; set; }
             public string PlaySelectedLines { get; set; }
@@ -2693,6 +2849,8 @@ namespace Nikse.SubtitleEdit.Logic
 
             public string WaveformGoToPrevSubtitle { get; set; }
             public string WaveformGoToNextSubtitle { get; set; }
+            public string WaveformGoToPrevTimeCode { get; set; }
+            public string WaveformGoToNextTimeCode { get; set; }
             public string WaveformGoToPrevChapter { get; set; }
             public string WaveformGoToNextChapter { get; set; }
             public string WaveformSelectNextSubtitle { get; set; }
@@ -2708,6 +2866,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string MainToggleVideoControls { get; set; }
             public string VideoToggleContrast { get; set; }
             public string AudioToTextX { get; set; }
+            public string AudioExtractSelectedLines { get; set; }
             public string AudioToTextSelectedLinesX { get; set; }
             public string VideoToggleBrightness { get; set; }
             public string CustomSearch1 { get; set; }
@@ -2817,6 +2976,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string BDOpensInOcr { get; set; }
             public string BDOpensInEdit { get; set; }
             public string ShortcutsAllowSingleLetterOrNumberInTextBox { get; set; }
+            public string ShortcutCustomToggle { get; set; }
             public string UpdateFileTypeAssociations { get; set; }
             public string FileTypeAssociationsUpdated { get; set; }
             public string CustomContinuationStyle { get; set; }
@@ -2831,6 +2991,9 @@ namespace Nikse.SubtitleEdit.Logic
             public string PreviewPause { get; set; }
             public string CustomContinuationStyleNote { get; set; }
             public string ResetCustomContinuationStyleWarning { get; set; }
+            public string ExportAsHtml { get; set; }
+            public string SetNewActor { get; set; }
+            public string SetActorX { get; set; }
         }
 
         public class SettingsMpv
@@ -2955,6 +3118,7 @@ namespace Nikse.SubtitleEdit.Logic
             public string NumberOfSplits { get; set; }
             public string LongestSingleLineIsXAtY { get; set; }
             public string LongestLineIsXAtY { get; set; }
+            public string SplitAtLineBreaks { get; set; }
         }
 
         public class SplitSubtitle
@@ -3009,18 +3173,29 @@ namespace Nikse.SubtitleEdit.Logic
             public string SingleLineLengthMinimum { get; set; }
             public string SingleLineLengthMaximum { get; set; }
             public string SingleLineLengthAverage { get; set; }
+            public string SingleLineLengthExceedingMaximum { get; set; }
             public string SingleLineWidthMinimum { get; set; }
             public string SingleLineWidthMaximum { get; set; }
             public string SingleLineWidthAverage { get; set; }
+            public string SingleLineWidthExceedingMaximum { get; set; }
             public string DurationMinimum { get; set; }
             public string DurationMaximum { get; set; }
             public string DurationAverage { get; set; }
+            public string DurationExceedingMinimum { get; set; }
+            public string DurationExceedingMaximum { get; set; }
             public string CharactersPerSecondMinimum { get; set; }
             public string CharactersPerSecondMaximum { get; set; }
             public string CharactersPerSecondAverage { get; set; }
+            public string CharactersPerSecondExceedingOptimal { get; set; }
+            public string CharactersPerSecondExceedingMaximum { get; set; }
+            public string WordsPerMinuteMinimum { get; set; }
+            public string WordsPerMinuteMaximum { get; set; }
+            public string WordsPerMinuteAverage { get; set; }
+            public string WordsPerMinuteExceedingMaximum { get; set; }
             public string GapMinimum { get; set; }
             public string GapMaximum { get; set; }
             public string GapAverage { get; set; }
+            public string GapExceedingMinimum { get; set; }
             public string Export { get; set; }
         }
 
@@ -3417,5 +3592,22 @@ namespace Nikse.SubtitleEdit.Logic
             public string VoiceName { get; set; }
         }
 
+        public class WebVttProperties
+        {
+            public string UseXTimeStamp { get; set; }
+            public string MergeLines { get; set; }
+        }
+
+        public class WebVttStyleManager
+        {
+            public string Title { get; set; }
+        }
+
+        public class WhisperAdvanced
+        {
+            public string Title { get; set; }
+            public string CommandLineArguments { get; set; }
+            public string Info { get; set; }
+        }
     }
 }
