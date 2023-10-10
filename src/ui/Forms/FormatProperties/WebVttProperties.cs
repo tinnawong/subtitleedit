@@ -38,7 +38,14 @@ namespace Nikse.SubtitleEdit.Forms.FormatProperties
             textBoxAn8.Text = Configuration.Settings.SubtitleSettings.WebVttCueAn8;
             textBoxAn9.Text = Configuration.Settings.SubtitleSettings.WebVttCueAn9;
 
+            buttonOK.Text = LanguageSettings.Current.General.Ok;
+            buttonCancel.Text = LanguageSettings.Current.General.Cancel;
+
+            checkBoxUseXTimestampMap.Text = LanguageSettings.Current.WebVttProperties.UseXTimeStamp;
+            checkBoxAutoMerge.Text = LanguageSettings.Current.WebVttProperties.MergeLines;
+
             checkBoxUseXTimestampMap.Checked = Configuration.Settings.SubtitleSettings.WebVttUseXTimestampMap;
+            checkBoxAutoMerge.Checked = Configuration.Settings.SubtitleSettings.WebVttMergeLinesWithSameText;
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
@@ -54,6 +61,7 @@ namespace Nikse.SubtitleEdit.Forms.FormatProperties
             Configuration.Settings.SubtitleSettings.WebVttCueAn9 = textBoxAn9.Text;
 
             Configuration.Settings.SubtitleSettings.WebVttUseXTimestampMap = checkBoxUseXTimestampMap.Checked;
+            Configuration.Settings.SubtitleSettings.WebVttMergeLinesWithSameText = checkBoxAutoMerge.Checked;
 
             DialogResult = DialogResult.OK;
         }

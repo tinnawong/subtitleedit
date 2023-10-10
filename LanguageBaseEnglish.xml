@@ -2,7 +2,7 @@
 <Language Name="English">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>3.6.11</Version>
+    <Version>4.0.0</Version>
     <TranslatedBy>Translated by Nikse</TranslatedBy>
     <CultureName>en-US</CultureName>
     <HelpFile />
@@ -37,6 +37,7 @@
     <Actor>Actor</Actor>
     <Gap>Gap</Gap>
     <Region>Region</Region>
+    <Layer>Layer</Layer>
     <NumberSymbol>#</NumberSymbol>
     <Number>Number</Number>
     <Text>Text</Text>
@@ -64,6 +65,7 @@
     <OverlapPreviousLineX>Overlap prev line ({0:#,##0.###})</OverlapPreviousLineX>
     <OverlapX>Overlap ({0:#,##0.###})</OverlapX>
     <OverlapNextX>Overlap next ({0:#,##0.###})</OverlapNextX>
+    <OverlapStartAndEnd>Overlap start and end</OverlapStartAndEnd>
     <Negative>Negative</Negative>
     <RegularExpressionIsNotValid>Regular expression is not valid!</RegularExpressionIsNotValid>
     <CurrentSubtitle>Current subtitle</CurrentSubtitle>
@@ -96,7 +98,9 @@
     <Collapse>Collapse</Collapse>
     <ShortcutX>Shortcut: {0}</ShortcutX>
     <ExampleX>Example: {0}</ExampleX>
+    <ViewX>View {0}</ViewX>
     <Reset>Reset</Reset>
+    <Error>Error</Error>
     <Warning>Warning</Warning>
     <UseLargerFontForThisWindow>Use larger font for this window</UseLargerFontForThisWindow>
   </General>
@@ -152,8 +156,11 @@ Note: Do check free disk space.</WaveFileMalformed>
   </AddWaveform>
   <AddWaveformBatch>
     <Title>Batch generate waveform data</Title>
+    <ExtractTimeCodes>Extract time codes with FFprobe</ExtractTimeCodes>
     <ExtractingAudio>Extracting audio...</ExtractingAudio>
     <Calculating>Calculating...</Calculating>
+    <ExtractingTimeCodes>Extracting time codes...</ExtractingTimeCodes>
+    <DetectingShotChanges>Detecting shot changes...</DetectingShotChanges>
     <Done>Done</Done>
     <Error>Error</Error>
   </AddWaveformBatch>
@@ -169,16 +176,22 @@ Note: Do check free disk space.</WaveFileMalformed>
     <Fixed>Fixed</Fixed>
     <Milliseconds>Milliseconds</Milliseconds>
     <ExtendOnly>Extend only</ExtendOnly>
+    <EnforceDurationLimits>Enforce minimum and maximum duration</EnforceDurationLimits>
+    <CheckShotChanges>Don't extend past shot changes</CheckShotChanges>
+    <BatchCheckShotChanges>Respect shot changes (if available)</BatchCheckShotChanges>
   </AdjustDisplayDuration>
   <ApplyDurationLimits>
     <Title>Apply duration limits</Title>
+    <CheckShotChanges>Don't extend past shot changes</CheckShotChanges>
     <FixesAvailable>Fixes available: {0}</FixesAvailable>
     <UnableToFix>Unable to fix: {0}</UnableToFix>
+    <BatchCheckShotChanges>Respect shot changes (if available)</BatchCheckShotChanges>
   </ApplyDurationLimits>
   <AudioToText>
     <Title>Audio to text</Title>
     <Info>Generate text from audio via Vosk/Kaldi speech recognition</Info>
     <WhisperInfo>Generate text from audio via Whisper speech recognition</WhisperInfo>
+    <Engine>Engine</Engine>
     <VoskWebsite>Vosk website</VoskWebsite>
     <WhisperWebsite>Whisper website</WhisperWebsite>
     <WhisperNotFound>Whisper not found.
@@ -192,12 +205,18 @@ Read more info (web)?</WhisperNotFound>
     <LoadingVoskModel>Loading Vosk speech recognition model...</LoadingVoskModel>
     <Transcribing>Transcribing audio to text...</Transcribing>
     <TranscribingXOfY>Transcribing audio to text - file {0} of {1}...</TranscribingXOfY>
+    <PostProcessing>Post-processing...</PostProcessing>
     <XFilesSavedToVideoSourceFolder>{0} files saved to video source folder</XFilesSavedToVideoSourceFolder>
     <UsePostProcessing>Use post-processing (line merge, fix casing, punctuation, and more)</UsePostProcessing>
     <AutoAdjustTimings>Auto adjust timings</AutoAdjustTimings>
     <BatchMode>Batch mode</BatchMode>
     <KeepPartialTranscription>Keep partial transcription</KeepPartialTranscription>
     <TranslateToEnglish>Translate to English</TranslateToEnglish>
+    <MaxCharsPerSubtitle>Max. chars per subtitle line</MaxCharsPerSubtitle>
+    <RemoveTemporaryFiles>Remove temporary files</RemoveTemporaryFiles>
+    <SetCppConstMeFolder>Set CPP/Const-me models folder...</SetCppConstMeFolder>
+    <OnlyRunPostProcessing>Run only post-processing/adjust timings</OnlyRunPostProcessing>
+    <DownloadFasterWhisperCuda>Download cuBLAS and cuDNN libs for Faster-Whisper</DownloadFasterWhisperCuda>
   </AudioToText>
   <AssaAttachments>
     <Title>Advanced Sub Station Alpha attachments</Title>
@@ -331,7 +350,7 @@ Read more info (web)?</WhisperNotFound>
     <FilterMoreThanTwoLines>More than two lines in one subtitle</FilterMoreThanTwoLines>
     <FilterContains>Text contains...</FilterContains>
     <FilterFileNameContains>File name contains...</FilterFileNameContains>
-    <MkvLanguageCodeContains>Matroska (.mkv) language code contains...</MkvLanguageCodeContains>
+    <LanguageCodeContains>Language code (mkv/mp4) contains...</LanguageCodeContains>
     <FixCommonErrorsErrorX>Fix common errors: {0}</FixCommonErrorsErrorX>
     <MultipleReplaceErrorX>Multiple replace: {0}</MultipleReplaceErrorX>
     <AutoBalanceErrorX>Auto balance: {0}</AutoBalanceErrorX>
@@ -353,7 +372,100 @@ Read more info (web)?</WhisperNotFound>
     <MkvLanguageStyleTwoLetter>Two letter language code</MkvLanguageStyleTwoLetter>
     <MkvLanguageStyleThreeLetter>Three letter language code</MkvLanguageStyleThreeLetter>
     <MkvLanguageStyleEmpty>No language code</MkvLanguageStyleEmpty>
+    <SearchFolderScanVideo>Also scan video files in "Search folder" (slow)</SearchFolderScanVideo>
   </BatchConvert>
+  <BeautifyTimeCodes>
+    <Title>Beautify time codes</Title>
+    <TitleSelectedLines>Beautify time codes ({0} selected lines)</TitleSelectedLines>
+    <GroupTimeCodes>Time codes</GroupTimeCodes>
+    <AlignTimeCodes>Align time codes to frame time codes</AlignTimeCodes>
+    <ExtractExactTimeCodes>Use FFprobe to extract exact frame time codes</ExtractExactTimeCodes>
+    <ExtractTimeCodes>Extract time codes</ExtractTimeCodes>
+    <CancelTimeCodes>Cancel</CancelTimeCodes>
+    <GroupShotChanges>Shot changes</GroupShotChanges>
+    <SnapToShotChanges>Snap cues to shot changes</SnapToShotChanges>
+    <ImportShotChanges>Generate / import shot changes...</ImportShotChanges>
+    <EditProfile>Edit profile...</EditProfile>
+    <NoTimeCodesLoaded>No time codes loaded</NoTimeCodesLoaded>
+    <XTimeCodesLoaded>{0} time codes loaded</XTimeCodesLoaded>
+    <NoTimeCodesLoadedError>You've selected to extract exact frame time codes, but there are no time codes loaded.
+
+Please click "{0}" to extract the time codes first, or disable this option.</NoTimeCodesLoadedError>
+    <NoShotChangesLoaded>No shot changes loaded</NoShotChangesLoaded>
+    <XShotChangesLoaded>{0} shot changes loaded</XShotChangesLoaded>
+    <NoShotChangesLoadedError>You've selected to snap cues to shot changes, but there are no shot changes loaded.
+
+Please click "{0}" to generate or import shot changes first, or disable this option.</NoShotChangesLoadedError>
+    <BatchAlignTimeCodes>Align time codes to frame time codes</BatchAlignTimeCodes>
+    <BatchUseExactTimeCodes>Use exact time codes (if available)</BatchUseExactTimeCodes>
+    <BatchSnapToShotChanges>Snap cues to shot changes (if available)</BatchSnapToShotChanges>
+  </BeautifyTimeCodes>
+  <BeautifyTimeCodesProfile>
+    <Title>Edit profile</Title>
+    <LoadPreset>Load preset...</LoadPreset>
+    <PresetDefault>Default</PresetDefault>
+    <PresetNetflix>Netflix</PresetNetflix>
+    <PresetSDI>SDI</PresetSDI>
+    <CreateSimple>Simple mode...</CreateSimple>
+    <General>General</General>
+    <Gap>Gap:</Gap>
+    <GapSuffix>frames (will overwrite custom settings)</GapSuffix>
+    <InCues>In cues</InCues>
+    <SubtitlePreviewText>Subtitle text.</SubtitlePreviewText>
+    <Zones>Zones:</Zones>
+    <OutCues>Out cues</OutCues>
+    <ConnectedSubtitles>Connected subtitles</ConnectedSubtitles>
+    <InCueClosest>In cue is closest</InCueClosest>
+    <OutCueClosest>Out cue is closest</OutCueClosest>
+    <TreadAsConnected>Treat as connected if gap is smaller than:</TreadAsConnected>
+    <Milliseconds>ms</Milliseconds>
+    <Chaining>Chaining</Chaining>
+    <InCueOnShot>In cue on shot change</InCueOnShot>
+    <OutCueOnShot>Out cue on shot change</OutCueOnShot>
+    <MaxGap>Max. gap:</MaxGap>
+    <ShotChangeBehavior>If there is a shot change in between:</ShotChangeBehavior>
+    <DontChain>Don't chain</DontChain>
+    <ExtendCrossingShotChange>Extend, crossing shot change</ExtendCrossingShotChange>
+    <ExtendUntilShotChange>Extend until shot change</ExtendUntilShotChange>
+    <ResetWarning>This will reset your current profile and replace all values with those of the selected preset. This cannot be undone.
+
+Do you want to continue?</ResetWarning>
+    <CreateSimpleTitle>Create simple</CreateSimpleTitle>
+    <CreateSimpleInstruction>Enter these basic rules, and the current profile will be updated accordingly.</CreateSimpleInstruction>
+    <CreateSimpleGapInstruction>The minimum amount of space between subtitles.</CreateSimpleGapInstruction>
+    <CreateSimpleInCues>In cues should be:</CreateSimpleInCues>
+    <CreateSimpleInCues0Frames>On the shot change</CreateSimpleInCues0Frames>
+    <CreateSimpleInCues1Frames>1 frame after the shot change</CreateSimpleInCues1Frames>
+    <CreateSimpleInCues2Frames>2 frames after the shot change</CreateSimpleInCues2Frames>
+    <CreateSimpleInCues3Frames>3 frames after the shot change</CreateSimpleInCues3Frames>
+    <CreateSimpleOutCues>Out cues should be:</CreateSimpleOutCues>
+    <CreateSimpleOutCues0Frames>On the shot change</CreateSimpleOutCues0Frames>
+    <CreateSimpleOutCues1Frames>1 frame before the shot change</CreateSimpleOutCues1Frames>
+    <CreateSimpleOutCues2Frames>2 frames before the shot change</CreateSimpleOutCues2Frames>
+    <CreateSimpleOutCues3Frames>3 frames before the shot change</CreateSimpleOutCues3Frames>
+    <CreateSimpleOutCuesGap>Minimum gap before the shot change</CreateSimpleOutCuesGap>
+    <CreateSimpleSnapClosestCue>For connected subtitles, snap the in or out cue to a shot change based on which one is closer</CreateSimpleSnapClosestCue>
+    <CreateSimpleMaxOffset>Max. offset:</CreateSimpleMaxOffset>
+    <CreateSimpleMaxOffsetInstruction>Cues within this distance from shot changes will be snapped to the shot change.</CreateSimpleMaxOffsetInstruction>
+    <CreateSimpleSafeZone>Safe zone:</CreateSimpleSafeZone>
+    <CreateSimpleSafeZoneInstruction>Cues within this distance from shot changes will be moved away from the shot change.</CreateSimpleSafeZoneInstruction>
+    <CreateSimpleChainingGap>Max. chaining gap:</CreateSimpleChainingGap>
+    <CreateSimpleChainingGapInstruction>If the space between two subtitles is smaller than this amount, the subtitles will be connected.</CreateSimpleChainingGapInstruction>
+    <CreateSimpleChainingGapAfterShotChanges>After an out cue on a shot change, the gap may be smaller</CreateSimpleChainingGapAfterShotChanges>
+    <CreateSimpleChainingToolTip>Chaining subtitles is recommended to ensure a consistent "rhythm" in the "flashing" of the subtitles.
+This offers a more relaxed viewing experience.
+
+After chaining, subtitles are either connected (i.e. a subtitle disappears and a new subtitle appears immediately after a slight pause) or not.
+This gives the viewer some sense on when they can shift their focus back to the screen.
+
+The length of the chaining gap can be a bit smaller right after a subtitle disappears on a shot change, because the changing shot "resets" the image in a way.
+We leverage the intrinsic rhythm of the image.</CreateSimpleChainingToolTip>
+    <CreateSimpleLoadNetflixRules>Load Netflix rules</CreateSimpleLoadNetflixRules>
+    <Frames>frames</Frames>
+    <Maximum>Max.</Maximum>
+    <GapInMsFormat>{0} ms @ {1} FPS</GapInMsFormat>
+    <OffsetSafeZoneError>The safe zone should be larger than the max. offset.</OffsetSafeZoneError>
+  </BeautifyTimeCodesProfile>
   <BinEdit>
     <ImportImage>Import image...</ImportImage>
     <ExportImage>Export image...</ExportImage>
@@ -395,6 +507,7 @@ Read more info (web)?</WhisperNotFound>
     <OnlyChangeAllUppercaseLines>Only change all uppercase lines.</OnlyChangeAllUppercaseLines>
     <AllUppercase>ALL UPPERCASE</AllUppercase>
     <AllLowercase>all lowercase</AllLowercase>
+    <ProperCase>Proper Case</ProperCase>
   </ChangeCasing>
   <ChangeCasingNames>
     <Title>Change casing - Names</Title>
@@ -402,6 +515,7 @@ Read more info (web)?</WhisperNotFound>
     <Enabled>Enabled</Enabled>
     <Name>Name</Name>
     <LinesFoundX>Lines found: {0}</LinesFoundX>
+    <ExtraNames>Add extra names (separate by comma, one-time use only)</ExtraNames>
   </ChangeCasingNames>
   <ChangeFrameRate>
     <Title>Change frame rate</Title>
@@ -428,6 +542,9 @@ Read more info (web)?</WhisperNotFound>
     <CheckingForUpdatesNewVersion>New version available!</CheckingForUpdatesNewVersion>
     <InstallUpdate>Go to download page</InstallUpdate>
     <NoUpdates>Don't update</NoUpdates>
+    <XPluginsHasAnUpdate>{0} plugins have an updates -</XPluginsHasAnUpdate>
+    <OnePluginsHasAnUpdate>One plugin has an update -</OnePluginsHasAnUpdate>
+    <Update>update</Update>
   </CheckForUpdates>
   <ChooseAudioTrack>
     <Title>Choose audio track</Title>
@@ -724,7 +841,8 @@ Read more info (web)?</WhisperNotFound>
   </ExtractDateTimeInfo>
   <FindDialog>
     <Title>Find</Title>
-    <Find>&amp;Find</Find>
+    <FindNext>&amp;Find next</FindNext>
+    <FindPrevious>Find &amp;previous</FindPrevious>
     <Normal>&amp;Normal</Normal>
     <CaseSensitive>&amp;Case sensitive</CaseSensitive>
     <RegularExpression>Regular e&amp;xpression</RegularExpression>
@@ -768,6 +886,7 @@ Read more info (web)?</WhisperNotFound>
     <BreakLongLines>Break long lines</BreakLongLines>
     <RemoveLineBreaks>Remove line breaks in short texts with only one sentence</RemoveLineBreaks>
     <RemoveLineBreaksAll>Remove line breaks in short texts (all except dialogs)</RemoveLineBreaksAll>
+    <RemoveLineBreaksPixelWidth>Unbreak subtitles that can fit on one line (pixel width)</RemoveLineBreaksPixelWidth>
     <FixUppercaseIInsideLowercaseWords>Fix uppercase 'i' inside lowercase words (OCR error)</FixUppercaseIInsideLowercaseWords>
     <FixDoubleApostrophes>Fix double apostrophe characters ('') to a single quote (")</FixDoubleApostrophes>
     <AddPeriods>Add period after lines where next line starts with uppercase letter</AddPeriods>
@@ -802,6 +921,7 @@ Read more info (web)?</WhisperNotFound>
     <FixFirstLetterToUppercaseAfterParagraph>Fix first letter to uppercase after paragraph</FixFirstLetterToUppercaseAfterParagraph>
     <MergeShortLine>Merge short line (single sentence)</MergeShortLine>
     <MergeShortLineAll>Merge short line (all except dialogs)</MergeShortLineAll>
+    <UnbreakShortLinePixelWidth>Unbreak short line (pixel width)</UnbreakShortLinePixelWidth>
     <BreakLongLine>Break long line</BreakLongLine>
     <FixLongDisplayTime>Fix long display time</FixLongDisplayTime>
     <FixInvalidItalicTag>Fix invalid italic tag</FixInvalidItalicTag>
@@ -854,16 +974,20 @@ Read more info (web)?</WhisperNotFound>
     <SolidColor>Solid color</SolidColor>
     <DurationInMinutes>Duration in minutes</DurationInMinutes>
     <Background>Background</Background>
+    <FfmpegParameters>Run FFmpeg with the following parameters:</FfmpegParameters>
+    <GenerateWithFfmpegParametersPrompt>Generate - prompt FFmpeg parameters</GenerateWithFfmpegParametersPrompt>
   </GenerateBlankVideo>
   <GenerateVideoWithBurnedInSubs>
     <Title>Generate video with burned-in subtitle</Title>
-    <InfoAssaOff>Note: Advanced Substation Alpha styling supported.</InfoAssaOff>
-    <InfoAssaOn>Note: Advanced Substation Alpha styling will be used :)</InfoAssaOn>
+    <InfoAssaOff>Note: Advanced SubStation Alpha styling supported.</InfoAssaOff>
+    <InfoAssaOn>Note: Advanced SubStation Alpha styling will be used :)</InfoAssaOn>
     <XGeneratedWithBurnedInSubsInX>"{0}" generated with burned-in subtitle in {1}.</XGeneratedWithBurnedInSubsInX>
     <TimeRemainingMinutes>Time remaining: {0} minutes</TimeRemainingMinutes>
+    <TimeRemainingOneMinute>Time remaining: One minute</TimeRemainingOneMinute>
     <TimeRemainingSeconds>Time remaining: {0} seconds</TimeRemainingSeconds>
     <TimeRemainingAFewSeconds>Time remaining: A few seconds</TimeRemainingAFewSeconds>
     <TimeRemainingMinutesAndSeconds>Time remaining: {0} minutes and {1} seconds</TimeRemainingMinutesAndSeconds>
+    <TimeRemainingOneMinuteAndSeconds>Time remaining: One minute and {0} seconds</TimeRemainingOneMinuteAndSeconds>
     <TargetFileName>Target file name: {0}</TargetFileName>
     <TargetFileSize>Target file size (requires 2 pass encoding)</TargetFileSize>
     <FileSizeMb>File size in MB</FileSizeMb>
@@ -878,7 +1002,19 @@ Read more info (web)?</WhisperNotFound>
     <Crf>CRF</Crf>
     <TuneFor>Tune for</TuneFor>
     <AlignRight>Align right</AlignRight>
+    <GetStartPosition>Get start position</GetStartPosition>
+    <GetEndPosition>Get end position</GetEndPosition>
   </GenerateVideoWithBurnedInSubs>
+  <GenerateVideoWithEmbeddedSubs>
+    <Title>Generate video with added/removed embedded subtitles</Title>
+    <InputVideoFile>Input video file</InputVideoFile>
+    <SubtitlesX>Subtitles ({0})</SubtitlesX>
+    <SetLanguage>Set language...</SetLanguage>
+    <ToggleForced>Toggle forced</ToggleForced>
+    <ToggleDefault>Toggle default</ToggleDefault>
+    <Default>Default</Default>
+    <XGeneratedWithEmbeddedSubs>"{0}" generated with embedded subtitles</XGeneratedWithEmbeddedSubs>
+  </GenerateVideoWithEmbeddedSubs>
   <GetDictionaries>
     <Title>Need dictionaries?</Title>
     <DescriptionLine1>Subtitle Edit's spell check is based on the NHunspell engine which</DescriptionLine1>
@@ -1250,6 +1386,7 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
         <Duration>Duration</Duration>
         <ListErrors>List errors...</ListErrors>
         <NetflixQualityCheck>Netflix quality check...</NetflixQualityCheck>
+        <BeautifyTimeCodes>Beautify time codes...</BeautifyTimeCodes>
         <TextAlphabetically>Text - alphabetically</TextAlphabetically>
         <TextSingleLineMaximumLength>Text - single line max. length</TextSingleLineMaximumLength>
         <TextTotalLength>Text - total length</TextTotalLength>
@@ -1279,7 +1416,8 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
         <SmptTimeMode>SMPTE timing (non integer frame rate)</SmptTimeMode>
         <GenerateTextFromVideo>Generate text from video...</GenerateTextFromVideo>
         <GenerateBlankVideo>Generate blank video...</GenerateBlankVideo>
-        <GenerateVideoWithBurnedInSub>Generate video with burned-in sub...</GenerateVideoWithBurnedInSub>
+        <GenerateVideoWithBurnedInSub>Generate video with burned-in subtitle...</GenerateVideoWithBurnedInSub>
+        <GenerateVideoWithEmbeddedSubs>Generate video with added/removed embedded subtitles...</GenerateVideoWithEmbeddedSubs>
         <VideoAudioToTextX>Audio to text ({0})...</VideoAudioToTextX>
         <ImportChaptersFromVideo>Import chapters from video</ImportChaptersFromVideo>
         <GenerateImportShotChanges>Generate/import shot changes...</GenerateImportShotChanges>
@@ -1344,6 +1482,7 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
         <VisualSync>Visual sync</VisualSync>
         <SpellCheck>Spell check</SpellCheck>
         <NetflixQualityCheck>Netflix quality check</NetflixQualityCheck>
+        <BeautifyTimeCodes>Beautify time codes</BeautifyTimeCodes>
         <Settings>Settings</Settings>
         <Help>Help</Help>
         <ShowHideWaveform>Show/hide waveform</ShowHideWaveform>
@@ -1354,6 +1493,7 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
         <SizeAllColumnsToFit>Size all columns to fit</SizeAllColumnsToFit>
         <SetStyle>Set style</SetStyle>
         <SetActor>Set actor</SetActor>
+        <SetLayer>Set layer</SetLayer>
         <AssaTools>ASSA tools</AssaTools>
         <SubStationAlphaStyles>Sub Station Alpha styles...</SubStationAlphaStyles>
         <AdvancedSubStationAlphaStyles>Advanced Sub Station Alpha styles...</AdvancedSubStationAlphaStyles>
@@ -1363,11 +1503,15 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
         <TimedTextSetLanguage>Timed Text - set language</TimedTextSetLanguage>
         <SamiSetStyle>Sami - set class</SamiSetStyle>
         <NuendoSetStyle>Nuendo - set character</NuendoSetStyle>
+        <WebVttSetStyle>WebVTT - set style</WebVttSetStyle>
+        <WebVttSetVoice>WebVTT - set voice</WebVttSetVoice>
+        <WebVttBrowserPreview>WebVTT - browser preview</WebVttBrowserPreview>
         <Cut>Cut</Cut>
         <Copy>Copy</Copy>
         <Paste>Paste</Paste>
         <Delete>Delete</Delete>
         <SplitLineAtCursorPosition>Split line at cursor position</SplitLineAtCursorPosition>
+        <SplitLineAtCursorPositionAndAutoBr>Split line at cursor position and auto-break</SplitLineAtCursorPositionAndAutoBr>
         <SplitLineAtCursorAndWaveformPosition>Split line at cursor/video position</SplitLineAtCursorAndWaveformPosition>
         <AutoDurationCurrentLine>Auto duration (current line)</AutoDurationCurrentLine>
         <SelectAll>Select all</SelectAll>
@@ -1415,6 +1559,7 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
         <KaraokeEffect>Karaoke effect...</KaraokeEffect>
         <ShowSelectedLinesEarlierLater>Show selected lines earlier/later...</ShowSelectedLinesEarlierLater>
         <VisualSyncSelectedLines>Visual sync selected lines...</VisualSyncSelectedLines>
+        <BeautifyTimeCodesOfSelectedLines>Beautify time codes of selected lines...</BeautifyTimeCodesOfSelectedLines>
         <GoogleAndMicrosoftTranslateSelectedLine>Google/Microsoft translate original line</GoogleAndMicrosoftTranslateSelectedLine>
         <SelectedLines>Selected lines</SelectedLines>
         <TranslateSelectedLines>Translate selected lines...</TranslateSelectedLines>
@@ -1472,18 +1617,18 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
       <AutoContinueInOneSecond>Auto continue in one second</AutoContinueInOneSecond>
       <AutoContinueInXSeconds>Auto continue in {0} seconds</AutoContinueInXSeconds>
       <StillTypingAutoContinueStopped>Still typing... auto continue stopped</StillTypingAutoContinueStopped>
-      <InsertNewSubtitleAtVideoPosition>&amp;Insert new subtitle at video pos</InsertNewSubtitleAtVideoPosition>
+      <InsertNewSubtitleAtVideoPosition>Insert new subtitle at video pos</InsertNewSubtitleAtVideoPosition>
       <InsertNewSubtitleAtVideoPositionNoTextBoxFocus>Insert new subtitle at video pos (no text box focus)</InsertNewSubtitleAtVideoPositionNoTextBoxFocus>
       <Auto>Auto</Auto>
-      <PlayFromJustBeforeText>Play from just before &amp;text</PlayFromJustBeforeText>
+      <PlayFromJustBeforeText>Play from just before text</PlayFromJustBeforeText>
       <PlayFromBeginning>Play from beginning of video</PlayFromBeginning>
       <Pause>Pause</Pause>
       <GoToSubtitlePositionAndPause>Go to sub position and pause</GoToSubtitlePositionAndPause>
-      <SetStartTime>Set &amp;start time</SetStartTime>
-      <SetEndTimeAndGoToNext>Set &amp;end &amp;&amp; go to next</SetEndTimeAndGoToNext>
+      <SetStartTime>Set start time</SetStartTime>
+      <SetEndTimeAndGoToNext>Set end &amp;&amp; go to next</SetEndTimeAndGoToNext>
       <AdjustedViaEndTime>Adjusted via end time {0}</AdjustedViaEndTime>
-      <SetEndTime>Set e&amp;nd time</SetEndTime>
-      <SetStartTimeAndOffsetTheRest>Set sta&amp;rt and offset the rest</SetStartTimeAndOffsetTheRest>
+      <SetEndTime>Set end time</SetEndTime>
+      <SetStartTimeAndOffsetTheRest>Set start and offset the rest</SetStartTimeAndOffsetTheRest>
       <SearchTextOnline>Search text online</SearchTextOnline>
       <GoogleTranslate>Google translate</GoogleTranslate>
       <AutoTranslate>Auto-translate</AutoTranslate>
@@ -1517,6 +1662,7 @@ To use an API key, go to "Options -&gt; Settings -&gt; Tools" to enter your Goog
     <LoadedEmptyOrShort>Loaded empty or very short subtitle {0}</LoadedEmptyOrShort>
     <FileIsEmptyOrShort>File is empty or very short!</FileIsEmptyOrShort>
     <FileNotFound>File not found: {0}</FileNotFound>
+    <FileLocked>Unable to open file as it is in use by another program: {0}</FileLocked>
     <SavedSubtitleX>Saved subtitle {0}</SavedSubtitleX>
     <SavedOriginalSubtitleX>Saved original subtitle {0}</SavedOriginalSubtitleX>
     <FileOnDiskModified>File on disk modified</FileOnDiskModified>
@@ -1563,12 +1709,16 @@ Would you like to start from the top of the document and continue search and rep
     <BeforeDisplayTimeAdjustment>Before display time adjustment</BeforeDisplayTimeAdjustment>
     <DisplayTimeAdjustedX>Display time adjusted: {0}</DisplayTimeAdjustedX>
     <DisplayTimesAdjustedX>Display times adjusted: {0}</DisplayTimesAdjustedX>
-    <StarTimeAdjustedX>Start time adjusted: {0}</StarTimeAdjustedX>
+    <StartTimeAdjustedX>Start time adjusted: {0}</StartTimeAdjustedX>
     <BeforeCommonErrorFixes>Before common error fixes</BeforeCommonErrorFixes>
     <CommonErrorsFixedInSelectedLines>Common errors fixed in selected lines</CommonErrorsFixedInSelectedLines>
     <CommonErrorsFixed>Common errors fixed</CommonErrorsFixed>
     <BeforeRenumbering>Before renumbering</BeforeRenumbering>
     <RenumberedStartingFromX>Renumbered starting from: {0}</RenumberedStartingFromX>
+    <BeforeBeautifyTimeCodes>Before beautifying time codes</BeforeBeautifyTimeCodes>
+    <BeforeBeautifyTimeCodesSelectedLines>Before beautifying time codes of selected lines</BeforeBeautifyTimeCodesSelectedLines>
+    <BeautifiedTimeCodes>Time codes beautified</BeautifiedTimeCodes>
+    <BeautifiedTimeCodesSelectedLines>Time codes of selected lines beautified</BeautifiedTimeCodesSelectedLines>
     <BeforeRemovalOfTextingForHearingImpaired>Before removal of texting for hearing impaired</BeforeRemovalOfTextingForHearingImpaired>
     <TextingForHearingImpairedRemovedOneLine>Texting for hearing impaired removed: One line</TextingForHearingImpairedRemovedOneLine>
     <TextingForHearingImpairedRemovedXLines>Texting for hearing impaired removed: {0} lines</TextingForHearingImpairedRemovedXLines>
@@ -1599,6 +1749,7 @@ Continue?</SubtitleAppendPrompt>
     <NothingToUndo>Nothing to undo</NothingToUndo>
     <InvalidLanguageNameX>Invalid language name: {0}</InvalidLanguageNameX>
     <DoNotDisplayMessageAgain>Don't display this message again</DoNotDisplayMessageAgain>
+    <DoNotAutoLoadVideo>Do not autoload video</DoNotAutoLoadVideo>
     <NumberOfCorrectedWords>Number of corrected words: {0}</NumberOfCorrectedWords>
     <NumberOfSkippedWords>Number of skipped words: {0}</NumberOfSkippedWords>
     <NumberOfCorrectWords>Number of correct words: {0}</NumberOfCorrectWords>
@@ -2076,10 +2227,14 @@ can edit in same subtitle file (collaboration)</Information>
     <Normal>&amp;Normal</Normal>
     <CaseSensitive>&amp;Case sensitive</CaseSensitive>
     <RegularExpression>Regular e&amp;xpression</RegularExpression>
-    <ReplaceWith>Replace with</ReplaceWith>
+    <ReplaceWith>Replace with:</ReplaceWith>
     <Find>&amp;Find</Find>
     <Replace>&amp;Replace</Replace>
     <ReplaceAll>Replace &amp;all</ReplaceAll>
+    <FindReplaceIn>Replace/search in:</FindReplaceIn>
+    <TranslationAndOriginal>Translation and original</TranslationAndOriginal>
+    <TranslationOnly>Translation only</TranslationOnly>
+    <OriginalOnly>Original only</OriginalOnly>
   </ReplaceDialog>
   <RestoreAutoBackup>
     <Title>Restore auto backup</Title>
@@ -2138,8 +2293,10 @@ can edit in same subtitle file (collaboration)</Information>
     <BurnIn>Burn in</BurnIn>
     <SpellCheck>Spell check</SpellCheck>
     <NetflixQualityCheck>Netflix quality check</NetflixQualityCheck>
+    <BeautifyTimeCodes>Beautify time codes</BeautifyTimeCodes>
     <SettingsName>Settings</SettingsName>
     <ToggleBookmarks>Toggle bookmarks</ToggleBookmarks>
+    <FocusTextBox>Focus text box</FocusTextBox>
     <ToggleBookmarksWithComment>Toggle bookmarks - add comment</ToggleBookmarksWithComment>
     <ClearBookmarks>Clear bookmarks</ClearBookmarks>
     <ExportBookmarks>Export bookmarks...</ExportBookmarks>
@@ -2243,6 +2400,7 @@ can edit in same subtitle file (collaboration)</Information>
     <ShowFullscreenButton>Show fullscreen button</ShowFullscreenButton>
     <PreviewFontName>Subtitle preview font name</PreviewFontName>
     <PreviewFontSize>Subtitle preview font size</PreviewFontSize>
+    <PreviewVerticalMargin>Vertical margin</PreviewVerticalMargin>
     <MainWindowVideoControls>Main window video controls</MainWindowVideoControls>
     <CustomSearchTextAndUrl>Custom search text and URL</CustomSearchTextAndUrl>
     <WaveformAppearance>Waveform appearance</WaveformAppearance>
@@ -2257,6 +2415,7 @@ can edit in same subtitle file (collaboration)</Information>
     <WaveformListViewFocusMouseEnter>Also set list view focus on mouse enter in list view</WaveformListViewFocusMouseEnter>
     <WaveformSingleClickSelect>Single click to select subtitles</WaveformSingleClickSelect>
     <WaveformSnapToShotChanges>Snap to shot changes (hold Shift to override)</WaveformSnapToShotChanges>
+    <WaveformEditShotChangesProfile>Edit profile...</WaveformEditShotChangesProfile>
     <WaveformAutoGen>Auto generate waveform when opening video</WaveformAutoGen>
     <WaveformBorderHitMs1>Border marker hit must be within</WaveformBorderHitMs1>
     <WaveformBorderHitMs2>milliseconds</WaveformBorderHitMs2>
@@ -2371,9 +2530,12 @@ can edit in same subtitle file (collaboration)</Information>
     <UseSyntaxColoring>Use syntax coloring</UseSyntaxColoring>
     <HtmlColor>Html color</HtmlColor>
     <AssaColor>ASSA color</AssaColor>
+    <Theme>Theme</Theme>
+    <Automatic>Automatic</Automatic>
     <DarkTheme>Dark theme</DarkTheme>
     <DarkThemeEnabled>Use dark theme</DarkThemeEnabled>
     <DarkThemeShowGridViewLines>Show list view grid lines</DarkThemeShowGridViewLines>
+    <GraphicsButtons>Graphics buttons</GraphicsButtons>
     <UpdateShortcut>Update</UpdateShortcut>
     <FoucsSetVideoPosition>Focus set video position</FoucsSetVideoPosition>
     <ToggleDockUndockOfVideoControls>Toggle dock/undock of video controls</ToggleDockUndockOfVideoControls>
@@ -2409,21 +2571,23 @@ can edit in same subtitle file (collaboration)</Information>
     <AdjustSetEndAndOffsetTheRest>Set end, offset the rest</AdjustSetEndAndOffsetTheRest>
     <AdjustSetEndAndOffsetTheRestAndGoToNext>Set end, offset the rest and go to next</AdjustSetEndAndOffsetTheRestAndGoToNext>
     <AdjustSnapStartToNextShotChange>Snap selected lines start to next shot change</AdjustSnapStartToNextShotChange>
-    <AdjustSnapStartToNextShotChangeWithGap>Snap selected lines start to next shot change with min. gap</AdjustSnapStartToNextShotChangeWithGap>
     <AdjustSnapEndToPreviousShotChange>Snap selected lines end to previous shot change</AdjustSnapEndToPreviousShotChange>
-    <AdjustSnapEndToPreviousShotChangeWithGap>Snap selected lines end to previous shot change with min. gap</AdjustSnapEndToPreviousShotChangeWithGap>
     <AdjustExtendToNextShotChange>Extend selected lines to next shot change (or next subtitle)</AdjustExtendToNextShotChange>
-    <AdjustExtendToNextShotChangeWithGap>Extend selected lines to next shot change with min. gap (or next subtitle)</AdjustExtendToNextShotChangeWithGap>
     <AdjustExtendToPreviousShotChange>Extend selected lines to previous shot change (or previous subtitle)</AdjustExtendToPreviousShotChange>
-    <AdjustExtendToPreviousShotChangeWithGap>Extend selected lines to previous shot change with min. gap (or previous subtitle)</AdjustExtendToPreviousShotChangeWithGap>
     <AdjustExtendToNextSubtitle>Extend selected lines to next subtitle</AdjustExtendToNextSubtitle>
     <AdjustExtendToPreviousSubtitle>Extend selected lines to previous subtitle</AdjustExtendToPreviousSubtitle>
+    <AdjustExtendToNextSubtitleMinusChainingGap>Extend selected lines to next subtitle with chaining gap</AdjustExtendToNextSubtitleMinusChainingGap>
+    <AdjustExtendToPreviousSubtitleMinusChainingGap>Extend selected lines to previous subtitle with chaining gap</AdjustExtendToPreviousSubtitleMinusChainingGap>
     <AdjustExtendCurrentSubtitle>Extend current line to next subtitle or max duration</AdjustExtendCurrentSubtitle>
     <AdjustExtendPreviousLineEndToCurrentStart>Extend previous line's end to current's start</AdjustExtendPreviousLineEndToCurrentStart>
     <AdjustExtendNextLineStartToCurrentEnd>Extend next line's start to current's end</AdjustExtendNextLineStartToCurrentEnd>
     <RecalculateDurationOfCurrentSubtitle>Re-calculate duration of current subtitle</RecalculateDurationOfCurrentSubtitle>
     <RecalculateDurationOfCurrentSubtitleByOptimalReadingSpeed>Re-calculate duration of current subtitle (based on optimal reading speed)</RecalculateDurationOfCurrentSubtitleByOptimalReadingSpeed>
     <RecalculateDurationOfCurrentSubtitleByMinReadingSpeed>Re-calculate duration of current subtitle (based on minimum reading speed)</RecalculateDurationOfCurrentSubtitleByMinReadingSpeed>
+    <SetInCueToClosestShotChangeLeftGreenZone>Set in cue to minimum distance before closest shot change (left green zone)</SetInCueToClosestShotChangeLeftGreenZone>
+    <SetInCueToClosestShotChangeRightGreenZone>Set in cue to minimum distance after closest shot change (right green zone)</SetInCueToClosestShotChangeRightGreenZone>
+    <SetOutCueToClosestShotChangeLeftGreenZone>Set out cue to minimum distance before closest shot change (left green zone)</SetOutCueToClosestShotChangeLeftGreenZone>
+    <SetOutCueToClosestShotChangeRightGreenZone>Set out cue to minimum distance after closest shot change (right green zone)</SetOutCueToClosestShotChangeRightGreenZone>
     <MainCreateStartDownEndUp>Insert new subtitle at key-down, set end time at key-up</MainCreateStartDownEndUp>
     <MergeDialog>Merge dialog (insert dashes)</MergeDialog>
     <MergeDialogWithNext>Merge dialog with next (insert dashes)</MergeDialogWithNext>
@@ -2448,6 +2612,7 @@ can edit in same subtitle file (collaboration)</Information>
     <ToggleDialogDashes>Toggle dialog dashes</ToggleDialogDashes>
     <ToggleQuotes>Toggle quotes</ToggleQuotes>
     <ToggleHiTags>Toggle HI tags</ToggleHiTags>
+    <ToggleCustomTags>Toggle custom tags (surround with)</ToggleCustomTags>
     <ToggleMusicSymbols>Toggle music symbols</ToggleMusicSymbols>
     <Alignment>Alignment (selected lines)</Alignment>
     <AlignmentN1>Alignment bottom left - {\an1}</AlignmentN1>
@@ -2492,19 +2657,22 @@ can edit in same subtitle file (collaboration)</Information>
     <GoForward500Milliseconds>500 ms forward</GoForward500Milliseconds>
     <GoBack1Second>One second back</GoBack1Second>
     <GoForward1Second>One second forward</GoForward1Second>
+    <GoBack3Seconds>Three seconds back</GoBack3Seconds>
+    <GoForward3Seconds>Three seconds forward</GoForward3Seconds>
     <GoBack5Seconds>Five seconds back</GoBack5Seconds>
     <GoForward5Seconds>Five seconds forward</GoForward5Seconds>
     <GoBackXSSeconds>Small selected time back</GoBackXSSeconds>
     <GoForwardXSSeconds>Small selected time forward</GoForwardXSSeconds>
     <GoBackXLSeconds>Large selected time back</GoBackXLSeconds>
     <GoForwardXLSeconds>Large selected time forward</GoForwardXLSeconds>
-    <GoBack3Second>Three seconds back</GoBack3Second>
     <GoToStartCurrent>Set video pos to start of current subtitle</GoToStartCurrent>
     <ToggleStartEndCurrent>Toggle video pos between start/end of current subtitle</ToggleStartEndCurrent>
     <PlaySelectedLines>Play selected lines</PlaySelectedLines>
     <LoopSelectedLines>Loop selected lines</LoopSelectedLines>
     <WaveformGoToPrevSubtitle>Go to previous subtitle (from video position)</WaveformGoToPrevSubtitle>
     <WaveformGoToNextSubtitle>Go to next subtitle (from video position)</WaveformGoToNextSubtitle>
+    <WaveformGoToPrevTimeCode>Go to previous time code (from video position)</WaveformGoToPrevTimeCode>
+    <WaveformGoToNextTimeCode>Go to next time code (from video position)</WaveformGoToNextTimeCode>
     <WaveformGoToPrevChapter>Go to previous chapter</WaveformGoToPrevChapter>
     <WaveformGoToNextChapter>Go to next chapter</WaveformGoToNextChapter>
     <WaveformSelectNextSubtitle>Select next subtitle (from video position, keep video pos)</WaveformSelectNextSubtitle>
@@ -2520,6 +2688,7 @@ can edit in same subtitle file (collaboration)</Information>
     <MainToggleVideoControls>Toggle video controls</MainToggleVideoControls>
     <VideoToggleContrast>Toggle contrast (mpv only)</VideoToggleContrast>
     <AudioToTextX>Audio to text ({0})</AudioToTextX>
+    <AudioExtractSelectedLines>Extract audio (selected lines)</AudioExtractSelectedLines>
     <AudioToTextSelectedLinesX>Audio to text selected lines ({0})</AudioToTextSelectedLinesX>
     <VideoToggleBrightness>Toggle brightness (mpv only)</VideoToggleBrightness>
     <CustomSearch1>Translate, custom search 1</CustomSearch1>
@@ -2633,6 +2802,7 @@ Continue?</RestoreDefaultSettingsMsg>
     <BDOpensInOcr>OCR</BDOpensInOcr>
     <BDOpensInEdit>Edit</BDOpensInEdit>
     <ShortcutsAllowSingleLetterOrNumberInTextBox>Shortcuts: Allow single letter/number in text box</ShortcutsAllowSingleLetterOrNumberInTextBox>
+    <ShortcutCustomToggle>Shortcut toggle custom start/end</ShortcutCustomToggle>
     <UpdateFileTypeAssociations>Update file type associations</UpdateFileTypeAssociations>
     <FileTypeAssociationsUpdated>File type associations updated</FileTypeAssociationsUpdated>
     <CustomContinuationStyle>Edit custom continuation style</CustomContinuationStyle>
@@ -2647,6 +2817,9 @@ Continue?</RestoreDefaultSettingsMsg>
     <PreviewPause>(pause)</PreviewPause>
     <CustomContinuationStyleNote>Note: The custom continuation style is shared across profiles.</CustomContinuationStyleNote>
     <ResetCustomContinuationStyleWarning>This will override the values in the dialog. Are you sure?</ResetCustomContinuationStyleWarning>
+    <ExportAsHtml>Export as HTML...</ExportAsHtml>
+    <SetNewActor>Set new actor/voice</SetNewActor>
+    <SetActorX>Set actor/voice {0}</SetActorX>
   </Settings>
   <SettingsMpv>
     <DownloadMpv>Download mpv lib</DownloadMpv>
@@ -2753,6 +2926,7 @@ Continue?</RestoreDefaultSettingsMsg>
     <NumberOfSplits>Number of breaks/splits: {0}</NumberOfSplits>
     <LongestSingleLineIsXAtY>Longest single line length is {0} at line {1}</LongestSingleLineIsXAtY>
     <LongestLineIsXAtY>Longest total line length is {0} at line {1}</LongestLineIsXAtY>
+    <SplitAtLineBreaks>Split at line breaks</SplitAtLineBreaks>
   </SplitLongLines>
   <SplitSubtitle>
     <Title>Split subtitle</Title>
@@ -2801,18 +2975,29 @@ Continue?</RestoreDefaultSettingsMsg>
     <SingleLineLengthMinimum>Single line length - minimum: {0}</SingleLineLengthMinimum>
     <SingleLineLengthMaximum>Single line length - maximum: {0}</SingleLineLengthMaximum>
     <SingleLineLengthAverage>Single line length - average: {0}</SingleLineLengthAverage>
+    <SingleLineLengthExceedingMaximum>Single line length - exceeding maximum ({0} chars): {1} ({2:0.00}%)</SingleLineLengthExceedingMaximum>
     <SingleLineWidthMinimum>Single line width - minimum: {0} pixels</SingleLineWidthMinimum>
     <SingleLineWidthMaximum>Single line width - maximum: {0} pixels</SingleLineWidthMaximum>
     <SingleLineWidthAverage>Single line width - average: {0} pixels</SingleLineWidthAverage>
+    <SingleLineWidthExceedingMaximum>Single line width - exceeding maximum ({0} pixels): {1} ({2:0.00}%)</SingleLineWidthExceedingMaximum>
     <DurationMinimum>Duration - minimum: {0:0.000} seconds</DurationMinimum>
     <DurationMaximum>Duration - maximum: {0:0.000} seconds</DurationMaximum>
     <DurationAverage>Duration - average: {0:0.000} seconds</DurationAverage>
+    <DurationExceedingMinimum>Duration - below minimum ({0:0.###} sec): {1} ({2:0.00}%)</DurationExceedingMinimum>
+    <DurationExceedingMaximum>Duration - exceeding maximum ({0:0.###} sec): {1} ({2:0.00}%)</DurationExceedingMaximum>
     <CharactersPerSecondMinimum>Characters/sec - minimum: {0:0.000}</CharactersPerSecondMinimum>
     <CharactersPerSecondMaximum>Characters/sec - maximum: {0:0.000}</CharactersPerSecondMaximum>
     <CharactersPerSecondAverage>Characters/sec - average: {0:0.000}</CharactersPerSecondAverage>
+    <CharactersPerSecondExceedingOptimal>Characters/sec - exceeding optimal ({0:0.##} cps): {1} ({2:0.00}%)</CharactersPerSecondExceedingOptimal>
+    <CharactersPerSecondExceedingMaximum>Characters/sec - exceeding maximum ({0:0.##} cps): {1} ({2:0.00}%)</CharactersPerSecondExceedingMaximum>
+    <WordsPerMinuteMinimum>Words/min - minimum: {0:0.000}</WordsPerMinuteMinimum>
+    <WordsPerMinuteMaximum>Words/min - maximum: {0:0.000}</WordsPerMinuteMaximum>
+    <WordsPerMinuteAverage>Words/min - average: {0:0.000}</WordsPerMinuteAverage>
+    <WordsPerMinuteExceedingMaximum>Words/min - exceeding maximum ({0} wpm): {1} ({2:0.00}%)</WordsPerMinuteExceedingMaximum>
     <GapMinimum>Gap - minimum: {0:#,##0} ms</GapMinimum>
     <GapMaximum>Gap - maximum: {0:#,##0} ms</GapMaximum>
     <GapAverage>Gap - average: {0:#,##0.##} ms</GapAverage>
+    <GapExceedingMinimum>Gap - below minimum ({0:#,##0} ms): {1} ({2:0.00}%)</GapExceedingMinimum>
     <Export>Export...</Export>
   </Statistics>
   <SubStationAlphaProperties>
@@ -3172,4 +3357,16 @@ Keep changes?</KeepChangesMessage>
     <Title>WebVTT - set new voice</Title>
     <VoiceName>Name of voice</VoiceName>
   </WebVttNewVoice>
+  <WebVttProperties>
+    <UseXTimeStamp>Use X-TIMESTAMP-MAP header value</UseXTimeStamp>
+    <MergeLines>Merge lines with same text on load</MergeLines>
+  </WebVttProperties>
+  <WebVttStyleManager>
+    <Title>WebVTT styles</Title>
+  </WebVttStyleManager>
+  <WhisperAdvanced>
+    <Title>Whisper Advanced - extra command line arguments</Title>
+    <CommandLineArguments>Extra parameters for Whisper command line:</CommandLineArguments>
+    <Info>Note: Different Whisper implementations have different command line parameters!</Info>
+  </WhisperAdvanced>
 </Language>

@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Forms;
+using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms.Translate
 {
@@ -57,6 +58,7 @@ namespace Nikse.SubtitleEdit.Forms.Translate
             subtitleListViewSource.AutoSizeColumns();
             subtitleListViewSource.AutoSizeColumns();
             UiUtil.FixLargeFonts(this, buttonOK);
+            ActiveControl = buttonTranslate;
         }
 
         internal void Initialize(Subtitle subtitle, Subtitle target, string title, Encoding encoding, SubtitleFormat subtitleFormat)
@@ -66,11 +68,10 @@ namespace Nikse.SubtitleEdit.Forms.Translate
                 Text = title;
             }
 
-            subtitle.Renumber(); // "Renumber" is required for translation engine atm
-
             labelPleaseWait.Visible = false;
             progressBar1.Visible = false;
-            _subtitle = subtitle;
+            _subtitle = new Subtitle(subtitle);
+            _subtitle.Renumber(); // "Renumber" is required for translation engine atm
             _encoding = encoding;
             _subtitleFormat = subtitleFormat;
             buttonTranslate.Enabled = false;
@@ -83,7 +84,7 @@ namespace Nikse.SubtitleEdit.Forms.Translate
             }
             else
             {
-                TranslatedSubtitle = new Subtitle(subtitle);
+                TranslatedSubtitle = new Subtitle(_subtitle);
                 foreach (var paragraph in TranslatedSubtitle.Paragraphs)
                 {
                     paragraph.Text = string.Empty;
@@ -96,7 +97,7 @@ namespace Nikse.SubtitleEdit.Forms.Translate
             InitTranslationServices();
             InitParagraphHandlingStrategies();
 
-            subtitleListViewSource.Fill(subtitle);
+            subtitleListViewSource.Fill(_subtitle);
             Translate_Resize(null, null);
 
             _autoSplit = new bool[_subtitle.Paragraphs.Count];
@@ -283,7 +284,7 @@ namespace Nikse.SubtitleEdit.Forms.Translate
             return uiCultureTargetLanguage;
         }
 
-        public static void SelectLanguageCode(ComboBox comboBox, string languageIsoCode)
+        public static void SelectLanguageCode(NikseComboBox comboBox, string languageIsoCode)
         {
             var i = 0;
             foreach (TranslationPair item in comboBox.Items)
@@ -327,6 +328,7 @@ namespace Nikse.SubtitleEdit.Forms.Translate
 
             ReadLanguageSettings();
             Translate();
+            buttonOK.Focus();
         }
 
         public static bool IsAvailableNetworkActive()
@@ -378,25 +380,31 @@ namespace Nikse.SubtitleEdit.Forms.Translate
                     return _breakTranslation;
                 });
             }
-            //catch (TranslationException translationException)
-            //{
-            //    if (translationException.InnerException != null && !IsAvailableNetworkActive())
-            //    {
-            //        ShowNetworkError(translationException.InnerException);
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show(translationException.Message + Environment.NewLine +
-            //                        translationException.InnerException?.Source + ": " + translationException.InnerException?.Message);
-            //    }
-            //}
-            //catch (Exception exception)
-            //{
-            //    SeLogger.Error(exception);
-            //    ShowNetworkError(exception);
-            //}
             finally
             {
+                if (comboBoxParagraphHandling.Text != LanguageSettings.Current.GoogleTranslate.ProcessorSingle)
+                {
+                    var indexesToRemove = new List<int>();
+                    for (var i = 0; i < TranslatedSubtitle.Paragraphs.Count - 1; i++)
+                    {
+                        var p = TranslatedSubtitle.Paragraphs[i];
+                        var next = TranslatedSubtitle.Paragraphs[i + 1];
+                        if (!string.IsNullOrEmpty(p.Text) && string.IsNullOrEmpty(next.Text) &&
+                            next.EndTime.TotalMilliseconds - p.StartTime.TotalMilliseconds < 10000)
+                        {
+                            p.EndTime = next.EndTime;
+                            indexesToRemove.Add(i + 1);
+                        }
+                    }
+
+                    foreach (var idx in indexesToRemove.OrderByDescending(p => p))
+                    {
+                        TranslatedSubtitle.Paragraphs.RemoveAt(idx);
+                    }
+
+                    subtitleListViewTarget.Fill(TranslatedSubtitle);
+                }
+
                 labelPleaseWait.Visible = false;
                 progressBar1.Visible = false;
                 Cursor.Current = Cursors.Default;
@@ -460,6 +468,7 @@ namespace Nikse.SubtitleEdit.Forms.Translate
                 var cleanText = CleanText(paragraphTargetText, lastIndex);
                 TranslatedSubtitle.Paragraphs[lastIndex].Text = cleanText;
             }
+
             subtitleListViewTarget.BeginUpdate();
             subtitleListViewTarget.Fill(TranslatedSubtitle);
             subtitleListViewTarget.SelectIndexAndEnsureVisible(lastIndex);
@@ -575,7 +584,7 @@ namespace Nikse.SubtitleEdit.Forms.Translate
             return cleanText;
         }
 
-        public static void FillComboWithLanguages(ComboBox comboBox, IEnumerable<TranslationPair> languages)
+        public static void FillComboWithLanguages(NikseComboBox comboBox, IEnumerable<TranslationPair> languages)
         {
             comboBox.Items.Clear();
             foreach (var language in languages)
@@ -692,6 +701,11 @@ namespace Nikse.SubtitleEdit.Forms.Translate
             _translationService = (ITranslationService)comboBoxTranslationServices.SelectedItem;
             SetupLanguageSettings();
             EvaluateTranslateButtonStatus();
+        }
+
+        private void GenericTranslate_Shown(object sender, EventArgs e)
+        {
+            buttonTranslate.Focus();
         }
     }
 

@@ -602,10 +602,46 @@ namespace Nikse.SubtitleEdit.Core.Common
             }
         }
 
+        public static void WriteAllTextWithDefaultUtf8(string fileName, string contents)
+        {
+            if (Configuration.Settings.General.DefaultEncoding == TextEncoding.Utf8WithoutBom)
+            {
+                var outputEnc = new UTF8Encoding(false); // create encoding with no BOM
+                using (var file = new StreamWriter(fileName, false, outputEnc)) // open file with encoding
+                {
+                    file.Write(contents);
+                }
+            }
+            else
+            {
+                File.WriteAllText(fileName, contents, Encoding.UTF8);
+            }
+        }
+
         public static bool IsMatroskaFile(string fileName)
         {
-            var validator = new MatroskaFile(fileName);
-            return validator.IsValid;
+            using (var validator = new MatroskaFile(fileName))
+            {
+                return validator.IsValid;
+            }
+        }
+
+        public static bool IsFileLocked(string fileName)
+        {
+            try
+            {
+                using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    stream.Close();
+                }
+            }
+            catch (IOException exception)
+            {
+                SeLogger.Error(exception);
+                return true;
+            }
+
+            return false;
         }
     }
 }

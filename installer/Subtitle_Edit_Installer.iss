@@ -17,13 +17,9 @@
 ;* You should have received a copy of the GNU General Public License
 ;* along with Subtitle Edit.  If not, see <https://www.gnu.org/licenses/>.
 
-; Requirements:
-; Inno Setup Unicode: https://jrsoftware.org/isdl.php
-
-
 ; preprocessor checks
-#if VER < EncodeVer(6,0,0)
-  #error Update your Inno Setup version (6.0.0 or newer)
+#if VER < EncodeVer(6,2,1)
+  #error Update your Inno Setup version (6.2.1 or newer)
 #endif
 
 #ifndef UNICODE
@@ -76,7 +72,7 @@
 #define keyMuiCache "Software\Classes\Local Settings\MuiCache"
 
 [Setup]
-AppID={#app_name}
+AppID=SubtitleEdit
 AppName={#app_name}
 AppVersion={#app_ver_full}
 AppVerName={#app_name} {#app_ver}
@@ -109,7 +105,7 @@ SetupIconFile=..\src\ui\Icons\SE.ico
 WizardImageFile=Icons\WizardImageFile.bmp
 WizardSmallImageFile=Icons\WizardSmallImageFile.bmp
 OutputDir=.
-OutputBaseFilename={#app_name}-{#app_ver}-Setup
+OutputBaseFilename=SubtitleEdit-{#app_ver}-Setup
 AllowNoIcons=yes
 Compression=lzma2/ultra
 InternalCompressLevel=ultra
@@ -123,7 +119,6 @@ DisableProgramGroupPage=auto
 CloseApplications=true
 SetupMutex='subtitle_edit_setup_mutex'
 ArchitecturesInstallIn64BitMode=x64
-
 
 [Languages]
 Name: "en";   MessagesFile: "compiler:Default.isl"
@@ -268,7 +263,17 @@ Source: ..\Icons\sup.ico;                          DestDir: {app}\Icons;        
 Source: ..\Icons\vtt.ico;                          DestDir: {app}\Icons;                              Flags: ignoreversion onlyifdoesntexist; Components: main
 Source: ..\Icons\smi.ico;                          DestDir: {app}\Icons;                              Flags: ignoreversion onlyifdoesntexist; Components: main
 Source: ..\Icons\itt.ico;                          DestDir: {app}\Icons;                              Flags: ignoreversion onlyifdoesntexist; Components: main
-  
+
+Source: ..\Icons\DarkTheme\*.png;                  DestDir: {userappdata}\Subtitle Edit\Icons\DarkTheme;    Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\DefaultTheme\*.png;               DestDir: {userappdata}\Subtitle Edit\Icons\DefaultTheme; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\Legacy\*.png;                     DestDir: {userappdata}\Subtitle Edit\Icons\Legacy;       Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\Black\*.png;                      DestDir: {userappdata}\Subtitle Edit\Icons\Black;        Flags: ignoreversion onlyifdoesntexist; Components: main
+
+Source: ..\Icons\DarkTheme\VideoPlayer\*.png;      DestDir: {userappdata}\Subtitle Edit\Icons\DarkTheme\VideoPlayer;    Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\DefaultTheme\VideoPlayer\*.png;   DestDir: {userappdata}\Subtitle Edit\Icons\DefaultTheme\VideoPlayer; Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\Legacy\VideoPlayer\*.png;         DestDir: {userappdata}\Subtitle Edit\Icons\Legacy\VideoPlayer;       Flags: ignoreversion onlyifdoesntexist; Components: main
+Source: ..\Icons\Black\VideoPlayer\*.png;          DestDir: {userappdata}\Subtitle Edit\Icons\Black\VideoPlayer;        Flags: ignoreversion onlyifdoesntexist; Components: main
+
 #ifdef localize
 Source: {#bindir}\Languages\ar-EG.xml;             DestDir: {app}\Languages;                          Flags: ignoreversion; Components: translations
 Source: {#bindir}\Languages\bg-BG.xml;             DestDir: {app}\Languages;                          Flags: ignoreversion; Components: translations
@@ -326,14 +331,6 @@ Source: {#bindir}\System.Net.Http.Extensions.dll;  DestDir: {app};              
 Source: {#bindir}\System.Net.Http.Primitives.dll;  DestDir: {app};                                    Flags: ignoreversion; Components: main
 Source: {#bindir}\NAudio.Core.dll;                 DestDir: {app};                                    Flags: ignoreversion; Components: main
 Source: {#bindir}\NAudio.WinMM.dll;                DestDir: {app};                                    Flags: ignoreversion; Components: main
-Source: {#bindir}\cpuid.dll;                       DestDir: {app};                                    Flags: ignoreversion; Components: main
-Source: {#bindir}\iTin.Core.dll;                   DestDir: {app};                                    Flags: ignoreversion; Components: main
-Source: {#bindir}\iTin.Core.Hardware.Common.dll;   DestDir: {app};                                    Flags: ignoreversion; Components: main
-Source: {#bindir}\iTin.Core.Hardware.CrossPlatform.Cpuid.dll; DestDir: {app};                         Flags: ignoreversion; Components: main
-Source: {#bindir}\iTin.Core.Interop.CrossPlatform.Cpuid.dll; DestDir: {app};                          Flags: ignoreversion; Components: main
-Source: {#bindir}\iTin.Core.Interop.Shared.dll;    DestDir: {app};                                    Flags: ignoreversion; Components: main
-Source: {#bindir}\iTin.Hardware.Specification.Cpuid.dll; DestDir: {app};                              Flags: ignoreversion; Components: main
-Source: {#bindir}\iTin.Logging.dll;                DestDir: {app};                                    Flags: ignoreversion; Components: main
 Source: {#bindir}\Microsoft.Win32.Registry.dll;    DestDir: {app};                                    Flags: ignoreversion; Components: main
 Source: ..\Changelog.txt;                          DestDir: {app};                                    Flags: ignoreversion; Components: main
 Source: ..\LICENSE.txt;                            DestDir: {app};                                    Flags: ignoreversion; Components: main
@@ -376,14 +373,6 @@ Type: files;      Name: {app}\System.Net.Http.Extensions.dll;         Check: IsU
 Type: files;      Name: {app}\System.Net.Http.Primitives.dll;         Check: IsUpgrade()
 Type: files;      Name: {app}\NAudio.Core.dll;                        Check: IsUpgrade()
 Type: files;      Name: {app}\NAudio.WinMM.dll;                       Check: IsUpgrade()
-Type: files;      Name: {app}\cpuid.dll;                              Check: IsUpgrade()
-Type: files;      Name: {app}\iTin.Core.dll;                          Check: IsUpgrade()
-Type: files;      Name: {app}\iTin.Core.Hardware.Common.dll;          Check: IsUpgrade()
-Type: files;      Name: {app}\iTin.Core.Hardware.CrossPlatform.Cpuid.dll; Check: IsUpgrade()
-Type: files;      Name: {app}\iTin.Core.Interop.CrossPlatform.Cpuid.dll; Check: IsUpgrade()
-Type: files;      Name: {app}\iTin.Core.Interop.Shared.dll;           Check: IsUpgrade()
-Type: files;      Name: {app}\iTin.Hardware.Specification.Cpuid.dll;  Check: IsUpgrade()
-Type: files;      Name: {app}\iTin.Logging.dll;                       Check: IsUpgrade()
 Type: files;      Name: {app}\Microsoft.Win32.Registry.dll;           Check: IsUpgrade()
 
 
@@ -745,6 +734,8 @@ begin
   RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit\Ocr'));
   DelTree(ExpandConstant('{userappdata}\Subtitle Edit\Plugins\*.*'), False, True, False);
   RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit\Plugins'));
+  DelTree(ExpandConstant('{userappdata}\Subtitle Edit\Icons\*.*'), False, True, False);
+  RemoveDir(ExpandConstant('{userappdata}\Subtitle Edit\Icons'));
 end;
 
 
