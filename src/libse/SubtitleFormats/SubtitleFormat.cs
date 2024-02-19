@@ -148,6 +148,9 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                     new JsonType18(),
                     new JsonType19(),
                     new JsonType20(),
+                    new JsonType21(),
+                    new JsonType22(),
+                    new JsonType23(),
                     new KanopyHtml(),
                     new LambdaCap(),
                     new Lrc(),
@@ -227,6 +230,8 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                     new TMPlayer(),
                     new TranscriberXml(),
                     new Tmx14(),
+                    new Tsv1(),
+                    new Tsv2(),
                     new TurboTitler(),
                     new TwentyThreeJson(),
                     new TwentyThreeJsonEmbed(),
@@ -653,6 +658,7 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                 new Cmaft(),
                 new Pns(),
                 new PlayCaptionsFreeEditor(),
+                new VideoCdDat(),
             };
         }
 

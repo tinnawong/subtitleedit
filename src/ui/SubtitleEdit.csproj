@@ -243,6 +243,13 @@
     <Compile Include="Forms\AudioClipsGet.Designer.cs">
       <DependentUpon>AudioClipsGet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\AudioToText\KillProcessHelper.cs" />
+    <Compile Include="Forms\AudioToText\PostProcessingSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AudioToText\PostProcessingSettings.Designer.cs">
+      <DependentUpon>PostProcessingSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AudioToText\WhisperAdvanced.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -405,6 +412,24 @@
     <Compile Include="Forms\GenerateVideoWithSoftSubs.Designer.cs">
       <DependentUpon>GenerateVideoWithSoftSubs.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\InterjectionsEditSkipList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InterjectionsEditSkipList.Designer.cs">
+      <DependentUpon>InterjectionsEditSkipList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InterjectionsEditList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\InterjectionsEditList.Designer.cs">
+      <DependentUpon>InterjectionsEditList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LayoutPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LayoutPicker.Designer.cs">
+      <DependentUpon>LayoutPicker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Ocr\WordSplitDictionaryGenerator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -416,6 +441,18 @@
     </Compile>
     <Compile Include="Forms\Options\ChooseIsoLanguage.Designer.cs">
       <DependentUpon>ChooseIsoLanguage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Options\DefaultLanguagesChooser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Options\DefaultLanguagesChooser.Designer.cs">
+      <DependentUpon>DefaultLanguagesChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Options\DoNotBreakAfterListNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Options\DoNotBreakAfterListNew.Designer.cs">
+      <DependentUpon>DoNotBreakAfterListNew.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Options\SettingsCustomContinuationStyle.cs">
       <SubType>Form</SubType>
@@ -511,10 +548,10 @@
     <Compile Include="Forms\DCinema\DCinemaPropertiesSmpte.Designer.cs">
       <DependentUpon>DCinemaPropertiesSmpte.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\DoNotBreakAfterListEdit.cs">
+    <Compile Include="Forms\Options\DoNotBreakAfterListEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\DoNotBreakAfterListEdit.Designer.cs">
+    <Compile Include="Forms\Options\DoNotBreakAfterListEdit.Designer.cs">
       <DependentUpon>DoNotBreakAfterListEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\About.cs">
@@ -633,6 +670,12 @@
     </Compile>
     <Compile Include="Forms\TimedTextSmpteTiming.Designer.cs">
       <DependentUpon>TimedTextSmpteTiming.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Translate\AutoTranslate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Translate\AutoTranslate.Designer.cs">
+      <DependentUpon>AutoTranslate.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Translate\GenericTranslate.cs">
       <SubType>Form</SubType>
@@ -963,12 +1006,6 @@
     </Compile>
     <Compile Include="Forms\HardSubExtract.Designer.cs">
       <DependentUpon>HardSubExtract.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Interjections.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Interjections.Designer.cs">
-      <DependentUpon>Interjections.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\JoinSubtitles.cs">
       <SubType>Form</SubType>
@@ -1312,6 +1349,9 @@
     <Compile Include="Forms\Styles\TimedTextStyles.Designer.cs">
       <DependentUpon>TimedTextStyles.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Translate\MergeAndSplitHelper.cs" />
+    <Compile Include="Forms\Translate\MergeResult.cs" />
+    <Compile Include="Forms\Translate\MergeResultItem.cs" />
     <Compile Include="Forms\Translate\SplitHelper.cs" />
     <Compile Include="Forms\Translate\TranslateBlock.cs">
       <SubType>Form</SubType>
@@ -1600,11 +1640,6 @@
     <Compile Include="Forms\SyncPointsSync.Designer.cs">
       <DependentUpon>SyncPointsSync.cs</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Controls\AudioVisualizer.resx">
       <DependentUpon>AudioVisualizer.cs</DependentUpon>
     </EmbeddedResource>
@@ -1656,6 +1691,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AudioClipsGet.resx">
       <DependentUpon>AudioClipsGet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AudioToText\PostProcessingSettings.resx">
+      <DependentUpon>PostProcessingSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AudioToText\WhisperAdvanced.resx">
       <DependentUpon>WhisperAdvanced.cs</DependentUpon>
@@ -1742,12 +1780,28 @@
     <EmbeddedResource Include="Forms\GetVideoPosition.resx">
       <DependentUpon>GetVideoPosition.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InterjectionsEditSkipList.resx">
+      <DependentUpon>InterjectionsEditSkipList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InterjectionsEditList.resx">
+      <DependentUpon>InterjectionsEditList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LayoutPicker.resx">
+      <DependentUpon>LayoutPicker.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Ocr\WordSplitDictionaryGenerator.resx">
       <DependentUpon>WordSplitDictionaryGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Options\ChooseIsoLanguage.resx">
       <DependentUpon>ChooseIsoLanguage.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Options\DefaultLanguagesChooser.resx">
+      <DependentUpon>DefaultLanguagesChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Options\DoNotBreakAfterListNew.resx">
+      <DependentUpon>DoNotBreakAfterListNew.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Options\SettingsCustomContinuationStyle.resx">
       <DependentUpon>SettingsCustomContinuationStyle.cs</DependentUpon>
@@ -1794,7 +1848,7 @@
     <EmbeddedResource Include="Forms\DCinema\DCinemaPropertiesSmpte.resx">
       <DependentUpon>DCinemaPropertiesSmpte.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DoNotBreakAfterListEdit.resx">
+    <EmbeddedResource Include="Forms\Options\DoNotBreakAfterListEdit.resx">
       <DependentUpon>DoNotBreakAfterListEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\About.resx">
@@ -1854,6 +1908,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\TimedTextSmpteTiming.resx">
       <DependentUpon>TimedTextSmpteTiming.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Translate\AutoTranslate.resx">
+      <DependentUpon>AutoTranslate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Translate\GenericTranslate.resx">
       <DependentUpon>GenericTranslate.cs</DependentUpon>
@@ -2014,9 +2071,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\HardSubExtract.resx">
       <DependentUpon>HardSubExtract.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Interjections.resx">
-      <DependentUpon>Interjections.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\JoinSubtitles.resx">
       <DependentUpon>JoinSubtitles.cs</DependentUpon>
@@ -2293,6 +2347,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -2526,6 +2585,18 @@
     <None Include="Resources\Transparent Background.png" />
     <None Include="Resources\bookmark22dark.png" />
     <None Include="Resources\bookmark22transparent.png" />
+    <None Include="Resources\L8.png" />
+    <None Include="Resources\L3.png" />
+    <None Include="Resources\L4.png" />
+    <None Include="Resources\L5.png" />
+    <None Include="Resources\L6.png" />
+    <None Include="Resources\L2.png" />
+    <None Include="Resources\L1.png" />
+    <None Include="Resources\L7.png" />
+    <None Include="Resources\L9.png" />
+    <None Include="Resources\L12.png" />
+    <None Include="Resources\L10.png" />
+    <None Include="Resources\L11.png" />
     <Content Include="Resources\TesseractDictionaries.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -2590,14 +2661,15 @@
     </HunspellAssemblies>
   </ItemGroup>
   <Target Name="BeforeCompile">
-    <XmlPeek XmlInputPath="$(SolutionDir)\src\ui\packages.config" Query="//package[@id='NHunspell']/@version">
+    <XmlPeek XmlInputPath="$(ProjectDir)packages.config" Query="//package[@id='NHunspell']/@version">
       <Output TaskParameter="Result" PropertyName="HunspellVersion" />
     </XmlPeek>
     <PropertyGroup>
       <HunspellDir>..\..\packages\NHunspell.$(HunspellVersion)\content\</HunspellDir>
     </PropertyGroup>
     <Copy SourceFiles="@(HunspellAssemblies -> '$(HunspellDir)%(Identity)')" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="True" />
-    <Exec Command="%22$(SolutionDir)\build_helpers.bat%22 rev %22$(ConfigurationName)%22" />
+    <Exec Condition="'$(OS)' == 'Windows_NT'" Command="%22$(SolutionDir)\build_helpers.bat%22 rev %22$(ConfigurationName)%22" />
+    <Exec Condition="'$(OS)' == 'Unix'" Command="bash $(ProjectDir)../../build_helpers.sh rev $(ConfigurationName)" />
   </Target>
   <Target Name="BeforeClean">
     <Delete Files="@(HunspellAssemblies -> '$(OutputPath)%(Identity)')" />

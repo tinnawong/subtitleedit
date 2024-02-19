@@ -34,7 +34,7 @@ namespace Nikse.SubtitleEdit.Core.Http
         public Task<string> GetStringAsync(string url)
         {
             var response = _httpClient.GetByteArrayAsync(url).Result;
-            return Task.FromResult(Encoding.UTF8.GetString(response, 0, response.Length - 1));
+            return Task.FromResult(Encoding.UTF8.GetString(response, 0, response.Length));
         }
 
         public async Task DownloadAsync(string requestUri, Stream destination, IProgress<float> progress = null, CancellationToken cancellationToken = default)
@@ -67,8 +67,7 @@ namespace Nikse.SubtitleEdit.Core.Http
 
                 if (Environment.OSVersion.Version.Major < 10)
                 {
-                    Configuration.Settings.General.UseLegacyDownloader = true;
-                    SeLogger.Error("Switching to legacy downloader due to old OS!");
+                    SeLogger.Error("A newer OS might be needed!");
                 }
 
                 throw;

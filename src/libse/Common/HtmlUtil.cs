@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -651,6 +652,11 @@ namespace Nikse.SubtitleEdit.Core.Common
                 text = text.Replace("<I/>", string.Empty);
             }
 
+            text = text.Replace("]<i> ", "] <i>");
+            text = text.Replace(")<i> ", ") <i>");
+            text = text.Replace("] </i>", "] </i>");
+            text = text.Replace(") </i>", ") </i>");
+
             text = text.Replace(beginTag + beginTag, beginTag);
             text = text.Replace(endTag + endTag, endTag);
 
@@ -852,14 +858,19 @@ namespace Nikse.SubtitleEdit.Core.Common
                         if (idx > 1)
                         {
                             var pre = text.Substring(0, idx + 1).TrimStart();
-                            text = text.Remove(0, idx + 1);
-                            text = FixInvalidItalicTags(text).Trim();
-                            if (text.StartsWith("<i> ", StringComparison.OrdinalIgnoreCase))
+                            var tempText = text.Remove(0, idx + 1); 
+                            
+                            if (!tempText.StartsWith(']') && !tempText.StartsWith(')'))
                             {
-                                text = Utilities.RemoveSpaceBeforeAfterTag(text, beginTag);
-                            }
+                                text = tempText;
+                                text = FixInvalidItalicTags(text).Trim();
+                                if (text.StartsWith("<i> ", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    text = Utilities.RemoveSpaceBeforeAfterTag(text, beginTag);
+                                }
 
-                            text = pre + " " + text;
+                                text = pre + " " + text;
+                            }
                         }
                     }
                 }
@@ -1210,6 +1221,9 @@ namespace Nikse.SubtitleEdit.Core.Common
             return s.Trim();
         }
 
+        /// <summary>
+        /// Remove font tag from HTML or ASSA.
+        /// </summary>
         public static string RemoveFontName(string input)
         {
             if (!input.Contains("<font", StringComparison.OrdinalIgnoreCase))
@@ -1217,8 +1231,9 @@ namespace Nikse.SubtitleEdit.Core.Common
                 var x = input;
                 if (x.Contains("\\fn"))
                 {
-                    x = Regex.Replace(x, "{\\\\fn[a-zA-Z \\d]*}", string.Empty);
-                    x = Regex.Replace(x, "\\\\fn[a-zA-Z \\d]\\\\", string.Empty);
+                    x = Regex.Replace(x, "{\\\\fn[a-zA-Z \\d]+}", string.Empty);
+                    x = Regex.Replace(x, "\\\\fn[a-zA-Z \\d]+}", "}");
+                    x = Regex.Replace(x, "\\\\fn[a-zA-Z \\d]+\\\\", "\\");
                 }
 
                 return x;

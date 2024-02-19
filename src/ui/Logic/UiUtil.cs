@@ -297,7 +297,7 @@ namespace Nikse.SubtitleEdit.Logic
             {
                 videoPlayerContainer.VideoWidth = videoInfo.Width;
                 videoPlayerContainer.VideoHeight = videoInfo.Height;
-                videoPlayerContainer.VideoPlayer.Resize(videoPlayerContainer.PanelPlayer.Width, videoPlayerContainer.PanelPlayer.Height);
+                videoPlayerContainer.VideoPlayer?.Resize(videoPlayerContainer.PanelPlayer.Width, videoPlayerContainer.PanelPlayer.Height);
             }
         }
 
@@ -1347,7 +1347,8 @@ namespace Nikse.SubtitleEdit.Logic
         }
 
         public static string DecimalSeparator => CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-
+        public static Color GreenBackgroundColor => Configuration.Settings.General.UseDarkTheme ? DarkTheme.GreenBackColor : ColorTranslator.FromHtml("#6ebe6e");
+        public static Color GreenBackgroundColorAlternate => Configuration.Settings.General.UseDarkTheme ? DarkTheme.GreenBackColorAlternate : ColorTranslator.FromHtml("#6ecf5e");
         public static Control FindFocusedControl(Control control)
         {
             var container = control as ContainerControl;

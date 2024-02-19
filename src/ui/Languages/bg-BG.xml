@@ -2,8 +2,8 @@
 <Language Name="Български">
   <General>
     <Title>Subtitle Edit</Title>
-    <Version>4.0.1</Version>
-    <TranslatedBy>Последен превод на български 11.09.2023: KalinM</TranslatedBy>
+    <Version>4.0.3</Version>
+    <TranslatedBy>Последен превод на български 18.12.2023: KalinM</TranslatedBy>
     <CultureName>bg-BG</CultureName>
     <HelpFile />
     <Ok>OK</Ok>
@@ -16,7 +16,7 @@
     <All>Всичко</All>
     <Preview>Преглед</Preview>
     <ShowPreview>Покажи преглед</ShowPreview>
-    <HidePreview>Скрии прегледа</HidePreview>
+    <HidePreview>Скрий прегледа</HidePreview>
     <SubtitleFiles>Субтитри</SubtitleFiles>
     <AllFiles>Всички файлове</AllFiles>
     <VideoFiles>Видео файлове</VideoFiles>
@@ -81,7 +81,7 @@
     <VideoWindowTitle>Видео - {0}</VideoWindowTitle>
     <AudioWindowTitle>Аудио - {0}</AudioWindowTitle>
     <ControlsWindowTitle>Управление - {0}</ControlsWindowTitle>
-    <Advanced>Повече настр.</Advanced>
+    <Advanced>Повече настройки</Advanced>
     <Style>Стил</Style>
     <StyleLanguage>Стил / Език</StyleLanguage>
     <Character>Характер</Character>
@@ -103,6 +103,8 @@
     <Error>Грешка</Error>
     <Warning>Внимание</Warning>
     <UseLargerFontForThisWindow>Използвайте по-голям шрифт за този прозорец</UseLargerFontForThisWindow>
+    <ChangeLanguageFilter>Промяна на езиковия филтър...</ChangeLanguageFilter>
+    <MoreInfo>Повече информация</MoreInfo>
   </General>
   <About>
     <Title>Относно Subtitle Edit</Title>
@@ -140,7 +142,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <ExtractingSeconds>Извличане на аудио: {0:0.0} секунди</ExtractingSeconds>
     <ExtractingMinutes>Извличане на аудио: {0}:{1:00} минути</ExtractingMinutes>
     <WaveFileNotFound>Не е открита извлечена вълнова Wav форма на зв. сигнал (Wav файл)!
-Тази функция изисква VLC media player 1.1.x или по-нова ({0}-bit).
+Тази функция изисква VLC media player 1.1.x или по-нов ({0}-bit).
 
 Команден ред: {1} {2}</WaveFileNotFound>
     <WaveFileMalformed>{0} не можа да извлече вълнова Wav форма на зв. сигнал от аудио файла!
@@ -163,58 +165,61 @@ https://github.com/SubtitleEdit/subtitleedit
     <Error>Грешка</Error>
   </AddWaveformBatch>
   <AdjustDisplayDuration>
-    <Title>Настройка на времетраенето</Title>
+    <Title>Настройка на времетраенето (продължителността)</Title>
     <AdjustVia>Настройка чрез</AdjustVia>
     <Seconds>Секунди</Seconds>
     <Percent>Проценти</Percent>
     <Recalculate>Преизчисляване</Recalculate>
-    <AddSeconds>Добави / извади секунди</AddSeconds>
-    <SetAsPercent>Като процент от времетраенето</SetAsPercent>
-    <Note>Забележка: Времето за показване няма да застъпва началното време на следващите субтитри.</Note>
+    <AddSeconds>Добави / Извади секунди</AddSeconds>
+    <SetAsPercent>Като проценти от времетр.</SetAsPercent>
+    <Note>Забележка: Времето за показване няма да застъпва нач.време на следващите субтитри.</Note>
     <Fixed>Фиксирани</Fixed>
     <Milliseconds>Милисекунди</Milliseconds>
     <ExtendOnly>Само разширяване</ExtendOnly>
     <EnforceDurationLimits>Прилагане на минимална и максимална продължителност</EnforceDurationLimits>
-    <CheckShotChanges>Без удължаване миналите промени в кадъра</CheckShotChanges>
+    <CheckShotChanges>Без удължаване след минали промени в кадъра</CheckShotChanges>
     <BatchCheckShotChanges>Със зачитане на промените в кадъра (ако има такива)</BatchCheckShotChanges>
   </AdjustDisplayDuration>
   <ApplyDurationLimits>
-    <Title>Прилагане на лимит с ограничения във времетраенето</Title>
-    <CheckShotChanges>Без удължаване миналите промени в кадъра</CheckShotChanges>
+    <Title>Прилагане на лимит с ограничения във времетраенето (продължителността)</Title>
+    <CheckShotChanges>Без удължаване след миналите промени в кадъра</CheckShotChanges>
     <FixesAvailable>Налични поправки: {0}</FixesAvailable>
     <UnableToFix>Невъзможни поправки: {0}</UnableToFix>
     <BatchCheckShotChanges>Със зачитане на промените в кадъра (ако има такива)</BatchCheckShotChanges>
   </ApplyDurationLimits>
   <AudioToText>
     <Title>Аудио/Видео към текст</Title>
-    <Info>Генериране текст от аудио чрез Vosk/Kaldi разпознаване на реч</Info>
-    <WhisperInfo>Генерирайте текст от аудио чрез разпознаване на говор Whisper</WhisperInfo>
-    <Engine>Двигател</Engine>
+    <Info>Генериране на текст от аудио чрез Vosk/Kaldi разпознаване на реч</Info>
+    <WhisperInfo>Генериране на текст от аудио чрез Whisper разпознаване на реч</WhisperInfo>
+    <Engine>Машина</Engine>
     <VoskWebsite>Уебсайт на Vosk</VoskWebsite>
     <WhisperWebsite>Уебсайт Whisper</WhisperWebsite>
     <WhisperNotFound>Не е намерен Whisper.
 
 Прочетете повече информация (уеб)?</WhisperNotFound>
+    <Model>Модел</Model>
     <Models>Модели</Models>
     <LanguagesAndModels>Езици и модели</LanguagesAndModels>
-    <ChooseModel>Избери модел</ChooseModel>
-    <ChooseLanguage>Избери език</ChooseLanguage>
-    <OpenModelsFolder>Отвори папката с модели</OpenModelsFolder>
+    <ChooseModel>Изберете модел</ChooseModel>
+    <ChooseLanguage>Изберете език</ChooseLanguage>
+    <OpenModelsFolder>Папка с модели</OpenModelsFolder>
     <LoadingVoskModel>Моделът за разпознаване на реч Vosk се зарежда...</LoadingVoskModel>
-    <Transcribing>Предаване запис на аудио към текст...</Transcribing>
-    <TranscribingXOfY>Предаване запис на аудио към текстов файл {0} от {1}...</TranscribingXOfY>
+    <Transcribing>Преобразуване и запис на аудио към текст...</Transcribing>
+    <TranscribingXOfY>Преобразуване и запис на аудиото към текстов файл {0} от {1}...</TranscribingXOfY>
     <PostProcessing>Последваща обработка...</PostProcessing>
     <XFilesSavedToVideoSourceFolder>{0} файлове, записани в папката с видео източника</XFilesSavedToVideoSourceFolder>
-    <UsePostProcessing>Използвайте последваща обработка (сливане на редове, коригиране на главни букви, пунктуация и други)</UsePostProcessing>
+    <UsePostProcessing>Използвайте последваща обработка
+(сливане на редове, поправяне на главни букви, пунктуация и други)</UsePostProcessing>
     <AutoAdjustTimings>Авт. регулиране на времената</AutoAdjustTimings>
-    <BatchMode>Пакетен режим</BatchMode>
+    <BatchMode>Пакетен реж.</BatchMode>
     <KeepPartialTranscription>Запазване на частична транскрипция</KeepPartialTranscription>
     <TranslateToEnglish>Превод на английски</TranslateToEnglish>
     <MaxCharsPerSubtitle>Макс. символи в ред за субтитри</MaxCharsPerSubtitle>
     <RemoveTemporaryFiles>Премахване на временни файлове</RemoveTemporaryFiles>
     <SetCppConstMeFolder>Задаване на папка с модели CPP/Const-me...</SetCppConstMeFolder>
-    <OnlyRunPostProcessing>Изпълнявайте само последваща обработка/коригиране на времената</OnlyRunPostProcessing>
+    <OnlyRunPostProcessing>Изпълнявайте само последваща обработка/поправяне на времената</OnlyRunPostProcessing>
     <DownloadFasterWhisperCuda>Изтеглете cuBLAS и cuDNN за Faster-Whisper</DownloadFasterWhisperCuda>
+    <NoTextFound>Няма намерен текст!</NoTextFound>
   </AudioToText>
   <AssaAttachments>
     <Title>Приложения за SSA /Sub Station Alpha/</Title>
@@ -275,7 +280,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <Padding>Подложка</Padding>
     <FillWidth>Ширина на запълване</FillWidth>
     <Drawing>Рисуване</Drawing>
-    <BoxColor>Цвят на кутията</BoxColor>
+    <BoxColor>Цвят поле</BoxColor>
     <Radius>Радиус</Radius>
     <Step>Стъпка</Step>
     <Spikes>Шипове</Spikes>
@@ -320,11 +325,12 @@ https://github.com/SubtitleEdit/subtitleedit
     <ConvertOptions>Опции при конвертиране</ConvertOptions>
     <RemoveFormatting>Премахване форматирането на тагове</RemoveFormatting>
     <RemoveStyleActor>Премахване на редове със стил/актьор</RemoveStyleActor>
+    <StyleActor>Стил/актьор (разделете със запетая)</StyleActor>
     <RemoveTextForHI>Премахв. текст за глухи</RemoveTextForHI>
     <ConvertColorsToDialog>Конвертиране на цветовете в диалогов режим</ConvertColorsToDialog>
     <OverwriteOriginalFiles>Презаписване на ориг.файлове (с ново разширение, ако формата е променен)</OverwriteOriginalFiles>
     <RedoCasing>Смяна на регистъра</RedoCasing>
-    <Convert>Конвертиране</Convert>
+    <Convert>Конверт</Convert>
     <NothingToConvert>Няма нищо за конвертиране!</NothingToConvert>
     <PleaseChooseOutputFolder>Моля, изберете изходна папка</PleaseChooseOutputFolder>
     <NotConverted>Провал</NotConverted>
@@ -336,19 +342,19 @@ https://github.com/SubtitleEdit/subtitleedit
     <FixRtlReverseStartEnd>Смяна на посоката отДясно наЛяво (RTL) начало/край</FixRtlReverseStartEnd>
     <SplitLongLines>Разделяне на дълги редове</SplitLongLines>
     <AutoBalance>Авт. подравняване на редовете</AutoBalance>
-    <ScanFolder>Сканиране папки...</ScanFolder>
+    <ScanFolder>Сканир.папки...</ScanFolder>
     <Recursive>Включително и подпапките</Recursive>
     <BridgeGaps>Премахване на пропуски</BridgeGaps>
     <PlainText>Обикновен текст</PlainText>
-    <Ocr>OCR(разпознаване на текст)...</Ocr>
-    <AddFiles>Добавяне на файлове...</AddFiles>
+    <Ocr>OCR(разпознаване на текст) ...</Ocr>
+    <AddFiles>Добавяне на файлове ...</AddFiles>
     <Filter>Филтър</Filter>
     <FilterSkipped>Пропуснато от филтъра</FilterSkipped>
     <FilterSrtNoUtf8BOM>SubRip (.srt) файлове без UTF-8 BOM заглавие</FilterSrtNoUtf8BOM>
     <FilterMoreThanTwoLines>Субтитри с повече от 2 реда</FilterMoreThanTwoLines>
-    <FilterContains>Текста съдържа...</FilterContains>
-    <FilterFileNameContains>Името на файла съдържа...</FilterFileNameContains>
-    <LanguageCodeContains>Езиковият код (mkv/mp4) съдържа...</LanguageCodeContains>
+    <FilterContains>Текста съдържа ...</FilterContains>
+    <FilterFileNameContains>Името на файла съдържа ...</FilterFileNameContains>
+    <LanguageCodeContains>Езиковият код (mkv/mp4) съдържа ...</LanguageCodeContains>
     <FixCommonErrorsErrorX>Поправяне на прости грешки: {0}</FixCommonErrorsErrorX>
     <MultipleReplaceErrorX>Множествено заместване: {0}</MultipleReplaceErrorX>
     <AutoBalanceErrorX>Автоматичен баланс: {0}</AutoBalanceErrorX>
@@ -383,7 +389,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <GroupShotChanges>Промени в кадъра</GroupShotChanges>
     <SnapToShotChanges>Бързи подсказки за промени в кадрите</SnapToShotChanges>
     <ImportShotChanges>Генериране/Импорт промени...</ImportShotChanges>
-    <EditProfile>Редакция на профила...</EditProfile>
+    <EditProfile>Редакция на профила ...</EditProfile>
     <NoTimeCodesLoaded>Няма заредени времеви кодове</NoTimeCodesLoaded>
     <XTimeCodesLoaded>Заредени са {0} времеви кодове</XTimeCodesLoaded>
     <NoTimeCodesLoadedError>Избрали сте да извлечете точни времеви кодове на кадри, но няма заредени времеви кодове.
@@ -400,11 +406,11 @@ https://github.com/SubtitleEdit/subtitleedit
   </BeautifyTimeCodes>
   <BeautifyTimeCodesProfile>
     <Title>Редакция на профила</Title>
-    <LoadPreset>Зареждане на предварително зададени настройки...</LoadPreset>
+    <LoadPreset>Зареждане на предварително зададени настройки ...</LoadPreset>
     <PresetDefault>По подразбиране</PresetDefault>
     <PresetNetflix>Netflix</PresetNetflix>
     <PresetSDI>SDI</PresetSDI>
-    <CreateSimple>Опростен режим...</CreateSimple>
+    <CreateSimple>Опростен режим ...</CreateSimple>
     <General>Общо</General>
     <Gap>Разлика:</Gap>
     <GapSuffix>кадър(и) (ще презапише потребителските настройки)</GapSuffix>
@@ -436,7 +442,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <CreateSimpleInCues1Frames>1 кадър след смяната на кадъра</CreateSimpleInCues1Frames>
     <CreateSimpleInCues2Frames>2 кадъра след смяната на кадъра</CreateSimpleInCues2Frames>
     <CreateSimpleInCues3Frames>3 кадъра след смяната на кадрите</CreateSimpleInCues3Frames>
-    <CreateSimpleOutCues>Външните  подсказки трябва да бъдат:</CreateSimpleOutCues>
+    <CreateSimpleOutCues>Външните подсказки трябва да бъдат:</CreateSimpleOutCues>
     <CreateSimpleOutCues0Frames>Относно промяната на кадъра</CreateSimpleOutCues0Frames>
     <CreateSimpleOutCues1Frames>1 кадър преди смяната на кадъра</CreateSimpleOutCues1Frames>
     <CreateSimpleOutCues2Frames>2 кадъра преди смяната на кадрите</CreateSimpleOutCues2Frames>
@@ -480,8 +486,9 @@ https://github.com/SubtitleEdit/subtitleedit
     <CenterSelectedLines>Центриране на избраните редове (хоризонтално, запазвайки вертикалната позиция)</CenterSelectedLines>
     <TopAlignSelectedLines>Подравняване на избраните редове отгоре (запазвайки хоризонталната позиция)</TopAlignSelectedLines>
     <BottomAlignSelectedLines>Подравняване на избраните редове отдолу (запазвайки хоризонталната позиция)</BottomAlignSelectedLines>
-    <ToggleForcedSelectedLines>Превключване «Принудително» за избраните редове</ToggleForcedSelectedLines>
-    <SelectForcedLines>Избор на принудителните редове</SelectForcedLines>
+    <ToggleForcedSelectedLines>Превключване на «Форсиране» за избраните редове</ToggleForcedSelectedLines>
+    <SelectForcedLines>Избор на Форсирани редове</SelectForcedLines>
+    <SelectNonForcedLines>Избор на неФорсирани редове</SelectNonForcedLines>
     <SizeXY>Размер: {0}x{1}</SizeXY>
     <SetAspectRatio11>Задаване съотношение на пропорциите 1:1</SetAspectRatio11>
     <ChangeBrightnessTitle>Регулиране на яркостта</ChangeBrightnessTitle>
@@ -517,7 +524,8 @@ https://github.com/SubtitleEdit/subtitleedit
   </ChangeCasingNames>
   <ChangeFrameRate>
     <Title>Промяна честотата (fps) на кадрите</Title>
-    <ConvertFrameRateOfSubtitle>Конвертиране честотата (fps) на кадрите на субтитрите</ConvertFrameRateOfSubtitle>
+    <ConvertFrameRateOfSubtitle>Конвертиране честотата (fps) на кадрите
+на субтитрите</ConvertFrameRateOfSubtitle>
     <FromFrameRate>От честота кадри (fps):</FromFrameRate>
     <ToFrameRate>Към честота кадри (fps):</ToFrameRate>
     <FrameRateNotCorrect>Честотата на кадрите (fps) е некоректна</FrameRateNotCorrect>
@@ -567,9 +575,9 @@ https://github.com/SubtitleEdit/subtitleedit
   <ColumnPaste>
     <Title>Поставяне на колона</Title>
     <ChooseColumn>Избиране на колона</ChooseColumn>
-    <OverwriteShiftCellsDown>Презаписване/Местене на клетка надолу</OverwriteShiftCellsDown>
+    <OverwriteShiftCellsDown>Презаписване/Преместване на клетките надолу</OverwriteShiftCellsDown>
     <Overwrite>Презаписване</Overwrite>
-    <ShiftCellsDown>Местене клетка надолу</ShiftCellsDown>
+    <ShiftCellsDown>Преместване на клетките надолу</ShiftCellsDown>
     <TimeCodesOnly>Само тайм кодовете</TimeCodesOnly>
     <TextOnly>Само текста</TextOnly>
     <OriginalTextOnly>Само оригиналния текст</OriginalTextOnly>
@@ -625,15 +633,15 @@ https://github.com/SubtitleEdit/subtitleedit
     <GenerateNewIdOnSave>Генериране на нов ID при записване</GenerateNewIdOnSave>
   </DCinemaProperties>
   <DurationsBridgeGaps>
-    <Title>Преодоляване на различия във времетраенето чрез удължаване на малките времетраения</Title>
-    <GapsBridgedX>Брой малки времетраения с удължение: {0}</GapsBridgedX>
-    <GapToNext>Удължение (сек.) до следващото</GapToNext>
-    <GapToNextFrames>Удължение (кадри) до следващото</GapToNextFrames>
-    <BridgeGapsSmallerThanXPart1>Удължаване на времетраения по-малки от</BridgeGapsSmallerThanXPart1>
+    <Title>Преодоляване на малки празнини между субтитрите (Различия в продължителността чрез удължаване на малките времетраения)</Title>
+    <GapsBridgedX>Брой преодолени малки празнини: {0}</GapsBridgedX>
+    <GapToNext>Удължение (сек.) до следв.</GapToNext>
+    <GapToNextFrames>Удължение (кадри) до следв.</GapToNextFrames>
+    <BridgeGapsSmallerThanXPart1>Удължаване на времетраения по-малки от:</BridgeGapsSmallerThanXPart1>
     <BridgeGapsSmallerThanXPart2>милисек.</BridgeGapsSmallerThanXPart2>
     <BridgeGapsSmallerThanXPart1Frames>Удължаване на времетраения по-малки от</BridgeGapsSmallerThanXPart1Frames>
     <BridgeGapsSmallerThanXPart2Frames>кадри</BridgeGapsSmallerThanXPart2Frames>
-    <MinMillisecondsBetweenLines>Мин. интервал от време м/у редовете (мс.)</MinMillisecondsBetweenLines>
+    <MinMillisecondsBetweenLines>Мин. интервал от време м/у редовете (мс.):</MinMillisecondsBetweenLines>
     <MinFramesBetweenLines>Мин. интервал от време м/у редовете (кадри)</MinFramesBetweenLines>
     <ProlongEndTime>Отнемане от времетраенето на предния текст</ProlongEndTime>
     <DivideEven>Разпределяне времетраенето м/у текстовете</DivideEven>
@@ -860,7 +868,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <WhatToFix>Какво да се поправи</WhatToFix>
     <Example>Пример</Example>
     <SelectAll>Избери вс.</SelectAll>
-    <InverseSelection>ОбърниИзбр.</InverseSelection>
+    <InverseSelection>Обърни избр.</InverseSelection>
     <Back>&lt;Обратно</Back>
     <Next>Напред&gt;</Next>
     <Step2>Стъпка 2/2 – Проверка на поправките</Step2>
@@ -962,7 +970,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <FixDialogsOneLineExample>Здравей, Джон! - Здравей, Айда! -&gt; Здравей, Джон!&lt;br /&gt;- Здравей, Айда!</FixDialogsOneLineExample>
     <RemoveDialogFirstInNonDialogsExample>- Как си? -&gt; Как си?</RemoveDialogFirstInNonDialogsExample>
     <SelectDefault>Изб. поПодразб.</SelectDefault>
-    <SetDefault>Задаване на текущите корекции по подразбиране</SetDefault>
+    <SetDefault>Задаване на текущите поправки по подразбиране</SetDefault>
     <FixContinuationStyleX>Поправяне стила на продължение: {0}</FixContinuationStyleX>
     <FixUnnecessaryLeadingDots>Премахване ненужните допълнителни точки</FixUnnecessaryLeadingDots>
   </FixCommonErrors>
@@ -976,9 +984,9 @@ https://github.com/SubtitleEdit/subtitleedit
     <GenerateWithFfmpegParametersPrompt>Генериране с FFmpeg параметри</GenerateWithFfmpegParametersPrompt>
   </GenerateBlankVideo>
   <GenerateVideoWithBurnedInSubs>
-    <Title>Генериране на видео със записани субтитри</Title>
-    <InfoAssaOff>Забележка: Поддържа се Advanced SubStation Alpha (ASS) стил [Разширен SubStation Alpha (SSA)].</InfoAssaOff>
-    <InfoAssaOn>Забележка: Ще се използва стилът Advanced SubStation Alpha :)</InfoAssaOn>
+    <Title>Генериране на видео с вградени субтитри</Title>
+    <InfoAssaOff>Забележка: Поддържа се Advanced SubStation Alpha (ASS) стил.</InfoAssaOff>
+    <InfoAssaOn>Забележка: Ще се използва Усъвършенстван SubStation Alpha (ASS) стил :)</InfoAssaOn>
     <XGeneratedWithBurnedInSubsInX>"{0}", генериран с вписани субтитри в {1}.</XGeneratedWithBurnedInSubsInX>
     <TimeRemainingMinutes>Оставащо време: {0} минути</TimeRemainingMinutes>
     <TimeRemainingOneMinute>Оставащо време: Една минута</TimeRemainingOneMinute>
@@ -996,15 +1004,15 @@ https://github.com/SubtitleEdit/subtitleedit
     <SampleRate>Честота на дискретизация</SampleRate>
     <Audio>Аудио</Audio>
     <Stereo>Стерео</Stereo>
-    <Preset>Предв.настр.</Preset>
+    <Preset>Предв.настр</Preset>
     <Crf>CRF</Crf>
-    <TuneFor>Настройка за</TuneFor>
+    <TuneFor>Мотив за</TuneFor>
     <AlignRight>Подравняване вдясно</AlignRight>
     <GetStartPosition>Заемане на начална позиция</GetStartPosition>
     <GetEndPosition>Заемане на крайна позиция</GetEndPosition>
   </GenerateVideoWithBurnedInSubs>
   <GenerateVideoWithEmbeddedSubs>
-    <Title>Генериране на видео с добавени/премахнати вградени субтитри</Title>
+    <Title>Генериране на видео с Добавяне/Премахване на вградени субтитри</Title>
     <InputVideoFile>Входен видео файл</InputVideoFile>
     <SubtitlesX>Субтитри ({0})</SubtitlesX>
     <SetLanguage>Задаване език...</SetLanguage>
@@ -1040,6 +1048,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <PleaseWait>Моля изчакайте... това може да продължи малко</PleaseWait>
     <PoweredByGoogleTranslate>С помощта на Google преводач</PoweredByGoogleTranslate>
     <PoweredByMicrosoftTranslate>С помощта на Microsoft преводач</PoweredByMicrosoftTranslate>
+    <PoweredByX>С помощта на {0}</PoweredByX>
     <MsClientSecretNeeded>Съжаляваме, но за да използвате най-новия преводач на Microsoft, ви е необходим ключ от Microsoft за когнитивни услуги "Преводач на текст".
 
 Отворете "Опции -&gt; Настройки -&gt; Инструменти", за да въведете вашия ключ.</MsClientSecretNeeded>
@@ -1047,7 +1056,7 @@ https://github.com/SubtitleEdit/subtitleedit
 За да използвате API ключ, отворете "Опции -&gt; Настройки -&gt; Инструменти", за да въведете вашия API ключ за преводач на Google.</GoogleNoApiKeyWarning>
     <Service>Услуги:</Service>
     <LineMergeHandling>Обединяване на редове:</LineMergeHandling>
-    <ProcessorMergeNext>Обединяване на максимум два реда</ProcessorMergeNext>
+    <ProcessorMergeNext>Обединяване макс. два реда</ProcessorMergeNext>
     <ProcessorSentence>Обединяване на изречения</ProcessorSentence>
     <ProcessorSingle>Без обединяване</ProcessorSingle>
     <AutoTranslateViaCopyPaste>Авт. превод чрез копиране и поставяне</AutoTranslateViaCopyPaste>
@@ -1061,6 +1070,11 @@ https://github.com/SubtitleEdit/subtitleedit
     <TranslateBlockCopySourceText>Копиране оригиналния текст в клипборда</TranslateBlockCopySourceText>
     <TranslateBlockClipboardError1>Клипборда съдържа оригиналния текст!</TranslateBlockClipboardError1>
     <TranslateBlockClipboardError2>Отидете в преводача и преведете, копирайте резултата в клипборда и кликнете отново върху този бутон.</TranslateBlockClipboardError2>
+    <StartWebServerX>Стартиране "{0}" уеб сървър.</StartWebServerX>
+    <XRequiresALocalWebServer>"{0}" изисква уеб сървър, работещ локално!</XRequiresALocalWebServer>
+    <XRequiresAnApiKey>"{0}" изисква API ключ.</XRequiresAnApiKey>
+    <ReadMore>Прочетете още?</ReadMore>
+    <Formality>Формалности</Formality>
   </GoogleTranslate>
   <GoogleOrMicrosoftTranslate>
     <Title>Превод с Google или Microsoft</Title>
@@ -1100,33 +1114,35 @@ https://github.com/SubtitleEdit/subtitleedit
   </ImportShotChanges>
   <ImportText>
     <Title>Импорт на обикновен текст</Title>
-    <OneSubtitleIsOneFile>Множество файлове - един файл е един субтитър</OneSubtitleIsOneFile>
+    <OneSubtitleIsOneFile>Множество файлове - 1 файл е 1 субтитър</OneSubtitleIsOneFile>
     <OpenTextFile>Отв. текстов файл...</OpenTextFile>
     <OpenTextFiles>Отваряне на текстови файлове...</OpenTextFiles>
     <ImportOptions>Опции при импортиране</ImportOptions>
     <Splitting>Разделяне</Splitting>
-    <AutoSplitText>Автоматично разделяне на текста</AutoSplitText>
-    <OneLineIsOneSubtitle>Един ред текст е един ред субтитри</OneLineIsOneSubtitle>
-    <TwoLinesAreOneSubtitle>Два реда текст са един ред субтитри</TwoLinesAreOneSubtitle>
-    <LineBreak>Разделител на редове</LineBreak>
-    <SplitAtBlankLines>Раздели в празни редове</SplitAtBlankLines>
+    <AutoSplitText>Авт. разделяне на текста</AutoSplitText>
+    <OneLineIsOneSubtitle>1 ред е 1 ред субтитри</OneLineIsOneSubtitle>
+    <TwoLinesAreOneSubtitle>2 реда са 1 ред субтити</TwoLinesAreOneSubtitle>
+    <LineBreak>Разделител на реда</LineBreak>
+    <SplitAtBlankLines>Разделяне на празни редове</SplitAtBlankLines>
     <MergeShortLines>Обединяване на кратки редове с продължение</MergeShortLines>
     <RemoveEmptyLines>Премахване на празни редове</RemoveEmptyLines>
     <RemoveLinesWithoutLetters>Премахване на редове без букви</RemoveLinesWithoutLetters>
     <GenerateTimeCodes>Генериране на тайм кодове</GenerateTimeCodes>
-    <TakeTimeFromCurrentFile>Вземете времето от текущия файл</TakeTimeFromCurrentFile>
-    <TakeTimeFromFileName>Вземете времето от името на файла</TakeTimeFromFileName>
+    <TakeTimeFromCurrentFile>Вземане времето от текущия файл</TakeTimeFromCurrentFile>
+    <TakeTimeFromFileName>Вземане времето от името на файла</TakeTimeFromFileName>
     <GapBetweenSubtitles>Интервал между субтитрите (милисек.)</GapBetweenSubtitles>
     <Auto>Автоматично</Auto>
-    <Fixed>Настрой</Fixed>
+    <Fixed>Настройка</Fixed>
     <Refresh>Обнови</Refresh>
     <TextFiles>Текстови файлове</TextFiles>
     <PreviewLinesModifiedX>Преглед - променени абзаци: {0}</PreviewLinesModifiedX>
     <TimeCodes>Тайм кодове</TimeCodes>
-    <SplitAtEndChars>Разделяне на символите в края</SplitAtEndChars>
+    <SplitAtEndChars>Разделяне след краен символ</SplitAtEndChars>
   </ImportText>
   <Interjections>
     <Title>Възклицания</Title>
+    <EditSkipList>Редактиране на списъка за пропускане...</EditSkipList>
+    <EditSkipListInfo>Възклицанията ще бъдат пропуснати, ако изходният текст започва с тези:</EditSkipListInfo>
   </Interjections>
   <JoinSubtitles>
     <Title>Настройки за Обединяване на файлове със субтитри</Title>
@@ -1291,7 +1307,7 @@ https://github.com/SubtitleEdit/subtitleedit
         <Title>Файл</Title>
         <New>Нов</New>
         <Open>Отвори ...</Open>
-        <OpenKeepVideo>Отвори файл със субтитри (запазване на видеото)</OpenKeepVideo>
+        <OpenKeepVideo>Отвори файл със субтитри (запазване на видеото) ...</OpenKeepVideo>
         <Reopen>Отвори предишен файл със субтитри</Reopen>
         <Save>Запиши</Save>
         <SaveAs>Запиши като ...</SaveAs>
@@ -1301,7 +1317,7 @@ https://github.com/SubtitleEdit/subtitleedit
         <SaveOriginal>Запис на оригиналните субтитри</SaveOriginal>
         <CloseOriginal>Затваряне на оригиналните субтитри</CloseOriginal>
         <CloseTranslation>Затваряне на проведените субтитри</CloseTranslation>
-        <OpenContainingFolder>Отвори папката, съдържаща субтитрите</OpenContainingFolder>
+        <OpenContainingFolder>Отвори папката, съдържаща субтитри ...</OpenContainingFolder>
         <Compare>Сравняване ...</Compare>
         <Statistics>Статистика ...</Statistics>
         <Plugins>Приставки (Plugins) ...</Plugins>
@@ -1316,21 +1332,21 @@ https://github.com/SubtitleEdit/subtitleedit
         <ImportTimecodes>Импорт на времеви кодове ...</ImportTimecodes>
         <Import>Импортиране</Import>
         <Export>Експортиране</Export>
-        <ExportBdnXml>BDN xml/png ...</ExportBdnXml>
-        <ExportBluRaySup>Blu-ray sup ...</ExportBluRaySup>
-        <ExportVobSub>VobSub (sub/idx) ...</ExportVobSub>
-        <ExportCavena890>Cavena 890 ...</ExportCavena890>
-        <ExportEbu>EBU STL ...</ExportEbu>
-        <ExportPac>PAC (Screen Electronics) ...</ExportPac>
-        <ExportPlainText>Чист текст ...</ExportPlainText>
-        <ExportAdobeEncoreFabImageScript>Adobe Encore FAB image script ...</ExportAdobeEncoreFabImageScript>
-        <ExportKoreanAtsFilePair>Korean ATS file pair ...</ExportKoreanAtsFilePair>
-        <ExportAvidStl>Avid STL ...</ExportAvidStl>
-        <ExportDvdStudioProStl>DVD Studio Pro STL ...</ExportDvdStudioProStl>
-        <ExportCapMakerPlus>CapMaker Plus ...</ExportCapMakerPlus>
-        <ExportCaptionsInc>Captions Inc ...</ExportCaptionsInc>
-        <ExportCheetahCap>Cheetah CAP ...</ExportCheetahCap>
-        <ExportUltech130>Ultech caption ...</ExportUltech130>
+        <ExportBdnXml>BDN xml/png...</ExportBdnXml>
+        <ExportBluRaySup>Blu-ray sup...</ExportBluRaySup>
+        <ExportVobSub>VobSub (sub/idx)...</ExportVobSub>
+        <ExportCavena890>Cavena 890...</ExportCavena890>
+        <ExportEbu>EBU STL...</ExportEbu>
+        <ExportPac>PAC (Screen Electronics)...</ExportPac>
+        <ExportPlainText>Чист текст...</ExportPlainText>
+        <ExportAdobeEncoreFabImageScript>Adobe Encore FAB image script...</ExportAdobeEncoreFabImageScript>
+        <ExportKoreanAtsFilePair>Korean ATS file pair...</ExportKoreanAtsFilePair>
+        <ExportAvidStl>Avid STL...</ExportAvidStl>
+        <ExportDvdStudioProStl>DVD Studio Pro STL...</ExportDvdStudioProStl>
+        <ExportCapMakerPlus>CapMaker Plus...</ExportCapMakerPlus>
+        <ExportCaptionsInc>Captions Inc...</ExportCaptionsInc>
+        <ExportCheetahCap>Cheetah CAP...</ExportCheetahCap>
+        <ExportUltech130>Ultech caption...</ExportUltech130>
         <ExportCustomTextFormat>Експорт на личен текстов формат ...</ExportCustomTextFormat>
         <Exit>Изход</Exit>
       </File>
@@ -1362,12 +1378,12 @@ https://github.com/SubtitleEdit/subtitleedit
       </Edit>
       <Tools>
         <Title>Инструменти</Title>
-        <AdjustDisplayDuration>Настройка на времетраенето ...</AdjustDisplayDuration>
-        <ApplyDurationLimits>Прилагане на ограничения във времетраенето ...</ApplyDurationLimits>
-        <SubtitlesBridgeGaps>Преодоляване на различия във времетраенето ...</SubtitlesBridgeGaps>
+        <AdjustDisplayDuration>Настройка на времетраенето (продължителността) ...</AdjustDisplayDuration>
+        <ApplyDurationLimits>Прилагане на ограничения в продължителността ...</ApplyDurationLimits>
+        <SubtitlesBridgeGaps>Преодоляване на различия в продължителността ...</SubtitlesBridgeGaps>
         <FixCommonErrors>Поправяне на грешки ...</FixCommonErrors>
         <StartNumberingFrom>Начално номериране ...</StartNumberingFrom>
-        <RemoveTextForHearingImpaired>Премахване на текст за увредени със слуха ...</RemoveTextForHearingImpaired>
+        <RemoveTextForHearingImpaired>Премахване на текст за хора увредени със слуха ...</RemoveTextForHearingImpaired>
         <ConvertColorsToDialog>Конвертиране на цветовете в диалогов режим ...</ConvertColorsToDialog>
         <ChangeCasing>Промяна големината на буквите ...</ChangeCasing>
         <ChangeFrameRate>Промяна честотата на кадрите (fps) ...</ChangeFrameRate>
@@ -1414,16 +1430,14 @@ https://github.com/SubtitleEdit/subtitleedit
         <SmptTimeMode>SMPTE синхронизация (не цяло число честота на кадрите)</SmptTimeMode>
         <GenerateTextFromVideo>Генериране на текст от видео ...</GenerateTextFromVideo>
         <GenerateBlankVideo>Генериране на празно видео ...</GenerateBlankVideo>
-        <GenerateVideoWithBurnedInSub>Генериране на видео със записани субтитри ...</GenerateVideoWithBurnedInSub>
-        <GenerateVideoWithEmbeddedSubs>Генериране на видео с добавени/премахнати вградени субтитри ...</GenerateVideoWithEmbeddedSubs>
-        <VideoAudioToTextX>Аудио към текст ({0}) ...</VideoAudioToTextX>
+        <GenerateVideoWithBurnedInSub>Генериране на видео с вградени субтитри ...</GenerateVideoWithBurnedInSub>
+        <GenerateVideoWithEmbeddedSubs>Генериране на видео с Добавяне/Премахване на вградени субтитри ...</GenerateVideoWithEmbeddedSubs>
+        <VideoAudioToTextX>Аудио към текст чрез {0} разпознаване на реч ...</VideoAudioToTextX>
         <ImportChaptersFromVideo>Импорт на глави от видео</ImportChaptersFromVideo>
-        <GenerateImportShotChanges>Създаване/импортиране на промените в сцената ...</GenerateImportShotChanges>
-        <RemoveOrExportShotChanges>Премахване/експортиране на промените в сцената ...</RemoveOrExportShotChanges>
+        <GenerateImportShotChanges>Създаване/Импортиране на промените в сцената ...</GenerateImportShotChanges>
+        <RemoveOrExportShotChanges>Премахване/Експортиране на промените в сцената ...</RemoveOrExportShotChanges>
         <WaveformBatchGenerate>Пакетно генериране вълнова Wav форма на звуковия сигнал ...</WaveformBatchGenerate>
-        <ShowHideVideo>Покажи/скрий видео</ShowHideVideo>
-        <ShowHideWaveform>Покажи/скрий вълновата форма на звуковия сигнал</ShowHideWaveform>
-        <ShowHideWaveformAndSpectrogram>Покажи/скрий формата на звуковия сигнал и спектрограмата</ShowHideWaveformAndSpectrogram>
+        <ShowHideWaveformAndSpectrogram>Покажи/Скрий формата на звуковия сигнал и спектрограмата</ShowHideWaveformAndSpectrogram>
         <UnDockVideoControls>Покажи видео управлението в отделни прозорци</UnDockVideoControls>
         <ReDockVideoControls>Покажи видео управлението вградено в осн. интерфейс</ReDockVideoControls>
       </Video>
@@ -1483,8 +1497,7 @@ https://github.com/SubtitleEdit/subtitleedit
         <BeautifyTimeCodes>Разкрасяване на времевите кодове</BeautifyTimeCodes>
         <Settings>Настройки</Settings>
         <Help>Помощ</Help>
-        <ShowHideWaveform>Покажи/скрий вълновата форма на звуковия сигнал</ShowHideWaveform>
-        <ShowHideVideo>Покажи/скрий видео</ShowHideVideo>
+        <Layout>Оформление</Layout>
         <AssaDraw>Настройка на Sub Station Alpha draw</AssaDraw>
       </ToolBar>
       <ContextMenu>
@@ -1508,26 +1521,26 @@ https://github.com/SubtitleEdit/subtitleedit
         <Copy>Копиране</Copy>
         <Paste>Вмъкване</Paste>
         <Delete>Изтриване на ред (-ове)</Delete>
-        <SplitLineAtCursorPosition>Разделяне на реда в позицията на курсора</SplitLineAtCursorPosition>
+        <SplitLineAtCursorPosition>Разделяне на реда в позицията на курсора/текста</SplitLineAtCursorPosition>
         <SplitLineAtCursorPositionAndAutoBr>Разделяне на реда в позицията на курсора и авт. прекъсване</SplitLineAtCursorPositionAndAutoBr>
-        <SplitLineAtCursorAndWaveformPosition>Разделяне на реда по курсора/видео позиция</SplitLineAtCursorAndWaveformPosition>
+        <SplitLineAtCursorAndWaveformPosition>Разделяне на реда в позицията на курсора/видеото</SplitLineAtCursorAndWaveformPosition>
         <AutoDurationCurrentLine>Авт. продължителност</AutoDurationCurrentLine>
         <SelectAll>Избери всичко</SelectAll>
         <InsertFirstLine>Вмъкване на ред</InsertFirstLine>
         <InsertBefore>Вмъкване на ред ПРЕДИ този ред</InsertBefore>
         <InsertAfter>Вмъкване на ред СЛЕД този ред</InsertAfter>
-        <InsertSubtitleAfter>Вмъкване на текст от файл със субтитри след този ред...</InsertSubtitleAfter>
+        <InsertSubtitleAfter>Вмъкване след този ред на текст от файл със субтитри ...</InsertSubtitleAfter>
         <CopyToClipboard>Копиране, като текст в клипборда</CopyToClipboard>
         <Column>Колона</Column>
         <ColumnDeleteText>Изтриване на текст</ColumnDeleteText>
-        <ColumnDeleteTextAndShiftCellsUp>Изтриване на текст и местене клетките нагоре</ColumnDeleteTextAndShiftCellsUp>
-        <ColumnInsertEmptyTextAndShiftCellsDown>Вмъкване на празен ред преди и преместване клетките надолу</ColumnInsertEmptyTextAndShiftCellsDown>
-        <ColumnInsertTextFromSubtitle>Вмъкване на текст след този ред от файл със субтитри...</ColumnInsertTextFromSubtitle>
-        <ColumnImportTextAndShiftCellsDown>Вмъкване на текст и местене на клетките надолу</ColumnImportTextAndShiftCellsDown>
-        <ColumnPasteFromClipboard>Поставяне от клипборда...</ColumnPasteFromClipboard>
-        <ColumnTextUp>Текста нагоре</ColumnTextUp>
-        <ColumnTextDown>Текста надолу</ColumnTextDown>
-        <ColumnCopyOriginalTextToCurrent>Копиране на текста от оригинал към работните</ColumnCopyOriginalTextToCurrent>
+        <ColumnDeleteTextAndShiftCellsUp>Изтриване на ред с текст и преместване на клетките нагоре</ColumnDeleteTextAndShiftCellsUp>
+        <ColumnInsertEmptyTextAndShiftCellsDown>Вмъкване на празен ред преди този и преместване на клетките надолу</ColumnInsertEmptyTextAndShiftCellsDown>
+        <ColumnInsertTextFromSubtitle>Вмъкване на текст след този ред от файл със субтитри ...</ColumnInsertTextFromSubtitle>
+        <ColumnImportTextAndShiftCellsDown>Вмъкване на текст и преместване на клетките надолу</ColumnImportTextAndShiftCellsDown>
+        <ColumnPasteFromClipboard>Поставяне от клипборда ...</ColumnPasteFromClipboard>
+        <ColumnTextUp>Преместване на ред с текст нагоре</ColumnTextUp>
+        <ColumnTextDown>Преместване на ред с текст надолу</ColumnTextDown>
+        <ColumnCopyOriginalTextToCurrent>Копиране на текст от оригинала в текущия</ColumnCopyOriginalTextToCurrent>
         <OcrSelectedLines>Избрани редове за (OCR) разпознаване на текст</OcrSelectedLines>
         <Split>Разделяне на реда</Split>
         <MergeSelectedLines>Обединяване на избраните редове</MergeSelectedLines>
@@ -1551,26 +1564,26 @@ https://github.com/SubtitleEdit/subtitleedit
         <Superscript>Горен индекс</Superscript>
         <Subscript>Долен индекс</Subscript>
         <Alignment>Подравняване...</Alignment>
-        <AutoBalanceSelectedLines>Авт. подравняване на избраните редове...</AutoBalanceSelectedLines>
+        <AutoBalanceSelectedLines>Авт. подравняване на избраните редове ...</AutoBalanceSelectedLines>
         <RemoveLineBreaksFromSelectedLines>Премахване прекъсванията на ред в избраните редове...</RemoveLineBreaksFromSelectedLines>
-        <TypewriterEffect>Ефект пишеща машина...</TypewriterEffect>
-        <KaraokeEffect>Ефект караоке...</KaraokeEffect>
-        <ShowSelectedLinesEarlierLater>Изместване на избраните редове по-време...</ShowSelectedLinesEarlierLater>
-        <VisualSyncSelectedLines>Визуална синхронизация на избраните редове...</VisualSyncSelectedLines>
-        <BeautifyTimeCodesOfSelectedLines>Разкрасяване на времевите кодове на избрани редове...</BeautifyTimeCodesOfSelectedLines>
+        <TypewriterEffect>Ефект пишеща машина ...</TypewriterEffect>
+        <KaraokeEffect>Ефект караоке ...</KaraokeEffect>
+        <ShowSelectedLinesEarlierLater>Изместване на избраните редове по-време ...</ShowSelectedLinesEarlierLater>
+        <VisualSyncSelectedLines>Визуална синхронизация на избраните редове ...</VisualSyncSelectedLines>
+        <BeautifyTimeCodesOfSelectedLines>Разкрасяване на времевите кодове на избрани редове ...</BeautifyTimeCodesOfSelectedLines>
         <GoogleAndMicrosoftTranslateSelectedLine>Google/Microsoft превод на оригиналния ред</GoogleAndMicrosoftTranslateSelectedLine>
         <SelectedLines>Избрани редове</SelectedLines>
-        <TranslateSelectedLines>Превод на избраните редове...</TranslateSelectedLines>
-        <AdjustDisplayDurationForSelectedLines>Настройка на времетраенето за избраните редове...</AdjustDisplayDurationForSelectedLines>
-        <ApplyDurationLimitsForSelectedLines>Прилагане на ограничения за продължителността на избраните редове...</ApplyDurationLimitsForSelectedLines>
-        <ApplyCustomOverrideTag>Прилагане на персонализирани тагове за предефиниране...</ApplyCustomOverrideTag>
+        <TranslateSelectedLines>Превод на избраните редове ...</TranslateSelectedLines>
+        <AdjustDisplayDurationForSelectedLines>Настройка на времетраенето за избраните редове ...</AdjustDisplayDurationForSelectedLines>
+        <ApplyDurationLimitsForSelectedLines>Прилагане на ограничения за продължителността на избраните редове ...</ApplyDurationLimitsForSelectedLines>
+        <ApplyCustomOverrideTag>Прилагане на персонализирани тагове за предефиниране ...</ApplyCustomOverrideTag>
         <SetPosition>Задай позиция...</SetPosition>
         <GenerateProgressBar>Генериране на лента за напредък...</GenerateProgressBar>
         <AssaResolutionChanger>Промяна резолюцията на скрипт ASSA...</AssaResolutionChanger>
         <AssaGenerateBackgroundBox>Генериране на фоново поле...</AssaGenerateBackgroundBox>
         <ImageColorPicker>Избор на цвят на изображението...</ImageColorPicker>
-        <FixCommonErrorsInSelectedLines>Поправяне на грешки в избраните редове...</FixCommonErrorsInSelectedLines>
-        <ChangeCasingForSelectedLines>Промяна големината на буквите в избраните редове...</ChangeCasingForSelectedLines>
+        <FixCommonErrorsInSelectedLines>Поправяне на грешки в избраните редове ...</FixCommonErrorsInSelectedLines>
+        <ChangeCasingForSelectedLines>Промяна големината на буквите в избраните редове ...</ChangeCasingForSelectedLines>
         <SaveSelectedLines>Запис на избраните редове като...</SaveSelectedLines>
         <WebVTTSetNewVoice>Задаване на нов глас...</WebVTTSetNewVoice>
         <WebVTTRemoveVoices>Премахване на гласове</WebVTTRemoveVoices>
@@ -1585,11 +1598,11 @@ https://github.com/SubtitleEdit/subtitleedit
     </Menu>
     <Controls>
       <SubtitleFormat>Формат на субтитрите</SubtitleFormat>
-      <FileEncoding>Кодиране на файла</FileEncoding>
+      <FileEncoding>Кодиране</FileEncoding>
       <UndoChangesInEditPanel>Отмени промените</UndoChangesInEditPanel>
       <Previous>&lt;Назад</Previous>
       <Next>Напред&gt;</Next>
-      <AutoBreak>Авт. прекъсни</AutoBreak>
+      <AutoBreak>Авт. прекъсване</AutoBreak>
       <Unbreak>ОбединиВ1ред</Unbreak>
     </Controls>
     <VideoControls>
@@ -1597,12 +1610,12 @@ https://github.com/SubtitleEdit/subtitleedit
       <CreateAndAdjust>Създаване/настройки</CreateAndAdjust>
       <Create>Създаване</Create>
       <Adjust>Настройки</Adjust>
-      <SelectCurrentElementWhilePlaying>Избиране на текущите субтитри при възпроизвеждане</SelectCurrentElementWhilePlaying>
+      <SelectCurrentElementWhilePlaying>Избор (маркиране) на текущите субтитри при възпроизвеждане</SelectCurrentElementWhilePlaying>
       <AutoRepeat>Авт. повторение</AutoRepeat>
-      <AutoRepeatOn>Авт.повтор.(Включено)</AutoRepeatOn>
+      <AutoRepeatOn>Включено авт. повтор.</AutoRepeatOn>
       <AutoRepeatCount>Брой повторения</AutoRepeatCount>
       <AutoContinue>Авт. продължение</AutoContinue>
-      <AutoContinueOn>Авт.продълж.(Включено)</AutoContinueOn>
+      <AutoContinueOn>Включено авт.продълж.</AutoContinueOn>
       <DelayInSeconds>Задържане (секунди)</DelayInSeconds>
       <OriginalText>Оригинален текст</OriginalText>
       <Previous>&lt;Назад</Previous>
@@ -1615,8 +1628,8 @@ https://github.com/SubtitleEdit/subtitleedit
       <AutoContinueInOneSecond>Авт. продължение след една секунда</AutoContinueInOneSecond>
       <AutoContinueInXSeconds>Авт. продължение след {0} секунди</AutoContinueInXSeconds>
       <StillTypingAutoContinueStopped>Все още се пише... продължението е спряно авт. </StillTypingAutoContinueStopped>
-      <InsertNewSubtitleAtVideoPosition>Вмъкни суб. в поз. видео</InsertNewSubtitleAtVideoPosition>
-      <InsertNewSubtitleAtVideoPositionNoTextBoxFocus>Вмъкни суб. в позиция видео (без фокус на текстовото поле)</InsertNewSubtitleAtVideoPositionNoTextBoxFocus>
+      <InsertNewSubtitleAtVideoPosition>Вмъкни суб.в позиц.видео</InsertNewSubtitleAtVideoPosition>
+      <InsertNewSubtitleAtVideoPositionNoTextBoxFocus>Вмъкни суб. в позиция видео (без фокус в/у текстовото поле)</InsertNewSubtitleAtVideoPositionNoTextBoxFocus>
       <Auto>Автоматично</Auto>
       <PlayFromJustBeforeText>ПусниМалкоПредиТекста</PlayFromJustBeforeText>
       <PlayFromBeginning>Възпроизвеждане от началото на видеото</PlayFromBeginning>
@@ -1708,7 +1721,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <BeforeDisplayTimeAdjustment>Преди настройката на времето за показване</BeforeDisplayTimeAdjustment>
     <DisplayTimeAdjustedX>Времето за показване е настроено на: {0}</DisplayTimeAdjustedX>
     <DisplayTimesAdjustedX>Времената за показване са настроени на: {0}</DisplayTimesAdjustedX>
-    <StartTimeAdjustedX>Началното време е коригирано на: {0}</StartTimeAdjustedX>
+    <StartTimeAdjustedX>Началното време е поправено на: {0}</StartTimeAdjustedX>
     <BeforeCommonErrorFixes>Преди поправянето на грешки</BeforeCommonErrorFixes>
     <CommonErrorsFixedInSelectedLines>Поправени грешки в избраните редове</CommonErrorsFixedInSelectedLines>
     <CommonErrorsFixed>Поправени грешки</CommonErrorsFixed>
@@ -1722,7 +1735,8 @@ https://github.com/SubtitleEdit/subtitleedit
     <TextingForHearingImpairedRemovedOneLine>Премахнат текст за увредени със слуха: Един ред</TextingForHearingImpairedRemovedOneLine>
     <TextingForHearingImpairedRemovedXLines>Премахнат текст за увредени със слуха: {0} реда</TextingForHearingImpairedRemovedXLines>
     <SubtitleSplitted>Субтитрите са разделени</SubtitleSplitted>
-    <SubtitleAppendPrompt>Това ще добави съществуващите субтитри към текущо заредените субтитри, които вече трябва да са синхронизирани с видео файла.
+    <SubtitleAppendPrompt>Това ще добави съществуващите субтитри към текущо заредените субтитри,
+които вече трябва да са синхронизирани с видео файла.
 
 Искате ли да продължите?</SubtitleAppendPrompt>
     <SubtitleAppendPromptTitle>Обединяване на файлове със субтитри</SubtitleAppendPromptTitle>
@@ -1770,7 +1784,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <BeforeInsertLine>Преди вмъкването на ред</BeforeInsertLine>
     <LineInserted>Вмъкнати редове</LineInserted>
     <BeforeLineUpdatedInListView>Преди обновяването на реда в изгледа списък</BeforeLineUpdatedInListView>
-    <BeforeSplitLine>Преди разделянето на ред</BeforeSplitLine>
+    <BeforeSplitLine>Преди разделянето на реда</BeforeSplitLine>
     <LineSplitted>Разделен ред</LineSplitted>
     <BeforeMergeLines>Преди обединяване на редовете</BeforeMergeLines>
     <LinesMerged>Обединени редове</LinesMerged>
@@ -1851,8 +1865,8 @@ https://github.com/SubtitleEdit/subtitleedit
     <BeforeTimeCodeImport>Преди внасянето на кода за време</BeforeTimeCodeImport>
     <TimeCodeImportedFromXY>Кодът за време е внесен от {0}: {1}</TimeCodeImportedFromXY>
     <BeforeInsertSubtitleAtVideoPosition>Преди вмъкването на новите субтитри в позицията на видеото</BeforeInsertSubtitleAtVideoPosition>
-    <BeforeSetStartTimeAndOffsetTheRest>Преди задаване на изместване на началното време и коригиране на останалото</BeforeSetStartTimeAndOffsetTheRest>
-    <BeforeSetEndTimeAndOffsetTheRest>Преди задаване на изместване на крайното време и коригиране на останалото</BeforeSetEndTimeAndOffsetTheRest>
+    <BeforeSetStartTimeAndOffsetTheRest>Преди задаване на изместване на началното време и поправяне на останалото</BeforeSetStartTimeAndOffsetTheRest>
+    <BeforeSetEndTimeAndOffsetTheRest>Преди задаване на изместване на крайното време и поправяне на останалото</BeforeSetEndTimeAndOffsetTheRest>
     <BeforeSetEndAndVideoPosition>Преди задаване на крайното време на видеото и авт. изчисляване на началното</BeforeSetEndAndVideoPosition>
     <ContinueWithCurrentSpellCheck>Ще продължите ли с текущата проверка на правописа?</ContinueWithCurrentSpellCheck>
     <CharactersPerSecond>Симв./сек.: {0:0.00}</CharactersPerSecond>
@@ -1922,7 +1936,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <NoSupportHereVobSub>Тук не се поддържат VobSub файлове</NoSupportHereVobSub>
     <NoSupportHereDivx>Тук не се поддържат DivX файлове</NoSupportHereDivx>
     <NoChapters>Няма намерени глави във видеото.</NoChapters>
-    <VideoFromUrlRequirements>Отварянето на видео от URL изисква mpv и youtube-dl.
+    <VideoFromUrlRequirements>Отварянето на видео от URL изисква MPV media player и youtube-dl.
 
 Изтегляне и продължаване?</VideoFromUrlRequirements>
     <Url>URL адрес</Url>
@@ -1937,8 +1951,9 @@ https://github.com/SubtitleEdit/subtitleedit
     <PleaseInstallVideoPlayer>Моля, инсталирайте видео плеър</PleaseInstallVideoPlayer>
     <UnableToPlayMediaFile>SE не можа да възпроизведе видео/аудио файла (или файлът не е валиден видео/аудио файл).</UnableToPlayMediaFile>
     <SubtitleEditNeedsVideoPlayer>Subtitle Edit се нуждае от видео плеър.</SubtitleEditNeedsVideoPlayer>
-    <UseRecommendMpv>За използване на препоръчания видео плеър «mpv», кликнете върху бутона по-долу.</UseRecommendMpv>
-    <DownloadAndUseMpv>Изтегли и използвай «mpv» видео плеър</DownloadAndUseMpv>
+    <UseRecommendMpv>За използване на препоръчания «mpv» видео плеър, кликнете върху бутона по-долу.</UseRecommendMpv>
+    <DownloadAndUseMpv>Изтеглете и използвайте «mpv» видео плеър</DownloadAndUseMpv>
+    <ChooseLayout>Избор на оформление</ChooseLayout>
   </Main>
   <MatroskaSubtitleChooser>
     <Title>Избор на субтитри от файл Matroska</Title>
@@ -2060,7 +2075,7 @@ https://github.com/SubtitleEdit/subtitleedit
   <MergeDoubleLines>
     <Title>Обединяване на редове с еднакъв текст</Title>
     <MaxMillisecondsBetweenLines>Макс. интервал от време между редовете (милисек.)</MaxMillisecondsBetweenLines>
-    <IncludeIncrementing>Увеличение на редовете (Включено)</IncludeIncrementing>
+    <IncludeIncrementing>Разрешено увеличение на редовете</IncludeIncrementing>
   </MergeDoubleLines>
   <MergedShortLines>
     <Title>Обединяване на кратки редове</Title>
@@ -2142,8 +2157,8 @@ https://github.com/SubtitleEdit/subtitleedit
   </NetworkChat>
   <NetworkJoin>
     <Title>Присъединяване към мрежова интернет сесия</Title>
-    <Information>Присъединете се към съществуваща сесия, където няколко човека
-могат да редактират един файл със субтитри (съвместна работа)</Information>
+    <Information>Присъединете се към съществуваща сесия, където няколко
+човека могат да редактират 1 файл със субтитри(заедно)</Information>
     <Join>ОК</Join>
   </NetworkJoin>
   <NetworkLogAndInfo>
@@ -2212,10 +2227,11 @@ https://github.com/SubtitleEdit/subtitleedit
     <And>и</And>
     <RemoveTextBeforeColon>Премахване на текст преди двоеточие («:»)</RemoveTextBeforeColon>
     <OnlyIfTextIsUppercase>Само, ако текстът е с ГОЛЕМИ БУКВИ</OnlyIfTextIsUppercase>
-    <OnlyIfInSeparateLine>Само, ако е на отделен ред</OnlyIfInSeparateLine>
+    <OnlyIfInSeparateLine>Само, ако са на отделен ред</OnlyIfInSeparateLine>
     <LinesFoundX>Намерени редове: {0}</LinesFoundX>
     <RemoveTextIfContains>Премахване на текст, ако съдържа:</RemoveTextIfContains>
     <RemoveTextIfAllUppercase>Премахване на ред, ако е С ГЛАВНИ БУКВИ</RemoveTextIfAllUppercase>
+    <RemoveIfOnlyMusicSymbols>Премахване само на музикалните символи</RemoveIfOnlyMusicSymbols>
     <RemoveInterjections>Премахване на възклицания</RemoveInterjections>
     <EditInterjections>Редактиране...</EditInterjections>
     <Apply>Приложи</Apply>
@@ -2288,15 +2304,14 @@ https://github.com/SubtitleEdit/subtitleedit
     <SaveAs>Запис като</SaveAs>
     <Find>Търсене</Find>
     <Replace>Замяна</Replace>
-    <VisualSync>Визуална синхр.</VisualSync>
-    <BurnIn>Записване в</BurnIn>
+    <VisualSync>Визуална синхронизация</VisualSync>
+    <BurnIn>Вграждане субтитри</BurnIn>
     <SpellCheck>Правопис</SpellCheck>
-    <NetflixQualityCheck>Качествен контрол
-на Netflix</NetflixQualityCheck>
+    <NetflixQualityCheck>Качествен контрол на Netflix</NetflixQualityCheck>
     <BeautifyTimeCodes>Разкрасяване на времевите кодове</BeautifyTimeCodes>
     <SettingsName>Настройки</SettingsName>
     <ToggleBookmarks>Превключване на отметки</ToggleBookmarks>
-    <FocusTextBox>Фокусиране в/у текстовото поле</FocusTextBox>
+    <FocusTextBox>Фокус в/у текстовото поле</FocusTextBox>
     <ToggleBookmarksWithComment>Превключване на отметки - добавяне на коментар</ToggleBookmarksWithComment>
     <ClearBookmarks>Изчистване на отметките</ClearBookmarks>
     <ExportBookmarks>Експорт на отметки...</ExportBookmarks>
@@ -2306,8 +2321,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <ChooseProfile>Избор на профил</ChooseProfile>
     <OpenDataFolder>Отваряне папката за редактиране на субтитри</OpenDataFolder>
     <DuplicateLine>Дублиран ред</DuplicateLine>
-    <ToggleView>Превключване на 
-списък/първоначален изглед</ToggleView>
+    <ToggleView>Превключване на списък/първоначален изглед</ToggleView>
     <ToggleMode>Превключване на режим за превод /създаване/ регулиране</ToggleMode>
     <TogglePreviewOnVideo>Превключване на преглед за видеото</TogglePreviewOnVideo>
     <Help>Помощ</Help>
@@ -2317,6 +2331,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <DefaultFrameRate>Честота на кадрите (fps) по подр.</DefaultFrameRate>
     <DefaultFileEncoding>Кодиране на файла по подразбиране</DefaultFileEncoding>
     <AutoDetectAnsiEncoding>Авт. откриване на ANSI кодиране</AutoDetectAnsiEncoding>
+    <LanguageFilter>Езиков филтър</LanguageFilter>
     <Profile>Профил</Profile>
     <Profiles>Профили</Profiles>
     <ImportProfiles>Импорт на профили</ImportProfiles>
@@ -2329,12 +2344,12 @@ https://github.com/SubtitleEdit/subtitleedit
     <DurationMinimumMilliseconds>Мин. времетраене (милисек.)</DurationMinimumMilliseconds>
     <DurationMaximumMilliseconds>Макс. времетраене (милисек.)</DurationMaximumMilliseconds>
     <MinimumGapMilliseconds>Мин. интервал м/у субтитрите (мс.)</MinimumGapMilliseconds>
-    <MaximumLines>Макс. количество редове</MaximumLines>
+    <MaximumLines>Макс. брой редове</MaximumLines>
     <SubtitleFont>Шрифт на субтитрите</SubtitleFont>
     <SubtitleFontSize>Размер на шрифта</SubtitleFontSize>
     <SubtitleBold>Удебелен</SubtitleBold>
     <VideoAutoOpen>Авт.отваряне на видеофайл при отваряне на субтитри</VideoAutoOpen>
-    <AllowVolumeBoost>Разрешаване увеличаване силата на звука</AllowVolumeBoost>
+    <AllowVolumeBoost>Разрешено увеличаване силата на звука</AllowVolumeBoost>
     <SubtitleCenter>По средата</SubtitleCenter>
     <SubtitleFontColor>Цвят на шрифта на субтитрите</SubtitleFontColor>
     <SubtitleBackgroundColor>Цвят на фона на субтитрите</SubtitleBackgroundColor>
@@ -2351,7 +2366,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <SetAssaResolution>Задаване резолюция на ASSA (PlayResX/PlayResY)</SetAssaResolution>
     <SetAssaBgBox>Задаване фоново поле на ASSA</SetAssaBgBox>
     <TakeAutoBackup>Направи автоматично архивиране сега</TakeAutoBackup>
-    <ShowLineBreaksAs>Показване прекъсвания на ред в «Изглед на списъка», като</ShowLineBreaksAs>
+    <ShowLineBreaksAs>Показване прекъсвания на ред в «Изглед на списъка», като:</ShowLineBreaksAs>
     <SaveAsFileNameFrom>«Запазване като...» използва името на файла от:</SaveAsFileNameFrom>
     <MainListViewDoubleClickAction>Двойно кликване в/у ред в «Изглед на списъка» на главния прозорец ще:</MainListViewDoubleClickAction>
     <MainListViewColumnsInfo>Изберете колони за показване</MainListViewColumnsInfo>
@@ -2371,31 +2386,31 @@ https://github.com/SubtitleEdit/subtitleedit
     <AutoBackupEveryFiveMinutes>Всеки 5 минути</AutoBackupEveryFiveMinutes>
     <AutoBackupEveryFifteenMinutes>Всеки 15 минути</AutoBackupEveryFifteenMinutes>
     <AutoBackupDeleteAfter>Изтр. след:</AutoBackupDeleteAfter>
-    <TranslationAutoSuffix>Авт. суфикс на името на файла за превод</TranslationAutoSuffix>
+    <TranslationAutoSuffix>Авт. суфикс на името на файла за превод:</TranslationAutoSuffix>
     <AutoBackupDeleteAfterOneMonth>1 месец</AutoBackupDeleteAfterOneMonth>
     <AutoBackupDeleteAfterXMonths>{0} месеца</AutoBackupDeleteAfterXMonths>
     <CheckForUpdates>Проверка за актуализиране</CheckForUpdates>
     <AutoSave>Авт. запазване</AutoSave>
     <AllowEditOfOriginalSubtitle>Разрешаване редактиране на оригиналните субтитри</AllowEditOfOriginalSubtitle>
     <PromptDeleteLines>Запитване преди изтриване на редове</PromptDeleteLines>
-    <TimeCodeMode>Режим «Тайм Код»</TimeCodeMode>
+    <TimeCodeMode>Режим «Тайм Код»:</TimeCodeMode>
     <TimeCodeModeHHMMSSMS>ЧЧ:ММ:СС:МС (00:00:01.500)</TimeCodeModeHHMMSSMS>
     <TimeCodeModeHHMMSSFF>ЧЧ:ММ:СС:ФФ (00:00:01:12)</TimeCodeModeHHMMSSFF>
-    <SplitBehavior>Поведение на разделяне</SplitBehavior>
+    <SplitBehavior>Поведение на разделяне:</SplitBehavior>
     <SplitBehaviorPrevious>Добавяне на интервал вляво от точката на разделяне</SplitBehaviorPrevious>
     <SplitBehaviorHalf>Добавяне на интервал в центъра от точката на разделяне</SplitBehaviorHalf>
     <SplitBehaviorNext>Добавяне на интервал вдясно от точката на разделяне</SplitBehaviorNext>
     <VideoEngine>Видео обработка</VideoEngine>
     <DirectShow>DirectShow</DirectShow>
     <DirectShowDescription>quartz.dll в папката system32</DirectShowDescription>
-    <MpcHc>MPC-HC</MpcHc>
+    <MpcHc>MPC-HC media player</MpcHc>
     <MpcHcDescription>Media Player Classic - Home Cinema</MpcHcDescription>
-    <MpvPlayer>mpv</MpvPlayer>
+    <MpvPlayer>MPV media player</MpvPlayer>
     <MpvPlayerDescription>https://mpv.io/ - безплатен плеър с отворен изходен код</MpvPlayerDescription>
-    <MpvHandlesPreviewText>mpv предварително ще обработи и прегледа текста</MpvHandlesPreviewText>
+    <MpvHandlesPreviewText>MPV обработва текста за визуализация</MpvHandlesPreviewText>
     <VlcMediaPlayer>VLC media player</VlcMediaPlayer>
-    <VlcMediaPlayerDescription>libvlc.dll от VLC media player 1.1.0 или по-нова</VlcMediaPlayerDescription>
-    <VlcBrowseToLabel>Път към VLC (необходим само за портабъл версията на VLC media player)</VlcBrowseToLabel>
+    <VlcMediaPlayerDescription>libvlc.dll от VLC media player 1.1.0 или по-нов</VlcMediaPlayerDescription>
+    <VlcBrowseToLabel>Път към VLC (необходим само за преносима версия на VLC media player)</VlcBrowseToLabel>
     <ShowStopButton>Показване на бутон «Стоп»</ShowStopButton>
     <ShowMuteButton>Показване на бутон «Без звук»</ShowMuteButton>
     <ShowFullscreenButton>Показване на бутон «На цял екран»</ShowFullscreenButton>
@@ -2416,16 +2431,16 @@ https://github.com/SubtitleEdit/subtitleedit
     <WaveformListViewFocusMouseEnter>Задаване на фокуса върху списъка по курсора при кликване с мишката</WaveformListViewFocusMouseEnter>
     <WaveformSingleClickSelect>Еднократно кликване за избиране на субтитри</WaveformSingleClickSelect>
     <WaveformSnapToShotChanges>Преминаване към промените на сцената (задръжте Shift за отмяна)</WaveformSnapToShotChanges>
-    <WaveformEditShotChangesProfile>Редакция на профила...</WaveformEditShotChangesProfile>
+    <WaveformEditShotChangesProfile>Редакция на профил...</WaveformEditShotChangesProfile>
     <WaveformAutoGen>Авт. генериране вълнова Wav форма на зв. сигнал при отваряне на видео</WaveformAutoGen>
-    <WaveformBorderHitMs1>Граница на ограждащият маркер</WaveformBorderHitMs1>
+    <WaveformBorderHitMs1>Граница на ограждащия маркер:</WaveformBorderHitMs1>
     <WaveformBorderHitMs2>милисек.</WaveformBorderHitMs2>
     <WaveformColor>Цвят на сигнала</WaveformColor>
     <WaveformSelectedColor>Цвят на избран</WaveformSelectedColor>
     <WaveformBackgroundColor>Цвят на фона</WaveformBackgroundColor>
     <WaveformCursorColor>Цвят на курсора</WaveformCursorColor>
-    <WaveformTextColor>Цвят на текста</WaveformTextColor>
-    <WaveformTextFontSize>Размер на шрифта за текст</WaveformTextFontSize>
+    <WaveformTextColor>Цвят текст</WaveformTextColor>
+    <WaveformTextFontSize>Размер на шрифта за текст:</WaveformTextFontSize>
     <WaveformAndSpectrogramsFolderEmpty>Изчисти папките «Spectrograms» и «Waveforms»</WaveformAndSpectrogramsFolderEmpty>
     <WaveformAndSpectrogramsFolderInfo>Папките «Spectrograms» и «Waveforms» съдържат {0} файл(а) ({1:0.00} MB)</WaveformAndSpectrogramsFolderInfo>
     <Spectrogram>Спектрограма</Spectrogram>
@@ -2436,7 +2451,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <WaveformUseFFmpeg>FFmpeg за извлич. вълнова диагр. на зв.сигнал</WaveformUseFFmpeg>
     <WaveformUseCenterChannelOnly>Използване само на предния централен канал (за 5.1/7.1)</WaveformUseCenterChannelOnly>
     <DownloadX>Изтегляне на {0}</DownloadX>
-    <WaveformFFmpegPath>Път до FFmpeg:</WaveformFFmpegPath>
+    <WaveformFFmpegPath>Път до FFmpeg</WaveformFFmpegPath>
     <WaveformBrowseToFFmpeg>Преминаване към FFmpeg</WaveformBrowseToFFmpeg>
     <WaveformBrowseToVLC>Преминаване към VLC portable</WaveformBrowseToVLC>
     <SubStationAlphaStyle>(Специален) Sub Station Alpha (SSA) стил</SubStationAlphaStyle>
@@ -2475,9 +2490,8 @@ https://github.com/SubtitleEdit/subtitleedit
     <EndSceneIndex>Крайният абзац на сцената е:</EndSceneIndex>
     <FirstPlusX>Първи + {0}</FirstPlusX>
     <LastMinusX>Последен - {0}</LastMinusX>
-    <FixCommonerrors>Попр. на грешки</FixCommonerrors>
-    <RemoveTextForHi>Премахване на текст
-за хора с увреден слух</RemoveTextForHi>
+    <FixCommonerrors>Поправяне на грешки</FixCommonerrors>
+    <RemoveTextForHi>Премахване на текст за хора с увр.слух</RemoveTextForHi>
     <MergeLinesShorterThan>Обедин.редове по-малки от(бр.симв)</MergeLinesShorterThan>
     <DialogStyle>Диалогов стил</DialogStyle>
     <DialogStyleDashBothLinesWithSpace>Тире и на двата реда с интервал</DialogStyleDashBothLinesWithSpace>
@@ -2507,7 +2521,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <CpsLineLengthStyleCalcIgnoreArabicDiacriticsNoSpace>Игнорирай Арабските диакритични символи/интервал</CpsLineLengthStyleCalcIgnoreArabicDiacriticsNoSpace>
     <CpsLineLengthStyleCalcNoSpaceOrPunctuation>Без интервал или препинателни знаци ()[]-:;,.!?</CpsLineLengthStyleCalcNoSpaceOrPunctuation>
     <CpsLineLengthStyleCalcNoSpaceOrPunctuationCpsOnly>Без интервал или препинателни знаци, само cps</CpsLineLengthStyleCalcNoSpaceOrPunctuationCpsOnly>
-    <MusicSymbol>Замяна с музикален символ</MusicSymbol>
+    <MusicSymbol>Замяна с музикален символ:</MusicSymbol>
     <MusicSymbolsReplace>Музикални символи за замяна (разделени със запетая)</MusicSymbolsReplace>
     <FixCommonOcrErrorsUseHardcodedRules>Поправяне на някои OCR(разпознаване на текст) грешки</FixCommonOcrErrorsUseHardcodedRules>
     <UseWordSplitList>Използване на списъка за разделяне на думи [OCR + FCE(код)]</UseWordSplitList>
@@ -2539,13 +2553,15 @@ https://github.com/SubtitleEdit/subtitleedit
     <DarkThemeShowGridViewLines>Показване на решетка в изгледа на списъка</DarkThemeShowGridViewLines>
     <GraphicsButtons>Графични бутони</GraphicsButtons>
     <UpdateShortcut>Обнови</UpdateShortcut>
-    <FoucsSetVideoPosition>Задаване на фокус позицията на видеото</FoucsSetVideoPosition>
+    <FocusSetVideoPosition>Задаване на фокуса върху позицията на видеото</FocusSetVideoPosition>
     <ToggleDockUndockOfVideoControls>Превключване положението на видео управлението</ToggleDockUndockOfVideoControls>
     <CreateSetEndAddNewAndGoToNew>Задаване на край, добавяне на нов и преминаване към него</CreateSetEndAddNewAndGoToNew>
     <AdjustViaEndAutoStart>Регулиране чрез крайно положение</AdjustViaEndAutoStart>
     <AdjustViaEndAutoStartAndGoToNext>Задаване на крайно време в позицията на курсора и преминаване на следващия субтитър</AdjustViaEndAutoStartAndGoToNext>
-    <AdjustSetEndMinusGapAndStartNextHere>Задаване на край минус интервал, преминаване на следващ и започване на следващия тук</AdjustSetEndMinusGapAndStartNextHere>
-    <AdjustSetEndTimeAndGoToNext>Задаване на край и преминаване на следващ</AdjustSetEndTimeAndGoToNext>
+    <AdjustSetEndMinusGapAndStartNextHere>Задаване на край без интервал, преминаване на следващия и започване на следващия тук</AdjustSetEndMinusGapAndStartNextHere>
+    <AdjustSetEndAndStartNextAfterGap>Задаване на край и начало на следващия след интервал</AdjustSetEndAndStartNextAfterGap>
+    <AdjustSetStartTimeAndGoToNext>Задаване на начало и преминаване на следващия</AdjustSetStartTimeAndGoToNext>
+    <AdjustSetEndTimeAndGoToNext>Задаване на край и преминаване на следващия</AdjustSetEndTimeAndGoToNext>
     <AdjustSetEndTimeAndPause>Задаване на край и пауза</AdjustSetEndTimeAndPause>
     <AdjustSetStartAutoDurationAndGoToNext>Задаване на начало, авт. продължителност и преминаване на следващия</AdjustSetStartAutoDurationAndGoToNext>
     <AdjustSetEndNextStartAndGoToNext>Задаване на край, следващо начало и преминаване на следващия</AdjustSetEndNextStartAndGoToNext>
@@ -2606,11 +2622,11 @@ https://github.com/SubtitleEdit/subtitleedit
     <GoToNextSubtitleAndFocusVideo>Преминаване на следващия ред и задаване позиция на видеото</GoToNextSubtitleAndFocusVideo>
     <GoToPrevSubtitleAndPlay>Преминаване на предишния ред и възпроизвеждане</GoToPrevSubtitleAndPlay>
     <GoToNextSubtitleAndPlay>Преминаване на следващия ред и възпроизвеждане</GoToNextSubtitleAndPlay>
-    <GoToPreviousSubtitleAndFocusWaveform>Преминаване на предишния ред и фокусиране Wav форма на вълната</GoToPreviousSubtitleAndFocusWaveform>
-    <GoToNextSubtitleAndFocusWaveform>Преминаване на следващия ред и фокусираве Wav форма на вълната</GoToNextSubtitleAndFocusWaveform>
-    <ToggleFocus>Превключване на фокуса между изглед на списъка и реда за писане</ToggleFocus>
-    <ToggleFocusWaveform>Превключване на фокуса между изглед на списъка и Wav форма на вълната/спектрограма</ToggleFocusWaveform>
-    <ToggleFocusWaveformTextBox>Превключване на фокуса между текстово поле и Wav форма на вълната/спектрограма</ToggleFocusWaveformTextBox>
+    <GoToPreviousSubtitleAndFocusWaveform>Преминаване на предишния ред и фокус върху Wav форма на вълната</GoToPreviousSubtitleAndFocusWaveform>
+    <GoToNextSubtitleAndFocusWaveform>Преминаване на следващия ред и фокус върху Wav форма на вълната</GoToNextSubtitleAndFocusWaveform>
+    <ToggleFocus>Превключване на фокуса между Изглед на списъка/Ред за писане</ToggleFocus>
+    <ToggleFocusWaveform>Превключване на фокуса между Изглед на списъка/Wav форма на вълната\спектрограма</ToggleFocusWaveform>
+    <ToggleFocusWaveformTextBox>Превключване на фокуса между Текстово поле/Wav форма на вълната\спектрограма</ToggleFocusWaveformTextBox>
     <ToggleDialogDashes>Размяна на диалоговите тирета</ToggleDialogDashes>
     <ToggleQuotes>Превключване на кавички</ToggleQuotes>
     <ToggleHiTags>Превключване на HI тагове</ToggleHiTags>
@@ -2639,6 +2655,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <WaveformSeekSilenceForward>Търсене на тишина НАПРЕД</WaveformSeekSilenceForward>
     <WaveformSeekSilenceBack>Търсене на тишина НАЗАД</WaveformSeekSilenceBack>
     <WaveformAddTextHere>Добавяне на текст тук (за ново избиране)</WaveformAddTextHere>
+    <ChooseLayoutX>Избор на оформление {0}</ChooseLayoutX>
     <WaveformAddTextHereFromClipboard>Добавяне на текст тук (за нов избор от клипборда)</WaveformAddTextHereFromClipboard>
     <SetParagraphAsSelection>Задаване на текущия като нов избор</SetParagraphAsSelection>
     <WaveformPlayNewSelection>Възпроизвеждане на избраното</WaveformPlayNewSelection>
@@ -2647,11 +2664,11 @@ https://github.com/SubtitleEdit/subtitleedit
     <WaveformGoToPreviousShotChange>Преминаване към предишната промяна на сцената</WaveformGoToPreviousShotChange>
     <WaveformGoToNextShotChange>Преминаване към следващата промяна на сцената</WaveformGoToNextShotChange>
     <WaveformToggleShotChange>Превключване промяна на сцените</WaveformToggleShotChange>
-    <WaveformRemoveOrExportShotChanges>Премахване/експортиране на промените в сцената</WaveformRemoveOrExportShotChanges>
-    <WaveformGuessStart>Авт. настройване на старта чрез промяна силата на звука/сцената</WaveformGuessStart>
+    <WaveformRemoveOrExportShotChanges>Премахване/Експорт на промени в сцената</WaveformRemoveOrExportShotChanges>
+    <WaveformGuessStart>Авт. настройка на старта чрез промяна силата на звука/сцената</WaveformGuessStart>
     <GoBack1Frame>1 кадър назад</GoBack1Frame>
     <GoForward1Frame>1 кадър напред</GoForward1Frame>
-    <GoBack1FrameWithPlay>1 кадр назад (с възпроизвеждане)</GoBack1FrameWithPlay>
+    <GoBack1FrameWithPlay>1 кадър назад (с възпроизвеждане)</GoBack1FrameWithPlay>
     <GoForward1FrameWithPlay>1 кадър напред (с възпроизвеждане)</GoForward1FrameWithPlay>
     <GoBack100Milliseconds>100 мс назад</GoBack100Milliseconds>
     <GoForward100Milliseconds>100 мс напред</GoForward100Milliseconds>
@@ -2761,7 +2778,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <MainTextBoxAutoBreakFromPosAndGoToNext>Прекъсване на първото място от позицията на курсора и преминаване към следващото</MainTextBoxAutoBreakFromPosAndGoToNext>
     <MainTextBoxDictate>Диктуване (клавиш надолу=начало на запис, клавиш нагоре=край на записа)</MainTextBoxDictate>
     <MainTextBoxUnbreak>Без прекъсване на текста</MainTextBoxUnbreak>
-    <MainTextBoxUnbreakNoSpace>Прехвърляне без място (CJK) /Chinese, Japanese &amp; Korean символи/</MainTextBoxUnbreakNoSpace>
+    <MainTextBoxUnbreakNoSpace>Непрекъснато без интервал (CJK) /Chinese, Japanese &amp; Korean символи/</MainTextBoxUnbreakNoSpace>
     <MainTextBoxAssaIntellisense>Показване на помощника за ASSA тагове</MainTextBoxAssaIntellisense>
     <MainTextBoxAssaRemoveTag>Премахване на ASSA тага при курсора</MainTextBoxAssaRemoveTag>
     <MainFileSaveAll>Запис на всички</MainFileSaveAll>
@@ -2770,7 +2787,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <UseDoNotBreakAfterList>Неразделяне списъка(заАвт.пренасяне)</UseDoNotBreakAfterList>
     <BreakEarlyForLineEnding>Прекъсване в началото за завършване на реда (.!?)</BreakEarlyForLineEnding>
     <BreakByPixelWidth>Прекъсване по ширина на пикселите</BreakByPixelWidth>
-    <BreakPreferBottomHeavy>Предпочитане отдолу получерен</BreakPreferBottomHeavy>
+    <BreakPreferBottomHeavy>Предпочитане отдолу получерен:</BreakPreferBottomHeavy>
     <BreakEarlyForDashDialog>Прекъсване в началото за диалогово тире</BreakEarlyForDashDialog>
     <BreakEarlyForComma>Прекъсване в началото за запетая</BreakEarlyForComma>
     <GoogleTranslate>Google преводач</GoogleTranslate>
@@ -2798,13 +2815,13 @@ https://github.com/SubtitleEdit/subtitleedit
     <Milliseconds>мс</Milliseconds>
     <EditCustomContinuationStyle>Редакция перс. стил на продълж...</EditCustomContinuationStyle>
     <MinFrameGap>Мин. разлика в кадрите</MinFrameGap>
-    <XFramesAtYFrameRateGivesZMs>{0} кадрите със скорост на кадър от {1} дава {2} милисекунди.</XFramesAtYFrameRateGivesZMs>
+    <XFramesAtYFrameRateGivesZMs>{0} кадъра при кадрова честота от {1} дават {2} милисекунди.</XFramesAtYFrameRateGivesZMs>
     <UseXAsNewGap>Използване "{0}" милисекунди като нова минимална разлика?</UseXAsNewGap>
     <BDOpensIn>BD sup/bdn-xml се отваря в:</BDOpensIn>
     <BDOpensInOcr>OCR (разпознаване на текст)</BDOpensInOcr>
     <BDOpensInEdit>Редактиране</BDOpensInEdit>
     <ShortcutsAllowSingleLetterOrNumberInTextBox>Преки пътища: Разрешава единична буква/цифра в текстовото поле</ShortcutsAllowSingleLetterOrNumberInTextBox>
-    <ShortcutCustomToggle>Превключване на пряк път по избор за начало/край</ShortcutCustomToggle>
+    <ShortcutCustomToggle>Превключване на пряк път по избор за Начало/Край:</ShortcutCustomToggle>
     <UpdateFileTypeAssociations>Обнови асоциациите на типовете файлове</UpdateFileTypeAssociations>
     <FileTypeAssociationsUpdated>Асоциациите на типовете файлове са актуализирани</FileTypeAssociationsUpdated>
     <CustomContinuationStyle>Редактиране на персонализиран стил на продължение</CustomContinuationStyle>
@@ -2824,9 +2841,9 @@ https://github.com/SubtitleEdit/subtitleedit
     <SetActorX>Зададен актьор/глас {0}</SetActorX>
   </Settings>
   <SettingsMpv>
-    <DownloadMpv>Изтегляне на mpv</DownloadMpv>
+    <DownloadMpv>Изтегляне на MPV плеър</DownloadMpv>
     <DownloadMpvFailed>Неуспешно изтегляне на библиотеката mpv - моля, опитайте по-късно!</DownloadMpvFailed>
-    <DownloadMpvOk>mpv беше зареден и е готов за употреба.</DownloadMpvOk>
+    <DownloadMpvOk>MPV видео плеърът беше зареден и е готов за употреба.</DownloadMpvOk>
   </SettingsMpv>
   <SettingsFfmpeg>
     <XDownloadFailed>Не може да се изтегли {0} - опитайте по-късно!</XDownloadFailed>
@@ -2880,7 +2897,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <AddXToNames>Добави "{0}" към списъка с думи</AddXToNames>
     <AddXToUserDictionary>Добави '{0}' към потреб. речник</AddXToUserDictionary>
     <AutoFixNames>Поправяне на думи с разл. големина на буквите</AutoFixNames>
-    <AutoFixNamesViaSuggestions>Корекция на имената чрез «Предложение за проверка на правописа»</AutoFixNamesViaSuggestions>
+    <AutoFixNamesViaSuggestions>Поправяне на имената чрез «Предложение за проверка на правописа»</AutoFixNamesViaSuggestions>
     <CheckOneLetterWords>Питане за непозната буква</CheckOneLetterWords>
     <TreatINQuoteAsING>Промяна опред. член на думи, завършващи на «in», «ing»(Само за англ.)</TreatINQuoteAsING>
     <RememberUseAlwaysList>Запомняне на списъка «Използване винаги»</RememberUseAlwaysList>
@@ -2918,7 +2935,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <FileName>Изходящо име на файла</FileName>
     <OutputFolder>Изходяща папка</OutputFolder>
     <DoSplit>Раздели</DoSplit>
-    <Basic>Основни настр.</Basic>
+    <Basic>Основно</Basic>
   </Split>
   <SplitLongLines>
     <Title>Разделяне на дълги редове</Title>
@@ -2969,7 +2986,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <NumberOfBoldTags>Брой тагове с удебелен текст: {0}</NumberOfBoldTags>
     <NumberOfUnderlineTags>Брой тагове с подчертан текст: {0}</NumberOfUnderlineTags>
     <NumberOfFontTags>Брой тагове с осветен текст: {0}</NumberOfFontTags>
-    <NumberOfAlignmentTags>Брой коригирани тагове: {0}</NumberOfAlignmentTags>
+    <NumberOfAlignmentTags>Брой поправени тагове: {0}</NumberOfAlignmentTags>
     <LineLengthMinimum>Дължина на субтитър - минимум: {0}</LineLengthMinimum>
     <LineLengthMaximum>Дължина на субтитър - максимум: {0}</LineLengthMaximum>
     <LineLengthAverage>Дължина на субтитър - средно: {0}</LineLengthAverage>
@@ -3060,7 +3077,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <Vertical>Вертикално</Vertical>
     <Border>Граница (Рамка)</Border>
     <PlusShadow>+ Сянка</PlusShadow>
-    <OpaqueBox>Непрозрачно поле</OpaqueBox>
+    <OpaqueBox>Непрозр.поле</OpaqueBox>
     <Import>Импорт...</Import>
     <Export>Експорт...</Export>
     <Copy>Копиране</Copy>
@@ -3151,7 +3168,7 @@ https://github.com/SubtitleEdit/subtitleedit
 Ще запазите ли промените?</KeepChangesMessage>
     <SynchronizationDone>Синхронизацията е завършена!</SynchronizationDone>
     <StartSceneMustComeBeforeEndScene>Началната сцена трябва да е преди крайната сцена!</StartSceneMustComeBeforeEndScene>
-    <Tip>Използвай клавишите &lt;ctrl + ←/→ стрелка&gt; за преход с 100 мсек. назад/напред</Tip>
+    <Tip>Използвайте клавишите &lt;ctrl + ←/→ стрелка&gt; за преход с 100 мсек. назад/напред</Tip>
   </VisualSync>
   <VobSubEditCharacters>
     <Title>Редактиране на изображението сравнено с базата данни</Title>
@@ -3315,7 +3332,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <AddParagraphHere>Добавяне на текст тук</AddParagraphHere>
     <AddParagraphHereAndPasteText>Добави текста от клипборда тук</AddParagraphHereAndPasteText>
     <SetParagraphAsSelection>Задаване на текущия като нов избор</SetParagraphAsSelection>
-    <FocusTextBox>Фокусиране върху текстовото поле</FocusTextBox>
+    <FocusTextBox>Фокус върху текстовото поле</FocusTextBox>
     <GoToPrevious>Преминаване към предишния субтитър</GoToPrevious>
     <GoToNext>Преминаване към следващия субтитър</GoToNext>
     <DeleteParagraph>Изтриване на реда</DeleteParagraph>
@@ -3325,7 +3342,7 @@ https://github.com/SubtitleEdit/subtitleedit
     <MergeWithNext>Обединяване със следващия ред</MergeWithNext>
     <ExtendToPrevious>Удължаване до предишния</ExtendToPrevious>
     <ExtendToNext>Удължаване до следващия</ExtendToNext>
-    <PlaySelection>Възпроизведи избрания ред</PlaySelection>
+    <PlaySelection>Възпроизведи избраното</PlaySelection>
     <ShowWaveformAndSpectrogram>Покажи вълновата форма на зв. сигнал и спектрограмата</ShowWaveformAndSpectrogram>
     <ShowWaveformOnly>Покажи само вълновата форма на зв. сигнал</ShowWaveformOnly>
     <ShowSpectrogramOnly>Покажи само спектрограмата</ShowSpectrogramOnly>
