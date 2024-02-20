@@ -16,6 +16,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using Nikse.SubtitleEdit.Controls;
+using Nikse.SubtitleEdit.Core.AutoTranslate;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms.Options
@@ -29,10 +30,11 @@ namespace Nikse.SubtitleEdit.Forms.Options
         private const int VideoPlayerSection = 4;
         private const int WaveformAndSpectrogramSection = 5;
         private const int ToolsSection = 6;
-        private const int ToolbarSection = 7;
-        private const int AppearanceSection = 8;
-        private const int NetworkSection = 9;
-        private const int FileTypeAssociationSection = 10;
+        private const int AutoTranslateSection = 7;
+        private const int ToolbarSection = 8;
+        private const int AppearanceSection = 9;
+        private const int NetworkSection = 10;
+        private const int FileTypeAssociationSection = 11;
 
         private string _oldVlcLocation;
         private string _oldVlcLocationRelative;
@@ -43,6 +45,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
         private List<PluginShortcut> _pluginShortcuts;
         private readonly bool _loading;
         private readonly BackgroundWorker _shortcutsBackgroundWorker;
+        private string _defaultLanguages;
 
         private static IEnumerable<string> GetSubtitleFormats() => SubtitleFormat.AllSubtitleFormats.Where(format => !format.IsVobSubIndexFile).Select(format => format.FriendlyName);
 
@@ -121,6 +124,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
                 "Video player",
                 "Waveform/spectrogram",
                 "Tools",
+                "Auto translate",
                 "Toolbar",
                 "Font",
                 "Network",
@@ -388,6 +392,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             listBoxSection.Items[VideoPlayerSection] = language.VideoPlayer;
             listBoxSection.Items[WaveformAndSpectrogramSection] = language.WaveformAndSpectrogram;
             listBoxSection.Items[ToolsSection] = language.Tools;
+            listBoxSection.Items[AutoTranslateSection] = LanguageSettings.Current.Main.VideoControls.AutoTranslate;
             listBoxSection.Items[ToolbarSection] = language.Toolbar;
             listBoxSection.Items[AppearanceSection] = language.Appearance;
             listBoxSection.Items[NetworkSection] = language.Network;
@@ -528,7 +533,6 @@ namespace Nikse.SubtitleEdit.Forms.Options
             checkBoxTBToggleSourceView.Left = labelTBToggleSourceView.Left;
             checkBoxTBToggleSourceView.TabIndex = tbTabIndex;
 
-
             groupBoxMiscellaneous.Text = language.General;
             groupBoxToolsMisc.Text = language.Miscellaneous;
             groupBoxGeneralRules.Text = language.Rules;
@@ -537,6 +541,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             labelDefaultFrameRate.Text = language.DefaultFrameRate;
             labelDefaultFileEncoding.Text = language.DefaultFileEncoding;
             labelAutoDetectAnsiEncoding.Text = language.AutoDetectAnsiEncoding;
+            labelDefaultLanguages.Text = language.LanguageFilter;
             labelSubMaxLen.Text = language.SubtitleLineMaximumLength;
             labelOptimalCharsPerSecond.Text = language.OptimalCharactersPerSecond;
             labelMaxCharsPerSecond.Text = language.MaximumCharactersPerSecond;
@@ -899,11 +904,48 @@ namespace Nikse.SubtitleEdit.Forms.Options
             linkLabelGoogleTranslateSignUp.Text = language.HowToSignUp;
             linkLabelGoogleTranslateSignUp.Left = textBoxGoogleTransleApiKey.Left + textBoxGoogleTransleApiKey.Width - linkLabelGoogleTranslateSignUp.Width;
 
+            labelLibreApiKey.Text = language.GoogleTranslateApiKey;
+            nikseTextBoxLibreTranslateApiKey.Left = labelLibreApiKey.Right + 3;
+            nikseTextBoxLibreTranslateApiKey.Width = nikseTextBoxLibreTranslateUrl.Width - labelLibreApiKey.Width - 3;
+
+            labelLibreUrl.Text = LanguageSettings.Current.Main.Url;
+            labelNllbApiUrl.Text = LanguageSettings.Current.Main.Url;
+            labelNllbServeUrl.Text = LanguageSettings.Current.Main.Url;
+            labelUrlChatGpt.Text = LanguageSettings.Current.Main.Url;
+            labelMyMemoryApiKey.Text = language.GoogleTranslateApiKey;
+            labelDeepLUrl.Text = LanguageSettings.Current.Main.Url;
+            labelDeepLApiKey.Text = language.GoogleTranslateApiKey;
+            nikseTextBoxDeepLApiKey.Left = labelDeepLApiKey.Right + 3;
+            nikseTextBoxDeepLApiKey.Width = nikseTextBoxDeepLUrl.Width - labelDeepLApiKey.Width - 3;
+
+            labelApiKeyChatGpt.Text = language.GoogleTranslateApiKey;
+            labelChatGptDelay.Text = LanguageSettings.Current.Main.VideoControls.DelayInSeconds;
+            nikseTextBoxChatGptApiKey.Left = labelApiKeyChatGpt.Right + 3;
+            nikseTextBoxChatGptApiKey.Width = nikseTextBoxChatGptUrl.Width - labelApiKeyChatGpt.Width - 3;
+            nikseComboBoxChatGptDelay.Left = labelChatGptDelay.Right + 3;
+            nikseComboBoxChatGptDelay.Width = nikseTextBoxChatGptUrl.Width - labelChatGptDelay.Width - 3;
+
+            nikseTextBoxPapagoClientSecret.Left = labelSecretPapago.Right + 3;
+            nikseTextBoxPapagoClientSecret.Width = nikseTextBoxPapagoClientId.Width - labelSecretPapago.Width - 3;
+
             groupBoxBing.Text = language.MicrosoftBingTranslator;
             labelBingApiKey.Text = language.MicrosoftTranslateApiKey;
             labelBingTokenEndpoint.Text = language.MicrosoftTranslateTokenEndpoint;
+            comboBoxBoxBingTokenEndpoint.Left = labelBingTokenEndpoint.Right + 3;
+            comboBoxBoxBingTokenEndpoint.Width = textBoxBingClientSecret.Width - labelBingTokenEndpoint.Width - 3;
             linkLabelBingSubscribe.Text = language.HowToSignUp;
             linkLabelBingSubscribe.Left = textBoxBingClientSecret.Left + textBoxBingClientSecret.Width - linkLabelGoogleTranslateSignUp.Width;
+
+            groupBoxNllbServe.Text = new NoLanguageLeftBehindServe().Name;
+            groupBoxNllbApi.Text = new NoLanguageLeftBehindApi().Name;
+            groupBoxLibreTranslate.Text = new LibreTranslate().Name;
+
+            linkLabelNllbServe.Text = LanguageSettings.Current.General.MoreInfo;
+            linkLabelNllbApi.Text = LanguageSettings.Current.General.MoreInfo;
+            linkLabelLibreTranslateApi.Text = LanguageSettings.Current.General.MoreInfo;
+            labelNllbServeModel.Text = LanguageSettings.Current.AudioToText.Model;
+            nikseTextBoxNllbServeModel.Left = labelNllbServeModel.Right + 3;
+            nikseTextBoxNllbServeModel.Width = nikseTextBoxNllbServeUrl.Width - labelNllbServeModel.Width - 3;
 
             comboBoxListViewDoubleClickEvent.Items.Clear();
             comboBoxListViewDoubleClickEvent.Items.Add(language.MainListViewNothing);
@@ -1099,6 +1141,25 @@ namespace Nikse.SubtitleEdit.Forms.Options
             textBoxBingClientSecret.Text = Configuration.Settings.Tools.MicrosoftTranslatorApiKey;
             comboBoxBoxBingTokenEndpoint.Text = Configuration.Settings.Tools.MicrosoftTranslatorTokenEndpoint;
             textBoxGoogleTransleApiKey.Text = toolsSettings.GoogleApiV2Key;
+            nikseTextBoxNllbApiUrl.Text = Configuration.Settings.Tools.AutoTranslateNllbApiUrl;
+            nikseTextBoxNllbServeUrl.Text = Configuration.Settings.Tools.AutoTranslateNllbServeUrl;
+            nikseTextBoxNllbServeModel.Text = Configuration.Settings.Tools.AutoTranslateNllbServeModel;
+            nikseTextBoxLibreTranslateUrl.Text = Configuration.Settings.Tools.AutoTranslateLibreUrl;
+            nikseTextBoxLibreTranslateApiKey.Text = Configuration.Settings.Tools.AutoTranslateLibreApiKey;
+            nikseTextBoxMyMemoryApiKey.Text = Configuration.Settings.Tools.AutoTranslateMyMemoryApiKey;
+            nikseTextBoxDeepLUrl.Text = Configuration.Settings.Tools.AutoTranslateDeepLUrl;
+            nikseTextBoxDeepLApiKey.Text = Configuration.Settings.Tools.AutoTranslateDeepLApiKey;
+            nikseTextBoxChatGptUrl.Text = Configuration.Settings.Tools.ChatGptUrl;
+            nikseTextBoxChatGptApiKey.Text = Configuration.Settings.Tools.ChatGptApiKey;
+
+            nikseComboBoxChatGptDelay.SelectedIndex = 0;
+            if (Configuration.Settings.Tools.ChatGptDelaySeconds == 20)
+            {
+                nikseComboBoxChatGptDelay.SelectedIndex = 1;
+            }
+
+            nikseTextBoxPapagoClientId.Text = Configuration.Settings.Tools.AutoTranslatePapagoApiKeyId;
+            nikseTextBoxPapagoClientSecret.Text = Configuration.Settings.Tools.AutoTranslatePapagoApiKey;
 
             buttonReset.Text = LanguageSettings.Current.Settings.RestoreDefaultSettings;
             buttonOK.Text = LanguageSettings.Current.General.Ok;
@@ -1274,6 +1335,9 @@ namespace Nikse.SubtitleEdit.Forms.Options
             numericUpDownMpvOutline.Left = radioButtonMpvOutline.Right + 9;
             numericUpDownMpvShadowWidth.Left = numericUpDownMpvOutline.Right + 9;
             labelMpvShadow.Left = numericUpDownMpvShadowWidth.Left;
+
+            _defaultLanguages = Configuration.Settings.General.DefaultLanguages ?? string.Empty;
+            InitLanguageList();
 
             checkBoxDarkThemeEnabled_CheckedChanged(null, null);
 
@@ -1453,6 +1517,19 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(generalNode, language.ToggleTranslationMode, nameof(Configuration.Settings.Shortcuts.GeneralToggleTranslationMode));
             AddNode(generalNode, language.SwitchOriginalAndTranslation, nameof(Configuration.Settings.Shortcuts.GeneralSwitchOriginalAndTranslation));
             AddNode(generalNode, language.SwitchOriginalAndTranslationTextBoxes, nameof(Configuration.Settings.Shortcuts.GeneralSwitchOriginalAndTranslationTextBoxes));
+            AddNode(generalNode, LanguageSettings.Current.Main.ChooseLayout, nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 1), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose1));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 2), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose2));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 3), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose3));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 4), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose4));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 5), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose5));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 6), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose6));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 7), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose7));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 8), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose8));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 9), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose9));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 10), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose10));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 11), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose11));
+            AddNode(generalNode, string.Format(language.ChooseLayoutX, 12), nameof(Configuration.Settings.Shortcuts.GeneralLayoutChoose12));
             AddNode(generalNode, language.WaveformPlayFirstSelectedSubtitle, nameof(Configuration.Settings.Shortcuts.GeneralPlayFirstSelected));
             AddNode(generalNode, language.GoToFirstSelectedLine, nameof(Configuration.Settings.Shortcuts.GeneralGoToFirstSelectedLine));
             AddNode(generalNode, language.GoToNextEmptyLine, nameof(Configuration.Settings.Shortcuts.GeneralGoToNextEmptyLine));
@@ -1481,7 +1558,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(generalNode, language.DuplicateLine, nameof(Configuration.Settings.Shortcuts.GeneralDuplicateLine));
             AddNode(generalNode, language.OpenDataFolder, nameof(Configuration.Settings.Shortcuts.OpenDataFolder));
             AddNode(generalNode, LanguageSettings.Current.Main.Menu.File.OpenContainingFolder, nameof(Configuration.Settings.Shortcuts.OpenContainingFolder), true);
-            AddNode(generalNode, language.ToggleView, nameof(Configuration.Settings.Shortcuts.GeneralToggleView));
+            AddNode(generalNode, language.ToggleView, nameof(Configuration.Settings.Shortcuts.GeneralToggleView), true);
             AddNode(generalNode, language.ToggleMode, nameof(Configuration.Settings.Shortcuts.GeneralToggleMode));
             AddNode(generalNode, language.TogglePreviewOnVideo, nameof(Configuration.Settings.Shortcuts.GeneralTogglePreviewOnVideo));
             AddNode(generalNode, language.RemoveBlankLines, nameof(Configuration.Settings.Shortcuts.GeneralRemoveBlankLines));
@@ -1512,6 +1589,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.Import + " -> " + LanguageSettings.Current.Main.Menu.File.ImportTimecodes, nameof(Configuration.Settings.Shortcuts.MainFileImportTimeCodes), true);
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.Export + " -> " + LanguageSettings.Current.Main.Menu.File.ExportEbu, nameof(Configuration.Settings.Shortcuts.MainFileExportEbu), true);
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.Export + " -> " + LanguageSettings.Current.Main.Menu.File.ExportPac, nameof(Configuration.Settings.Shortcuts.MainFileExportPac), true);
+            AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.Export + " -> " + LanguageSettings.Current.Main.Menu.File.ExportBluRaySup, nameof(Configuration.Settings.Shortcuts.MainFileExportBdSup), true);
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.Export + " -> EDL/CLIPNAME", nameof(Configuration.Settings.Shortcuts.MainFileExportEdlClip), true);
             AddNode(fileNode, LanguageSettings.Current.Main.Menu.File.Export + " -> " + LanguageSettings.Current.Main.Menu.File.ExportPlainText, nameof(Configuration.Settings.Shortcuts.MainFileExportPlainText), true);
             _shortcuts.Nodes.Add(fileNode);
@@ -1564,9 +1642,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(videoNode, LanguageSettings.Current.Main.VideoControls.Stop, nameof(Configuration.Settings.Shortcuts.MainVideoStop));
             AddNode(videoNode, LanguageSettings.Current.Main.VideoControls.PlayFromJustBeforeText, nameof(Configuration.Settings.Shortcuts.MainVideoPlayFromJustBefore));
             AddNode(videoNode, LanguageSettings.Current.Main.VideoControls.PlayFromBeginning, nameof(Configuration.Settings.Shortcuts.MainVideoPlayFromBeginning));
-            AddNode(videoNode, LanguageSettings.Current.Main.Menu.Video.ShowHideVideo, nameof(Configuration.Settings.Shortcuts.MainVideoShowHideVideo), true);
-            AddNode(videoNode, LanguageSettings.Current.Main.Menu.Video.ShowHideWaveform, nameof(Configuration.Settings.Shortcuts.MainVideoShowWaveform), true);
-            AddNode(videoNode, language.FoucsSetVideoPosition, nameof(Configuration.Settings.Shortcuts.MainVideoFoucsSetVideoPosition));
+            AddNode(videoNode, language.FocusSetVideoPosition, nameof(Configuration.Settings.Shortcuts.MainVideoFocusSetVideoPosition));
             AddNode(videoNode, language.ToggleDockUndockOfVideoControls, nameof(Configuration.Settings.Shortcuts.MainVideoToggleVideoControls), true);
             AddNode(videoNode, language.GoBack1Frame, nameof(Configuration.Settings.Shortcuts.MainVideo1FrameLeft));
             AddNode(videoNode, language.GoForward1Frame, nameof(Configuration.Settings.Shortcuts.MainVideo1FrameRight));
@@ -1762,11 +1838,13 @@ namespace Nikse.SubtitleEdit.Forms.Options
             AddNode(createAndAdjustNode, LanguageSettings.Current.Main.VideoControls.SetEndTime, nameof(Configuration.Settings.Shortcuts.MainCreateSetEnd));
             AddNode(createAndAdjustNode, language.AdjustSetEndTimeAndPause, nameof(Configuration.Settings.Shortcuts.MainAdjustSetEndAndPause));
             AddNode(createAndAdjustNode, language.CreateSetEndAddNewAndGoToNew, nameof(Configuration.Settings.Shortcuts.MainCreateSetEndAddNewAndGoToNew));
+            AddNode(createAndAdjustNode, language.AdjustSetStartTimeAndGoToNext, nameof(Configuration.Settings.Shortcuts.MainAdjustSetStartAndGotoNext));
             AddNode(createAndAdjustNode, language.AdjustSetEndTimeAndGoToNext, nameof(Configuration.Settings.Shortcuts.MainAdjustSetEndAndGotoNext));
             AddNode(createAndAdjustNode, language.AdjustSetEndAndOffsetTheRest, nameof(Configuration.Settings.Shortcuts.MainAdjustSetEndAndOffsetTheRest));
             AddNode(createAndAdjustNode, language.AdjustSetEndAndOffsetTheRestAndGoToNext, nameof(Configuration.Settings.Shortcuts.MainAdjustSetEndAndOffsetTheRestAndGoToNext));
             AddNode(createAndAdjustNode, language.AdjustSetEndNextStartAndGoToNext, nameof(Configuration.Settings.Shortcuts.MainAdjustSetEndNextStartAndGoToNext));
             AddNode(createAndAdjustNode, language.AdjustSetEndMinusGapAndStartNextHere, nameof(Configuration.Settings.Shortcuts.MainAdjustSetEndMinusGapAndStartNextHere));
+            AddNode(createAndAdjustNode, language.AdjustSetEndAndStartNextAfterGap, nameof(Configuration.Settings.Shortcuts.MainSetEndAndStartNextAfterGap));
             AddNode(createAndAdjustNode, language.AdjustViaEndAutoStart, nameof(Configuration.Settings.Shortcuts.MainAdjustViaEndAutoStart));
             AddNode(createAndAdjustNode, language.AdjustViaEndAutoStartAndGoToNext, nameof(Configuration.Settings.Shortcuts.MainAdjustViaEndAutoStartAndGoToNext));
             AddNode(createAndAdjustNode, language.AdjustSelected100MsBack, nameof(Configuration.Settings.Shortcuts.MainAdjustSelected100MsBack));
@@ -2254,6 +2332,19 @@ namespace Nikse.SubtitleEdit.Forms.Options
             toolsSettings.MicrosoftTranslatorApiKey = textBoxBingClientSecret.Text.Trim();
             toolsSettings.MicrosoftTranslatorTokenEndpoint = comboBoxBoxBingTokenEndpoint.Text.Trim();
             toolsSettings.GoogleApiV2Key = textBoxGoogleTransleApiKey.Text.Trim();
+            toolsSettings.AutoTranslateNllbApiUrl = nikseTextBoxNllbApiUrl.Text;
+            toolsSettings.AutoTranslateNllbServeUrl = nikseTextBoxNllbServeUrl.Text;
+            toolsSettings.AutoTranslateNllbServeModel = nikseTextBoxNllbServeModel.Text;
+            toolsSettings.AutoTranslateLibreUrl = nikseTextBoxLibreTranslateUrl.Text;
+            toolsSettings.AutoTranslateLibreApiKey = nikseTextBoxLibreTranslateApiKey.Text.Trim();
+            toolsSettings.AutoTranslateMyMemoryApiKey = nikseTextBoxMyMemoryApiKey.Text;
+            toolsSettings.AutoTranslateDeepLUrl = nikseTextBoxDeepLUrl.Text;
+            toolsSettings.AutoTranslateDeepLApiKey = nikseTextBoxDeepLApiKey.Text;
+            toolsSettings.ChatGptUrl = nikseTextBoxChatGptUrl.Text;
+            toolsSettings.ChatGptApiKey = nikseTextBoxChatGptApiKey.Text;
+            toolsSettings.ChatGptDelaySeconds = int.Parse(nikseComboBoxChatGptDelay.Text.Split()[0]);
+            toolsSettings.AutoTranslatePapagoApiKeyId = nikseTextBoxPapagoClientId.Text.Trim();
+            toolsSettings.AutoTranslatePapagoApiKey = nikseTextBoxPapagoClientSecret.Text.Trim();
 
             var proxy = Configuration.Settings.Proxy;
             proxy.ProxyAddress = textBoxProxyAddress.Text;
@@ -2308,6 +2399,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             gs.UseFFmpegForWaveExtraction = checkBoxUseFFmpeg.Checked;
             gs.FFmpegUseCenterChannelOnly = checkBoxFfmpegUseCenterChannel.Checked;
             gs.FFmpegLocation = textBoxFFmpegPath.Text;
+            gs.DefaultLanguages = _defaultLanguages;
 
             gs.ToolbarIconTheme = comboBoxToolbarIconTheme.SelectedIndex > 0 ? comboBoxToolbarIconTheme.Text : "Auto";
 
@@ -2365,6 +2457,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
             panelVideoPlayer.Visible = false;
             panelWaveform.Visible = false;
             panelTools.Visible = false;
+            panelAutoTranslate.Visible = false;
             panelToolBar.Visible = false;
             panelFont.Visible = false;
             panelNetwork.Visible = false;
@@ -2400,6 +2493,9 @@ namespace Nikse.SubtitleEdit.Forms.Options
                 case ToolsSection:
                     section = panelTools;
                     break;
+                case AutoTranslateSection:
+                    section = panelAutoTranslate;
+                    break;
                 case ToolbarSection:
                     section = panelToolBar;
                     break;
@@ -2422,6 +2518,10 @@ namespace Nikse.SubtitleEdit.Forms.Options
                     break;
             }
 
+            section.Top = panelGeneral.Top;
+            section.Height = panelGeneral.Height;
+            section.Left = panelGeneral.Left;
+            section.Width = panelGeneral.Width;
             section.Visible = true;
 
             _lastSelectionIndex = listBoxSection.SelectedIndex;
@@ -2918,17 +3018,6 @@ namespace Nikse.SubtitleEdit.Forms.Options
             {
                 form.ShowDialog(this);
             }
-        }
-
-        private void linkLabelOpenDictionaryFolder_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            string dictionaryFolder = Utilities.DictionaryFolder;
-            if (!Directory.Exists(dictionaryFolder))
-            {
-                Directory.CreateDirectory(dictionaryFolder);
-            }
-
-            UiUtil.OpenFolder(dictionaryFolder);
         }
 
         private void textBoxVlcPath_MouseLeave(object sender, EventArgs e)
@@ -3779,7 +3868,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
 
         private void buttonMpvOutlineColor_Click(object sender, EventArgs e)
         {
-            using (var colorChooser = new ColorChooser { Color = panelMpvOutlineColor.BackColor, ShowAlpha = false })
+            using (var colorChooser = new ColorChooser { Color = panelMpvOutlineColor.BackColor })
             {
                 if (colorChooser.ShowDialog() == DialogResult.OK)
                 {
@@ -3790,7 +3879,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
 
         private void buttonMpvBackColor_Click(object sender, EventArgs e)
         {
-            using (var colorChooser = new ColorChooser { Color = panelMpvBackColor.BackColor, ShowAlpha = false })
+            using (var colorChooser = new ColorChooser { Color = panelMpvBackColor.BackColor })
             {
                 if (colorChooser.ShowDialog() == DialogResult.OK)
                 {
@@ -3801,7 +3890,7 @@ namespace Nikse.SubtitleEdit.Forms.Options
 
         private void buttonEditShotChangesProfile_Click(object sender, EventArgs e)
         {
-            using (var form = new BeautifyTimeCodesProfile(0))
+            using (var form = new BeautifyTimeCodesProfile(Configuration.Settings.General.CurrentFrameRate))
             {
                 form.ShowDialog(this);
             }
@@ -3869,6 +3958,61 @@ namespace Nikse.SubtitleEdit.Forms.Options
             {
                 pictureBox.Image = new Bitmap(fullPath);
             }
+        }
+
+        private void buttonDefaultLanguages_Click(object sender, EventArgs e)
+        {
+            using (var form = new DefaultLanguagesChooser(_defaultLanguages))
+            {
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    _defaultLanguages = form.DefaultLanguages;
+                    InitLanguageList();
+                }
+            }
+        }
+
+        private void InitLanguageList()
+        {
+            if (string.IsNullOrEmpty(_defaultLanguages))
+            {
+                labelDefaultLanguagesList.Text = LanguageSettings.Current.General.All;
+                return;
+            }
+
+            var arr = _defaultLanguages.Split(';');
+            if (_defaultLanguages.Length > 25)
+            {
+                labelDefaultLanguagesList.Text = arr.Length.ToString();
+                return;
+            }
+
+            labelDefaultLanguagesList.Text = string.Join(", ", arr);
+        }
+
+        private void linkLabelNllbApi_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            UiUtil.OpenUrl(new NoLanguageLeftBehindApi().Url);
+        }
+
+        private void linkLabelNllbServe_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            UiUtil.OpenUrl(new NoLanguageLeftBehindServe().Url);
+        }
+
+        private void linkLabelLibreTranslateApi_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            UiUtil.OpenUrl(new LibreTranslate().Url);
+        }
+
+        private void linkLabelMyMemoryTranslate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            UiUtil.OpenUrl(new MyMemoryApi().Url);
+        }
+
+        private void LinkLabelMoreInfoDeepLLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            UiUtil.OpenUrl(new DeepLTranslate().Url);
         }
     }
 }

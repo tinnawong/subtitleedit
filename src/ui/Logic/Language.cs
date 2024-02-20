@@ -239,6 +239,8 @@ namespace Nikse.SubtitleEdit.Logic
                 Error = "Error",
                 Warning = "Warning",
                 UseLargerFontForThisWindow = "Use larger font for this window",
+                ChangeLanguageFilter = "Change language filter...",
+                MoreInfo = "More info",
             };
 
             About = new LanguageStructure.About
@@ -349,6 +351,7 @@ namespace Nikse.SubtitleEdit.Logic
                 VoskWebsite = "Vosk website",
                 WhisperWebsite = "Whisper website",
                 WhisperNotFound = "Whisper not found.\r\n\r\nRead more info (web)?",
+                Model = "Model",
                 Models = "Models",
                 LanguagesAndModels = "Languages and models",
                 ChooseModel = "Choose model",
@@ -369,6 +372,7 @@ namespace Nikse.SubtitleEdit.Logic
                 SetCppConstMeFolder = "Set CPP/Const-me models folder...",
                 OnlyRunPostProcessing = "Run only post-processing/adjust timings",
                 DownloadFasterWhisperCuda = "Download cuBLAS and cuDNN libs for Faster-Whisper",
+                NoTextFound = "No text found!",
             };
 
             AssaAttachments = new LanguageStructure.AssaAttachments
@@ -493,6 +497,7 @@ namespace Nikse.SubtitleEdit.Logic
                 RedoCasing = "Redo casing",
                 RemoveFormatting = "Remove formatting tags",
                 RemoveStyleActor = "Remove lines w style/actor",
+                StyleActor = "Style/actor (separate with comma)",
                 Status = "Status",
                 Style = "Style...",
                 UseStyleFromSource = "Use style from source",
@@ -674,6 +679,7 @@ namespace Nikse.SubtitleEdit.Logic
                 BottomAlignSelectedLines = "Bottom align selected lines (keep horizontal position)",
                 ToggleForcedSelectedLines = "Toggle \"Forced\" for selected lines",
                 SelectForcedLines = "Select forced lines",
+                SelectNonForcedLines = "Select non-forced lines",
                 SizeXY = "Size: {0}x{1}",
                 SetAspectRatio11 = "Set aspect ratio 1:1",
                 ChangeBrightnessTitle = "Adjust brightness",
@@ -1301,6 +1307,7 @@ namespace Nikse.SubtitleEdit.Logic
                 PleaseWait = "Please wait... this may take a while",
                 PoweredByGoogleTranslate = "Powered by Google translate",
                 PoweredByMicrosoftTranslate = "Powered by Microsoft translate",
+                PoweredByX = "Powered by {0}",
                 MsClientSecretNeeded = "Sorry, you need a Cognitive Services 'Translator Text' key from Microsoft to use the latest Microsoft Translator." + Environment.NewLine +
                                        Environment.NewLine +
                                        "Go to \"Options -> Settings -> Tools\" to enter your key.",
@@ -1320,6 +1327,11 @@ namespace Nikse.SubtitleEdit.Logic
                 TranslateBlockCopySourceText = "Copy source text clipboard",
                 TranslateBlockClipboardError1 = "Clipboard contains source text!",
                 TranslateBlockClipboardError2 = "Go to translator and translate, then copy the results to the clipboard and click this button again.",
+                StartWebServerX = "Start \"{0}\" web server",
+                XRequiresALocalWebServer = "\"{0}\" requires a web server running locally!",
+                XRequiresAnApiKey = "\"{0}\" requires an API key.",
+                ReadMore = "Read more?",
+                Formality = "Formality",
             };
 
             GoogleOrMicrosoftTranslate = new LanguageStructure.GoogleOrMicrosoftTranslate
@@ -1398,6 +1410,8 @@ namespace Nikse.SubtitleEdit.Logic
             Interjections = new LanguageStructure.Interjections
             {
                 Title = "Interjections",
+                EditSkipList = "Edit skip list...",
+                EditSkipListInfo = "Interjections will be skipped if source text starts with these:",
             };
 
             JoinSubtitles = new LanguageStructure.JoinSubtitles
@@ -1856,6 +1870,7 @@ namespace Nikse.SubtitleEdit.Logic
                 SubtitleEditNeedsVideoPlayer = "Subtitle Edit needs a video player.",
                 UseRecommendMpv = "To use the recommended video player \"mpv\" click on the button below.",
                 DownloadAndUseMpv = "Download and use \"mpv\" as video player",
+                ChooseLayout = "Choose layout",
 
                 Menu = new LanguageStructure.Main.MainMenu
                 {
@@ -2000,8 +2015,6 @@ namespace Nikse.SubtitleEdit.Logic
                         GenerateImportShotChanges = "Generate/import shot changes...",
                         RemoveOrExportShotChanges = "Remove/export shot changes...",
                         WaveformBatchGenerate = "Batch generate waveforms...",
-                        ShowHideVideo = "Show/hide video",
-                        ShowHideWaveform = "Show/hide waveform",
                         ShowHideWaveformAndSpectrogram = "Show/hide waveform and spectrogram",
                         UnDockVideoControls = "Un-dock video controls",
                         ReDockVideoControls = "Re-dock video controls",
@@ -2076,8 +2089,7 @@ namespace Nikse.SubtitleEdit.Logic
                         BeautifyTimeCodes = "Beautify time codes",
                         Settings = "Settings",
                         Help = "Help",
-                        ShowHideWaveform = "Show/hide waveform",
-                        ShowHideVideo = "Show/hide video",
+                        Layout = "Layout",
                         AssaDraw = "Advanced Sub Station Alpha draw",
                     },
 
@@ -2563,6 +2575,7 @@ can edit in same subtitle file (collaboration)",
                 LinesFoundX = "Lines found: {0}",
                 RemoveTextIfContains = "Remove text if it contains:",
                 RemoveTextIfAllUppercase = "Remove line if UPPERCASE",
+                RemoveIfOnlyMusicSymbols = "Remove if only music symbols",
                 RemoveInterjections = "Remove interjections (shh, hmm, etc.)",
                 EditInterjections = "Edit...",
                 Apply = "A&pply",
@@ -2676,6 +2689,7 @@ can edit in same subtitle file (collaboration)",
                 DefaultFrameRate = "Default frame rate",
                 DefaultFileEncoding = "Default file encoding",
                 AutoDetectAnsiEncoding = "Auto detect ANSI encoding",
+                LanguageFilter ="Language filter",
                 Profile = "Profile",
                 Profiles = "Profiles",
                 ImportProfiles = "Import profiles",
@@ -2897,12 +2911,14 @@ can edit in same subtitle file (collaboration)",
                 GraphicsButtons = "Graphics buttons",
                 ListViewAndTextBox = "List view and text box",
                 UpdateShortcut = "Update",
-                FoucsSetVideoPosition = "Focus set video position",
+                FocusSetVideoPosition = "Focus set video position",
                 ToggleDockUndockOfVideoControls = "Toggle dock/undock of video controls",
                 CreateSetEndAddNewAndGoToNew = "Set end, add new and go to new",
                 AdjustViaEndAutoStart = "Adjust via end position",
                 AdjustViaEndAutoStartAndGoToNext = "Adjust via end position and go to next",
                 AdjustSetEndMinusGapAndStartNextHere = "Set end minus gap, go to next and start next here",
+                AdjustSetEndAndStartNextAfterGap = "Set end and start of next after gap",
+                AdjustSetStartTimeAndGoToNext = "Set start and go to next",
                 AdjustSetEndTimeAndGoToNext = "Set end and go to next",
                 AdjustSetEndTimeAndPause = "Set end and pause",
                 AdjustSetStartAutoDurationAndGoToNext = "Set start, auto duration and go to next",
@@ -2998,6 +3014,7 @@ can edit in same subtitle file (collaboration)",
                 WaveformSeekSilenceBack = "Seek silence back",
                 WaveformAddTextHere = "Add text here (for new selection)",
                 WaveformAddTextHereFromClipboard = "Add text here (for new selection from clipboard)",
+                ChooseLayoutX = "Choose layout {0}",
                 SetParagraphAsSelection = "Set current as new selection",
                 WaveformPlayNewSelection = "Play selection",
                 WaveformPlayNewSelectionEnd = "Play end of selection",

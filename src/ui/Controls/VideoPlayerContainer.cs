@@ -331,7 +331,13 @@ namespace Nikse.SubtitleEdit.Controls
         private void ControlMouseWheel(object sender, MouseEventArgs e)
         {
             var delta = e.Delta;
+            if (Configuration.Settings.VideoControls.WaveformMouseWheelScrollUpIsForward)
+            {
+                delta = -delta;
+            }
+
             var newPosition = CurrentPosition - delta / 256.0;
+
             if (newPosition < 0)
             {
                 newPosition = 0;
@@ -485,11 +491,12 @@ namespace Nikse.SubtitleEdit.Controls
                 SubtitleFormat format = new AdvancedSubStationAlpha();
                 string text;
 
-                if (subtitle.Header != null && subtitle.Header.Contains("lang=\"ja\"", StringComparison.Ordinal) && subtitle.Header.Contains("bouten-", StringComparison.Ordinal))
+                var uiFormatType = uiFormat.GetType();
+                if (uiFormatType == typeof(NetflixImsc11Japanese))
                 {
-                    text = NetflixImsc11JapaneseToAss.Convert(subtitle, 1280, 720);
+                    text = NetflixImsc11JapaneseToAss.Convert(subtitle, VideoWidth, VideoHeight);
                 }
-                else if (uiFormat.Name == WebVTT.NameOfFormat || uiFormat.Name == WebVTTFileWithLineNumber.NameOfFormat)
+                else if (uiFormatType == typeof(WebVTT) || uiFormatType == typeof(WebVTTFileWithLineNumber))
                 {
                     //TODO: add some caching!?
                     var defaultStyle = GetMpvPreviewStyle(Configuration.Settings.General);
@@ -502,9 +509,9 @@ namespace Nikse.SubtitleEdit.Controls
                 }
                 else
                 {
-                    if (subtitle.Header == null || !subtitle.Header.Contains("[V4+ Styles]") || uiFormat.Name != AdvancedSubStationAlpha.NameOfFormat)
+                    if (subtitle.Header == null || !subtitle.Header.Contains("[V4+ Styles]") || uiFormatType != typeof(AdvancedSubStationAlpha))
                     {
-                        if (string.IsNullOrEmpty(subtitle.Header) && uiFormat.Name == SubStationAlpha.NameOfFormat)
+                        if (string.IsNullOrEmpty(subtitle.Header) && uiFormatType == typeof(SubStationAlpha))
                         {
                             subtitle.Header = SubStationAlpha.DefaultHeader;
                         }
@@ -528,7 +535,7 @@ namespace Nikse.SubtitleEdit.Controls
                             }
                         }
 
-                        if (subtitle.Header == null || !(subtitle.Header.Contains("[V4+ Styles]") && uiFormat.Name == SubStationAlpha.NameOfFormat))
+                        if (subtitle.Header == null || !(subtitle.Header.Contains("[V4+ Styles]") && uiFormatType == typeof(SubStationAlpha)))
                         {
                             subtitle.Header = MpvPreviewStyleHeader;
                         }
@@ -1169,7 +1176,7 @@ namespace Nikse.SubtitleEdit.Controls
 
         private void PictureBoxPlayOverMouseUp(object sender, MouseEventArgs e)
         {
-            if (IsMouseOverControl((PictureBox)sender, e.Location))
+            if (IsMouseOverControl((PictureBox)sender, e.Location) && !string.IsNullOrEmpty(VideoPlayer?.VideoFileName))
             {
                 HideAllPlayImages();
                 _pictureBoxPause.Visible = true;
@@ -1759,9 +1766,15 @@ namespace Nikse.SubtitleEdit.Controls
         {
             string displayTimeCode;
             var dur = TimeCode.FromSeconds(duration + Configuration.Settings.General.CurrentVideoOffsetInMs / TimeCode.BaseUnit);
+            var showDuration = _showDuration && Width > 365;
+            if (Width < 275)
+            {
+                return string.Empty;
+            }
+
             if (SmpteMode)
             {
-                if (_showDuration || Configuration.Settings.General.CurrentVideoOffsetInMs != 0)
+                if (showDuration || Configuration.Settings.General.CurrentVideoOffsetInMs != 0)
                 {
                     var span = TimeCode.FromSeconds(positionInSeconds + 0.017 + Configuration.Settings.General.CurrentVideoOffsetInMs / TimeCode.BaseUnit);
                     displayTimeCode = $"{span.ToDisplayString()} / {dur.ToDisplayString()} SMPTE";
@@ -1780,7 +1793,7 @@ namespace Nikse.SubtitleEdit.Controls
             }
             else
             {
-                if (_showDuration || Configuration.Settings.General.CurrentVideoOffsetInMs != 0)
+                if (showDuration || Configuration.Settings.General.CurrentVideoOffsetInMs != 0)
                 {
                     var span = TimeCode.FromSeconds(positionInSeconds + Configuration.Settings.General.CurrentVideoOffsetInMs / TimeCode.BaseUnit);
                     displayTimeCode = $"{span.ToDisplayString()} / {dur.ToDisplayString()}";
@@ -2162,7 +2175,7 @@ namespace Nikse.SubtitleEdit.Controls
             }
             else
             {
-                _labelVolume.ForeColor = Color.FromArgb(228, 228, 228); ;
+                _labelVolume.ForeColor = Color.FromArgb(228, 228, 228);
             }
 
             if (_labelTimeCode.BackColor.R + _labelTimeCode.BackColor.G + _labelTimeCode.BackColor.B > 255 * 1.5)

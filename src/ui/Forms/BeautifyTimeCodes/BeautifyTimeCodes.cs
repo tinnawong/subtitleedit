@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Nikse.SubtitleEdit.Core.Common;
+using Nikse.SubtitleEdit.Core.Forms;
+using Nikse.SubtitleEdit.Forms.ShotChanges;
+using Nikse.SubtitleEdit.Logic;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Nikse.SubtitleEdit.Core.Common;
-using Nikse.SubtitleEdit.Core.Forms;
-using Nikse.SubtitleEdit.Forms.ShotChanges;
-using Nikse.SubtitleEdit.Logic;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
@@ -119,6 +119,7 @@ namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
             {
                 labelTimeCodesStatus.Text = LanguageSettings.Current.BeautifyTimeCodes.NoTimeCodesLoaded;
                 buttonExtractTimeCodes.Enabled = true;
+                buttonExtractTimeCodes.BringToFront();
                 progressBarExtractTimeCodes.Enabled = true;
                 progressBarExtractTimeCodes.Value = 0;
             }
@@ -145,13 +146,14 @@ namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
             checkBoxExtractExactTimeCodes.Enabled = false;
             buttonExtractTimeCodes.Enabled = false;
             buttonCancelTimeCodes.Visible = true;
+            buttonCancelTimeCodes.BringToFront();
             progressBarExtractTimeCodes.Style = ProgressBarStyle.Marquee;
             labelExtractTimeCodesProgress.Visible = true;
             Cursor = Cursors.WaitCursor;
             buttonOK.Enabled = false;
             buttonCancel.Enabled = false;
 
-            bool success = false;
+            var success = false;
             using (var process = _timeCodesGenerator.GetProcess(_videoFileName))
             {
                 while (!process.HasExited)
@@ -181,6 +183,7 @@ namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
             labelTimeCodesStatus.Enabled = true;
             checkBoxExtractExactTimeCodes.Enabled = true;
             buttonExtractTimeCodes.Enabled = true;
+            buttonExtractTimeCodes.BringToFront();
             buttonCancelTimeCodes.Visible = false;
             Cursor = Cursors.Default;
             buttonOK.Enabled = true;
@@ -203,22 +206,24 @@ namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
 
         private void UpdateTimeCodeProgress()
         {
-            if (_duration > 0 && _timeCodesGenerator.LastSeconds > 0)
+            if (!(_duration > 0) || !(_timeCodesGenerator.LastSeconds > 0))
             {
-                if (progressBarExtractTimeCodes.Style != ProgressBarStyle.Blocks)
-                {
-                    progressBarExtractTimeCodes.Style = ProgressBarStyle.Blocks;
-                    progressBarExtractTimeCodes.Maximum = Convert.ToInt32(_duration);
-                }
-
-                progressBarExtractTimeCodes.Value = Math.Min(Convert.ToInt32(_timeCodesGenerator.LastSeconds), progressBarExtractTimeCodes.Maximum);
-                labelExtractTimeCodesProgress.Text = FormatSeconds(_timeCodesGenerator.LastSeconds) + @" / " + FormatSeconds(_duration);
+                return;
             }
+
+            if (progressBarExtractTimeCodes.Style != ProgressBarStyle.Blocks)
+            {
+                progressBarExtractTimeCodes.Style = ProgressBarStyle.Blocks;
+                progressBarExtractTimeCodes.Maximum = Convert.ToInt32(_duration);
+            }
+
+            progressBarExtractTimeCodes.Value = Math.Min(Convert.ToInt32(_timeCodesGenerator.LastSeconds), progressBarExtractTimeCodes.Maximum);
+            labelExtractTimeCodesProgress.Text = FormatSeconds(_timeCodesGenerator.LastSeconds) + @" / " + FormatSeconds(_duration);
         }
 
         private string FormatSeconds(double seconds)
         {
-            TimeSpan t = TimeSpan.FromSeconds(seconds);
+            var t = TimeSpan.FromSeconds(seconds);
             return t.ToString(@"hh\:mm\:ss");
         }
 
@@ -269,7 +274,7 @@ namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
             // Actual processing
             FixedSubtitle = new Subtitle(_subtitle, false);
 
-            TimeCodesBeautifier timeCodesBeautifier = new TimeCodesBeautifier(
+            var timeCodesBeautifier = new TimeCodesBeautifier(
                 FixedSubtitle,
                 _frameRate,
                 checkBoxExtractExactTimeCodes.Checked ? _timeCodes : new List<double>(), // ditto
@@ -329,7 +334,7 @@ namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
                 return true;
             }
 
-            var ffprobeExists = !string.IsNullOrWhiteSpace(Configuration.Settings.General.FFmpegLocation) 
+            var ffprobeExists = !string.IsNullOrWhiteSpace(Configuration.Settings.General.FFmpegLocation)
                             && File.Exists(Path.Combine(Path.GetDirectoryName(Configuration.Settings.General.FFmpegLocation), "ffprobe.exe"));
 
             if (!ffprobeExists)

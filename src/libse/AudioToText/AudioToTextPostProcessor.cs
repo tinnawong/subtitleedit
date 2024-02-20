@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Nikse.SubtitleEdit.Core.Common;
+﻿using Nikse.SubtitleEdit.Core.Common;
 using Nikse.SubtitleEdit.Core.Dictionaries;
 using Nikse.SubtitleEdit.Core.Forms;
 using Nikse.SubtitleEdit.Core.Forms.FixCommonErrors;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nikse.SubtitleEdit.Core.AudioToText
 {
@@ -19,8 +19,8 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
         /// <summary>
         /// Set period if distance to next subtitle is more than this value in milliseconds.
         /// </summary>
-        public double SetPeriodIfDistanceToNextIsMoreThan { get; set; } = 300;
-        public double SetPeriodIfDistanceToNextIsMoreThanAlways { get; set; } = 500;
+        public double SetPeriodIfDistanceToNextIsMoreThan { get; set; } = 600;
+        public double SetPeriodIfDistanceToNextIsMoreThanAlways { get; set; } = 1250;
 
         public int ParagraphMaxChars { get; set; }
 
@@ -101,6 +101,11 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             return Fix(subtitle, usePostProcessing, addPeriods, mergeLines, fixCasing, fixShortDuration, splitLines, engine);
         }
 
+        private static bool IsNonStandardLineTerminationLanguage(string language)
+        {
+            return language == "jp" || language == "cn" || language == "yue";
+        }
+
         public Subtitle Fix(Subtitle subtitle, bool usePostProcessing, bool addPeriods, bool mergeLines, bool fixCasing, bool fixShortDuration, bool splitLines, Engine engine)
         {
             if (usePostProcessing)
@@ -120,10 +125,12 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     subtitle = FixShortDuration(subtitle);
                 }
 
-                if (splitLines && !new[] { "jp", "cn" }.Contains(TwoLetterLanguageCode))
+                if (splitLines && !IsNonStandardLineTerminationLanguage(TwoLetterLanguageCode))
                 {
                     var totalMaxChars = Configuration.Settings.General.SubtitleLineMaximumLength * Configuration.Settings.General.MaxNumberOfLines;
                     subtitle = SplitLongLinesHelper.SplitLongLinesInSubtitle(subtitle, totalMaxChars, Configuration.Settings.General.SubtitleLineMaximumLength);
+                    subtitle = TryForWholeSentences(subtitle, TwoLetterLanguageCode, Configuration.Settings.General.SubtitleLineMaximumLength);
+                    subtitle = TryForWholeSentences(subtitle, TwoLetterLanguageCode, Configuration.Settings.General.SubtitleLineMaximumLength);
                 }
 
                 if (mergeLines)
@@ -137,15 +144,91 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             return subtitle;
         }
 
+        public static Subtitle TryForWholeSentences(Subtitle inputSubtitle, string language, int lineMxLength)
+        {
+            var s = new Subtitle(inputSubtitle);
+            const int maxMoveChunkSize = 15;
+            for (var i = 0; i < s.Paragraphs.Count - 1; i++)
+            {
+                var p = s.Paragraphs[i];
+                var next = s.Paragraphs[i + 1];
+
+                if (p == null ||
+                    next == null ||
+                    p.EndTime.TotalMilliseconds - next.StartTime.TotalMilliseconds > 100 ||
+                    p.Text.Contains('<') ||
+                    next.Text.Contains('<') ||
+                    !(p.Text.Contains('.') || next.Text.Contains('.')) ||
+                    p.Text.EndsWith('.'))
+                {
+                    continue;
+                }
+
+                // check for period in last part of p
+                var lastPeriodIdx = p.Text.LastIndexOf('.');
+                if (lastPeriodIdx > 3 && lastPeriodIdx > p.Text.Length - maxMoveChunkSize)
+                {
+                    var newCurrentText = p.Text.Substring(0, lastPeriodIdx + 1).Trim();
+                    var newNextText = p.Text.Remove(0, lastPeriodIdx + 1).Trim();
+
+                    newCurrentText = Utilities.AutoBreakLine(newCurrentText, language);
+                    newNextText = Utilities.AutoBreakLine(newNextText + " " + next.Text);
+
+                    var arrayCurrent = newCurrentText.SplitToLines();
+                    var arrayNext = newNextText.SplitToLines();
+
+                    var currentOk = arrayCurrent.Count == 1 || (arrayCurrent.Count == 2 && arrayCurrent[0].Length <= lineMxLength);
+                    var nextOk = arrayNext.Count == 1 || (arrayNext.Count == 2 && arrayNext[0].Length <= lineMxLength);
+
+                    if (currentOk && nextOk)
+                    {
+                        p.Text = newCurrentText;
+                        next.Text = newNextText;
+
+                        //TODO: calc time
+
+                        continue;
+                    }
+                }
+
+                // check for period in beginning of next
+                var firstPeriodIdx = next.Text.IndexOf('.');
+                if (firstPeriodIdx > 3 && firstPeriodIdx < maxMoveChunkSize)
+                {
+                    var newCurrentText = next.Text.Substring(0, firstPeriodIdx + 1).Trim();
+                    var newNextText = next.Text.Remove(0, firstPeriodIdx + 1).Trim();
+
+                    newCurrentText = Utilities.AutoBreakLine(p.Text + " " + newCurrentText, language);
+                    newNextText = Utilities.AutoBreakLine(newNextText);
+
+                    var arrayCurrent = newCurrentText.SplitToLines();
+                    var arrayNext = newNextText.SplitToLines();
+
+                    var currentOk = arrayCurrent.Count == 1 || (arrayCurrent.Count == 2 && arrayCurrent[0].Length <= lineMxLength);
+                    var nextOk = arrayNext.Count == 1 || (arrayNext.Count == 2 && arrayNext[0].Length <= lineMxLength);
+
+                    if (currentOk && nextOk)
+                    {
+                        p.Text = newCurrentText;
+                        next.Text = newNextText;
+
+                        //TODO: calc time
+                    }
+                }
+            }
+
+            return s;
+        }
+
         public Subtitle AddPeriods(Subtitle inputSubtitle, string language)
         {
-            if (language == "jp" || language == "cn")
+            if (IsNonStandardLineTerminationLanguage(language))
             {
                 return new Subtitle(inputSubtitle);
             }
 
-            var englishSkipLastWords = new[] { "with", "however" };
-            var englishSkipFirstWords = new[] { "to", "and", "but" };
+            var englishSkipLastWords = new[] { "with", "however", "a" };
+            var englishSkipFirstWords = new[] { "to", "and", "but", "and", "with", "off", "have" };
 
             var subtitle = new Subtitle(inputSubtitle);
             for (var index = 0; index < subtitle.Paragraphs.Count - 1; index++)
@@ -157,9 +240,13 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     !paragraph.Text.EndsWith('!') &&
                     !paragraph.Text.EndsWith('?') &&
                     !paragraph.Text.EndsWith(',') &&
-                    !paragraph.Text.EndsWith(':'))
+                    !paragraph.Text.EndsWith(':') &&
+                    !paragraph.Text.EndsWith(')') &&
+                    !paragraph.Text.EndsWith(']') &&
+                    !paragraph.Text.EndsWith('}'))
                 {
-                    if (next.StartTime.TotalMilliseconds - paragraph.EndTime.TotalMilliseconds > SetPeriodIfDistanceToNextIsMoreThanAlways)
+                    var gap = next.StartTime.TotalMilliseconds - paragraph.EndTime.TotalMilliseconds;
+                    if (gap > SetPeriodIfDistanceToNextIsMoreThanAlways)
                     {
                         paragraph.Text += ".";
                     }
@@ -183,7 +270,10 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 !last.Text.EndsWith('!') &&
                 !last.Text.EndsWith('?') &&
                 !last.Text.EndsWith(',') &&
-                !last.Text.EndsWith(':'))
+                !last.Text.EndsWith(':') &&
+                !last.Text.EndsWith(')') &&
+                !last.Text.EndsWith(']') &&
+                !last.Text.EndsWith('}'))
             {
                 subtitle.Paragraphs[subtitle.Paragraphs.Count - 1].Text += ".";
             }
@@ -213,7 +303,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 ParagraphMaxChars = Configuration.Settings.Tools.AudioToTextLineMaxCharsJp;
             }
 
-            if (language == "cn")
+            if (language == "cn" || language == "yue")
             {
                 ParagraphMaxChars = Configuration.Settings.Tools.AudioToTextLineMaxCharsCn;
             }
@@ -241,7 +331,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     else if (IsNextCloseAndAlone(p, next, nextNext, maxMillisecondsBetweenLines, onlyContinuousLines))
                     {
                         var splitDone = false;
-                        if (language != "jp" && language != "cn")
+                        if (!IsNonStandardLineTerminationLanguage(language))
                         {
                             var pNew = new Paragraph(p);
                             MergeNextIntoP(language, pNew, next);
@@ -287,13 +377,15 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 }
             }
 
-            if (!lastMerged)
+            if (lastMerged)
             {
-                var last = subtitle.GetParagraphOrDefault(subtitle.Paragraphs.Count - 1);
-                if (last != null && !string.IsNullOrWhiteSpace(last.Text))
-                {
-                    mergedSubtitle.Paragraphs.Add(new Paragraph(last));
-                }
+                return mergedSubtitle;
+            }
+
+            var last = subtitle.GetParagraphOrDefault(subtitle.Paragraphs.Count - 1);
+            if (last != null && !string.IsNullOrWhiteSpace(last.Text))
+            {
+                mergedSubtitle.Paragraphs.Add(new Paragraph(last));
             }
 
             return mergedSubtitle;
@@ -301,7 +393,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
 
         public Subtitle AutoBalanceLines(Subtitle subtitle, string language)
         {
-            if (language == "jp" || language == "cn")
+            if (IsNonStandardLineTerminationLanguage(language))
             {
                 return subtitle;
             }
@@ -311,7 +403,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             var deleteItems = new List<Paragraph>();
 
             var s = new Subtitle(subtitle);
-            for (var i = 0; i < s.Paragraphs.Count-1; i++)
+            for (var i = 0; i < s.Paragraphs.Count - 1; i++)
             {
                 var p = s.GetParagraphOrDefault(i);
                 var next = s.GetParagraphOrDefault(i + 1);
@@ -321,7 +413,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                     continue;
                 }
 
-                var gapToNext = next.StartTime.TotalMilliseconds- p.EndTime.TotalMilliseconds;
+                var gapToNext = next.StartTime.TotalMilliseconds - p.EndTime.TotalMilliseconds;
                 if (gapToNext > maxMillisecondsBetweenLines || p.Text.HasSentenceEnding(language))
                 {
                     continue;
@@ -399,7 +491,7 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
 
             p.EndTime = next.EndTime;
 
-            if (language == "jp" || language == "cn")
+            if (IsNonStandardLineTerminationLanguage(language))
             {
                 p.Text = p.Text.RemoveChar('\r').RemoveChar('\n').RemoveChar(' ');
             }
