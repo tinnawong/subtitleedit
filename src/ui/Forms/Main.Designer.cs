@@ -91,6 +91,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenKeepVideo = new System.Windows.Forms.ToolStripMenuItem();
             this.reopenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1166,6 +1167,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.openAPIToolStripMenuItem,
             this.toolStripMenuItemOpenKeepVideo,
             this.reopenToolStripMenuItem,
             this.saveToolStripMenuItem,
@@ -1210,6 +1212,13 @@ namespace Nikse.SubtitleEdit.Forms
             this.openToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItemClick);
+            // 
+            // openAPIToolStripMenuItem
+            // 
+            this.openAPIToolStripMenuItem.Name = "openAPIToolStripMenuItem";
+            this.openAPIToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.openAPIToolStripMenuItem.Text = "Open (API)";
+            this.openAPIToolStripMenuItem.Click += new System.EventHandler(this.OpenAPIToolStripMenuItemClick);
             // 
             // toolStripMenuItemOpenKeepVideo
             // 
@@ -6555,5 +6564,6 @@ namespace Nikse.SubtitleEdit.Forms
         private ToolStripMenuItem openContainingFolderToolStripMenuItem;
         private ToolStripMenuItem insertNewSubtitleHereToolStripMenuItem;
         private ToolStripMenuItem generaeTransparentVideoWithSubtitleToolStripMenuItem;
+        private ToolStripMenuItem openAPIToolStripMenuItem;
     }
 }

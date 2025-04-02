@@ -51,6 +51,8 @@ using Nikse.SubtitleEdit.Forms.Tts;
 using CheckForUpdatesHelper = Nikse.SubtitleEdit.Logic.CheckForUpdatesHelper;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 using Timer = System.Windows.Forms.Timer;
+using System.Net.Http.Headers;
+using System.Net.Http;
 
 namespace Nikse.SubtitleEdit.Forms
 {
@@ -659,6 +661,82 @@ namespace Nikse.SubtitleEdit.Forms
                 Cursor = Cursors.Default;
                 MessageBox.Show(exception.Message + Environment.NewLine + exception.StackTrace);
                 SeLogger.Error(exception, "Main constructor");
+            }
+            // Process URL Protocol data if available
+            if (Program.UrlProtocolData != null)
+            {
+                ProcessUrlData((UrlData)Program.UrlProtocolData);
+            }
+        }
+        // Add this new method to your Main class
+        private async void ProcessUrlData(UrlData urlData)
+        {
+            if (urlData == null)
+                return;
+
+            try
+            {
+                // Handle subtitle file
+                if (!string.IsNullOrEmpty(urlData.SubtitleURL))
+                {
+                    string subtitleUrl = urlData.SubtitleURL;
+
+                    if (subtitleUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                        subtitleUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                    {
+                        try
+                        {
+                            // Use existing GetFileDataFromApiAsync method
+                            string fileData = await GetFileDataFromApiAsync(subtitleUrl, urlData.Token);
+
+                            // Save to temporary file
+                            string tempFileName = Path.GetTempFileName();
+                            File.WriteAllText(tempFileName, fileData);
+
+                            // Open subtitle file
+                            OpenSubtitle(tempFileName, null);
+
+                            // Update title bar
+                            this.Text = "API File - " + this.Text;
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error loading subtitle from URL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    else
+                    {
+                        // Open local subtitle file
+                        OpenSubtitle(subtitleUrl, null);
+                    }
+                }
+
+                // Handle video file
+                if (!string.IsNullOrEmpty(urlData.AdioURL))
+                {
+                    try
+                    {
+                        if (urlData.UseStreaming)
+                        {
+                            // Open video file directly from URL (streaming mode)
+                            OpenVideoFromUrl(urlData.AdioURL);
+                        }
+                        else
+                        {
+                            // Download video first or handle according to your preference
+                            // This depends on your existing implementation
+                            OpenVideoFromUrl(urlData.AdioURL);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error loading video from URL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error processing URL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -2809,10 +2887,11 @@ namespace Nikse.SubtitleEdit.Forms
                 // try to open via recent files
                 if (OpenFromRecentFiles(openFileDialog1.FileName))
                 {
+                    MessageBox.Show("> OpenFromRecentFiles : {0}", openFileDialog1.FileName);
                     return;
                 }
-
                 OpenSubtitle(openFileDialog1.FileName, null);
+                MessageBox.Show(openFileDialog1.FileName);
             }
 
             CheckSecondSubtitleReset();
@@ -5663,7 +5742,8 @@ namespace Nikse.SubtitleEdit.Forms
                 if (_converted && _subtitle.OriginalFormat == newFormat && File.Exists(_fileName))
                 {
                     _converted = false;
-                };
+                }
+                ;
 
                 _formatManuallyChanged = _converted;
             }
@@ -37131,6 +37211,73 @@ namespace Nikse.SubtitleEdit.Forms
                 if (form.ShowDialog(this) != DialogResult.OK)
                 {
                     return;
+                }
+            }
+        }
+
+        private async Task<string> GetFileDataFromApiAsync(string apiUrl, string token)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                // กำหนด headers (ถ้ามี)
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
+                if (token != "")
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); // เพิ่ม token ใน header
+                }
+
+                // ส่งคำขอ GET ไปยัง API
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+                // ตรวจสอบสถานะของคำตอบ
+                if (response.IsSuccessStatusCode)
+                {
+                    // ดึงข้อมูลไฟล์จากคำตอบ
+                    string fileData = await response.Content.ReadAsStringAsync();
+                    return fileData;
+                }
+                else
+                {
+                    throw new Exception("API request failed: " + response.StatusCode);
+                }
+            }
+        }
+
+        private async void OpenAPIToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            ApiInputDialog inputDialog = new ApiInputDialog();
+            if (inputDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                try
+                {
+                    //// https://drive.rtt.in.th/archive/test.srt
+                    //// https://drive.rtt.in.th/archive/video/%E0%B8%84%E0%B8%93%E0%B8%A7%E0%B8%A3%E0%B8%B2%E0%B8%A7%E0%B8%98%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%A7%E0%B9%81%E0%B8%96%E0%B8%A5%E0%B8%87%20%20shelter%20Ver.%5B706.96%20-%201436.12%5D.mp4
+
+                    if (inputDialog.SubtitleURL != "")
+                    {
+                        string fileData = await GetFileDataFromApiAsync(inputDialog.SubtitleURL, inputDialog.Token);
+                        // บันทึกข้อมูลไฟล์ลงใน temporary file
+                        string tempFileName = Path.GetTempFileName();
+                        File.WriteAllText(tempFileName, fileData);
+
+                        // เปิดไฟล์ใน Subtitle Edit
+                        OpenSubtitle(tempFileName, null);
+
+                        // แสดงชื่อไฟล์ใน Title bar (ถ้าต้องการ)
+                        this.Text = "API File - " + this.Text;
+
+                    }
+
+                    if (inputDialog.AdioURL != "")
+                    {
+                        OpenVideoFromUrl(inputDialog.AdioURL);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error opening file from API: " + ex.Message);
                 }
             }
         }
