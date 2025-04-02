@@ -7,12 +7,10 @@ using Nikse.SubtitleEdit.Core.SubtitleFormats;
 using Nikse.SubtitleEdit.Forms.Options;
 using Nikse.SubtitleEdit.Logic;
 using Nikse.SubtitleEdit.Logic.Ocr;
-using Nikse.SubtitleEdit.Logic.SpellCheck;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -392,7 +390,7 @@ namespace Nikse.SubtitleEdit.Forms
 
             _fixActions = new List<FixItem>
             {
-                new FixItem(_language.RemovedEmptyLinesUnsedLineBreaks, "Has only one valid line!</br><i> -> Has only one valid line!", () => new FixEmptyLines().Fix(Subtitle, this), ce.EmptyLinesTicked),
+                new FixItem(_language.RemovedEmptyLinesUnusedLineBreaks, "Has only one valid line!</br><i> -> Has only one valid line!", () => new FixEmptyLines().Fix(Subtitle, this), ce.EmptyLinesTicked),
                 new FixItem(_language.FixOverlappingDisplayTimes, string.Empty, () => new FixOverlappingDisplayTimes().Fix(Subtitle, this), ce.OverlappingDisplayTimeTicked),
                 new FixItem(_language.FixShortDisplayTimes, string.Empty, () => new FixShortDisplayTimes().Fix(Subtitle, this), ce.TooShortDisplayTimeTicked),
                 new FixItem(_language.FixLongDisplayTimes, string.Empty, () => new FixLongDisplayTimes().Fix(Subtitle, this), ce.TooLongDisplayTimeTicked),
@@ -471,14 +469,17 @@ namespace Nikse.SubtitleEdit.Forms
             {
                 return LanguageSettings.Current.Settings.DialogStyleDashSecondLineWithoutSpace;
             }
+
             if (dialogStyle == DialogType.DashSecondLineWithSpace)
             {
                 return LanguageSettings.Current.Settings.DialogStyleDashSecondLineWithSpace;
             }
+
             if (dialogStyle == DialogType.DashBothLinesWithoutSpace)
             {
-                return LanguageSettings.Current.Settings.DialogStyleDashSecondLineWithSpace;
+                return LanguageSettings.Current.Settings.DialogStyleDashBothLinesWithoutSpace;
             }
+
             return LanguageSettings.Current.Settings.DialogStyleDashBothLinesWithSpace;
         }
 
@@ -559,7 +560,7 @@ namespace Nikse.SubtitleEdit.Forms
             FixEmptyLines.Language.RemovedEmptyLineAtBottom = LanguageSettings.Current.FixCommonErrors.RemovedEmptyLineAtBottom;
             FixEmptyLines.Language.RemovedEmptyLineAtTop = LanguageSettings.Current.FixCommonErrors.RemovedEmptyLineAtTop;
             FixEmptyLines.Language.RemovedEmptyLineInMiddle = LanguageSettings.Current.FixCommonErrors.RemovedEmptyLineInMiddle;
-            FixEmptyLines.Language.RemovedEmptyLinesUnsedLineBreaks = LanguageSettings.Current.FixCommonErrors.RemovedEmptyLinesUnsedLineBreaks;
+            FixEmptyLines.Language.RemovedEmptyLinesUnusedLineBreaks = LanguageSettings.Current.FixCommonErrors.RemovedEmptyLinesUnusedLineBreaks;
             FixHyphensInDialog.Language.FixHyphensInDialogs = LanguageSettings.Current.FixCommonErrors.FixHyphensInDialogs;
             FixHyphensRemoveDashSingleLine.Language.RemoveHyphensSingleLine = LanguageSettings.Current.FixCommonErrors.RemoveHyphensSingleLine;
             FixInvalidItalicTags.Language.FixInvalidItalicTag = LanguageSettings.Current.FixCommonErrors.FixInvalidItalicTag;
@@ -602,10 +603,14 @@ namespace Nikse.SubtitleEdit.Forms
             FixUnneededSpaces.Language.UnneededSpace = LanguageSettings.Current.FixCommonErrors.UnneededSpace;
             FixUppercaseIInsideWords.Language.FixUppercaseIInsideLowercaseWord = LanguageSettings.Current.FixCommonErrors.FixUppercaseIInsideLowercaseWord;
             FixUppercaseIInsideWords.Language.FixUppercaseIInsideLowercaseWords = LanguageSettings.Current.FixCommonErrors.FixUppercaseIInsideLowercaseWords;
+            RemoveSpaceBetweenNumbers.Language.RemoveSpaceBetweenNumber = LanguageSettings.Current.FixCommonErrors.RemoveSpaceBetweenNumber;
             NormalizeStrings.Language.NormalizeStrings = LanguageSettings.Current.FixCommonErrors.NormalizeStrings;
 
             FixLargeFonts();
             listView1.Select();
+
+            AcceptButton = buttonNextFinish;
+            textBoxListViewText.AcceptsReturn = true;
         }
 
         private void FixLargeFonts()
@@ -756,20 +761,22 @@ namespace Nikse.SubtitleEdit.Forms
 
             var fixAction = _language.FixCommonOcrErrors;
             var noOfFixes = 0;
-            var lastLine = string.Empty;
+            var previousLine = string.Empty;
             for (var i = 0; i < Subtitle.Paragraphs.Count; i++)
             {
                 var p = Subtitle.Paragraphs[i];
 
-                var lastLastP = Subtitle.GetParagraphOrDefault(i - 2);
-                string lastLastLine = null;
-                if (lastLastP != null && !string.IsNullOrEmpty(lastLastP.Text))
+                var prePrevParagraph = Subtitle.GetParagraphOrDefault(i - 2);
+                string prePreviousLine = null;
+                if (prePrevParagraph != null && !string.IsNullOrEmpty(prePrevParagraph.Text))
                 {
-                    lastLastLine = lastLastP.Text;
+                    prePreviousLine = prePrevParagraph.Text;
                 }
 
-                var text = _ocrFixEngine.FixOcrErrors(p.Text, Subtitle, i, lastLine, lastLastLine, false, OcrFixEngine.AutoGuessLevel.Cautious);
-                lastLine = text;
+                var text = _ocrFixEngine.FixOcrErrors(p.Text, Subtitle, i, previousLine, prePreviousLine, false, 
+                    OcrFixEngine.AutoGuessLevel.Cautious);
+                
+                previousLine = text;
                 if (AllowFix(p, fixAction) && p.Text != text)
                 {
                     var oldText = p.Text;
@@ -809,6 +816,8 @@ namespace Nikse.SubtitleEdit.Forms
                 Cursor = Cursors.WaitCursor;
                 Next();
                 ShowAvailableFixesStatus(false);
+                AcceptButton = buttonFixesApply;
+                buttonFixesApply.Focus();
             }
             Cursor = Cursors.Default;
         }
@@ -1119,6 +1128,9 @@ namespace Nikse.SubtitleEdit.Forms
             groupBoxStep1.Visible = true;
             ShowStatus(string.Empty);
             listViewFixes.Items.Clear();
+
+            AcceptButton = buttonNextFinish;
+            buttonNextFinish.Focus();
         }
 
         private void ButtonCancelClick(object sender, EventArgs e)
@@ -1143,21 +1155,9 @@ namespace Nikse.SubtitleEdit.Forms
             listViewFixes.Sort();
         }
 
-        private void ButtonSelectAllClick(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in listView1.Items)
-            {
-                item.Checked = true;
-            }
-        }
+        private void ButtonSelectAllClick(object sender, EventArgs e) => listView1.CheckAll();
 
-        private void ButtonInverseSelectionClick(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in listView1.Items)
-            {
-                item.Checked = !item.Checked;
-            }
-        }
+        private void ButtonInverseSelectionClick(object sender, EventArgs e) => listView1.InvertCheck();
 
         private void ListViewFixesSelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1368,18 +1368,12 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void ButtonFixesSelectAllClick(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in listViewFixes.Items)
-            {
-                item.Checked = true;
-            }
+            listViewFixes.CheckAll();
         }
 
         private void ButtonFixesInverseClick(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in listViewFixes.Items)
-            {
-                item.Checked = !item.Checked;
-            }
+            listViewFixes.InvertCheck();
         }
 
         private void ButtonFixesApplyClick(object sender, EventArgs e)
@@ -1434,6 +1428,12 @@ namespace Nikse.SubtitleEdit.Forms
             }
 
             buttonFixesApply.Enabled = true;
+
+            if (listViewFixes.Items.Count == 0)
+            {
+                AcceptButton = buttonNextFinish;
+                buttonNextFinish.Focus();
+            }
         }
 
         private void ButtonRefreshFixesClick(object sender, EventArgs e)
@@ -1915,49 +1915,14 @@ namespace Nikse.SubtitleEdit.Forms
             }
         }
 
-        private Hunspell _hunspell;
-
-        public bool DoSpell(string word)
-        {
-            if (_hunspell == null && Language != null)
-            {
-                var fileMatches = Directory.GetFiles(Utilities.DictionaryFolder, Language + "*.dic");
-                if (fileMatches.Length > 0)
-                {
-                    var dictionary = fileMatches[0].Substring(0, fileMatches[0].Length - 4);
-                    try
-                    {
-                        _hunspell = Hunspell.GetHunspell(dictionary);
-                    }
-                    catch
-                    {
-                        _hunspell = null;
-                    }
-                }
-            }
-
-            if (_hunspell == null)
-            {
-                return false;
-            }
-
-            return _hunspell.Spell(word);
-        }
-
         private void toolStripMenuItemSelectAll_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in listViewFixes.Items)
-            {
-                item.Checked = true;
-            }
+            listViewFixes.CheckAll();
         }
 
         private void toolStripMenuItemInverseSelection_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in listViewFixes.Items)
-            {
-                item.Checked = !item.Checked;
-            }
+            listViewFixes.InvertCheck();
         }
 
         private void setCurrentFixesAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)

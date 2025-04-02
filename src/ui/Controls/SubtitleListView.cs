@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Globalization;
 using System.Windows.Forms;
+using Nikse.SubtitleEdit.Core.Settings;
 
 namespace Nikse.SubtitleEdit.Controls
 {
@@ -394,8 +395,8 @@ namespace Nikse.SubtitleEdit.Controls
             _setLastColumnWidthTimer.Stop();
             if (Columns.Count > 0)
             {
-                int width = 0;
-                for (int i = 0; i < Columns.Count - 1; i++)
+                var width = 0;
+                for (var i = 0; i < Columns.Count - 1; i++)
                 {
                     width += Columns[i].Width;
                 }
@@ -521,7 +522,7 @@ namespace Nikse.SubtitleEdit.Controls
         {
             var stringFormat = new StringFormat
             {
-                FormatFlags = (StringFormatFlags)0,
+                FormatFlags = 0,
                 Alignment = StringAlignment.Near,
                 LineAlignment = StringAlignment.Near,
                 HotkeyPrefix = HotkeyPrefix.None,
@@ -1499,7 +1500,7 @@ namespace Nikse.SubtitleEdit.Controls
 
             if (_settings.Tools.ListViewSyntaxColorDurationSmall && !paragraph.StartTime.IsMaxTime)
             {
-                double charactersPerSecond = Utilities.GetCharactersPerSecond(paragraph);
+                double charactersPerSecond = paragraph.GetCharactersPerSecond();
                 if (charactersPerSecond > Configuration.Settings.General.SubtitleMaximumCharactersPerSeconds)
                 {
                     if (ColumnIndexCps >= 0)
@@ -1653,7 +1654,7 @@ namespace Nikse.SubtitleEdit.Controls
                         item.SubItems.Add(GetDisplayDuration(paragraph));
                         break;
                     case SubtitleColumn.CharactersPerSeconds:
-                        item.SubItems.Add($"{Utilities.GetCharactersPerSecond(paragraph):0.00}");
+                        item.SubItems.Add($"{paragraph.GetCharactersPerSecond():0.00}");
                         break;
                     case SubtitleColumn.WordsPerMinute:
                         item.SubItems.Add($"{paragraph.WordsPerMinute:0.00}");
@@ -1926,7 +1927,7 @@ namespace Nikse.SubtitleEdit.Controls
         {
             if (ColumnIndexCps >= 0)
             {
-                item.SubItems[ColumnIndexCps].Text = $"{Utilities.GetCharactersPerSecond(paragraph):0.00}";
+                item.SubItems[ColumnIndexCps].Text = $"{paragraph.GetCharactersPerSecond():0.00}";
             }
             if (ColumnIndexWpm >= 0)
             {
@@ -2383,6 +2384,18 @@ namespace Nikse.SubtitleEdit.Controls
             }
 
             EndUpdate();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+            {
+                _setLastColumnWidthTimer?.Dispose();
+                _syntaxColorLineTimer?.Dispose();
+                _setStartAndDurationTimer?.Dispose();
+            }
         }
     }
 }

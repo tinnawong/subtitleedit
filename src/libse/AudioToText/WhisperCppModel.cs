@@ -105,9 +105,9 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
             },
             new WhisperModel
             {
-                Name = "small-q5_1",
+                Name = "small.en-q5_1.bin",
                 Size = "190 MB",
-                Urls = new []{ DownloadUrlPrefix + "ggml-small-q5_1.bin" },
+                Urls = new []{ DownloadUrlPrefix + "ggml-small.en-q5_1.bin" },
             },
             new WhisperModel
             {
@@ -162,6 +162,54 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 Name = "large-q5_0",
                 Size = "2.88 GB",
                 Urls = new []{ DownloadUrlPrefix + "ggml-large-v3-q5_0.bin" },
+            },
+            new WhisperModel
+            {
+                Name = "large-v3-turbo",
+                Size = "1.5 GB",
+                Urls = new []{ DownloadUrlPrefix + "ggml-large-v3-turbo.bin" },
+            },
+            new WhisperModel
+            {
+                Name = "large-v3-turbo-q5_0",
+                Size = "547 MB",
+                Urls = new []{ DownloadUrlPrefix + "ggml-large-v3-turbo-q5_0.bin" },
+            },
+
+            new WhisperModel
+            {
+                Name = "tiny.nb",
+                Rename = true,
+                Size = "78 MB Norwegian",
+                Urls = new []{ "https://huggingface.co/NbAiLab/nb-whisper-tiny/resolve/main/ggml-model.bin" },
+            },
+            new WhisperModel
+            {
+                Name = "base.nb",
+                Rename = true,
+                Size = "148 MB Norwegian",
+                Urls = new []{ "https://huggingface.co/NbAiLab/nb-whisper-base/resolve/main/ggml-model.bin" },
+            },
+            new WhisperModel
+            {
+                Name = "small.nb",
+                Rename = true,
+                Size = "488 MB Norwegian",
+                Urls = new []{ "https://huggingface.co/NbAiLab/nb-whisper-small/resolve/main/ggml-model.bin" },
+            },
+            new WhisperModel
+            {
+                Name = "medium.nb",
+                Rename = true,
+                Size = "1.5 GB Norwegian",
+                Urls = new []{ "https://huggingface.co/NbAiLab/nb-whisper-medium/resolve/main/ggml-model.bin" },
+            },
+            new WhisperModel
+            {
+                Name = "large.nb",
+                Rename = true,
+                Size = "3.1 GB Norwegian",
+                Urls = new []{ "https://huggingface.co/NbAiLab/nb-whisper-large/resolve/main/ggml-model.bin" },
             },
         };
     }

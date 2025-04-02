@@ -28,6 +28,14 @@ namespace Nikse.SubtitleEdit.Forms.SeMsgBox
             }
         }
 
+        public static DialogResult Show(Form form, string text)
+        {
+            using (var msgBox = new MessageBoxForm(text, string.Empty, MessageBoxButtons.OK))
+            {
+                return msgBox.ShowDialog(form);
+            }
+        }
+
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
         {
             using (var msgBox = new MessageBoxForm(text, caption, buttons))
@@ -44,6 +52,14 @@ namespace Nikse.SubtitleEdit.Forms.SeMsgBox
             }
         }
 
+        public static DialogResult Show(Form form, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, bool noTextBox)
+        {
+            using (var msgBox = new MessageBoxForm(text, caption, buttons, icon))
+            {
+                return msgBox.ShowDialog(form);
+            }
+        }
+
         internal static DialogResult Show(Form form, string text, string title, MessageBoxButtons buttons)
         {
             using (var msgBox = new MessageBoxForm(text, title, buttons))
@@ -51,6 +67,15 @@ namespace Nikse.SubtitleEdit.Forms.SeMsgBox
                 return msgBox.ShowDialog(form);
             }
         }
+
+        internal static DialogResult Show(Form form, string text, string title, MessageBoxButtons buttons, bool noTextBox)
+        {
+            using (var msgBox = new MessageBoxForm(text, title, buttons, noTextBox))
+            {
+                return msgBox.ShowDialog(form);
+            }
+        }
+
 
         internal static DialogResult Show(string text, string caption)
         {

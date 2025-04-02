@@ -234,11 +234,11 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
 
             if (errors.Length > 0)
             {
-                MessageBox.Show($"{errorCount} error(s)!{Environment.NewLine}{errors}");
+                MessageBox.Show(this, $"{errorCount} error(s)!{Environment.NewLine}{errors}");
             }
 
             var fileList = Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine, _outputBatchFileNames);
-            MessageBox.Show(string.Format(LanguageSettings.Current.AudioToText.XFilesSavedToVideoSourceFolder, listViewInputFiles.Items.Count - errorCount) + fileList);
+            MessageBox.Show(this, string.Format(LanguageSettings.Current.AudioToText.XFilesSavedToVideoSourceFolder, listViewInputFiles.Items.Count - errorCount) + fileList);
 
             groupBoxInputFiles.Enabled = true;
             buttonGenerate.Enabled = true;
@@ -267,7 +267,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             catch
             {
                 var dir = Path.GetDirectoryName(fileName);
-                if (!WhisperAudioToText.IsDirectoryWritable(dir))
+                if (!FileUtil.IsDirectoryWritable(dir))
                 {
                     MessageBox.Show($"SE does not have write access to the folder '{dir}'", MessageBoxIcon.Error);
                 }
@@ -326,7 +326,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
             var buffer = new byte[4096];
             _bytesWavTotal = new FileInfo(waveFileName).Length;
             _bytesWavRead = 0;
-            _startTicks = DateTime.UtcNow.Ticks;
+            _startTicks = Stopwatch.GetTimestamp();
             timer1.Start();
             using (var source = File.OpenRead(waveFileName))
             {
@@ -605,7 +605,7 @@ namespace Nikse.SubtitleEdit.Forms.AudioToText
                 return;
             }
 
-            var durationMs = (DateTime.UtcNow.Ticks - _startTicks) / 10_000;
+            var durationMs = (Stopwatch.GetTimestamp() - _startTicks) / 10_000;
             var msPerFrame = (float)durationMs / _bytesWavRead;
             var estimatedTotalMs = msPerFrame * _bytesWavTotal;
             var estimatedLeft = ProgressHelper.ToProgressTime(estimatedTotalMs - durationMs);

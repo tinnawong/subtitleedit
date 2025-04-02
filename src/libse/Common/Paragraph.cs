@@ -1,9 +1,9 @@
-﻿using Nikse.SubtitleEdit.Core.Translate.Processor;
-using System;
+﻿using System;
+using Nikse.SubtitleEdit.Core.Common.TextLengthCalculator;
 
 namespace Nikse.SubtitleEdit.Core.Common
 {
-    public class Paragraph : ITranslationBaseUnit
+    public class Paragraph 
     {
         public int Number { get; set; }
 
@@ -123,6 +123,36 @@ namespace Nikse.SubtitleEdit.Core.Common
 
                 return 60.0 / DurationTotalSeconds * Text.CountWords();
             }
+        }
+
+        public double GetCharactersPerSecond()
+        {
+            if (DurationTotalMilliseconds < 1)
+            {
+                return 999;
+            }
+
+            return (double)Text.CountCharacters(true) / DurationTotalSeconds;
+        }
+
+        public double GetCharactersPerSecond(double numberOfCharacters)
+        {
+            if (DurationTotalMilliseconds < 1)
+            {
+                return 999;
+            }
+
+            return numberOfCharacters / DurationTotalSeconds;
+        }
+
+        public double GetCharactersPerSecond(ICalcLength calc)
+        {
+            if (DurationTotalMilliseconds < 1)
+            {
+                return 999;
+            }
+
+            return (double)calc.CountCharacters(Text, true) / DurationTotalSeconds;
         }
     }
 }

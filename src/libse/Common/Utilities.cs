@@ -14,6 +14,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
+using Nikse.SubtitleEdit.Core.VobSub;
 
 namespace Nikse.SubtitleEdit.Core.Common
 {
@@ -30,7 +31,7 @@ namespace Nikse.SubtitleEdit.Core.Common
         private static readonly Regex RegexNumberSpacePeriod = new Regex(@"(\d) (\.)", RegexOptions.Compiled);
 
         public static string[] VideoFileExtensions { get; } = { ".avi", ".mkv", ".wmv", ".mpg", ".mpeg", ".divx", ".mp4", ".asf", ".flv", ".mov", ".m4v", ".vob", ".ogv", ".webm", ".ts", ".tts", ".m2ts", ".mts", ".avs", ".mxf" };
-        public static string[] AudioFileExtensions { get; } = { ".mp3", ".wav", ".wma", ".ogg", ".mpa", ".m4a", ".ape", ".aiff", ".flac", ".aac", ".ac3", ".eac3", ".mka", ".opus", ".adts" };
+        public static string[] AudioFileExtensions { get; } = { ".mp3", ".wav", ".wma", ".ogg", ".mpa", ".m4a", ".ape", ".aiff", ".flac", ".aac", ".ac3", ".eac3", ".mka", ".opus", ".adts", ".m4b" };
 
         public static bool IsInteger(string s)
         {
@@ -941,37 +942,6 @@ namespace Nikse.SubtitleEdit.Core.Common
             return maxLength;
         }
 
-        public static double GetCharactersPerSecond(Paragraph paragraph)
-        {
-            if (paragraph.DurationTotalMilliseconds < 1)
-            {
-                return 999;
-            }
-
-            return (double)paragraph.Text.CountCharacters(true) / paragraph.DurationTotalSeconds;
-        }
-
-        public static double GetCharactersPerSecond(Paragraph paragraph, double numberOfCharacters)
-        {
-            if (paragraph.DurationTotalMilliseconds < 1)
-            {
-                return 999;
-            }
-
-            return numberOfCharacters / paragraph.DurationTotalSeconds;
-        }
-
-
-        public static double GetCharactersPerSecond(Paragraph paragraph, ICalcLength calc)
-        {
-            if (paragraph.DurationTotalMilliseconds < 1)
-            {
-                return 999;
-            }
-
-            return (double)calc.CountCharacters(paragraph.Text, true) / paragraph.DurationTotalSeconds;
-        }
-
         public static bool IsRunningOnMono()
         {
             return Type.GetType("Mono.Runtime") != null;
@@ -1372,6 +1342,11 @@ namespace Nikse.SubtitleEdit.Core.Common
         /// </summary>
         public static string UrlDecode(string text)
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
             // pre-process for + sign space formatting since System.Uri doesn't handle it
             // plus literals are encoded as %2b normally so this should be safe
             text = text.Replace('+', ' ');
@@ -2794,6 +2769,30 @@ namespace Nikse.SubtitleEdit.Core.Common
             return format;
         }
 
+        public static void ParseMatroskaTextSt(MatroskaTrackInfo trackInfo, List<MatroskaSubtitle> subtitleLines, Subtitle subtitle)
+        {
+            for (var indexTextSt = 0; indexTextSt < subtitleLines.Count; indexTextSt++)
+            {
+                try
+                {
+                    var matroskaSubtitle = subtitleLines[indexTextSt];
+                    var idx = -6; // MakeMKV starts at DialogPresentationSegment
+                    var data = matroskaSubtitle.GetData(trackInfo);
+                    if (VobSubParser.IsPrivateStream2(data, 0))
+                    {
+                        idx = 0; //  starts with MPEG2 private stream 2 (just to be sure)
+                    }
+
+                    var dps = new TextST.DialogPresentationSegment(data, idx);
+                    subtitle.Paragraphs[indexTextSt].Text = dps.Text;
+                }
+                catch (Exception exception)
+                {
+                    subtitle.Paragraphs[indexTextSt].Text = exception.Message;
+                }
+            }
+        }
+
         private static void FixShortDisplayTime(Subtitle s, int i)
         {
             Paragraph p = s.Paragraphs[i];
@@ -3173,32 +3172,33 @@ namespace Nikse.SubtitleEdit.Core.Common
             return text;
         }
 
-        public static string RemoveSymbols(string tag, string text, string endTag)
+        public static string RemoveSymbols(string tag, string input, string endTag)
         {
             var pre = string.Empty;
             var post = string.Empty;
-            text = SplitStartTags(text, ref pre);
+            var text = SplitStartTags(input, ref pre);
             text = SplitEndTags(text, ref post);
 
             if (!string.IsNullOrEmpty(tag) && text.Contains(tag) || string.IsNullOrEmpty(tag) && !string.IsNullOrEmpty(endTag) && text.Contains(endTag))
             {
                 if (!string.IsNullOrEmpty(endTag) && !string.IsNullOrEmpty(tag))
                 {
-                    text = pre + text.Replace(tag, string.Empty).Replace(endTag, string.Empty).Replace(Environment.NewLine + " ", Environment.NewLine).Replace(" " + Environment.NewLine, Environment.NewLine).Trim() + post;
+                    return pre + text.Replace(tag, string.Empty).Replace(endTag, string.Empty).Replace(Environment.NewLine + " ", Environment.NewLine).Replace(" " + Environment.NewLine, Environment.NewLine).Trim() + post;
                 }
-                else if (string.IsNullOrEmpty(endTag) && !string.IsNullOrEmpty(tag))
+
+                if (string.IsNullOrEmpty(endTag) && !string.IsNullOrEmpty(tag))
                 {
-                    text = pre + text.Replace(tag, string.Empty).Replace(Environment.NewLine + " ", Environment.NewLine).Replace(" " + Environment.NewLine, Environment.NewLine).Trim() + post;
+                    return pre + text.Replace(tag, string.Empty).Replace(Environment.NewLine + " ", Environment.NewLine).Replace(" " + Environment.NewLine, Environment.NewLine).Trim() + post;
                 }
-                else if (!string.IsNullOrEmpty(endTag))
+
+                if (!string.IsNullOrEmpty(endTag))
                 {
-                    text = pre + text.Replace(endTag, string.Empty).Replace(Environment.NewLine + " ", Environment.NewLine).Replace(" " + Environment.NewLine, Environment.NewLine).Trim() + post;
+                    return pre + text.Replace(endTag, string.Empty).Replace(Environment.NewLine + " ", Environment.NewLine).Replace(" " + Environment.NewLine, Environment.NewLine).Trim() + post;
                 }
             }
 
-            return text;
+            return pre + text + post;
         }
-
 
         public static string AddSymbols(string tag, string text, string endTag)
         {

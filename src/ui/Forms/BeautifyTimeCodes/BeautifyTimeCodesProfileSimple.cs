@@ -4,6 +4,7 @@ using Nikse.SubtitleEdit.Core.SubtitleFormats;
 using Nikse.SubtitleEdit.Logic;
 using System;
 using System.Windows.Forms;
+using Nikse.SubtitleEdit.Core.Settings;
 
 namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
 {
@@ -179,7 +180,7 @@ namespace Nikse.SubtitleEdit.Forms.BeautifyTimeCodes
             Configuration.Settings.BeautifyTimeCodes.Profile.ChainingGeneralMaxGap = Convert.ToInt32(numericUpDownChainingGap.Value);
             Configuration.Settings.BeautifyTimeCodes.Profile.ChainingGeneralLeftGreenZone = GetChainingZoneFrames(Configuration.Settings.BeautifyTimeCodes.Profile.ChainingGeneralMaxGap);
             Configuration.Settings.BeautifyTimeCodes.Profile.ChainingGeneralLeftRedZone = GetChainingZoneFrames(Configuration.Settings.BeautifyTimeCodes.Profile.ChainingGeneralMaxGap) - 1;
-            Configuration.Settings.BeautifyTimeCodes.Profile.ChainingGeneralShotChangeBehavior = BeautifyTimeCodesSettings.BeautifyTimeCodesProfile.ChainingGeneralShotChangeBehaviorEnum.ExtendUntilShotChange;
+            Configuration.Settings.BeautifyTimeCodes.Profile.ChainingGeneralShotChangeBehavior = BeautifyTimeCodesSettings.BeautifyTimeCodesProfile.ChainingShotChangeBehaviorEnum.ExtendUntilShotChange;
 
             Configuration.Settings.BeautifyTimeCodes.Profile.ChainingInCueOnShotUseZones = false;
             Configuration.Settings.BeautifyTimeCodes.Profile.ChainingInCueOnShotMaxGap = Convert.ToInt32(numericUpDownChainingGap.Value);

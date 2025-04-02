@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -14,10 +13,29 @@ namespace Nikse.SubtitleEdit.Core.Common
     /// </summary>
     public static class HtmlUtil
     {
+        /// <summary>
+        /// Represents the HTML tag used for italic text formatting.
+        /// </summary>
         public static string TagItalic => "i";
+
+        /// <summary>
+        /// Represents the HTML tag used for bold text formatting.
+        /// </summary>
         public static string TagBold => "b";
+
+        /// <summary>
+        /// Represents the HTML tag used for underlined text formatting.
+        /// </summary>
         public static string TagUnderline => "u";
+
+        /// <summary>
+        /// Represents the HTML tag used for specifying font attributes.
+        /// </summary>
         public static string TagFont => "font";
+
+        /// <summary>
+        /// Represents the HTML tag used for the Cyrillic character 'і'.
+        /// </summary>
         public static string TagCyrillicI => "\u0456"; // Cyrillic Small Letter Byelorussian-Ukrainian i (http://graphemica.com/%D1%96)
 
         private static readonly Regex TagOpenRegex = new Regex(@"<\s*(?:/\s*)?(\w+)[^>]*>", RegexOptions.Compiled);
@@ -367,6 +385,12 @@ namespace Nikse.SubtitleEdit.Core.Common
             return encoded.ToString();
         }
 
+        /// <summary>
+        /// Remove all HTML tags from the input string, optionally including SSA tags.
+        /// </summary>
+        /// <param name="input">The input string that may contain HTML tags.</param>
+        /// <param name="alsoSsaTags">A boolean value indicating whether SSA tags should also be removed.</param>
+        /// <returns>A new string with all HTML tags removed, and optionally SSA tags removed.</returns>
         public static string RemoveHtmlTags(string input, bool alsoSsaTags = false)
         {
             if (input == null || input.Length < 3)
@@ -523,6 +547,11 @@ namespace Nikse.SubtitleEdit.Core.Common
             return new string(array, 0, arrayIndex);
         }
 
+        /// <summary>
+        /// Determines whether the specified text is a URL.
+        /// </summary>
+        /// <param name="text">The text to evaluate.</param>
+        /// <returns>True if the text is considered a URL, otherwise false.</returns>
         public static bool IsUrl(string text)
         {
             if (string.IsNullOrWhiteSpace(text) || text.Length < 6 || text.IndexOf('.') < 0 || text.IndexOf(' ') >= 0)
@@ -546,6 +575,11 @@ namespace Nikse.SubtitleEdit.Core.Common
             return false;
         }
 
+        /// <summary>
+        /// Determines if the provided text starts with a URL-like string.
+        /// </summary>
+        /// <param name="text">The text to examine.</param>
+        /// <returns>True if the text starts with a URL-like string; otherwise, false.</returns>
         public static bool StartsWithUrl(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -564,6 +598,11 @@ namespace Nikse.SubtitleEdit.Core.Common
 
         private static readonly string[] UppercaseTags = { "<I>", "<U>", "<B>", "<FONT", "</I>", "</U>", "</B>", "</FONT>" };
 
+        /// <summary>
+        /// Converts all uppercase HTML tags in the input string to lowercase.
+        /// </summary>
+        /// <param name="input">The input string containing HTML tags to be converted.</param>
+        /// <returns>A new string with all uppercase HTML tags converted to lowercase.</returns>
         public static string FixUpperTags(string input)
         {
             if (string.IsNullOrEmpty(input) || input.IndexOf('<') < 0)
@@ -588,6 +627,70 @@ namespace Nikse.SubtitleEdit.Core.Common
             return text;
         }
 
+        /// <summary>
+        /// Determines if the provided text contains formattable content not enclosed within HTML-like tags.
+        /// </summary>
+        /// <param name="text">The input text to be checked.</param>
+        /// <returns>True if the text contains any formattable content (letters or digits) outside of HTML-like tags; otherwise, false.</returns>
+        public static bool IsTextFormattable(in string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return false;
+            }
+
+            var len = text.Length;
+            var index = 0;
+            while (index < len && text[index] == '<')
+            {
+                index = text.IndexOf('>', index + 1);
+                if (index < 0) break;
+                index += 1;
+            }
+
+            // buggy text of no closing present
+            index = Math.Max(0, index);
+
+            var fromLenIdx = len - 1;
+            while (fromLenIdx >= 0 && text[fromLenIdx] == '>')
+            {
+                fromLenIdx = text.LastIndexOf('<', fromLenIdx);
+                if (fromLenIdx < 0) break;
+                fromLenIdx--;
+            }
+
+            fromLenIdx = fromLenIdx > 0 ? fromLenIdx : len - 1;
+            
+            // no formattable text in between
+            if (fromLenIdx < index)
+            {
+                return false;
+            }
+
+            for (var i = index; i <= fromLenIdx; i++)
+            {
+                if (char.IsLetterOrDigit(text[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static readonly string[] BeginTagVariations = { "< i >", "< i>", "<i >", "< I >", "< I>", "<I >", "<i<", "<I<", "<I>" };
+
+        private static readonly string[] EndTagVariations =
+        {
+            "< / i >", "< /i>", "</ i>", "< /i >", "</i >", "</ i >",
+            "< / i>", "</I>", "< / I >", "< /I>", "</ I>", "< /I >", "</I >", "</ I >", "< / I>", "</i<", "</I<", "</I>"
+        };
+
+        /// <summary>
+        /// Fix invalid or improperly formatted italic tags in the input HTML string.
+        /// </summary>
+        /// <param name="input">The input HTML string to process.</param>
+        /// <returns>A string with corrected italic tags.</returns>
         public static string FixInvalidItalicTags(string input)
         {
             var text = input;
@@ -605,36 +708,15 @@ namespace Nikse.SubtitleEdit.Core.Common
 
             const string beginTag = "<i>";
             const string endTag = "</i>";
+            foreach (var beginTagVariation in BeginTagVariations)
+            {
+                text = text.Replace(beginTagVariation, beginTag);
+            }
 
-            text = text.Replace("< i >", beginTag);
-            text = text.Replace("< i>", beginTag);
-            text = text.Replace("<i >", beginTag);
-            text = text.Replace("< I >", beginTag);
-            text = text.Replace("< I>", beginTag);
-            text = text.Replace("<I >", beginTag);
-            text = text.Replace("<i<", beginTag);
-            text = text.Replace("<I<", beginTag);
-
-            text = text.Replace("< / i >", endTag);
-            text = text.Replace("< /i>", endTag);
-            text = text.Replace("</ i>", endTag);
-            text = text.Replace("< /i >", endTag);
-            text = text.Replace("</i >", endTag);
-            text = text.Replace("</ i >", endTag);
-            text = text.Replace("< / i>", endTag);
-            text = text.Replace("</I>", endTag);
-            text = text.Replace("< / I >", endTag);
-            text = text.Replace("< /I>", endTag);
-            text = text.Replace("</ I>", endTag);
-            text = text.Replace("< /I >", endTag);
-            text = text.Replace("</I >", endTag);
-            text = text.Replace("</ I >", endTag);
-            text = text.Replace("< / I>", endTag);
-            text = text.Replace("</i<", endTag);
-            text = text.Replace("</I<", endTag);
-
-            text = text.Replace("<I>", beginTag);
-            text = text.Replace("</I>", endTag);
+            foreach (var endTagVariation in EndTagVariations)
+            {
+                text = text.Replace(endTagVariation, endTag);
+            }
 
             text = text.Replace("</i> <i>", "_@_");
             text = text.Replace(" _@_", "_@_");
@@ -739,21 +821,44 @@ namespace Nikse.SubtitleEdit.Core.Common
 
             if (italicBeginTagCount == 1 && italicEndTagCount == 0)
             {
-                var lastIndexWithNewLine = text.LastIndexOf(Environment.NewLine + beginTag, StringComparison.Ordinal) + Environment.NewLine.Length;
-                var lastIndex = text.LastIndexOf(beginTag, StringComparison.Ordinal);
+                var lines = text.SplitToLines();
+                var sc = StringComparison.Ordinal;
+                for (int i = 0; i < lines.Count; i++)
+                {
+                    var line = lines[i];
+                    var italicIndex = line.LastIndexOf(beginTag, StringComparison.Ordinal);
+                    
+                    // no italic in current 'i' line, try next
+                    if (italicIndex < 0)
+                    {
+                        continue;
+                    }
 
-                if (text.StartsWith(beginTag, StringComparison.Ordinal) || text.Contains(": <i>"))
-                {
-                    text += endTag;
+                    // try earlier insert if possible e.g: <b><i>foobar</b> => <b><i>foobar</i></b>
+                    lines[i] = IsTextFormattable(line.Substring(italicIndex + 3))
+                        ? line.Insert(CalculateEarlyInsertIndex(line), endTag)
+                        : line.Replace(beginTag, string.Empty);
+
+                    break; // break as soon as we reach here since italicBeginTagCount == 1
+
+                    int CalculateEarlyInsertIndex(string s)
+                    {
+                        var len = s.Length;
+                        var lastClosingTagIndex = s.LastIndexOf("</", len - 1, len - italicIndex - 3, sc);
+                        while (lastClosingTagIndex > italicIndex + 3)
+                        {
+                            var tempClosingIdx = s.LastIndexOf("</", lastClosingTagIndex, lastClosingTagIndex - italicIndex - 3, sc);
+                            if (tempClosingIdx < 0) break;
+                            lastClosingTagIndex = tempClosingIdx;
+                        }
+                        // try finding first closing tag index and insert the new closing there
+                        // to avoid having text with closed tags like <b><i>foo</b></i>
+                        return lastClosingTagIndex > italicIndex ? lastClosingTagIndex : len;
+                    }
                 }
-                else if (noOfLines == 2 && lastIndex == lastIndexWithNewLine)
-                {
-                    text += endTag;
-                }
-                else
-                {
-                    text = text.Replace(beginTag, string.Empty);
-                }
+                
+                // reconstruct the text from lines
+                text = string.Join(Environment.NewLine, lines);
             }
 
             if (italicBeginTagCount == 0 && italicEndTagCount == 1)
@@ -944,6 +1049,14 @@ namespace Nikse.SubtitleEdit.Core.Common
             return preTags + text;
         }
 
+        /// <summary>
+        /// Toggles the specified HTML or SSA/ASS tag on or off in the provided text.
+        /// </summary>
+        /// <param name="input">The input string to apply the tag toggle.</param>
+        /// <param name="tag">The HTML or SSA/ASS tag to be toggled.</param>
+        /// <param name="wholeLine">Specifies whether the whole line should be toggled or just part of it.</param>
+        /// <param name="assa">Indicates whether the text contains SSA/ASS tags.</param>
+        /// <returns>A new string with the specified tag toggled.</returns>
         public static string ToggleTag(string input, string tag, bool wholeLine, bool assa)
         {
             var text = input;
@@ -1004,6 +1117,14 @@ namespace Nikse.SubtitleEdit.Core.Common
             return text;
         }
 
+        /// <summary>
+        /// Determines if the specified tag is present in the input HTML or SSA/ASS string.
+        /// </summary>
+        /// <param name="input">The input string to search for the specified tag.</param>
+        /// <param name="tag">The HTML or SSA/ASS tag to check for.</param>
+        /// <param name="wholeLine">Specifies whether the search should consider the whole line.</param>
+        /// <param name="assa">Indicates if the input string is in SSA/ASS format.</param>
+        /// <returns>True if the tag is present in the input; otherwise, false.</returns>
         public static bool IsTagOn(string input, string tag, bool wholeLine, bool assa)
         {
             var text = input;
@@ -1023,6 +1144,14 @@ namespace Nikse.SubtitleEdit.Core.Common
                    text.IndexOf("</" + tag + ">", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
+        /// <summary>
+        /// Applies the specified HTML or ASSA tag to the input string.
+        /// </summary>
+        /// <param name="input">The input string to which the tag will be applied.</param>
+        /// <param name="tag">The tag to apply to the input string.</param>
+        /// <param name="wholeLine">If true, the tag is applied to the entire line; otherwise, the tag is applied to a portion of the line.</param>
+        /// <param name="assa">If true, the tag is treated as an ASSA tag; otherwise, it is treated as an HTML tag.</param>
+        /// <returns>A new string with the specified tag applied.</returns>
         public static string TagOn(string input, string tag, bool wholeLine, bool assa)
         {
             var text = input;
@@ -1069,6 +1198,14 @@ namespace Nikse.SubtitleEdit.Core.Common
             return text;
         }
 
+        /// <summary>
+        /// Remove the specified HTML tag from the input string.
+        /// </summary>
+        /// <param name="input">The input string containing HTML tags.</param>
+        /// <param name="tag">The HTML tag to be removed.</param>
+        /// <param name="wholeLine">Indicates whether the operation applies to the whole line.</param>
+        /// <param name="assa">Indicates whether ASSA (Advanced SubStation Alpha) tags are used.</param>
+        /// <returns>A new string with the specified tag removed.</returns>
         public static string TagOff(string input, string tag, bool wholeLine, bool assa)
         {
             var text = input;
@@ -1118,6 +1255,12 @@ namespace Nikse.SubtitleEdit.Core.Common
             return text;
         }
 
+        /// <summary>
+        /// Converts a string representation of a color to a Color object. The string can be in various formats such as
+        /// "rgb(r, g, b)", "rgba(r, g, b, a)", or a hex color string like "#RRGGBB" or "#RRGGBBAA".
+        /// </summary>
+        /// <param name="s">The string representation of the color.</param>
+        /// <returns>A Color object corresponding to the input string. If the string cannot be parsed, the default color is white.</returns
         public static Color GetColorFromString(string s)
         {
             try
@@ -1173,6 +1316,11 @@ namespace Nikse.SubtitleEdit.Core.Common
             }
         }
 
+        /// <summary>
+        /// Remove color tags from the input string, adjusting for potentially surrounding font tags.
+        /// </summary>
+        /// <param name="input">The string from which to remove color tags.</param>
+        /// <returns>A new string with color tags removed.</returns>
         public static string RemoveColorTags(string input)
         {
             var r = new Regex("[ ]*(COLOR|color|Color)=[\"']*[#\\dA-Za-z]*[\"']*[ ]*");
@@ -1269,6 +1417,11 @@ namespace Nikse.SubtitleEdit.Core.Common
             return s;
         }
 
+        /// <summary>
+        /// Removes ASS and SSA alignment tags from the given string.
+        /// </summary>
+        /// <param name="s">The input string from which to remove the alignment tags.</param>
+        /// <returns>A new string without ASS and SSA alignment tags.</returns>
         public static string RemoveAssAlignmentTags(string s)
         {
             return s.Replace("{\\an1}", string.Empty) // ASS tags alone
@@ -1322,6 +1475,11 @@ namespace Nikse.SubtitleEdit.Core.Common
                 .Replace("{\\a9}", string.Empty);
         }
 
+        /// <summary>
+        /// Remove color tags specific to Advanced SubStation Alpha (ASSA) format from the input string.
+        /// </summary>
+        /// <param name="input">The input string potentially containing ASSA color tags.</param>
+        /// <returns>A new string with all ASSA color tags removed.</returns>
         public static string RemoveAssaColor(string input)
         {
             var text = input;
@@ -1332,5 +1490,42 @@ namespace Nikse.SubtitleEdit.Core.Common
             text = Regex.Replace(text, "\\\\1c&[abcdefghABCDEFGH\\d]*&", string.Empty);
             return text;
         }
+
+        /// <summary>
+        /// Gets the closing HTML tag for the specified opening tag.
+        /// </summary>
+        /// <param name="tag">The opening HTML tag to find the closing pair for.</param>
+        /// <returns>The closing HTML tag corresponding to the specified opening tag.</returns>
+        public static string GetClosingPair(string tag)
+        {
+            switch (tag)
+            {
+                case "<i>" : return "</i>";
+                case "<b>" : return "</b>";
+                case "<u>" : return "</u>";
+            }
+            return tag.StartsWith("<font ", StringComparison.Ordinal) ? "</font>" : string.Empty;
+        }
+
+        /// <summary>
+        /// Get the corresponding closing character for a given opening character.
+        /// </summary>
+        /// <param name="ch">The opening character to find the closing pair for.</param>
+        /// <returns>The corresponding closing character.</returns>
+        public static char GetClosingPair(char ch) => ch == '<' ? '>' : '}';
+
+        /// <summary>
+        /// Determines if the provided HTML tag is an opening tag.
+        /// </summary>
+        /// <param name="tag">The HTML tag to check.</param>
+        /// <returns>True if the tag is an opening tag, otherwise false.</returns
+        public static bool IsOpenTag(string tag) => tag.Length > 1 && tag[1] != '/';
+
+        /// <summary>
+        /// Determines whether the specified character is a start tag symbol for HTML or similar markup.
+        /// </summary>
+        /// <param name="ch">The character to check.</param>
+        /// <returns>True if the character is a start tag symbol; otherwise, false.</returns>
+        public static bool IsStartTagSymbol(char ch) => ch == '<' || ch == '{';
     }
 }

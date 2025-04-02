@@ -1,4 +1,5 @@
 ﻿using Nikse.SubtitleEdit.Core.Common;
+using Nikse.SubtitleEdit.Core.Settings;
 using Nikse.SubtitleEdit.Core.SubtitleFormats;
 using Nikse.SubtitleEdit.Core.Translate;
 using System;
@@ -6,6 +7,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Nikse.SubtitleEdit.Core.AutoTranslate
@@ -15,10 +18,33 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
         private HttpClient _httpClient;
 
         public static string StaticName { get; set; } = "ChatGPT";
+        public override string ToString() => StaticName;
         public string Name => StaticName;
         public string Url => "https://chat.openai.com/";
         public string Error { get; set; }
         public int MaxCharacters => 1500;
+        public static string[] Models => new[]
+        {
+            "gpt-4o-mini", "o1-mini", "gpt-4o", "gpt-4-turbo", "gpt-3.5-turbo", "gpt-4"
+        };
+
+        public static string RemovePreamble(string original, string translation)
+        {
+            if (original.Contains(":"))
+            {
+                return translation;
+            }
+
+            var regex = new Regex(@"^(Here is|Here's) [a-zA-Z ,]+:");
+            var match = regex.Match(translation);
+            if (match.Success)
+            {
+                var result = translation.Remove(match.Index, match.Value.Length);
+                return result.Trim();
+            }
+
+            return translation;
+        }
 
         public void Initialize()
         {
@@ -26,7 +52,8 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/json");
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
-            _httpClient.BaseAddress = new Uri(Configuration.Settings.Tools.ChatGptUrl);
+            _httpClient.BaseAddress = new Uri(Configuration.Settings.Tools.ChatGptUrl.TrimEnd('/'));
+            _httpClient.Timeout = TimeSpan.FromMinutes(15);
 
             if (!string.IsNullOrEmpty(Configuration.Settings.Tools.ChatGptApiKey))
             {
@@ -44,12 +71,24 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
             return ListLanguages();
         }
 
-        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode)
+        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode, CancellationToken cancellationToken)
         {
-            var input = "{\"model\": \"gpt-3.5-turbo\",\"messages\": [{ \"role\": \"user\", \"content\": \"Please translate the following text from " + sourceLanguageCode + " to " + targetLanguageCode + ", only write the result: \\n\\n" + Json.EncodeJsonText(text.Trim()) + "\" }]}";
+            var model = Configuration.Settings.Tools.ChatGptModel;
+            if (string.IsNullOrEmpty(model))
+            {
+                model = Models[0];
+                Configuration.Settings.Tools.ChatGptModel = model;
+            }
+
+            if (string.IsNullOrEmpty(Configuration.Settings.Tools.ChatGptPrompt))
+            {
+                Configuration.Settings.Tools.ChatGptPrompt = new ToolsSettings().ChatGptPrompt;
+            }
+            var prompt = string.Format(Configuration.Settings.Tools.ChatGptPrompt, sourceLanguageCode, targetLanguageCode);
+            var input = "{\"model\": \"" + model + "\",\"messages\": [{ \"role\": \"user\", \"content\": \"" + prompt + "\\n\\n" + Json.EncodeJsonText(text.Trim()) + "\" }]}";
             var content = new StringContent(input, Encoding.UTF8);
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            var result = _httpClient.PostAsync(string.Empty, content).Result;
+            var result = await _httpClient.PostAsync(string.Empty, content, cancellationToken);
             var bytes = await result.Content.ReadAsByteArrayAsync();
             var json = Encoding.UTF8.GetString(bytes).Trim();
             if (!result.IsSuccessStatusCode)
@@ -73,10 +112,12 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
                 outputText = outputText.Trim('"').Trim();
             }
 
-            return outputText;
+            outputText = FixNewLines(outputText);
+            outputText = RemovePreamble(text, outputText);
+            return outputText.Trim();
         }
 
-        private static List<TranslationPair> ListLanguages()
+        public static List<TranslationPair> ListLanguages()
         {
             return new List<TranslationPair>
             {
@@ -113,8 +154,10 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
                MakePair("Greek","el"),
                MakePair("Gujarati","gu"),
                MakePair("Haryanvi",""),
+               MakePair("Hebrew","iw"),
                MakePair("Hindi","hi"),
                MakePair("Hungarian","hu"),
+               MakePair("Icelandic","is"),
                MakePair("Indonesian","id"),
                MakePair("Irish","ga"),
                MakePair("Italian","it"),
@@ -160,7 +203,10 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
                MakePair("Slovene","sl"),
                MakePair("Slovenian","sl"),
                MakePair("Spanish","es"),
+               MakePair("Swedish","sv"),
+               MakePair("Turkish","tr"),
                MakePair("Ukrainian","uk"),
+               MakePair("Uyghur","ug"),
                MakePair("Urdu","ur"),
                MakePair("Uzbek","uz"),
                MakePair("Vietnamese","vi"),
@@ -172,6 +218,15 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
         private static TranslationPair MakePair(string nameCode, string twoLetter)
         {
             return new TranslationPair(nameCode, nameCode, twoLetter);
+        }
+
+        internal static string FixNewLines(string outputText)
+        {
+            outputText = outputText.Replace("<br/>", Environment.NewLine);
+            outputText = outputText.Replace("<br />", Environment.NewLine);
+            outputText = outputText.Replace("<br  />", Environment.NewLine);
+            outputText = outputText.Replace(Environment.NewLine + Environment.NewLine, Environment.NewLine);
+            return outputText.Trim();
         }
     }
 }

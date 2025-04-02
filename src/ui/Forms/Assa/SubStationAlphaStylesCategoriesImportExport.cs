@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using Nikse.SubtitleEdit.Core.Common;
+using Nikse.SubtitleEdit.Core.Settings;
 using Nikse.SubtitleEdit.Logic;
 
 namespace Nikse.SubtitleEdit.Forms.Assa
@@ -125,20 +126,8 @@ namespace Nikse.SubtitleEdit.Forms.Assa
             }
         }
 
-        private void ToolStripMenuItemSelectAll_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in listViewCategories.Items)
-            {
-                item.Checked = true;
-            }
-        }
+        private void ToolStripMenuItemSelectAll_Click(object sender, EventArgs e) => listViewCategories.CheckAll();
 
-        private void ToolStripMenuItemInverseSelection_Click(object sender, EventArgs e)
-        {
-            foreach (ListViewItem item in listViewCategories.Items)
-            {
-                item.Checked = !item.Checked;
-            }
-        }
+        private void ToolStripMenuItemInverseSelection_Click(object sender, EventArgs e) => listViewCategories.InvertCheck();
     }
 }

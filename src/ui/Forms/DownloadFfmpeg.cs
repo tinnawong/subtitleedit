@@ -51,7 +51,7 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void DownloadFfmpeg_Shown(object sender, EventArgs e)
         {
-            var url = "https://github.com/SubtitleEdit/support-files/releases/download/ffmpeg-v6-1/ffmpeg61.zip";
+            var url = "https://github.com/SubtitleEdit/support-files/releases/download/ffmpeg-v7-1/ffmpeg-7.1.zip";
             if (IntPtr.Size == 32)
             {
                 url = "https://github.com/SubtitleEdit/support-files/releases/download/ffmpegwin32v5.1/ffmpeg-win32-n5.1.zip";
@@ -59,14 +59,14 @@ namespace Nikse.SubtitleEdit.Forms
 
             if (_title.Contains("ffprobe", StringComparison.OrdinalIgnoreCase))
             {
-                url = "https://github.com/SubtitleEdit/support-files/releases/download/ffmpeg-v6-1/ffprobe61.zip";
+                url = "https://github.com/SubtitleEdit/support-files/releases/download/ffmpeg-v7-1/ffprobe-7.1.zip";
             }
 
             try
             {
                 labelPleaseWait.Text = LanguageSettings.Current.General.PleaseWait;
                 Cursor = Cursors.WaitCursor;
-                var httpClient = DownloaderFactory.MakeHttpClient();
+                using (var httpClient = DownloaderFactory.MakeHttpClient())
                 using (var downloadStream = new MemoryStream())
                 {
                     var downloadTask = httpClient.DownloadAsync(url, downloadStream, new Progress<float>((progress) =>
@@ -115,8 +115,8 @@ namespace Nikse.SubtitleEdit.Forms
 
             var sha512Hashes = new[]
             {
-                "08d1a88a6293ad9c66de2f11a029b648bafe7f2a0ebaca6bb863f11e7d80967f6804b8c2b86c2d8381a441857fd7fc52f2a9e95b340295e1b16ed124c6f776f3", // ffmpeg 6.1
-                "d2ee1d3bfa6cfb8c7563cfb8cd641962e7274149458630191a69b689e9c0288608885f51c39f578008e68856ee71bc66a82ed4b3cba2f1411aec2b4da991b974", // ffprobe 6.1
+                "42a42cbed3175165a71cc573960306f422373a3f30864cf81b476675bdb485aca81d904f1f5c67b0a3397b62a468ca4a4fcad6507103e7b8908e56ab63be6255", // ffmpeg
+                "74db8a0b8226c3104c52a986f3bd000b6eb57ab4a017d44aa10c00fb9310ce06a634e581cce76c5d82410dfd7b6cddfaceb8b7bdca17ee6c39e7213843041ab4", // ffprobe
             };
             var hash = Utilities.GetSha512Hash(downloadStream.ToArray());
             if (!sha512Hashes.Contains(hash))

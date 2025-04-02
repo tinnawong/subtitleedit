@@ -1,10 +1,9 @@
-# Created using wingetcreate 1.2.5.0
-# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.4.0.schema.json
+# Created using wingetcreate 1.6.1.0
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.6.0.schema.json
 
 PackageIdentifier: Nikse.SubtitleEdit
-PackageVersion: 4.0.2.0
-Scope: machine
-UpgradeBehavior: install
+PackageVersion: 4.0.9.0
+InstallerType: inno
 FileExtensions:
 - srt
 - ass
@@ -21,18 +20,11 @@ FileExtensions:
 - xml
 - mp4
 - mkv
+ProductCode: SubtitleEdit_is1
 Installers:
 - Architecture: x64
-  InstallerType: inno
-  InstallerUrl: https://github.com/SubtitleEdit/subtitleedit/releases/download/4.0.2/SubtitleEdit-4.0.2-Setup.exe
-  InstallerSha256: 8FC72C9CF0F6CD8B188A8FE27DCB5E54DCA9628723ACA1E740EC1F786637FFFC
-  ProductCode: SubtitleEdit_is1
-- Architecture: x86
-  InstallerType: inno
-  InstallerUrl: https://github.com/SubtitleEdit/subtitleedit/releases/download/4.0.2/SubtitleEdit-4.0.2-Setup.exe
-  InstallerSha256: 8FC72C9CF0F6CD8B188A8FE27DCB5E54DCA9628723ACA1E740EC1F786637FFFC
-  ProductCode: SubtitleEdit_is1
+  InstallerUrl: https://github.com/SubtitleEdit/subtitleedit/releases/download/4.0.9/SubtitleEdit-4.0.9-Setup.exe
+  InstallerSha256: F1DBC298F29AA28391977869B3955EE07CAF8622FF79C66046D6C90A4D6F77EA
 ManifestType: installer
-ManifestVersion: 1.4.0
-ReleaseDate: 2023-11-19
+ManifestVersion: 1.6.0
 

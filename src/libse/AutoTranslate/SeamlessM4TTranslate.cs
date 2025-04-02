@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Nikse.SubtitleEdit.Core.AutoTranslate
@@ -16,6 +17,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
         private HttpClient _httpClient;
 
         public static string StaticName { get; set; } = "SeamlessM4T";
+        public override string ToString() => StaticName;
         public string Name => StaticName;
         public string Url => "https://replicate.com/cjwbw/seamless_communication/api";
         public string Error { get; set; }
@@ -40,7 +42,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
             return ListLanguages();
         }
 
-        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode)
+        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode, CancellationToken cancellationToken)
         {
             if (sourceLanguageCode == "en")
             {

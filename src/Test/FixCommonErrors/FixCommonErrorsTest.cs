@@ -3,11 +3,12 @@ using Nikse.SubtitleEdit.Core.Common;
 using Nikse.SubtitleEdit.Core.Enums;
 using Nikse.SubtitleEdit.Core.Forms.FixCommonErrors;
 using Nikse.SubtitleEdit.Core.SubtitleFormats;
-using Nikse.SubtitleEdit.Forms;
-using Nikse.SubtitleEdit.Logic;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Nikse.SubtitleEdit.Forms;
+using Nikse.SubtitleEdit.Logic;
 
 namespace Test.FixCommonErrors
 {
@@ -254,7 +255,7 @@ namespace Test.FixCommonErrors
             {
                 InitializeFixCommonErrorsLine(target, "Seems their <i>attackers headed north.");
                 new FixInvalidItalicTags().Fix(_subtitle, new EmptyFixCallback());
-                Assert.AreEqual(_subtitle.Paragraphs[0].Text, "Seems their attackers headed north.");
+                Assert.AreEqual(_subtitle.Paragraphs[0].Text, "Seems their <i>attackers headed north.</i>");
             }
         }
 
@@ -537,6 +538,72 @@ namespace Test.FixCommonErrors
                 InitializeFixCommonErrorsLine(target, "…but never could.");
                 target.FixOcrErrorsViaReplaceList("eng");
                 Assert.AreEqual("…but never could.", target.Subtitle.Paragraphs[0].Text);
+            }
+        }
+
+        [TestMethod]
+        public void FixCommonOcrErrorsFrenchHardCodedRuleNoChange()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                InitializeFixCommonErrorsLine(target, "ENCORE UNE VICTIME\r\nDE L'ASSASSIN MYSTERIEUX.");
+                target.FixOcrErrorsViaReplaceList("fra");
+                Assert.AreEqual("ENCORE UNE VICTIME\r\nDE L'ASSASSIN MYSTERIEUX.", target.Subtitle.Paragraphs[0].Text);
+            }
+        }
+
+        [TestMethod]
+        public void FixCommonOcrErrorsFrenchHardCodedRuleChange()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                InitializeFixCommonErrorsLine(target, "Encore une victime\r\nde L'assassin mysterieux.");
+                target.FixOcrErrorsViaReplaceList("fra");
+                Assert.AreEqual("Encore une victime\r\nde l'assassin mysterieux.", target.Subtitle.Paragraphs[0].Text);
+            }
+        }
+
+        [TestMethod]
+        public void FixCommonOcrErrorsFrenchHardCodedRuleNoChange2()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                InitializeFixCommonErrorsLine(target, "Je connaîtrai la peur." + Environment.NewLine + "La peur tue l'esprit.");
+                target.FixOcrErrorsViaReplaceList("fra");
+                Assert.AreEqual("Je connaîtrai la peur." + Environment.NewLine + "La peur tue l'esprit.", target.Subtitle.Paragraphs[0].Text);
+            }
+        }
+
+        [TestMethod]
+        public void FixCommonOcrErrorsFrenchHardCodedRuleNoChange3()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                InitializeFixCommonErrorsLine(target, "Je connaîtrai la peur." + Environment.NewLine + "La peur tue l'Esprit tue et.");
+                target.FixOcrErrorsViaReplaceList("fra");
+                Assert.AreEqual("Je connaîtrai la peur." + Environment.NewLine + "La peur tue l'Esprit tue et.", target.Subtitle.Paragraphs[0].Text);
+            }
+        }
+
+        [TestMethod]
+        public void FixCommonOcrErrorsFrenchHardCodedRuleNoChange4()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                InitializeFixCommonErrorsLine(target, "Á sėquencer l'ADN" + Environment.NewLine + "de micro-organismes ėteints");
+                target.FixOcrErrorsViaReplaceList("fra");
+                Assert.AreEqual("Á sėquencer l'ADN" + Environment.NewLine + "de micro-organismes ėteints", target.Subtitle.Paragraphs[0].Text);
+            }
+        }
+
+        [TestMethod]
+        public void FixCommonOcrErrorsFrenchHardCodedRuleNoChange5()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                InitializeFixCommonErrorsLine(target, "À SÉQUENCER l'ADN DE MICRO-ORGANISMES ÉTEINTS");
+                target.FixOcrErrorsViaReplaceList("fra");
+                Assert.AreEqual("À SÉQUENCER L'ADN DE MICRO-ORGANISMES ÉTEINTS", target.Subtitle.Paragraphs[0].Text);
             }
         }
 
@@ -976,6 +1043,7 @@ namespace Test.FixCommonErrors
         {
             using (var target = GetFixCommonErrorsLib())
             {
+                Configuration.Settings.General.DialogStyle = DialogType.DashBothLinesWithSpace;
                 InitializeFixCommonErrorsLine(target, "-Person one speaks." + Environment.NewLine +
                                                       "-The other person starts speaking and continues" + Environment.NewLine +
                                                       "to speak loudly for a little white.");
@@ -1338,6 +1406,26 @@ namespace Test.FixCommonErrors
             s.Paragraphs.Add(new Paragraph("I wasn't sure if somebody lived in there...", 1000, 3000));
             new FixMissingPeriodsAtEndOfLine().Fix(s, new EmptyFixCallback());
             Assert.AreEqual(s.Paragraphs[0].Text, "The house seemed desolate to me and");
+        }
+
+        [TestMethod]
+        public void AddPeriodChineseDoNotAdd1()
+        {
+            var s = new Subtitle();
+            s.Paragraphs.Add(new Paragraph("→「Adobe」の順に移動します。", 0, 2000));
+            s.Paragraphs.Add(new Paragraph("Bye.", 7000, 9000));
+            new FixMissingPeriodsAtEndOfLine().Fix(s, new EmptyFixCallback());
+            Assert.AreEqual(s.Paragraphs[0].Text, "→「Adobe」の順に移動します。");
+        }
+
+        [TestMethod]
+        public void AddPeriodChineseDoNotAdd2()
+        {
+            var s = new Subtitle();
+            s.Paragraphs.Add(new Paragraph("この新しいplistファイルを\r\n作成するには、", 0, 2000));
+            s.Paragraphs.Add(new Paragraph("Bye.", 7000, 9000));
+            new FixMissingPeriodsAtEndOfLine().Fix(s, new EmptyFixCallback());
+            Assert.AreEqual(s.Paragraphs[0].Text, "この新しいplistファイルを\r\n作成するには、");
         }
 
         #endregion Fix missing periods at end of line
@@ -2122,6 +2210,17 @@ namespace Test.FixCommonErrors
                 InitializeFixCommonErrorsLine(target, "John: <font color=\"#ffff80\">hello world.</font>");
                 new FixStartWithUppercaseLetterAfterColon().Fix(_subtitle, new EmptyFixCallback());
                 Assert.AreEqual("John: <font color=\"#ffff80\">Hello world.</font>", _subtitle.Paragraphs[0].Text);
+            }
+        }
+
+        [TestMethod]
+        public void StartWithUppercaseAfterColon5()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                InitializeFixCommonErrorsLine(target, "TRANSLATION FROM FRENCH:");
+                new FixStartWithUppercaseLetterAfterColon().Fix(_subtitle, new EmptyFixCallback());
+                Assert.AreEqual("TRANSLATION FROM FRENCH:", _subtitle.Paragraphs[0].Text);
             }
         }
 
@@ -3531,6 +3630,114 @@ namespace Test.FixCommonErrors
                 new FixShortLinesPixelWidth(TextWidth.CalcPixelWidth).Fix(_subtitle, new EmptyFixCallback());
                 Assert.AreEqual("<i>It is I this illustrious illiteration. It's this...</i>", _subtitle.Paragraphs[0].Text);
             }
+        }
+
+        [TestMethod]
+        public void FixMissingOpenBracketOneTest()
+        {
+            var engine = new FixMissingOpenBracket();
+            var sub = GetGenericSub();
+            sub.Paragraphs.First().Text = "Hey, FOO).";
+            engine.Fix(sub, new EmptyFixCallback());
+            Assert.AreEqual("(Hey, FOO).", sub.Paragraphs.First().Text);
+        }
+
+        [TestMethod]
+        public void FixMissingOpenBracketTwoTest()
+        {
+            var engine = new FixMissingOpenBracket();
+            var sub = GetGenericSub();
+            sub.Paragraphs.First().Text = "Reaper, hostiles, 100 meters\neast. Two hundred meters south).";
+            engine.Fix(sub, new EmptyFixCallback());
+            Assert.AreEqual("(Reaper, hostiles, 100 meters\neast. Two hundred meters south).", sub.Paragraphs.First().Text);
+        }
+
+        [TestMethod]
+        public void FixMissingOpenBracketThreeTest()
+        {
+            var engine = new FixMissingOpenBracket();
+            var sub = GetGenericSub();
+            sub.Paragraphs.First().Text = "- Foobar bar zzz).\n- Foo bar Zz";
+            engine.Fix(sub, new EmptyFixCallback());
+            Assert.AreEqual("- (Foobar bar zzz).\n- Foo bar Zz", sub.Paragraphs.First().Text);
+        }
+
+        [TestMethod]
+        public void FixMissingOpenBracketFourTest()
+        {
+            var engine = new FixMissingOpenBracket();
+            var sub = GetGenericSub();
+            sub.Paragraphs.First().Text = "Foobar THIS IS A NOISE)";
+            engine.Fix(sub, new EmptyFixCallback());
+            Assert.AreEqual("Foobar (THIS IS A NOISE)", sub.Paragraphs.First().Text);
+        }
+
+        [TestMethod]
+        public void FixMissingOpenBracketFiveTest()
+        {
+            var engine = new FixMissingOpenBracket();
+            var sub = GetGenericSub();
+            sub.Paragraphs.First().Text = "- ]...";
+            engine.Fix(sub, new EmptyFixCallback());
+            Assert.AreEqual("- ]...", sub.Paragraphs.First().Text);
+        }
+
+        [TestMethod]
+        public void FixShortGapsDoNotTouch()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                _subtitle = new Subtitle();
+                new SubRip().LoadSubtitle(_subtitle, @"1
+00:01:41,620 --> 00:01:43,477
+A las 7, practicar por la mañana
+
+2
+00:01:43,501 --> 00:01:44,920
+[Yoyo]
+
+3
+00:01:43,500 --> 00:01:45,310
+con Issa.".SplitToLines(), null);
+                target.Initialize(_subtitle, new SubRip(), System.Text.Encoding.UTF8);
+                new FixShortGaps().Fix(_subtitle, new EmptyFixCallback());
+                Assert.IsTrue(_subtitle.Paragraphs[0].Duration.TotalMilliseconds > 0, "Gap should not be negative");
+                Assert.IsTrue(_subtitle.Paragraphs[1].Duration.TotalMilliseconds > 0, "Gap should not be negative");
+                Assert.IsTrue(_subtitle.Paragraphs[2].Duration.TotalMilliseconds > 0, "Gap should not be negative");
+            }
+        }
+
+        public void FixShortGapsDoFix()
+        {
+            using (var target = GetFixCommonErrorsLib())
+            {
+                _subtitle = new Subtitle();
+                new SubRip().LoadSubtitle(_subtitle, @"1
+00:01:41,000 --> 00:01:43,990
+A las 7, practicar por la mañana
+
+2
+00:01:44,000 --> 00:01:46,000
+[Yoyo]".SplitToLines(), null);
+                target.Initialize(_subtitle, new SubRip(), System.Text.Encoding.UTF8);
+                new FixShortGaps().Fix(_subtitle, new EmptyFixCallback());
+
+                var gap = _subtitle.Paragraphs[1].StartTime.TotalMilliseconds -
+                          _subtitle.Paragraphs[0].EndTime.TotalMilliseconds;
+
+                Assert.IsTrue(Math.Abs(gap - 24) < 0.001);
+            }
+        }
+
+        private static Subtitle GetGenericSub()
+        {
+            return new Subtitle()
+            {
+                Paragraphs =
+                {
+                    new Paragraph("Hello World!", 1000, 2000)
+                }
+            };
         }
     }
 }

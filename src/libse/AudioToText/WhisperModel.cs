@@ -8,9 +8,11 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
         public string[] Urls { get; set; }
         public string Size { get; set; }
         public string Name { get; set; }
+        public bool Rename { get; set; }
         public string Folder { get; set; }
         public bool AlreadyDownloaded { get; set; }
         public long Bytes { get; set; }
+        public bool Dynamic { get; set; }
 
         public override string ToString()
         {
@@ -95,6 +97,12 @@ namespace Nikse.SubtitleEdit.Core.AudioToText
                 Name = "large-v3", // large-v3
                 Size = "2.9 GB",
                 Urls = new []{ "https://openaipublic.azureedge.net/main/whisper/models/e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb/large-v3.pt" },
+            },
+            new WhisperModel
+            {
+                Name = "large-v3-turbo",  // large-v3-turbo
+                Size = "1.5 GB",
+                Urls = new []{ "https://openaipublic.azureedge.net/main/whisper/models/aff26ae408abcba5fbf8813c21e62b0941638c5f6eebfb145be0c9839262a19a/large-v3-turbo.pt" },
             },
         };
     }

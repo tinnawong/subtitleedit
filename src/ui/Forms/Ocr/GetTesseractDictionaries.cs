@@ -73,7 +73,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
 
             for (var i = 0; i < comboBoxDictionaries.Items.Count; i++)
             {
-                if (comboBoxDictionaries.Items[i] is string n && n == "English")
+                if (comboBoxDictionaries.Items[i].ToString() == "English")
                 {
                     comboBoxDictionaries.SelectedIndex = i;
                     break;
@@ -138,7 +138,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
 
                 ChosenLanguage = dictionary.ToString();
 
-                var httpClient = DownloaderFactory.MakeHttpClient();
+                using (var httpClient = DownloaderFactory.MakeHttpClient())
                 using (var downloadStream = new MemoryStream())
                 {
                     var downloadTask = httpClient.DownloadAsync(url, downloadStream, new Progress<float>((progress) =>

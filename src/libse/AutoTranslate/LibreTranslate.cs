@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Nikse.SubtitleEdit.Core.AutoTranslate
@@ -16,6 +17,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
         private HttpClient _httpClient;
 
         public static string StaticName { get; set; } = "LibreTranslate";
+        public override string ToString() => StaticName;
         public string Name => StaticName;
         public string Url => "https://github.com/LibreTranslate/LibreTranslate";
         public string Error { get; set; }
@@ -40,7 +42,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
             return ListLanguages();
         }
 
-        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode)
+        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode, CancellationToken cancellationToken)
         {
             var apiKey = string.Empty;
             if (!string.IsNullOrEmpty(Configuration.Settings.Tools.AutoTranslateLibreApiKey))
@@ -57,7 +59,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
             var input = "{\"q\": \"" + Json.EncodeJsonText(text.Trim()) + "\", \"source\": \"" + sourceLanguageCode + "\", \"target\": \"" + targetLanguageCode + "\"" + apiKey + "}";
             var content = new StringContent(input, Encoding.UTF8);
             content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-            var result = _httpClient.PostAsync("translate", content).Result;
+            var result = _httpClient.PostAsync("translate", content, cancellationToken).Result;
             var bytes = await result.Content.ReadAsByteArrayAsync();
             var json = Encoding.UTF8.GetString(bytes).Trim();
             if (!result.IsSuccessStatusCode)
@@ -73,6 +75,13 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
                 return string.Empty;
             }
 
+            resultText = resultText.Replace("<br />", Environment.NewLine);
+            resultText = resultText.Replace(". />", "." + Environment.NewLine);
+            resultText = resultText.Replace(" /> ", " "); // https://github.com/SubtitleEdit/subtitleedit/issues/8223
+            resultText = resultText.Replace("/> ", " "); 
+            resultText = resultText.Replace("  ", " ");
+            resultText = resultText.Replace("<br ", Environment.NewLine); //
+
             return Json.DecodeJsonText(resultText).Trim();
         }
 
@@ -80,36 +89,52 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
         {
             var languageCodes = new List<string>
             {
+                "sq",
                 "ar",
                 "az",
+                "bn",
+                "bg",
+                "ca",
+                "zh",
+                "zt",
                 "cs",
                 "da",
-                "de",
-                "el",
+                "nl",
                 "en",
                 "eo",
-                "es",
-                "fa",
+                "et",
                 "fi",
                 "fr",
-                "ga",
+                "de",
+                "el",
                 "he",
                 "hi",
                 "hu",
                 "id",
+                "ga",
                 "it",
                 "ja",
                 "ko",
-                "nl",
+                "lv",
+                "lt",
+                "ms",
+                "nb",
+                "fa",
                 "pl",
                 "pt",
+                "ro",
                 "ru",
-                "ru",
+                "sr",
                 "sk",
+                "sl",
+                "es",
                 "sv",
+                "tl",
+                "th",
                 "tr",
+                "ur",
                 "uk",
-                "zh",
+                "vi",
             };
 
             var result = new List<TranslationPair>();

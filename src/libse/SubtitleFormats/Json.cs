@@ -66,7 +66,7 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
                 if (c == '\\' && !keepNext)
                 {
                     keepNext = true;
-                    if (i + 6 < text.Length && text[i + 1] == 'u' &&
+                    if (i + 5 < text.Length && text[i + 1] == 'u' &&
                         hexLetters.Contains(text[i + 2]) &&
                         hexLetters.Contains(text[i + 3]) &&
                         hexLetters.Contains(text[i + 4]) &&
@@ -91,7 +91,7 @@ namespace Nikse.SubtitleEdit.Core.SubtitleFormats
         public override string ToText(Subtitle subtitle, string title)
         {
             var sb = new StringBuilder(@"[");
-            int count = 0;
+            var count = 0;
             foreach (var p in subtitle.Paragraphs)
             {
                 if (count > 0)

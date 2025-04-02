@@ -1,27 +1,28 @@
-﻿using System;
+﻿using Nikse.SubtitleEdit.Core.Common;
+using Nikse.SubtitleEdit.Core.Http;
+using Nikse.SubtitleEdit.Core.Translate;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
-using Nikse.SubtitleEdit.Core.Common;
-using Nikse.SubtitleEdit.Core.Http;
-using Nikse.SubtitleEdit.Core.Translate;
-using Nikse.SubtitleEdit.Core.Translate.Service;
 
 namespace Nikse.SubtitleEdit.Core.AutoTranslate
 {
     /// <summary>
     /// Google translate via Google Cloud V2 API - see https://cloud.google.com/translate/
     /// </summary>
-    public class GoogleTranslateV2 : IAutoTranslator
+    public class GoogleTranslateV2 : IAutoTranslator, IDisposable
     {
         private string _apiKey;
         private IDownloader _httpClient;
 
         public static string StaticName { get; set; } = "Google Translate V2 API";
+        public override string ToString() => StaticName;
         public string Name => StaticName;
         public string Url => "https://translate.google.com/";
         public string Error { get; set; }
@@ -37,15 +38,15 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
 
         public List<TranslationPair> GetSupportedSourceLanguages()
         {
-            return GoogleTranslationService.GetTranslationPairs();
+            return GoogleTranslateV1.GetTranslationPairs();
         }
 
         public List<TranslationPair> GetSupportedTargetLanguages()
         {
-            return GoogleTranslationService.GetTranslationPairs();
+            return GoogleTranslateV1.GetTranslationPairs();
         }
 
-        public Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode)
+        public Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode, CancellationToken cancellationToken)
         {
             var format = "text";
             var input = new StringBuilder();
@@ -72,16 +73,16 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
 
                 if ((int)result.StatusCode == 400)
                 {                   
-                    throw new TranslationException("API key invalid (or perhaps billing is not enabled)?");
+                    throw new Exception("API key invalid (or perhaps billing is not enabled)?");
                 }
                 if ((int)result.StatusCode == 403)
                 {
-                    throw new TranslationException("\"Perhaps billing is not enabled (or API key is invalid)?\"");
+                    throw new Exception("\"Perhaps billing is not enabled (or API key is invalid)?\"");
                 }
 
                 if (!result.IsSuccessStatusCode)
                 {
-                    throw new TranslationException($"An error occurred calling GT translate - status code: {result.StatusCode}");
+                    throw new Exception($"An error occurred calling GT translate - status code: {result.StatusCode}");
                 }
 
                 content = result.Content.ReadAsStringAsync().Result;
@@ -97,7 +98,8 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
                 {
                     message = "Perhaps billing is not enabled (or API not enabled or API key is invalid)?";
                 }
-                throw new TranslationException(message, webException);
+
+                throw new Exception(message, webException);
             }
 
             var resultList = new List<string>();
@@ -141,5 +143,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
             }
             return Task.FromResult(string.Join(Environment.NewLine, resultList));
         }
+
+        public void Dispose() => _httpClient?.Dispose();
     }
 }

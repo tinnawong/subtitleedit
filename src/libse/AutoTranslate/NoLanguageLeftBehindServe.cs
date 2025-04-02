@@ -7,15 +7,17 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Nikse.SubtitleEdit.Core.AutoTranslate
 {
-    public class NoLanguageLeftBehindServe : IAutoTranslator
+    public class NoLanguageLeftBehindServe : IAutoTranslator, IDisposable
     {
         private IDownloader _httpClient;
         
         public static string StaticName { get; set; } = "thammegowda-nllb-serve";
+        public override string ToString() => StaticName;
         public string Name => StaticName;
         public string Url => "https://github.com/thammegowda/nllb-serve";
         public string Error { get; set; }
@@ -40,7 +42,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
             return ListLanguages();
         }
 
-        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode)
+        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode, CancellationToken cancellationToken)
         {
             var list = text.SplitToLines();
             var sb = new StringBuilder();
@@ -297,5 +299,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
 
             return new TranslationPair(name, code, twoLetter);
         }
+
+        public void Dispose() => _httpClient?.Dispose();
     }
 }

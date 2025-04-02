@@ -6,15 +6,17 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Nikse.SubtitleEdit.Core.AutoTranslate
 {
-    public class NoLanguageLeftBehindApi : IAutoTranslator
+    public class NoLanguageLeftBehindApi : IAutoTranslator, IDisposable
     {
         private IDownloader _httpClient;
 
         public static string StaticName { get; set; } = "winstxnhdw-nllb-api";
+        public override string ToString() => StaticName;
         public string Name => StaticName;
         public string Url => "https://github.com/winstxnhdw/nllb-api";
         public string Error { get; set; }
@@ -39,7 +41,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
             return new NoLanguageLeftBehindServe().GetSupportedTargetLanguages();
         }
 
-        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode)
+        public async Task<string> Translate(string text, string sourceLanguageCode, string targetLanguageCode, CancellationToken cancellationToken)
         {
             var content = new StringContent("{ \"text\": \"" + Json.EncodeJsonText(text) + "\",  \"source\": \"" + sourceLanguageCode + "\", \"target\": \"" + targetLanguageCode + "\" }", Encoding.UTF8, "application/json");
             var result = _httpClient.PostAsync("translate", content).Result;
@@ -57,5 +59,7 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
 
             return resultText;
         }
+
+        public void Dispose() => _httpClient?.Dispose();
     }
 }

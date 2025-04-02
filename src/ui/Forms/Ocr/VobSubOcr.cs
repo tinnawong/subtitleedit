@@ -24,10 +24,15 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using Nikse.SubtitleEdit.Core.Settings;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
+using Timer = System.Windows.Forms.Timer;
+using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace Nikse.SubtitleEdit.Forms.Ocr
 {
@@ -263,6 +268,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
         private XmlDocument _compareDoc = new XmlDocument();
         private Point _manualOcrDialogPosition = new Point(-1, -1);
         private volatile bool _abort;
+        private CancellationToken _cancellationToken = CancellationToken.None;
         private int _selectedIndex = -1;
         private VobSubOcrSettings _vobSubOcrSettings;
         private bool _italicCheckedLast;
@@ -331,13 +337,14 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
         // Dictionaries/spellchecking/fixing
         private OcrFixEngine _ocrFixEngine;
         private int _tesseractOcrAutoFixes;
-        private string Tesseract5Version = "5.3.3";
+        private string Tesseract5Version = "5.5.0";
 
         private Subtitle _bdnXmlOriginal;
         private Subtitle _bdnXmlSubtitle;
         private XmlDocument _bdnXmlDocument;
         private string _bdnFileName;
         private bool _isSon;
+        private IBinaryParagraphList _binaryParagraphList;
 
         private List<ImageCompareAddition> _lastAdditions = new List<ImageCompareAddition>();
         private readonly VobSubOcrCharacter _vobSubOcrCharacter = new VobSubOcrCharacter();
@@ -678,8 +685,9 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             comboBoxDictionaries.SelectedIndexChanged += comboBoxDictionaries_SelectedIndexChanged;
         }
 
-        internal void InitializeBatch(string vobSubFileName, VobSubOcrSettings vobSubOcrSettings, bool forcedOnly, string ocrEngine, string language = null)
+        internal void InitializeBatch(string vobSubFileName, VobSubOcrSettings vobSubOcrSettings, bool forcedOnly, string ocrEngine, string language, CancellationToken cancellationToken)
         {
+            _cancellationToken = cancellationToken;
             Initialize(vobSubFileName, vobSubOcrSettings, null, true);
             FormVobSubOcr_Shown(null, null);
             checkBoxShowOnlyForced.Checked = forcedOnly;
@@ -768,7 +776,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
                 _subtitle.Paragraphs[i].Text = text;
 
                 Application.DoEvents();
-                if (_abort)
+                if (_abort || _cancellationToken.IsCancellationRequested)
                 {
                     SetButtonsEnabledAfterOcrDone();
                     return;
@@ -872,12 +880,14 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             }
         }
 
-        internal void InitializeBatch(IList<IBinaryParagraph> subtitles, VobSubOcrSettings vobSubOcrSettings, string fileName, bool forcedOnly, string language = null, string ocrEngine = null)
+        internal void InitializeBatch(IList<IBinaryParagraph> subtitles, VobSubOcrSettings vobSubOcrSettings, string fileName, bool forcedOnly, string language, string ocrEngine, CancellationToken cancellationToken)
         {
             if (subtitles.Count == 0)
             {
                 return;
             }
+
+            _cancellationToken = cancellationToken;
 
             if (subtitles.First() is TransportStreamSubtitle)
             {
@@ -922,13 +932,14 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             checkBoxNOcrDrawUnknownLetters.Checked = oldNOcrDrawText;
         }
 
-        internal void InitializeBatch(List<BluRaySupParser.PcsData> subtitles, VobSubOcrSettings vobSubOcrSettings, string fileName, bool forcedOnly, string language = null, string ocrEngine = null)
+        internal void InitializeBatch(List<BluRaySupParser.PcsData> subtitles, VobSubOcrSettings vobSubOcrSettings, string fileName, bool forcedOnly, string language, string ocrEngine, CancellationToken cancellationToken)
         {
             Initialize(subtitles, vobSubOcrSettings, fileName);
             _ocrMethodIndex = Configuration.Settings.VobSubOcr.LastOcrMethod == "Tesseract4" ? _ocrMethodTesseract5 : _ocrMethodTesseract302;
             var oldNOcrDrawText = checkBoxNOcrDrawUnknownLetters.Checked;
 
             InitializeOcrEngineBatch(language, ocrEngine);
+            _cancellationToken = cancellationToken;
 
             checkBoxShowOnlyForced.Checked = forcedOnly;
             DoBatch();
@@ -958,11 +969,12 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             }
         }
 
-        internal void InitializeBatch(List<VobSubMergedPack> vobSubMergedPackList, List<Color> palette, VobSubOcrSettings vobSubOcrSettings, string fileName, bool forcedOnly, string language, string ocrEngine)
+        internal void InitializeBatch(List<VobSubMergedPack> vobSubMergedPackList, List<Color> palette, VobSubOcrSettings vobSubOcrSettings, string fileName, bool forcedOnly, string language, string ocrEngine, CancellationToken cancellationToken)
         {
             Initialize(vobSubMergedPackList, palette, vobSubOcrSettings, language);
             checkBoxShowOnlyForced.Checked = forcedOnly;
             InitializeOcrEngineBatch(language, ocrEngine);
+            _cancellationToken = cancellationToken;
             DoBatch();
         }
 
@@ -1058,7 +1070,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
                 _subtitle.Paragraphs[i].Text = text;
 
                 Application.DoEvents();
-                if (_abort)
+                if (_abort || _cancellationToken.IsCancellationRequested)
                 {
                     SetButtonsEnabledAfterOcrDone();
                     return;
@@ -1071,7 +1083,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
 
             for (int i = 0; i < 20; i++)
             {
-                System.Threading.Thread.Sleep(25);
+                Thread.Sleep(25);
                 Application.DoEvents();
             }
         }
@@ -1668,6 +1680,13 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
                     }
                 }
             }
+            else if (_binaryParagraphList != null)
+            {
+                if (index >= 0)
+                {
+                    returnBmp = _binaryParagraphList.GetSubtitleBitmap(index, crop);
+                }
+            }
             else if (_bdnXmlSubtitle != null)
             {
                 if (index >= 0 && index < _bdnXmlSubtitle.Paragraphs.Count)
@@ -2202,6 +2221,11 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             if (_binaryParagraphWithPositions != null)
             {
                 return _binaryParagraphWithPositions.Count;
+            }
+
+            if (_binaryParagraphList != null)
+            {
+                return _subtitle.Paragraphs.Count;
             }
 
             return _vobSubMergedPackList.Count;
@@ -4513,6 +4537,14 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
                 SetButtonsEnabledAfterOcrDone();
                 buttonStartOcr.Focus();
             }
+            else if (_binaryParagraphList != null)
+            {
+                checkBoxShowOnlyForced.Visible = false;
+                checkBoxUseTimeCodesFromIdx.Visible = false;
+
+                SetButtonsEnabledAfterOcrDone();
+                buttonStartOcr.Focus();
+            }
             else
             {
                 ReadyVobSubRip();
@@ -6614,7 +6646,7 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
                 {
                     if (subtitleListView1.SelectedItems.Count > 1)
                     {
-                        if (DateTime.UtcNow.Ticks - _slvSelIdxChangedTicks < 100000)
+                        if (Stopwatch.GetTimestamp() - _slvSelIdxChangedTicks < 100000)
                         {
                             _slvSelIdx = new KeyValuePair<long, int>(_slvSelIdxChangedTicks, subtitleListView1.SelectedItems[0].Index);
                             if (_changeDelayTimer == null)
@@ -6628,10 +6660,10 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
                                 _changeDelayTimer.Stop();
                                 _changeDelayTimer.Start();
                             }
-                            _slvSelIdxChangedTicks = DateTime.UtcNow.Ticks;
+                            _slvSelIdxChangedTicks = Stopwatch.GetTimestamp();
                             return;
                         }
-                        _slvSelIdxChangedTicks = DateTime.UtcNow.Ticks;
+                        _slvSelIdxChangedTicks = Stopwatch.GetTimestamp();
                     }
                     _selectedIndex = subtitleListView1.SelectedItems[0].Index;
                 }
@@ -7646,6 +7678,31 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
             LoadOcrFixEngine(threeLetterIsoLanguageName, LanguageString);
         }
 
+
+        internal void InitializeIBinaryParagraphList(IBinaryParagraphList binaryParagraphList, Subtitle subtitle)
+        {
+            _binaryParagraphList = binaryParagraphList;
+            _subtitle = subtitle;
+            subtitleListView1.Fill(_subtitle);
+            subtitleListView1.SelectIndexAndEnsureVisible(0);
+
+            SetButtonsStartOcr();
+            progressBar1.Visible = false;
+            progressBar1.Maximum = 100;
+            progressBar1.Value = 0;
+
+            InitializeTesseract();
+            LoadImageCompareCharacterDatabaseList(Configuration.Settings.VobSubOcr.LastBinaryImageCompareDb);
+            SetOcrMethod();
+
+            groupBoxImagePalette.Visible = false;
+
+            Text += "OCR - " + Path.GetFileName(_bdnFileName);
+
+            autoTransparentBackgroundToolStripMenuItem.Visible = false;
+            _bdnXmlSubtitle = null;
+        }
+
         internal void Initialize(Subtitle bdnSubtitle, VobSubOcrSettings vobSubOcrSettings, bool isSon)
         {
             if (!string.IsNullOrEmpty(bdnSubtitle.FileName) && bdnSubtitle.FileName != new Subtitle().FileName)
@@ -8592,6 +8649,13 @@ namespace Nikse.SubtitleEdit.Forms.Ocr
                         // ignored
                     }
                 }
+
+                e.Handled = true;
+            }
+            else if (e.KeyCode == Keys.Delete)
+            {
+                removeAllXToolStripMenuItem_Click(null, null);
+                e.Handled = true;
             }
         }
 

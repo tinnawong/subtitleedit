@@ -22,6 +22,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
+using Nikse.SubtitleEdit.Core.Settings;
 using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 
 namespace Nikse.SubtitleEdit.Forms
@@ -474,6 +475,11 @@ namespace Nikse.SubtitleEdit.Forms
         internal MakeBitmapParameter MakeMakeBitmapParameter(int index, int screenWidth, int screenHeight)
         {
             var p = _subtitle.GetParagraphOrDefault(index);
+            if (p == null)
+            {
+                p = new Paragraph();
+            }
+
             var parameter = new MakeBitmapParameter
             {
                 Type = _exportType,
@@ -510,6 +516,7 @@ namespace Nikse.SubtitleEdit.Forms
                 FullFrame = checkBoxFullFrameImage.Checked,
                 FullFrameBackgroundColor = panelFullFrameBackground.BackColor,
             };
+
             if (index < _subtitle.Paragraphs.Count)
             {
                 parameter.P = _subtitle.Paragraphs[index];
@@ -571,6 +578,7 @@ namespace Nikse.SubtitleEdit.Forms
             {
                 parameter.P = null;
             }
+
             return parameter;
         }
 
@@ -986,22 +994,22 @@ namespace Nikse.SubtitleEdit.Forms
                     var doc = new XmlDocument();
                     var guid = Guid.NewGuid().ToString().RemoveChar('-').Insert(8, "-").Insert(13, "-").Insert(18, "-").Insert(23, "-");
                     var xml =
-                        "<dcst:SubtitleReel xmlns:dcst=\"http://www.smpte-ra.org/schemas/428-7/2014/DCST\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">" + Environment.NewLine +
-                        "  <dcst:Id>urn:uuid:" + guid + "</dcst:Id>" + Environment.NewLine +
-                        "  <dcst:ContentTitleText></dcst:ContentTitleText> " + Environment.NewLine +
-                        "  <dcst:AnnotationText>This is a subtitle file</dcst:AnnotationText>" + Environment.NewLine +
-                        "  <dcst:IssueDate>2014-01-01T00:00:00.000-00:00</dcst:IssueDate>" + Environment.NewLine +
-                        "  <dcst:ReelNumber>1</dcst:ReelNumber>" + Environment.NewLine +
-                        "  <dcst:Language>en</dcst:Language>" + Environment.NewLine +
-                        "  <dcst:EditRate>25 1</dcst:EditRate>" + Environment.NewLine +
-                        "  <dcst:TimeCodeRate>25</dcst:TimeCodeRate>" + Environment.NewLine +
-                        "  <dcst:StartTime>00:00:00:00</dcst:StartTime> " + Environment.NewLine +
-                        "  <dcst:LoadFont ID=\"theFontId\">urn:uuid:3dec6dc0-39d0-498d-97d0-928d2eb78391</dcst:LoadFont>" + Environment.NewLine +
-                        "  <dcst:SubtitleList>" + Environment.NewLine +
+                        "<SubtitleReel xmlns=\"http://www.smpte-ra.org/schemas/428-7/2014/DCST\">" + Environment.NewLine +
+                        "  <Id>urn:uuid:" + guid + "</Id>" + Environment.NewLine +
+                        "  <ContentTitleText>Movie Title</ContentTitleText>" + Environment.NewLine +
+                        "  <AnnotationText>This is a subtitle file</AnnotationText>" + Environment.NewLine +
+                        "  <IssueDate>" + DateTime.Now.ToString("o") + "</IssueDate>" + Environment.NewLine +
+                        "  <ReelNumber>1</ReelNumber>" + Environment.NewLine +
+                        "  <Language>en</Language>" + Environment.NewLine +
+                        "  <EditRate>[FRAMERATE] 1</EditRate>" + Environment.NewLine +
+                        "  <TimeCodeRate>[FRAMERATE]</TimeCodeRate>" + Environment.NewLine +
+                        "  <StartTime>00:00:00:00</StartTime>" + Environment.NewLine +
+                        "  <SubtitleList>" + Environment.NewLine +
                            sb +
-                        "  </dcst:SubtitleList>" + Environment.NewLine +
-                        "</dcst:SubtitleReel>";
+                        "  </SubtitleList>" + Environment.NewLine +
+                        "</SubtitleReel>";
 
+                    xml = xml.Replace("[FRAMERATE]", ((int)FrameRate).ToString(CultureInfo.InvariantCulture));
 
                     doc.LoadXml(xml);
                     var fName = saveFileDialog1.FileName;
@@ -1846,8 +1854,9 @@ $DROP=[DROPVALUE]" + Environment.NewLine + Environment.NewLine +
                 {
                     if (!param.Saved)
                     {
-                        string numberString = $"{i:0000}";
-                        string fileName = Path.Combine(Path.GetDirectoryName(saveFileDialog1.FileName), numberString + ".png");
+                        // string numberString = $"{i:0000}";
+                        string uuidString = Guid.NewGuid().ToString().RemoveChar('-').Insert(8, "-").Insert(13, "-").Insert(18, "-").Insert(23, "-");
+                        string fileName = Path.Combine(Path.GetDirectoryName(saveFileDialog1.FileName), uuidString + ".png");
                         param.Bitmap.Save(fileName, ImageFormat.Png);
                         imagesSavedCount++;
                         param.Saved = true;
@@ -1900,14 +1909,14 @@ $DROP=[DROPVALUE]" + Environment.NewLine + Environment.NewLine +
                                 break;
                         }
 
-                        sb.AppendLine("<Subtitle FadeDownTime=\"" + 0 + "\" FadeUpTime=\"" + 0 + "\" TimeOut=\"" + DCinemaInterop.ConvertToTimeString(param.P.EndTime) + "\" TimeIn=\"" + DCinemaInterop.ConvertToTimeString(param.P.StartTime) + "\" SpotNumber=\"" + param.P.Number + "\">");
+                        sb.AppendLine("<Subtitle SpotNumber=\"" + param.P.Number + "\" FadeUpTime=\"" + "00:00:00:00" + "\" FadeDownTime=\"" + "00:00:00:00" + "\" TimeIn=\"" + param.P.StartTime.ToHHMMSSFF() + "\" TimeOut=\"" + param.P.EndTime.ToHHMMSSFF() + "\">");
                         if (param.Depth3D == 0)
                         {
-                            sb.AppendLine("<Image VPosition=\"" + vPos + "\" HPosition=\"" + hPos + "\" VAlign=\"" + verticalAlignment + "\" HAlign=\"" + horizontalAlignment + "\">" + numberString + ".png" + "</Image>");
+                            sb.AppendLine("<Image Vposition=\"" + vPos + "\" Hposition=\"" + hPos + "\" Valign=\"" + verticalAlignment + "\" Halign=\"" + horizontalAlignment + "\">urn:uuid:" + uuidString + "</Image>");
                         }
                         else
                         {
-                            sb.AppendLine("<Image VPosition=\"" + vPos + "\" HPosition=\"" + hPos + "\" ZPosition=\"" + param.Depth3D + "\" VAlign=\"" + verticalAlignment + "\" HAlign=\"" + horizontalAlignment + "\">" + numberString + ".png" + "</Image>");
+                            sb.AppendLine("<Image Vposition=\"" + vPos + "\" Hposition=\"" + hPos + "\" Zposition=\"" + param.Depth3D + "\" Valign=\"" + verticalAlignment + "\" Halign=\"" + horizontalAlignment + "\">urn:uuid:" + uuidString + "</Image>");
                         }
 
                         sb.AppendLine("</Subtitle>");
@@ -4040,17 +4049,18 @@ $DROP=[DROPVALUE]" + Environment.NewLine + Environment.NewLine +
                 var shadowAlpha = parameter.ShadowAlpha;
                 if (parameter.ShadowWidth > 1)
                 {
-                    shadowAlpha = (int)Math.Round(shadowAlpha * 0.8);
+                    shadowAlpha = (int)Math.Round(shadowAlpha * 0.9);
                 }
 
                 var shadowPath = (GraphicsPath)path.Clone();
-                for (int k = 0; k < parameter.ShadowWidth; k++)
+                for (var k = 0; k < parameter.ShadowWidth; k++)
                 {
                     var translateMatrix = new Matrix();
                     translateMatrix.Translate(1, 1);
                     shadowPath.Transform(translateMatrix);
 
-                    using (var p1 = new Pen(new SolidBrush(Color.FromArgb(shadowAlpha, parameter.ShadowColor)), parameter.BorderWidth))
+                    var boderWidth = Math.Max(2, parameter.BorderWidth);
+                    using (var p1 = new Pen(new SolidBrush(Color.FromArgb(shadowAlpha, parameter.ShadowColor)), boderWidth))
                     {
                         SetLineJoin(parameter.LineJoin, p1);
                         g.DrawPath(p1, shadowPath);
@@ -4549,6 +4559,20 @@ $DROP=[DROPVALUE]" + Environment.NewLine + Environment.NewLine +
                 checkBoxFullFrameImage.Top = comboBoxFrameRate.Top + comboBoxFrameRate.Height + 5;
                 panelFullFrameBackground.Top = checkBoxFullFrameImage.Top;
             }
+            else if (exportType == ExportFormats.DCinemaSmpte2014)
+            {
+                labelFrameRate.Visible = true;
+                comboBoxFrameRate.Visible = true;
+
+                comboBoxFrameRate.Items.Add("24");
+                comboBoxFrameRate.Items.Add("25");
+                comboBoxFrameRate.Items.Add("30");
+                comboBoxFrameRate.Items.Add("50");
+                comboBoxFrameRate.Items.Add("60");
+                comboBoxFrameRate.SelectedIndex = 2;
+                comboBoxFrameRate.DropDownStyle = ComboBoxStyle.DropDownList;
+            }
+
             if (comboBoxFrameRate.Items.Count >= 2)
             {
                 SetLastFrameRate(Configuration.Settings.Tools.ExportLastFrameRate);
@@ -5838,7 +5862,7 @@ $DROP=[DROPVALUE]" + Environment.NewLine + Environment.NewLine +
             }
         }
 
-        private void SubtitleListView1InitializeLanguage(LanguageStructure.General general, Core.Common.Settings settings)
+        private void SubtitleListView1InitializeLanguage(LanguageStructure.General general, Settings settings)
         {
             var columnIndexNumber = 0;
             var columnIndexStart = 1;
@@ -5880,31 +5904,70 @@ $DROP=[DROPVALUE]" + Environment.NewLine + Environment.NewLine +
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(_videoFileName) && LibVlcDynamic.IsInstalled)
+                if (!string.IsNullOrWhiteSpace(_videoFileName))
                 {
-                    using (var vlc = new LibVlcDynamic())
+                    if (!Configuration.IsRunningOnWindows || (!string.IsNullOrWhiteSpace(Configuration.Settings.General.FFmpegLocation) && File.Exists(Configuration.Settings.General.FFmpegLocation)))
                     {
-                        vlc.Initialize(panelVlcTemp, _videoFileName, null, null);
-                        Application.DoEvents();
-                        vlc.Volume = 0;
-                        vlc.Pause();
-                        vlc.CurrentPosition = p.StartTime.TotalSeconds;
-                        Application.DoEvents();
-                        var fileName = FileUtil.GetTempFileName(".bmp");
-                        vlc.TakeSnapshot(fileName, (uint)bmp.Width, (uint)bmp.Height);
-                        Application.DoEvents();
-                        Thread.Sleep(200);
-                        using (var tempBmp = new Bitmap(fileName))
+                        var ts = p.StartTime.TimeSpan;
+                        var s = $"{ts.Hours + ts.Days * 24:00}:{ts.Minutes:00}:{ts.Seconds:00}";
+                        var imageFileName = VideoPreviewGenerator.GetScreenShot(_videoFileName, s);
+
+                        if (File.Exists(imageFileName))
                         {
-                            g.DrawImageUnscaled(tempBmp, new Point(0, 0));
+                            using (var tempBmp = new Bitmap(imageFileName))
+                            {
+                                g.DrawImageUnscaled(tempBmp, new Point(0, 0));
+                            }
+
+                            try
+                            {
+                                File.Delete(imageFileName);
+                            }
+                            catch
+                            {
+                                // ignore
+                            }
+
+                            return;
                         }
                     }
-                    return;
+
+                    if (LibVlcDynamic.IsInstalled)
+                    {
+                        using (var vlc = new LibVlcDynamic())
+                        {
+                            vlc.Initialize(panelVlcTemp, _videoFileName, null, null);
+                            Application.DoEvents();
+                            vlc.Volume = 0;
+                            vlc.Pause();
+                            vlc.CurrentPosition = p.StartTime.TotalSeconds;
+                            Application.DoEvents();
+                            var fileName = FileUtil.GetTempFileName(".bmp");
+                            vlc.TakeSnapshot(fileName, (uint)bmp.Width, (uint)bmp.Height);
+                            Application.DoEvents();
+                            Thread.Sleep(200);
+                            using (var tempBmp = new Bitmap(fileName))
+                            {
+                                g.DrawImageUnscaled(tempBmp, new Point(0, 0));
+                            }
+
+                            try
+                            {
+                                File.Delete(fileName);
+                            }
+                            catch
+                            {
+                                // ignore
+                            }
+
+                            return;
+                        }
+                    }
                 }
             }
             catch
             {
-                // Was unable to grap screenshot via vlc
+                // Was unable to grap screenshot via ffmpeg/vlc
             }
 
             // Draw background with generated image
