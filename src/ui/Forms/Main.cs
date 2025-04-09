@@ -665,7 +665,7 @@ namespace Nikse.SubtitleEdit.Forms
             // Process URL Protocol data if available
             if (Program.UrlProtocolData != null)
             {
-                ProcessUrlData((UrlData)Program.UrlProtocolData);
+                ProcessUrlData(Program.UrlProtocolData);
             }
         }
         // Add this new method to your Main class
@@ -674,6 +674,9 @@ namespace Nikse.SubtitleEdit.Forms
             if (urlData == null)
                 return;
 
+            // Decode URL parameters
+            urlData.SubtitleURL = System.Net.WebUtility.UrlDecode(urlData.SubtitleURL);
+            urlData.AudioURL = System.Net.WebUtility.UrlDecode(urlData.AudioURL);
             try
             {
                 // Handle subtitle file
@@ -712,7 +715,7 @@ namespace Nikse.SubtitleEdit.Forms
                 }
 
                 // Handle video file
-                if (!string.IsNullOrEmpty(urlData.AdioURL))
+                if (!string.IsNullOrEmpty(urlData.AudioURL))
                 {
                     try
                     {
@@ -1727,6 +1730,12 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void Main_Load(object sender, EventArgs e)
         {
+            // Process URL Protocol data if available
+            // if (Program.UrlProtocolData != null)
+            // {
+            //     HandleUrlProtocolDataWrapper(Program.UrlProtocolData);
+            // }
+
             splitContainer1.Panel1MinSize = 525;
             splitContainer1.Panel2MinSize = 250;
             splitContainerMain.Panel1MinSize = 200;
@@ -26326,7 +26335,6 @@ namespace Nikse.SubtitleEdit.Forms
                 _timerAutoBackup.Start();
             }
         }
-
         private void Main_Shown(object sender, EventArgs e)
         {
             splitContainerListViewAndText.SplitterMoved += SplitContainerListViewAndTextSplitterMoved;
@@ -37219,7 +37227,6 @@ namespace Nikse.SubtitleEdit.Forms
         {
             using (HttpClient client = new HttpClient())
             {
-                // กำหนด headers (ถ้ามี)
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
                 if (token != "")
@@ -37227,13 +37234,10 @@ namespace Nikse.SubtitleEdit.Forms
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); // เพิ่ม token ใน header
                 }
 
-                // ส่งคำขอ GET ไปยัง API
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
 
-                // ตรวจสอบสถานะของคำตอบ
                 if (response.IsSuccessStatusCode)
                 {
-                    // ดึงข้อมูลไฟล์จากคำตอบ
                     string fileData = await response.Content.ReadAsStringAsync();
                     return fileData;
                 }
@@ -37249,25 +37253,17 @@ namespace Nikse.SubtitleEdit.Forms
             ApiInputDialog inputDialog = new ApiInputDialog();
             if (inputDialog.ShowDialog() == DialogResult.OK)
             {
-
                 try
                 {
-                    //// https://drive.rtt.in.th/archive/test.srt
-                    //// https://drive.rtt.in.th/archive/video/%E0%B8%84%E0%B8%93%E0%B8%A7%E0%B8%A3%E0%B8%B2%E0%B8%A7%E0%B8%98%E0%B8%81%E0%B8%A5%E0%B8%B2%E0%B8%A7%E0%B9%81%E0%B8%96%E0%B8%A5%E0%B8%87%20%20shelter%20Ver.%5B706.96%20-%201436.12%5D.mp4
-
                     if (inputDialog.SubtitleURL != "")
                     {
                         string fileData = await GetFileDataFromApiAsync(inputDialog.SubtitleURL, inputDialog.Token);
-                        // บันทึกข้อมูลไฟล์ลงใน temporary file
                         string tempFileName = Path.GetTempFileName();
                         File.WriteAllText(tempFileName, fileData);
 
-                        // เปิดไฟล์ใน Subtitle Edit
                         OpenSubtitle(tempFileName, null);
 
-                        // แสดงชื่อไฟล์ใน Title bar (ถ้าต้องการ)
                         this.Text = "API File - " + this.Text;
-
                     }
 
                     if (inputDialog.AdioURL != "")

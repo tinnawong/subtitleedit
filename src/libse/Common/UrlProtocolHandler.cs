@@ -17,7 +17,7 @@ namespace Nikse.SubtitleEdit.Core.Common
         /// <summary>
         /// Audio/Video file URL
         /// </summary>
-        public string AdioURL { get; set; }
+        public string AudioURL { get; set; }
 
         /// <summary>
         /// API token for authentication
@@ -28,6 +28,15 @@ namespace Nikse.SubtitleEdit.Core.Common
         /// Whether to use streaming mode
         /// </summary>
         public bool UseStreaming { get; set; }
+
+        // Constructor to set default values
+        public UrlData()
+        {
+            SubtitleURL = string.Empty; // Default to empty string instead of null
+            AudioURL = string.Empty;    // Default to empty string instead of null
+            Token = string.Empty;       // Default to empty string instead of null
+            UseStreaming = false;       // Default to false (though bool defaults to false anyway)
+        }
     }
 
     public static class UrlProtocolHandler
@@ -87,11 +96,6 @@ namespace Nikse.SubtitleEdit.Core.Common
             }
         }
 
-        /// <summary>
-        /// Parse URL Protocol into usable data
-        /// </summary>
-        /// <param name="url">URL to parse, e.g., subtitleedit://open?subtitle=file.srt</param>
-        /// <returns>Parsed data or null if parsing failed</returns>
         public static UrlData ParseUrl(string url)
         {
             if (string.IsNullOrEmpty(url))
@@ -99,73 +103,62 @@ namespace Nikse.SubtitleEdit.Core.Common
 
             try
             {
+
                 // Check if URL starts with the correct protocol
                 string protocolPrefix = ProtocolName + "://";
                 if (!url.StartsWith(protocolPrefix, StringComparison.OrdinalIgnoreCase))
+                {
                     return null;
+                }
 
                 // Remove protocol prefix
                 string urlWithoutPrefix = url.Substring(protocolPrefix.Length);
 
                 // Create URL data
                 UrlData data = new UrlData();
-                
-                // Default is not to use streaming
-                data.UseStreaming = false;
 
-                // Extract parameters
-                string queryString = urlWithoutPrefix;
-                int queryIndex = urlWithoutPrefix.IndexOf('?');
-                if (queryIndex >= 0)
+                // Parse parameters - direct parsing for common cases
+                string[] parts = urlWithoutPrefix.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string part in parts)
                 {
-                    queryString = urlWithoutPrefix.Substring(queryIndex + 1);
-                }
-
-                // Parse parameters
-                if (!string.IsNullOrEmpty(queryString))
-                {
-                    string[] parts = queryString.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (string part in parts)
+                    int equalIndex = part.IndexOf('=');
+                    if (equalIndex > 0)
                     {
-                        int equalIndex = part.IndexOf('=');
-                        if (equalIndex > 0)
+                        string key = part.Substring(0, equalIndex).Trim();
+                        string value = part.Substring(equalIndex + 1).Trim();
+
+                        // Remove quotes if present
+                        if (value.StartsWith("\"") && value.EndsWith("\""))
                         {
-                            string key = part.Substring(0, equalIndex).Trim();
-                            string value = part.Substring(equalIndex + 1).Trim();
-                            
-                            // Remove quotes if present
-                            if (value.StartsWith("\"") && value.EndsWith("\""))
-                            {
-                                value = value.Substring(1, value.Length - 2);
-                            }
-                            
-                            // Store parameter values
-                            switch (key.ToLowerInvariant())
-                            {
-                                case "subtitle":
-                                    data.SubtitleURL = value;
-                                    break;
-                                case "video":
-                                    data.AdioURL = value;
-                                    break;
-                                case "token":
-                                    data.Token = value;
-                                    break;
-                                case "streaming":
-                                    data.UseStreaming = value.ToLowerInvariant() == "true" || 
-                                                        value == "1" || 
-                                                        value.ToLowerInvariant() == "yes";
-                                    break;
-                            }
+                            value = value.Substring(1, value.Length - 2);
+                        }
+
+                        // Store parameter values
+                        switch (key.ToLowerInvariant())
+                        {
+                            case "subtitle":
+                                data.SubtitleURL = value;
+                                break;
+                            case "video":
+                                data.AudioURL = value;
+                                break;
+                            case "token":
+                                data.Token = value;
+                                break;
+                            case "streaming":
+                                data.UseStreaming = value.ToLowerInvariant() == "true" ||
+                                                    value == "1" ||
+                                                    value.ToLowerInvariant() == "yes";
+                                break;
                         }
                     }
                 }
 
                 return data;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Return null if parsing fails for any reason
+                System.Diagnostics.Debug.WriteLine(ex.Message);
                 return null;
             }
         }
