@@ -722,13 +722,13 @@ namespace Nikse.SubtitleEdit.Forms
                         if (urlData.UseStreaming)
                         {
                             // Open video file directly from URL (streaming mode)
-                            OpenVideoFromUrl(urlData.AdioURL);
+                            OpenVideoFromUrl(urlData.AudioURL);
                         }
                         else
                         {
                             // Download video first or handle according to your preference
                             // This depends on your existing implementation
-                            OpenVideoFromUrl(urlData.AdioURL);
+                            OpenVideoFromUrl(urlData.AudioURL);
                         }
                     }
                     catch (Exception ex)
