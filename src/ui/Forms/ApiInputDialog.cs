@@ -12,18 +12,34 @@ namespace Nikse.SubtitleEdit.Forms
 {
     public partial class ApiInputDialog : Form
     {
-        public ApiInputDialog()
+        private const string DefaultTitle = "API Input Dialog";
+        private const string ButtonOkText = "OK";
+
+        public ApiInputDialog(string title = DefaultTitle, string buttonOkText = ButtonOkText, bool isSave=false)
         {
             InitializeComponent();
+            this.Text = title;
+            buttonOk.Text = buttonOkText;
+
+            // Load settings
+            textBoxApiUrl.Text = Properties.Settings.Default.SubtitleURL;
+            textBoxVdoUrl.Text = Properties.Settings.Default.VdoURL;
+            textBoxToken.Text = Properties.Settings.Default.Apikey;
+            if (isSave)
+            {
+                // hidden textbox
+                textBoxVdoUrl.Visible = false;
+                labelVdoURL.Visible = false;
+                checkBoxUseStreaming.Visible = false;                
+            }
         }
 
         public string SubtitleURL => textBoxApiUrl.Text;
-        public string AdioURL => textBoxAudioUrl.Text;
+        public string VdoURL => textBoxVdoUrl.Text;
         public string Token => textBoxToken.Text;
 
         public bool UseStreaming => checkBoxUseStreaming.Checked;
 
-        //public string 
         private void ApiInputDialog_Load(object sender, EventArgs e)
         {
 
@@ -46,7 +62,14 @@ namespace Nikse.SubtitleEdit.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // Save settings
+            Properties.Settings.Default.SubtitleURL = SubtitleURL;
+            Properties.Settings.Default.VdoURL = VdoURL;
+            Properties.Settings.Default.Apikey = Token;
+            Properties.Settings.Default.Save();
 
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void label3_Click(object sender, EventArgs e)

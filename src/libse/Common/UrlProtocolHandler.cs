@@ -17,12 +17,12 @@ namespace Nikse.SubtitleEdit.Core.Common
         /// <summary>
         /// Audio/Video file URL
         /// </summary>
-        public string AudioURL { get; set; }
+        public string VdoURL { get; set; }
 
         /// <summary>
         /// API token for authentication
         /// </summary>
-        public string Token { get; set; }
+        public string Apikey { get; set; }
 
         /// <summary>
         /// Whether to use streaming mode
@@ -33,8 +33,8 @@ namespace Nikse.SubtitleEdit.Core.Common
         public UrlData()
         {
             SubtitleURL = string.Empty; // Default to empty string instead of null
-            AudioURL = string.Empty;    // Default to empty string instead of null
-            Token = string.Empty;       // Default to empty string instead of null
+            VdoURL = string.Empty;    // Default to empty string instead of null
+            Apikey = string.Empty;       // Default to empty string instead of null
             UseStreaming = false;       // Default to false (though bool defaults to false anyway)
         }
     }
@@ -140,10 +140,10 @@ namespace Nikse.SubtitleEdit.Core.Common
                                 data.SubtitleURL = value;
                                 break;
                             case "video":
-                                data.AudioURL = value;
+                                data.VdoURL = value;
                                 break;
-                            case "token":
-                                data.Token = value;
+                            case "apikey":
+                                data.Apikey = value;
                                 break;
                             case "streaming":
                                 data.UseStreaming = value.ToLowerInvariant() == "true" ||

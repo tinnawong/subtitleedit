@@ -34,8 +34,8 @@
             this.textBoxToken = new System.Windows.Forms.TextBox();
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.textBoxAudioUrl = new System.Windows.Forms.TextBox();
-            this.labelAudioURL = new System.Windows.Forms.Label();
+            this.textBoxVdoUrl = new System.Windows.Forms.TextBox();
+            this.labelVdoURL = new System.Windows.Forms.Label();
             this.checkBoxUseStreaming = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -94,21 +94,21 @@
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // textBoxAudioUrl
+            // textBoxVdoUrl
             // 
-            this.textBoxAudioUrl.Location = new System.Drawing.Point(33, 90);
-            this.textBoxAudioUrl.Name = "textBoxAudioUrl";
-            this.textBoxAudioUrl.Size = new System.Drawing.Size(475, 20);
-            this.textBoxAudioUrl.TabIndex = 7;
+            this.textBoxVdoUrl.Location = new System.Drawing.Point(33, 90);
+            this.textBoxVdoUrl.Name = "textBoxVdoUrl";
+            this.textBoxVdoUrl.Size = new System.Drawing.Size(475, 20);
+            this.textBoxVdoUrl.TabIndex = 7;
             // 
-            // labelAudioURL
+            // labelVdoURL
             // 
-            this.labelAudioURL.Location = new System.Drawing.Point(30, 74);
-            this.labelAudioURL.Name = "labelAudioURL";
-            this.labelAudioURL.Size = new System.Drawing.Size(81, 13);
-            this.labelAudioURL.TabIndex = 6;
-            this.labelAudioURL.Text = "Audio URL:";
-            this.labelAudioURL.Click += new System.EventHandler(this.label3_Click);
+            this.labelVdoURL.Location = new System.Drawing.Point(30, 74);
+            this.labelVdoURL.Name = "labelVdoURL";
+            this.labelVdoURL.Size = new System.Drawing.Size(81, 13);
+            this.labelVdoURL.TabIndex = 6;
+            this.labelVdoURL.Text = "VDO URL:";
+            this.labelVdoURL.Click += new System.EventHandler(this.label3_Click);
             // 
             // checkBoxUseStreaming
             // 
@@ -129,8 +129,8 @@
             this.Controls.Add(this.checkBoxUseStreaming);
             this.Controls.Add(this.labelSubtitleURL);
             this.Controls.Add(this.textBoxApiUrl);
-            this.Controls.Add(this.labelAudioURL);
-            this.Controls.Add(this.textBoxAudioUrl);
+            this.Controls.Add(this.labelVdoURL);
+            this.Controls.Add(this.textBoxVdoUrl);
             this.Controls.Add(this.labelToken);
             this.Controls.Add(this.textBoxToken);
             this.Controls.Add(this.buttonCancel);
@@ -149,8 +149,8 @@
         private System.Windows.Forms.Label labelToken;
         private System.Windows.Forms.TextBox textBoxApiUrl;
         private System.Windows.Forms.TextBox textBoxToken;
-        private System.Windows.Forms.TextBox textBoxAudioUrl;
-        private System.Windows.Forms.Label labelAudioURL;
+        private System.Windows.Forms.TextBox textBoxVdoUrl;
+        private System.Windows.Forms.Label labelVdoURL;
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.CheckBox checkBoxUseStreaming;

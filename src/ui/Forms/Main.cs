@@ -53,6 +53,7 @@ using MessageBox = Nikse.SubtitleEdit.Forms.SeMsgBox.MessageBox;
 using Timer = System.Windows.Forms.Timer;
 using System.Net.Http.Headers;
 using System.Net.Http;
+using System.Net.Security;
 
 namespace Nikse.SubtitleEdit.Forms
 {
@@ -676,7 +677,7 @@ namespace Nikse.SubtitleEdit.Forms
 
             // Decode URL parameters
             urlData.SubtitleURL = System.Net.WebUtility.UrlDecode(urlData.SubtitleURL);
-            urlData.AudioURL = System.Net.WebUtility.UrlDecode(urlData.AudioURL);
+            urlData.VdoURL = System.Net.WebUtility.UrlDecode(urlData.VdoURL);
             try
             {
                 // Handle subtitle file
@@ -690,7 +691,7 @@ namespace Nikse.SubtitleEdit.Forms
                         try
                         {
                             // Use existing GetFileDataFromApiAsync method
-                            string fileData = await GetFileDataFromApiAsync(subtitleUrl, urlData.Token);
+                            string fileData = await GetFileDataFromApiAsync(subtitleUrl, urlData.Apikey);
 
                             // Save to temporary file
                             string tempFileName = Path.GetTempFileName();
@@ -715,20 +716,20 @@ namespace Nikse.SubtitleEdit.Forms
                 }
 
                 // Handle video file
-                if (!string.IsNullOrEmpty(urlData.AudioURL))
+                if (!string.IsNullOrEmpty(urlData.VdoURL))
                 {
                     try
                     {
                         if (urlData.UseStreaming)
                         {
                             // Open video file directly from URL (streaming mode)
-                            OpenVideoFromUrl(urlData.AudioURL);
+                            OpenVideoFromUrl(urlData.VdoURL);
                         }
                         else
                         {
                             // Download video first or handle according to your preference
                             // This depends on your existing implementation
-                            OpenVideoFromUrl(urlData.AudioURL);
+                            OpenVideoFromUrl(urlData.VdoURL);
                         }
                     }
                     catch (Exception ex)
@@ -736,6 +737,21 @@ namespace Nikse.SubtitleEdit.Forms
                         MessageBox.Show("Error loading video from URL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+
+                // update url data settings
+                if (urlData.SubtitleURL != null)
+                {
+                    Properties.Settings.Default.SubtitleURL = urlData.SubtitleURL;
+                }
+                if (urlData.VdoURL != null)
+                {
+                    Properties.Settings.Default.VdoURL = urlData.VdoURL;
+                }
+                if (urlData.Apikey != null)
+                {
+                    Properties.Settings.Default.Apikey = urlData.Apikey;
+                }
+                Properties.Settings.Default.Save();
             }
             catch (Exception ex)
             {
@@ -2896,7 +2912,6 @@ namespace Nikse.SubtitleEdit.Forms
                 // try to open via recent files
                 if (OpenFromRecentFiles(openFileDialog1.FileName))
                 {
-                    MessageBox.Show("> OpenFromRecentFiles : {0}", openFileDialog1.FileName);
                     return;
                 }
                 OpenSubtitle(openFileDialog1.FileName, null);
@@ -37225,13 +37240,22 @@ namespace Nikse.SubtitleEdit.Forms
 
         private async Task<string> GetFileDataFromApiAsync(string apiUrl, string token)
         {
-            using (HttpClient client = new HttpClient())
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+                {
+                    // Perform custom validation here (for dev, you might return true)
+                    return errors == SslPolicyErrors.None;
+                }
+            };
+            using (HttpClient client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
                 if (token != "")
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token); // เพิ่ม token ใน header
+                    client.DefaultRequestHeaders.Add("X-API-Key", token);
                 }
 
                 HttpResponseMessage response = await client.GetAsync(apiUrl);
@@ -37250,7 +37274,7 @@ namespace Nikse.SubtitleEdit.Forms
 
         private async void OpenAPIToolStripMenuItemClick(object sender, EventArgs e)
         {
-            ApiInputDialog inputDialog = new ApiInputDialog();
+            ApiInputDialog inputDialog = new ApiInputDialog("Open file from URL", "Open", false);
             if (inputDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -37266,9 +37290,9 @@ namespace Nikse.SubtitleEdit.Forms
                         this.Text = "API File - " + this.Text;
                     }
 
-                    if (inputDialog.AdioURL != "")
+                    if (inputDialog.VdoURL != "")
                     {
-                        OpenVideoFromUrl(inputDialog.AdioURL);
+                        OpenVideoFromUrl(inputDialog.VdoURL);
                     }
                 }
                 catch (Exception ex)
@@ -37276,6 +37300,68 @@ namespace Nikse.SubtitleEdit.Forms
                     MessageBox.Show("Error opening file from API: " + ex.Message);
                 }
             }
+        }
+
+        private async void SaveAPIToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            if (!IsSubtitleLoaded)
+            {
+                ShowStatus(_language.CannotSaveEmptySubtitle);
+                return;
+            }
+
+            Interlocked.Increment(ref _openSaveCounter);
+            ReloadFromSourceView();
+            _saveAsCalled = false;
+            SaveSubtitle(GetCurrentSubtitleFormat());
+            Interlocked.Decrement(ref _openSaveCounter);
+
+            // show path of saved file
+            ApiInputDialog inputDialog = new ApiInputDialog("Save file to API", "Save", true);
+            if (inputDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.DefaultRequestHeaders.Accept.Clear();
+                        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                        if (!string.IsNullOrEmpty(inputDialog.Token))
+                        {
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", inputDialog.Token);
+                            client.DefaultRequestHeaders.Add("X-API-Key", inputDialog.Token);
+                        }
+
+                        var fileContent = new ByteArrayContent(File.ReadAllBytes(_fileName));
+                        fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+                        var formData = new MultipartFormDataContent
+                {
+                    { fileContent, "file", Path.GetFileName(_fileName) }
+                };
+
+                        HttpResponseMessage response = await client.PostAsync(inputDialog.SubtitleURL, formData);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            ShowStatus("Subtitle successfully uploaded to API.");
+                        }
+                        else
+                        {
+                            ShowStatus($"Failed to upload subtitle: {response.StatusCode}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error uploading file to API: {ex.Message}");
+                }
+            }
+        }
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

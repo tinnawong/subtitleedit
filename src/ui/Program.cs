@@ -29,20 +29,20 @@ namespace Nikse.SubtitleEdit
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-                    // Process command line arguments
+            // Process command line arguments
             ProcessCommandLineArgs();
-            
+
             Application.Run(new Main());
         }
 
-    public static Core.Common.UrlData UrlProtocolData;
+        public static Core.Common.UrlData UrlProtocolData;
 
         private static void ProcessCommandLineArgs()
         {
             var commandLineArgs = Environment.GetCommandLineArgs();
             if (commandLineArgs.Length > 1)
             {
-                string firstArg = commandLineArgs[1];                
+                string firstArg = commandLineArgs[1];
                 // Check if this is a URL Protocol
                 if (firstArg.StartsWith("se://", StringComparison.OrdinalIgnoreCase))
                 {
