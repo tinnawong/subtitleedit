@@ -21,22 +21,25 @@ namespace Nikse.SubtitleEdit.Forms
             this.Text = title;
             buttonOk.Text = buttonOkText;
 
+            // hidden checkbox for streaming
+            // TODO: remove this when streaming is implemented
+            checkBoxUseStreaming.Visible = false; 
+
             // Load settings
             textBoxApiUrl.Text = Properties.Settings.Default.SubtitleURL;
             textBoxVdoUrl.Text = Properties.Settings.Default.VdoURL;
             textBoxToken.Text = Properties.Settings.Default.Apikey;
             if (isSave)
             {
-                // hidden textbox
-                textBoxVdoUrl.Visible = false;
-                labelVdoURL.Visible = false;
-                checkBoxUseStreaming.Visible = false;                
+                // disable text boxes to not allow user to change them
+                textBoxVdoUrl.Enabled = false;
+                checkBoxUseStreaming.Enabled = false;
             }
         }
 
         public string SubtitleURL => textBoxApiUrl.Text;
         public string VdoURL => textBoxVdoUrl.Text;
-        public string Token => textBoxToken.Text;
+        public string Apikey => textBoxToken.Text;
 
         public bool UseStreaming => checkBoxUseStreaming.Checked;
 
@@ -65,7 +68,7 @@ namespace Nikse.SubtitleEdit.Forms
             // Save settings
             Properties.Settings.Default.SubtitleURL = SubtitleURL;
             Properties.Settings.Default.VdoURL = VdoURL;
-            Properties.Settings.Default.Apikey = Token;
+            Properties.Settings.Default.Apikey = Apikey;
             Properties.Settings.Default.Save();
 
             this.DialogResult = DialogResult.OK;

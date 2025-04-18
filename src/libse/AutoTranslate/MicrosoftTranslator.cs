@@ -122,7 +122,6 @@ namespace Nikse.SubtitleEdit.Core.AutoTranslate
                 _httpClient.BaseAddress = new Uri("https://api.cognitive.microsofttranslator.com/");
                 _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _accessToken);
-                _httpClient.DefaultRequestHeaders.Add("X-API-Key", _accessToken);
             }
 
             return _httpClient;

@@ -720,17 +720,8 @@ namespace Nikse.SubtitleEdit.Forms
                 {
                     try
                     {
-                        if (urlData.UseStreaming)
-                        {
-                            // Open video file directly from URL (streaming mode)
-                            OpenVideoFromUrl(urlData.VdoURL);
-                        }
-                        else
-                        {
-                            // Download video first or handle according to your preference
-                            // This depends on your existing implementation
-                            OpenVideoFromUrl(urlData.VdoURL);
-                        }
+                        string url = urlData.VdoURL + "?apikey=" + urlData.Apikey;
+                        OpenVideoFromUrl(url);
                     }
                     catch (Exception ex)
                     {
@@ -37279,9 +37270,9 @@ namespace Nikse.SubtitleEdit.Forms
             {
                 try
                 {
-                    if (inputDialog.SubtitleURL != "")
+                    if (!string.IsNullOrEmpty(inputDialog.SubtitleURL))
                     {
-                        string fileData = await GetFileDataFromApiAsync(inputDialog.SubtitleURL, inputDialog.Token);
+                        string fileData = await GetFileDataFromApiAsync(inputDialog.SubtitleURL, inputDialog.Apikey);
                         string tempFileName = Path.GetTempFileName();
                         File.WriteAllText(tempFileName, fileData);
 
@@ -37292,7 +37283,8 @@ namespace Nikse.SubtitleEdit.Forms
 
                     if (inputDialog.VdoURL != "")
                     {
-                        OpenVideoFromUrl(inputDialog.VdoURL);
+                        string url = inputDialog.VdoURL + "?apikey=" + inputDialog.Apikey;
+                        OpenVideoFromUrl(url);
                     }
                 }
                 catch (Exception ex)
@@ -37304,6 +37296,14 @@ namespace Nikse.SubtitleEdit.Forms
 
         private async void SaveAPIToolStripMenuItemClick(object sender, EventArgs e)
         {
+            // show path of saved file
+            ApiInputDialog inputDialog = new ApiInputDialog("Save file to API", "Save", true);
+            if (string.IsNullOrEmpty(inputDialog.SubtitleURL))
+            {
+                MessageBox.Show("Your subtitle URL is empty.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (!IsSubtitleLoaded)
             {
                 ShowStatus(_language.CannotSaveEmptySubtitle);
@@ -37316,8 +37316,6 @@ namespace Nikse.SubtitleEdit.Forms
             SaveSubtitle(GetCurrentSubtitleFormat());
             Interlocked.Decrement(ref _openSaveCounter);
 
-            // show path of saved file
-            ApiInputDialog inputDialog = new ApiInputDialog("Save file to API", "Save", true);
             if (inputDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -37327,10 +37325,10 @@ namespace Nikse.SubtitleEdit.Forms
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                        if (!string.IsNullOrEmpty(inputDialog.Token))
+                        if (!string.IsNullOrEmpty(inputDialog.Apikey))
                         {
-                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", inputDialog.Token);
-                            client.DefaultRequestHeaders.Add("X-API-Key", inputDialog.Token);
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", inputDialog.Apikey);
+                            client.DefaultRequestHeaders.Add("X-API-Key", inputDialog.Apikey);
                         }
 
                         var fileContent = new ByteArrayContent(File.ReadAllBytes(_fileName));
@@ -37345,11 +37343,11 @@ namespace Nikse.SubtitleEdit.Forms
 
                         if (response.IsSuccessStatusCode)
                         {
-                            ShowStatus("Subtitle successfully uploaded to API.");
+                            MessageBox.Show("Subtitle successfully uploaded to API.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
-                            ShowStatus($"Failed to upload subtitle: {response.StatusCode}");
+                            MessageBox.Show($"Failed to upload subtitle: {response.StatusCode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }
