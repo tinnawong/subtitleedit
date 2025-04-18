@@ -184,6 +184,7 @@ Name: quicklaunchicon;    Description: {cm:CreateQuickLaunchIcon}; GroupDescript
 Name: reset_dictionaries; Description: {cm:tsk_ResetDictionaries}; GroupDescription: {cm:tsk_Other};       Flags: checkedonce unchecked; Check: DictionariesExist()
 Name: reset_settings;     Description: {cm:tsk_ResetSettings};     GroupDescription: {cm:tsk_Other};       Flags: checkedonce unchecked; Check: SettingsExist()
 Name: associate_common;   Description: {cm:tsk_SetFileTypes};      GroupDescription: {cm:tsk_Other};
+Name: register_uri;       Description: Register URL Protocol Handler (se://); GroupDescription: {cm:tsk_Other};       Flags: checkedonce;
 
 [Files]
 Source: ..\Dictionaries\dan_OCRFixReplaceList.xml; DestDir: {userappdata}\Subtitle Edit\Dictionaries; Flags: ignoreversion; Components: main
@@ -577,6 +578,12 @@ Root: HKLM; Subkey: "{#keyApps}\SubtitleEdit.exe\SupportedTypes"; ValueType: str
 Root: HKLM; Subkey: "{#keyApps}\SubtitleEdit.exe\SupportedTypes"; ValueType: string; ValueName: ".avi";  ValueData: ""; Check: HklmKeyExists('{#keyApps}')
 Root: HKLM; Subkey: "{#keyApps}\SubtitleEdit.exe\SupportedTypes"; ValueType: string; ValueName: ".ts";   ValueData: ""; Check: HklmKeyExists('{#keyApps}')
 
+; Register URL Protocol
+Root: HKCU; Subkey: "Software\Classes\se"; ValueType: string; ValueName: ""; ValueData: "URL:Subtitle Edit Protocol";
+Root: HKCU; Subkey: "Software\Classes\se"; ValueType: string; ValueName: "URL Protocol"; ValueData: "";
+Root: HKCU; Subkey: "Software\Classes\se\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\SubtitleEdit.exe,1";
+Root: HKCU; Subkey: "Software\Classes\se\shell\open\command"; ValueType: string; ValueName: ""; ValueData: "{app}\SubtitleEdit.exe %1";
+
 
 [Code]
 // Check if subkey exists in HKLM registry hive
@@ -768,7 +775,33 @@ begin
   if CurStep = ssInstall then begin
     if IsTaskSelected('reset_dictionaries') then
       CleanUpDictionaries();
+  end else if CurStep = ssPostInstall then begin
+    // Make sure the URI scheme is registered
+    RegWriteStringValue(HKEY_CURRENT_USER, 'Software\Classes\se', '', 'URL:Subtitle Edit Protocol');
+    RegWriteStringValue(HKEY_CURRENT_USER, 'Software\Classes\se', 'URL Protocol', '');
+    RegWriteStringValue(HKEY_CURRENT_USER, 'Software\Classes\se\DefaultIcon', '', ExpandConstant('{app}\SubtitleEdit.exe,1'));
+    RegWriteStringValue(HKEY_CURRENT_USER, 'Software\Classes\se\shell\open\command', '', '"' + ExpandConstant('{app}\SubtitleEdit.exe') + '" "%1"');
   end;
+end;
+
+
+function RegDeleteKeyIncludingSubkeys(RootKey: Integer; SubKeyName: String): Boolean;
+var
+  Names: TArrayOfString;
+  I: Integer;
+begin
+  Result := True;
+  // First, recursively delete all subkeys
+  if RegGetSubkeyNames(RootKey, SubKeyName, Names) then
+  begin
+    for I := 0 to GetArrayLength(Names) - 1 do
+      if not RegDeleteKeyIncludingSubkeys(RootKey, SubKeyName + '\' + Names[I]) then
+        Result := False;
+  end;
+
+  // Then delete the key itself
+  if not RegDeleteKeyIfEmpty(RootKey, SubKeyName) then
+    Result := False;
 end;
 
 
@@ -778,6 +811,9 @@ begin
   // based on whether these files exist only
   if CurUninstallStep = usUninstall then
   begin
+    // Unregister URI protocol handler
+    RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'Software\Classes\se');
+    
     if SettingsExist() or DictionariesExist() then
     begin
       if SuppressibleMsgBox(CustomMessage('msg_DeleteSettings'), mbConfirmation, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
@@ -790,7 +826,6 @@ begin
     end;
   end;
 end;
-
 
 function IsDotNetDetected(version: string; service: cardinal): boolean;
 // Indicates whether the specified version and service pack of the .NET Framework is installed.

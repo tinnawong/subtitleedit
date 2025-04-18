@@ -22,5 +22,9 @@ namespace Nikse.SubtitleEdit.Properties {
                 return defaultInstance;
             }
         }
+
+        public string SubtitleURL { get; internal set; }
+        public string VdoURL { get; internal set; }
+        public string Apikey { get; internal set; }
     }
 }

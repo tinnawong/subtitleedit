@@ -1,4 +1,5 @@
-﻿using Nikse.SubtitleEdit.Forms;
+﻿using Nikse.SubtitleEdit.Core.Common;
+using Nikse.SubtitleEdit.Forms;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -27,9 +28,32 @@ namespace Nikse.SubtitleEdit
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Process command line arguments
+            ProcessCommandLineArgs();
+
             Application.Run(new Main());
         }
 
+        public static Core.Common.UrlData UrlProtocolData;
+
+        private static void ProcessCommandLineArgs()
+        {
+            var commandLineArgs = Environment.GetCommandLineArgs();
+            if (commandLineArgs.Length > 1)
+            {
+                string firstArg = commandLineArgs[1];
+                // Check if this is a URL Protocol
+                if (firstArg.StartsWith("se://", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Parse URL into data
+                    UrlProtocolData = Core.Common.UrlProtocolHandler.ParseUrl(firstArg);
+                    return; // URL Protocol handled, skip normal command line processing
+                }
+
+                // Existing command line processing will continue here
+            }
+        }
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
