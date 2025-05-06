@@ -91,10 +91,12 @@ namespace Nikse.SubtitleEdit.Forms
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemOpenKeepVideo = new System.Windows.Forms.ToolStripMenuItem();
             this.reopenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemRestoreAutoBackup = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemFileFormatProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAssaStyles = new System.Windows.Forms.ToolStripMenuItem();
@@ -1166,10 +1168,12 @@ namespace Nikse.SubtitleEdit.Forms
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
             this.openToolStripMenuItem,
+            this.openAPIToolStripMenuItem,
             this.toolStripMenuItemOpenKeepVideo,
             this.reopenToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.toolStripMenuItem1,
             this.toolStripMenuItemRestoreAutoBackup,
             this.toolStripMenuItemFileFormatProperties,
             this.toolStripMenuItemAssaStyles,
@@ -1194,6 +1198,7 @@ namespace Nikse.SubtitleEdit.Forms
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.fileToolStripMenuItem.Text = "File";
             this.fileToolStripMenuItem.DropDownOpening += new System.EventHandler(this.FileToolStripMenuItemDropDownOpening);
+            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // newToolStripMenuItem
             // 
@@ -1210,6 +1215,13 @@ namespace Nikse.SubtitleEdit.Forms
             this.openToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItemClick);
+            // 
+            // openAPIToolStripMenuItem
+            // 
+            this.openAPIToolStripMenuItem.Name = "openAPIToolStripMenuItem";
+            this.openAPIToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
+            this.openAPIToolStripMenuItem.Text = "Open (API)";
+            this.openAPIToolStripMenuItem.Click += new System.EventHandler(this.OpenAPIToolStripMenuItemClick);
             // 
             // toolStripMenuItemOpenKeepVideo
             // 
@@ -1238,6 +1250,13 @@ namespace Nikse.SubtitleEdit.Forms
             this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(269, 22);
             this.saveAsToolStripMenuItem.Text = "Save as...";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.SaveAsToolStripMenuItemClick);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(269, 22);
+            this.toolStripMenuItem1.Text = "Save (API)";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.SaveAPIToolStripMenuItemClick);
             // 
             // toolStripMenuItemRestoreAutoBackup
             // 
@@ -6555,5 +6574,7 @@ namespace Nikse.SubtitleEdit.Forms
         private ToolStripMenuItem openContainingFolderToolStripMenuItem;
         private ToolStripMenuItem insertNewSubtitleHereToolStripMenuItem;
         private ToolStripMenuItem generaeTransparentVideoWithSubtitleToolStripMenuItem;
+        private ToolStripMenuItem openAPIToolStripMenuItem;
+        private ToolStripMenuItem toolStripMenuItem1;
     }
 }
