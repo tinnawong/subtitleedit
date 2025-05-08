@@ -37343,7 +37343,12 @@ namespace Nikse.SubtitleEdit.Forms
 
                         if (response.IsSuccessStatusCode)
                         {
-                            MessageBox.Show("Subtitle successfully uploaded to API.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //MessageBox.Show("Subtitle successfully uploaded to API.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBoxSaved input = new MessageBoxSaved();
+                            if (input.ShowDialog() == DialogResult.Cancel)
+                            {
+                                Application.Exit();
+                            }
                         }
                         else
                         {
