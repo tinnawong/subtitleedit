@@ -89,6 +89,7 @@ namespace Nikse.SubtitleEdit.Core.Settings
         public string MainFileSaveOriginalAs { get; set; }
         public string MainFileSaveAs { get; set; }
         public string MainFileSaveAll { get; set; }
+        public string MainFileSaveApi { get; set; }
         public string MainFileOpenOriginal { get; set; }
         public string MainFileCloseOriginal { get; set; }
         public string MainFileCloseTranslation { get; set; }
@@ -431,6 +432,7 @@ namespace Nikse.SubtitleEdit.Core.Settings
             MainFileOpen = "Control+O";
             MainFileSave = "Control+S";
             MainFileSaveAs = "Control+Shift+S";
+            MainFileSaveApi = "Control+Alt+S";
             MainEditUndo = "Control+Z";
             MainEditRedo = "Control+Y";
             MainEditFind = "Control+F";

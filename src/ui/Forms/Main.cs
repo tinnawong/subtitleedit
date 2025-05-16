@@ -17789,6 +17789,11 @@ namespace Nikse.SubtitleEdit.Forms
                 SaveAll();
                 e.SuppressKeyPress = true;
             }
+            else if (_shortcuts.MainGeneralFileSaveAPI == e.KeyData)
+            {
+                SaveAPIToolStripMenuItemClick(this, EventArgs.Empty);
+                e.SuppressKeyPress = true;
+            }
             else if (_shortcuts.MainGeneralSetAssaResolution == e.KeyData)
             {
                 SetAssaResolution(_subtitle);

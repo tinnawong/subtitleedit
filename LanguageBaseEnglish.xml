@@ -1682,6 +1682,7 @@ We leverage the intrinsic rhythm of the image.</CreateSimpleChainingToolTip>
     <SaveChangesToOriginalX>Save changes to original {0}?</SaveChangesToOriginalX>
     <SaveSubtitleAs>Save subtitle as...</SaveSubtitleAs>
     <SaveOriginalSubtitleAs>Save original subtitle as...</SaveOriginalSubtitleAs>
+    <SaveFileAPI>Save (API)</SaveFileAPI>
     <CannotSaveEmptySubtitle>Cannot save empty subtitle</CannotSaveEmptySubtitle>
     <NoSubtitleLoaded>No subtitle loaded</NoSubtitleLoaded>
     <VisualSyncSelectedLines>Visual sync - selected lines</VisualSyncSelectedLines>

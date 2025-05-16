@@ -3535,6 +3535,9 @@ namespace Nikse.SubtitleEdit.Logic
                 case "Main/SaveOriginalSubtitleAs":
                     language.Main.SaveOriginalSubtitleAs = reader.Value;
                     break;
+                case "Main/SaveFileAPI":
+                    language.Main.SaveFileAPI = reader.Value;
+                    break;
                 case "Main/CannotSaveEmptySubtitle":
                     language.Main.CannotSaveEmptySubtitle = reader.Value;
                     break;
