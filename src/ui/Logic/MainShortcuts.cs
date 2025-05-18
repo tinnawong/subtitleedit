@@ -285,7 +285,7 @@ namespace Nikse.SubtitleEdit.Logic
         public Keys MainTranslateCustomSearch3 { get; set; }
         public Keys MainTranslateCustomSearch4 { get; set; }
         public Keys MainTranslateCustomSearch5 { get; set; }
-
+        public Keys MainGeneralFileSaveAPI { get; set; }
         public void SetShortcuts()
         {
             MainGeneralGoToFirstSelectedLine = UiUtil.GetKeys(Configuration.Settings.Shortcuts.GeneralGoToFirstSelectedLine);
@@ -568,6 +568,7 @@ namespace Nikse.SubtitleEdit.Logic
             MainTranslateCustomSearch3 = UiUtil.GetKeys(Configuration.Settings.Shortcuts.MainTranslateCustomSearch3);
             MainTranslateCustomSearch4 = UiUtil.GetKeys(Configuration.Settings.Shortcuts.MainTranslateCustomSearch4);
             MainTranslateCustomSearch5 = UiUtil.GetKeys(Configuration.Settings.Shortcuts.MainTranslateCustomSearch5);
+            MainGeneralFileSaveAPI = UiUtil.GetKeys(Configuration.Settings.Shortcuts.MainFileSaveApi);
         }
     }
 }

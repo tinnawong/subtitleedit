@@ -1604,6 +1604,7 @@ namespace Nikse.SubtitleEdit.Logic
                 SaveChangesToUntitledOriginal = "Save changes to untitled original?",
                 SaveChangesToOriginalX = "Save changes to original {0}?",
                 SaveSubtitleAs = "Save subtitle as...",
+                SaveFileAPI = "Save (API)",
                 SaveOriginalSubtitleAs = "Save original subtitle as...",
                 CannotSaveEmptySubtitle = "Cannot save empty subtitle",
                 NoSubtitleLoaded = "No subtitle loaded",

@@ -6737,6 +6737,12 @@ namespace Nikse.SubtitleEdit.Core.Settings
                     shortcuts.MainFileSaveOriginal = subNode.InnerText;
                 }
 
+                subNode = node.SelectSingleNode("MainFileSaveApi");
+                if (subNode != null)
+                {
+                    shortcuts.MainFileSaveApi = subNode.InnerText;
+                }
+
                 subNode = node.SelectSingleNode("MainFileSaveOriginalAs");
                 if (subNode != null)
                 {
@@ -10003,6 +10009,7 @@ namespace Nikse.SubtitleEdit.Core.Settings
             textWriter.WriteElementString("MainFileSaveOriginal", shortcuts.MainFileSaveOriginal);
             textWriter.WriteElementString("MainFileSaveOriginalAs", shortcuts.MainFileSaveOriginalAs);
             textWriter.WriteElementString("MainFileSaveAs", shortcuts.MainFileSaveAs);
+            textWriter.WriteElementString("MainFileSaveApi", shortcuts.MainFileSaveApi);
             textWriter.WriteElementString("MainFileCloseOriginal", shortcuts.MainFileCloseOriginal);
             textWriter.WriteElementString("MainFileCloseTranslation", shortcuts.MainFileCloseTranslation);
             textWriter.WriteElementString("MainFileCompare", shortcuts.MainFileCompare);
