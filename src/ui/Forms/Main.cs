@@ -670,7 +670,7 @@ namespace Nikse.SubtitleEdit.Forms
             }
         }
         // Add this new method to your Main class
-        private async void ProcessUrlData(UrlData urlData)
+        private void ProcessUrlData(UrlData urlData)
         {
             if (urlData == null)
                 return;
@@ -681,53 +681,14 @@ namespace Nikse.SubtitleEdit.Forms
             try
             {
                 // Handle subtitle file
-                if (!string.IsNullOrEmpty(urlData.SubtitleURL))
+                if (!string.IsNullOrEmpty(urlData.SubtitleURL) & !string.IsNullOrEmpty(urlData.VdoURL))
                 {
-                    string subtitleUrl = urlData.SubtitleURL;
-
-                    if (subtitleUrl.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
-                        subtitleUrl.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+                    if (urlData.SubtitleURL.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                        urlData.SubtitleURL.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                     {
-                        try
-                        {
-                            // Use existing GetFileDataFromApiAsync method
-                            string fileData = await GetFileDataFromApiAsync(subtitleUrl, urlData.Apikey);
-
-                            // Save to temporary file
-                            string tempFileName = Path.GetTempFileName();
-                            File.WriteAllText(tempFileName, fileData);
-
-                            // Open subtitle file
-                            OpenSubtitle(tempFileName, null);
-
-                            // Update title bar
-                            this.Text = "API File - " + this.Text;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error loading subtitle from URL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        OpenfileSubitleAndVDO(urlData.SubtitleURL, urlData.VdoURL, urlData.UseStreaming,urlData.Apikey);
                     }
-                    else
-                    {
-                        // Open local subtitle file
-                        OpenSubtitle(subtitleUrl, null);
-                    }
-                }
-
-                // Handle video file
-                if (!string.IsNullOrEmpty(urlData.VdoURL))
-                {
-                    try
-                    {
-                        string url = urlData.VdoURL + "?apikey=" + urlData.Apikey;
-                        OpenVideoFromUrl(url);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error loading video from URL: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                }           
 
                 // update url data settings
                 if (urlData.SubtitleURL != null)
@@ -37268,35 +37229,57 @@ namespace Nikse.SubtitleEdit.Forms
             }
         }
 
-        private async void OpenAPIToolStripMenuItemClick(object sender, EventArgs e)
+        private void OpenAPIToolStripMenuItemClick(object sender, EventArgs e)
         {
             ApiInputDialog inputDialog = new ApiInputDialog("Open file from URL", "Open", false);
             if (inputDialog.ShowDialog() == DialogResult.OK)
             {
-                try
+                OpenfileSubitleAndVDO(inputDialog.SubtitleURL, inputDialog.VdoURL, inputDialog.UseStreaming, inputDialog.Apikey);
+            }
+        }
+
+        private async void OpenfileSubitleAndVDO(string subtitleFileURL, string vdoFileURL, bool useStreaming, string apikey)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(subtitleFileURL))
                 {
-                    if (!string.IsNullOrEmpty(inputDialog.SubtitleURL))
-                    {
-                        string fileData = await GetFileDataFromApiAsync(inputDialog.SubtitleURL, inputDialog.Apikey);
-                        string tempFileName = Path.GetTempFileName();
-                        File.WriteAllText(tempFileName, fileData);
+                    string fileData = await GetFileDataFromApiAsync(subtitleFileURL, apikey);
+                    string tempFileName = Path.GetTempFileName();
+                    File.WriteAllText(tempFileName, fileData);
 
-                        OpenSubtitle(tempFileName, null);
-
-                        this.Text = "API File - " + this.Text;
-                    }
-
-                    if (inputDialog.VdoURL != "")
-                    {
-                        string url = inputDialog.VdoURL + "?apikey=" + inputDialog.Apikey;
-                        OpenVideoFromUrl(url);
-                    }
+                    OpenSubtitle(tempFileName, null);
+                    this.Text = "API File - " + this.Text;
                 }
-                catch (Exception ex)
+
+                if (vdoFileURL != "")
                 {
-                    MessageBox.Show("Error opening file from API: " + ex.Message);
+                    string vdoURL = vdoFileURL + "?apikey=" + apikey;
+                    if (useStreaming)
+                    {
+                        // MessageBox.Show("Use VDO Stream");
+                        OpenVideoFromUrl(vdoURL);
+                    }
+                    else
+                    {
+                        // MessageBox.Show($"Use VDO from download {vdoURL}");
+                        string tempVideoPath = Path.GetTempFileName();
+                        using (var form = new DownloadVDO(vdoURL, tempVideoPath))
+                        {
+                            // form.Download(this, EventArgs.Empty);
+                            if (form.ShowDialog(this) == DialogResult.OK)
+                            {
+                                OpenVideo(tempVideoPath);
+                            }
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error opening file from API: " + ex.Message);
+            }
+
         }
 
         private async void SaveAPIToolStripMenuItemClick(object sender, EventArgs e)

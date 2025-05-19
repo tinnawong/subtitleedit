@@ -20,11 +20,6 @@ namespace Nikse.SubtitleEdit.Forms
             InitializeComponent();
             this.Text = title;
             buttonOk.Text = buttonOkText;
-
-            // hidden checkbox for streaming
-            // TODO: remove this when streaming is implemented
-            checkBoxUseStreaming.Visible = false; 
-
             // Load settings
             textBoxApiUrl.Text = Properties.Settings.Default.SubtitleURL;
             textBoxVdoUrl.Text = Properties.Settings.Default.VdoURL;
@@ -40,7 +35,6 @@ namespace Nikse.SubtitleEdit.Forms
         public string SubtitleURL => textBoxApiUrl.Text;
         public string VdoURL => textBoxVdoUrl.Text;
         public string Apikey => textBoxToken.Text;
-
         public bool UseStreaming => checkBoxUseStreaming.Checked;
 
         private void ApiInputDialog_Load(object sender, EventArgs e)
