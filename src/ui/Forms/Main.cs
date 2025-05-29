@@ -686,9 +686,9 @@ namespace Nikse.SubtitleEdit.Forms
                     if (urlData.SubtitleURL.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
                         urlData.SubtitleURL.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
                     {
-                        OpenfileSubitleAndVDO(urlData.SubtitleURL, urlData.VdoURL, urlData.UseStreaming,urlData.Apikey);
+                        OpenfileSubitleAndVDO(urlData.SubtitleURL, urlData.VdoURL, urlData.UseStreaming, urlData.Apikey);
                     }
-                }           
+                }
 
                 // update url data settings
                 if (urlData.SubtitleURL != null)
@@ -37252,9 +37252,40 @@ namespace Nikse.SubtitleEdit.Forms
                     this.Text = "API File - " + this.Text;
                 }
 
-                if (vdoFileURL != "")
+                if (!string.IsNullOrEmpty(vdoFileURL))
                 {
                     string vdoURL = vdoFileURL + "?apikey=" + apikey;
+                    // Custom handler to validate SSL certificate
+                    var handler = new HttpClientHandler
+                    {
+                        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+                        {
+                            return errors == SslPolicyErrors.None;
+                        }
+                    };
+
+                    using (HttpClient client = new HttpClient(handler))
+                    {
+                        if (!string.IsNullOrEmpty(apikey))
+                        {
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apikey);
+                            client.DefaultRequestHeaders.Add("X-API-Key", apikey);
+                        }
+
+                        // Create a HEAD request instead of downloading the file
+                        var request = new HttpRequestMessage(HttpMethod.Head, vdoURL);
+
+                        HttpResponseMessage response = await client.SendAsync(request);
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            throw new Exception("SSL Check Failed or URL not accessible: " + response.StatusCode);
+                        }
+                        else
+                        {
+                            Console.WriteLine("SSL Certificate is valid, and the URL is accessible.");
+                        }
+                    }
+
                     if (useStreaming)
                     {
                         // MessageBox.Show("Use VDO Stream");
@@ -37284,7 +37315,6 @@ namespace Nikse.SubtitleEdit.Forms
 
         private async void SaveAPIToolStripMenuItemClick(object sender, EventArgs e)
         {
-            // show path of saved file
             ApiInputDialog inputDialog = new ApiInputDialog("Save file to API", "Save", true);
             if (string.IsNullOrEmpty(inputDialog.SubtitleURL))
             {
@@ -37308,7 +37338,14 @@ namespace Nikse.SubtitleEdit.Forms
             {
                 try
                 {
-                    using (HttpClient client = new HttpClient())
+                    var handler = new HttpClientHandler
+                    {
+                        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+                        {
+                            return errors == SslPolicyErrors.None;
+                        }
+                    };
+                    using (HttpClient client = new HttpClient(handler))
                     {
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -37331,7 +37368,6 @@ namespace Nikse.SubtitleEdit.Forms
 
                         if (response.IsSuccessStatusCode)
                         {
-                            //MessageBox.Show("Subtitle successfully uploaded to API.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             MessageBoxSaved input = new MessageBoxSaved();
                             if (input.ShowDialog() == DialogResult.Cancel)
                             {
